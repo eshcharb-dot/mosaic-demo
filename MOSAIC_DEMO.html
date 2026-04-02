@@ -1882,7 +1882,7 @@ body {
 }
 </style>
 </head>
-<body>
+<body data-mode="collector">
 <!-- INTRO OVERLAY -->
 <div class="demo-intro-overlay" id="introOverlay">
   <div class="demo-intro-card">
@@ -2431,7 +2431,7 @@ body {
           <div class="enterprise-screens" id="enterpriseScreens">
 
             <!-- E1: Overview Dashboard -->
-            <div class="e-screen active" id="e0">
+            <div class="e-screen" id="e0">
               <div class="ent-screen-inner">
                 <div class="ent-page-title">Campaign Overview</div>
                 <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · Updated 4 min ago</div>
@@ -3161,9 +3161,8 @@ function onScreenChanged() {
 // ═══════════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════════
+setMode('collector');
 goScreen(0);
-renderNav();
-updateLabel();
 </script>
 </body>
 </html>
