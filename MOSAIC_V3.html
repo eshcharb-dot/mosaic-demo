@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaic — Physical World Intelligence V3 | European Strategy + Location-Aware Model + Funding</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --card: #16161f;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --muted: #888899;
+    --accent1: #6c5ce7;
+    --accent2: #00cec9;
+    --accent3: #fd79a8;
+    --accent4: #fdcb6e;
+    --accent5: #00b894;
+    --accent6: #e17055;
+    --grad1: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    --grad2: linear-gradient(135deg, #00cec9, #55efc4);
+    --grad3: linear-gradient(135deg, #fd79a8, #e84393);
+    --grad4: linear-gradient(135deg, #fdcb6e, #e17055);
+    --grad5: linear-gradient(135deg, #00b894, #00cec9);
+    --grad6: linear-gradient(135deg, #e17055, #fd79a8);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 12px 40px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  nav .logo { font-size: 20px; font-weight: 800; background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 8px; }
+  nav .version { font-size: 11px; color: var(--muted); background: rgba(108,92,231,0.15); border: 1px solid rgba(108,92,231,0.3); border-radius: 100px; padding: 2px 10px; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 12px; transition: color 0.2s; white-space: nowrap; }
+  nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding: 80px 40px 60px; max-width: 1200px; margin: 0 auto; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(108,92,231,0.15); border: 1px solid rgba(108,92,231,0.4); border-radius: 100px; padding: 6px 16px; font-size: 12px; color: #a29bfe; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(36px, 5vw, 64px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 span { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .sub { font-size: 18px; color: var(--muted); max-width: 700px; margin-bottom: 40px; }
+  .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+  .stat .num { font-size: 32px; font-weight: 800; background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* Sections */
+  section { padding: 60px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
+  .section-title { font-size: clamp(24px, 3vw, 36px); font-weight: 800; margin-bottom: 8px; }
+  .section-title span { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-sub { color: var(--muted); margin-bottom: 40px; max-width: 700px; font-size: 15px; line-height: 1.7; }
+  .divider { height: 1px; background: var(--border); margin: 0 40px; max-width: 1120px; margin-left: auto; margin-right: auto; }
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  .card-grid { display: grid; gap: 20px; }
+  .card-grid-2 { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
+  .card-grid-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card-grid-4 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .card-grid-5 { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  .card ul { list-style: none; margin-top: 12px; }
+  .card ul li { color: var(--muted); font-size: 13px; padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: "→"; color: var(--accent2); flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .pill-purple { background: rgba(108,92,231,0.2); color: #a29bfe; }
+  .pill-teal { background: rgba(0,206,201,0.2); color: #00cec9; }
+  .pill-pink { background: rgba(253,121,168,0.2); color: #fd79a8; }
+  .pill-yellow { background: rgba(253,203,110,0.2); color: #fdcb6e; }
+  .pill-green { background: rgba(0,184,148,0.2); color: #00b894; }
+  .pill-orange { background: rgba(225,112,85,0.2); color: #e17055; }
+
+  /* Big stat callout */
+  .stat-callout { background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(0,206,201,0.08)); border: 1px solid rgba(108,92,231,0.3); border-radius: 16px; padding: 32px; text-align: center; }
+  .stat-callout .big { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.1; }
+  .stat-callout .desc { color: var(--muted); font-size: 14px; margin-top: 8px; }
+
+  /* Highlight box */
+  .highlight { background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.06)); border: 1px solid rgba(108,92,231,0.25); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; }
+  .highlight p { color: var(--muted); font-size: 16px; line-height: 1.7; }
+  .highlight p strong { color: var(--text); }
+  .highlight-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #a29bfe; margin-bottom: 12px; font-weight: 600; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--bg3); color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .check { color: var(--accent5); font-weight: 700; }
+  .cross { color: var(--accent6); }
+  .emphasis { color: #a29bfe; font-weight: 600; }
+
+  /* Flow diagram */
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 24px 0; }
+  .flow-step { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; font-size: 13px; flex: 1; min-width: 140px; text-align: center; }
+  .flow-step .step-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .flow-step .step-name { font-weight: 700; color: var(--text); font-size: 14px; }
+  .flow-step .step-sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+  .flow-arrow { color: var(--accent2); font-size: 20px; padding: 0 4px; flex-shrink: 0; }
+
+  /* Mode cards */
+  .mode-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; position: relative; overflow: hidden; }
+  .mode-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .mode-card.mode1::before { background: var(--grad1); }
+  .mode-card.mode2::before { background: var(--grad2); }
+  .mode-card.mode3::before { background: var(--grad4); }
+  .mode-card.mode4::before { background: var(--grad3); }
+  .mode-icon { font-size: 28px; margin-bottom: 12px; }
+  .mode-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .mode-card .mode-sub { color: var(--accent2); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .mode-card p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  /* City cards */
+  .city-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  .city-num { font-size: 48px; font-weight: 900; background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 8px; }
+  .city-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .city-sub { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+  .city-tag { margin-bottom: 8px; }
+
+  /* VC cards */
+  .vc-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .vc-fund { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+  .vc-partner { color: var(--accent2); font-size: 13px; margin-bottom: 8px; }
+  .vc-check { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .vc-why { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Pitch slide preview */
+  .pitch-slide { background: var(--bg3); border: 1px solid var(--border); border-radius: 16px; padding: 32px; position: relative; min-height: 200px; }
+  .slide-num { position: absolute; top: 16px; right: 20px; font-size: 11px; color: var(--muted); font-weight: 600; }
+  .slide-headline { font-size: 20px; font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
+  .slide-headline span { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .slide-body { color: var(--muted); font-size: 13px; line-height: 1.7; }
+  .slide-body strong { color: var(--text); }
+  .slide-metric { display: inline-block; background: rgba(108,92,231,0.15); border: 1px solid rgba(108,92,231,0.3); border-radius: 8px; padding: 8px 16px; margin: 8px 8px 0 0; }
+  .slide-metric .m-num { font-size: 22px; font-weight: 800; background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .slide-metric .m-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+
+  /* Burn rate table */
+  .burn-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .burn-row:last-child { border-bottom: none; font-weight: 700; color: var(--text); }
+  .burn-row .cost { color: var(--accent4); font-weight: 600; }
+
+  /* Persona card */
+  .persona { background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.05)); border: 1px solid rgba(108,92,231,0.25); border-radius: 20px; padding: 36px; }
+  .persona-name { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .persona-title { color: var(--accent2); font-size: 14px; margin-bottom: 20px; font-weight: 600; }
+  .persona-stats { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+  .persona-stat .p-num { font-size: 24px; font-weight: 800; background: var(--grad4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .persona-stat .p-label { font-size: 11px; color: var(--muted); }
+  .timeline-item { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .timeline-time { color: #a29bfe; font-size: 12px; font-weight: 700; min-width: 52px; }
+  .timeline-text { color: var(--muted); font-size: 13px; }
+  .timeline-text strong { color: var(--text); }
+
+  /* Update template */
+  .update-template { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--muted); line-height: 1.8; }
+  .update-template .ut-key { color: #a29bfe; }
+  .update-template .ut-val { color: var(--accent2); }
+
+  /* GDPR comparison */
+  .gdpr-pill { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+  .gdpr-green { background: rgba(0,184,148,0.2); color: #00b894; }
+  .gdpr-orange { background: rgba(253,203,110,0.2); color: #fdcb6e; }
+  .gdpr-red { background: rgba(225,112,85,0.2); color: #e17055; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 10px 20px; gap: 16px; }
+    section { padding: 40px 20px; }
+    .hero { padding: 40px 20px 40px; }
+    .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">MOSAIC</span>
+  <span class="version">V3 — March 2026</span>
+  <a href="#europe">Europe</a>
+  <a href="#location">Location Model</a>
+  <a href="#team">AI Team</a>
+  <a href="#funding">Funding</a>
+  <a href="#pitch">Pitch Deck</a>
+  <a href="#ir">IR Playbook</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Cycles 121–140 · New Strategic Layer</div>
+  <h1>Ground truth <span>at global scale</span></h1>
+  <p class="sub">The physical world intelligence platform — now with European first-mover strategy, location-aware task matching, and the AI-native founding model that changes the unit economics.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">$35B</div><div class="label">Market Size</div></div>
+    <div class="stat"><div class="num">43M</div><div class="label">EU Gig Workers</div></div>
+    <div class="stat"><div class="num">$30K</div><div class="label">Monthly Burn (2 founders)</div></div>
+    <div class="stat"><div class="num">5×</div><div class="label">EU Competitor Revenue Gap</div></div>
+    <div class="stat"><div class="num">90:1</div><div class="label">Commuter Agent LTV:CAC</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 1: EUROPE ===== -->
+<section id="europe">
+  <div class="section-tag">Mandate 1 · Cycles 121–125</div>
+  <h2 class="section-title">European <span>First-Mover Strategy</span></h2>
+  <p class="section-sub">Europe is the highest-value strategic play available to Mosaic right now. The leading competitor has $35M revenue, enterprise-only access, no consumer tier, and no modern AI stack. US players haven't shown up. The window is open.</p>
+
+  <div class="highlight">
+    <div class="highlight-tag">The Core Insight</div>
+    <p><strong>BeMyEye is the BeMyEye of Europe.</strong> Founded 2011, London-based, 3M+ contributors, 21 countries, $35M revenue — all from enterprise-only contracts. They serve Nestlé, Heineken, L'Oréal. They have no consumer tier, no self-serve, no modern AI extraction, no route-matching. <strong>Mosaic can walk into every BeMyEye customer meeting with a fundamentally better product</strong> — and those buyers already have budget allocated for exactly this service.</p>
+  </div>
+
+  <!-- City Cards -->
+  <div class="card-grid card-grid-5" style="gap:16px; margin-bottom: 40px;">
+    <div class="city-card">
+      <div class="city-num">01</div>
+      <div class="city-name">London</div>
+      <div class="city-sub">Launch Month 1 — Simultaneous with US</div>
+      <div class="city-tag"><span class="pill pill-green">Regulatory: Low</span></div>
+      <ul>
+        <li>Unilever UK HQ + Reckitt (Slough)</li>
+        <li>UK gig workers: 1.7M, London = 21% of market</li>
+        <li>Post-Deliveroo worker pool recruitable immediately</li>
+        <li>English native — zero localization cost</li>
+        <li>ICO (UK DPA) most pragmatic in Europe</li>
+      </ul>
+    </div>
+    <div class="city-card">
+      <div class="city-num">02</div>
+      <div class="city-name">Amsterdam</div>
+      <div class="city-sub">Launch Month 1 — Simultaneous</div>
+      <div class="city-tag"><span class="pill pill-green">Regulatory: Low-Med</span></div>
+      <ul>
+        <li>Heineken Global HQ</li>
+        <li>95% English proficiency (highest in EU)</li>
+        <li>17.9% workforce in flexible/gig roles</li>
+        <li>Dutch startup ecosystem — VC friendly</li>
+        <li>Techleap.nl soft-landing support</li>
+      </ul>
+    </div>
+    <div class="city-card">
+      <div class="city-num">03</div>
+      <div class="city-name">Berlin</div>
+      <div class="city-sub">Launch Month 3</div>
+      <div class="city-tag"><span class="pill pill-yellow">Regulatory: Medium</span></div>
+      <ul>
+        <li>EU's largest CPG market by retail sales</li>
+        <li>Henkel (Düsseldorf), Beiersdorf (Hamburg)</li>
+        <li>Highest tech-early-adopter density in continental EU</li>
+        <li>Management-level English for B2B sales</li>
+        <li>Berlin DPA less aggressive than Bavaria</li>
+      </ul>
+    </div>
+    <div class="city-card">
+      <div class="city-num">04</div>
+      <div class="city-name">Barcelona</div>
+      <div class="city-sub">Launch Month 5</div>
+      <div class="city-tag"><span class="pill pill-yellow">Regulatory: Low-Med</span></div>
+      <ul>
+        <li>Nestlé Iberia HQ (Esplugues de Llobregat)</li>
+        <li>Spain: highest EU gig platform adoption</li>
+        <li>Young urban population, task-app comfortable</li>
+        <li>Spain Startup Law 2022 — welcomes tech</li>
+        <li>Riders Law covers delivery, NOT photo tasks</li>
+      </ul>
+    </div>
+    <div class="city-card">
+      <div class="city-num">05</div>
+      <div class="city-name">Paris</div>
+      <div class="city-sub">Launch Month 7</div>
+      <div class="city-tag"><span class="pill pill-orange">Regulatory: High</span></div>
+      <ul>
+        <li>L'Oréal HQ (Clichy) + Danone + Pernod Ricard</li>
+        <li>Highest CPG brand density in Europe</li>
+        <li>CNIL most active DPA — full DPIA required</li>
+        <li>French language needed for agent recruitment</li>
+        <li>Worth the complexity — L'Oréal alone = $1M+ ACV</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GDPR Section -->
+  <div class="section-tag" style="margin-top: 48px;">GDPR Deep Dive</div>
+  <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">The Regulatory Landscape — and Why On-Device Redaction Is the Key</h3>
+
+  <div class="card-grid card-grid-3" style="margin-bottom: 32px;">
+    <div class="card">
+      <div class="card-label" style="color: var(--accent5);">✓ On-Device Redaction Solves</div>
+      <h4>Image Personal Data</h4>
+      <p>Post-redaction images contain no identifiable individuals. GDPR Recital 26 explicitly exempts anonymized data. If faces never leave the device unredacted, the uploaded image is not personal data. GDPR does not apply to it.</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent4);">⚠ Still Required</div>
+      <h4>Agent + Customer Data</h4>
+      <p>Name, email, location, payment data — all require GDPR compliance: DPIA before each EU country launch, ROPA maintenance, DPAs with all sub-processors, EU Representative appointment (Art. 27), and Privacy Notices (Arts. 13/14).</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent2);">→ The Lawful Basis Map</div>
+      <h4>Article 6 Breakdown</h4>
+      <ul>
+        <li>Agent data: Contract (6(1)(b))</li>
+        <li>Customer data: Contract (6(1)(b))</li>
+        <li>Task images (post-redact): Not personal data</li>
+        <li>Task location: Legitimate Interests (6(1)(f))</li>
+        <li>Marketing to existing customers: Legitimate Interests</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GDPR vs CCPA vs BIPA -->
+  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">GDPR vs CCPA vs BIPA — The Actual Risk Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th>GDPR (EU)</th><th>CCPA (California)</th><th>BIPA (Illinois)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>On-device redaction solves?</td><td><span class="check">Yes (images)</span></td><td><span class="check">Largely yes</span></td><td><span class="check">Yes — no face data processed</span></td></tr>
+        <tr><td>Max penalty</td><td>€20M or 4% global revenue</td><td>$7,500/intentional violation</td><td>$1,000–5,000 per person per incident</td></tr>
+        <tr><td>Class action risk</td><td><span class="pill pill-green">Low</span></td><td><span class="pill pill-yellow">Medium</span></td><td><span class="pill pill-orange">Very High — plaintiff attorneys actively file</span></td></tr>
+        <tr><td>Enforcement culture</td><td>Bureaucratic, DPA-driven</td><td>Growing (AG enforcement)</td><td>Litigation-driven, existential risk</td></tr>
+        <tr><td>Paperwork burden</td><td><span class="pill pill-orange">High (DPIAs, ROPA)</span></td><td><span class="pill pill-yellow">Medium</span></td><td><span class="pill pill-green">Low</span></td></tr>
+        <tr><td><strong>Verdict for Mosaic</strong></td><td>More process, manageable</td><td>Manageable</td><td><strong style="color:var(--accent6);">Avoid IL until legal opinion</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight" style="margin-top: 32px; margin-bottom: 32px;">
+    <div class="highlight-tag">Strategic Conclusion</div>
+    <p><strong>Europe is not harder than Illinois. It's harder than California but safer in litigation terms.</strong> GDPR compliance is operational overhead. BIPA is existential litigation risk. On-device redaction eliminates BIPA entirely. It significantly reduces GDPR risk. Build GDPR compliance properly from Day 1 and it becomes a competitive moat — US competitors who want to enter Europe have to retrofit it.</p>
+  </div>
+
+  <!-- European CPG Targets -->
+  <div class="section-tag" style="margin-top: 48px;">European CPG Targets</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Brand</th><th>HQ</th><th>Revenue</th><th>Why They Buy Mosaic</th><th>Key Title</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Unilever</strong></td><td>London + Rotterdam</td><td>€60B</td><td>400+ brands globally; Dove, Hellmann's shelf compliance across EU</td><td>VP Shopper Marketing</td></tr>
+        <tr><td><strong>Heineken</strong></td><td>Amsterdam</td><td>€36B</td><td>On-trade (bars) + off-trade presence intelligence; draught display monitoring</td><td>On-Trade Intelligence Director</td></tr>
+        <tr><td><strong>L'Oréal</strong></td><td>Clichy (Paris)</td><td>€41B</td><td>Must-stock cosmetics counter compliance; luxury brand display standards</td><td>VP Trade Marketing</td></tr>
+        <tr><td><strong>Danone</strong></td><td>Paris</td><td>€27B</td><td>Evian, Activia shelf execution; stated priority per executive comms</td><td>Head of Field Execution</td></tr>
+        <tr><td><strong>Reckitt</strong></td><td>Slough (London)</td><td>£13B</td><td>Dettol, Durex, Finish shelf compliance; heavy display spend</td><td>Head of Digital Commerce</td></tr>
+        <tr><td><strong>Nestlé</strong></td><td>Vevey + Barcelona</td><td>CHF 91B</td><td>Current BeMyEye customer — Mosaic can displace on AI quality</td><td>Head of Perfect Store</td></tr>
+        <tr><td><strong>Beiersdorf</strong></td><td>Hamburg</td><td>€9.5B</td><td>Nivea — pharmacy and grocery shelf compliance; high display standards</td><td>VP Category Management</td></tr>
+        <tr><td><strong>Henkel</strong></td><td>Düsseldorf</td><td>€22B</td><td>Persil, Schwarzkopf — multi-category European coverage</td><td>Head of Perfect Store</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EU First Argument -->
+  <div class="card-grid card-grid-2" style="margin-top: 32px;">
+    <div class="card">
+      <div class="card-label" style="color: var(--accent5);">The EU-First Case</div>
+      <h3>Why Launch Europe Before US Raises</h3>
+      <ul>
+        <li>BeMyEye is beatable — $35M revenue, 15 years old, no consumer tier</li>
+        <li>No US competitor has meaningful EU presence</li>
+        <li>EU enterprise relationships compound over 2–3 years</li>
+        <li>Unilever/Danone logo → opens every door in US Series A</li>
+        <li>GDPR compliance built in from Day 1 = moat vs late US entrants</li>
+        <li>EU agent acquisition cost is lower (agents earn less on current platforms)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent4);">The Recommended Sequence</div>
+      <h3>US + EU in Parallel</h3>
+      <p style="margin-bottom: 12px; color: var(--muted);">Not "EU instead of US" — EU as proof point for US fundraising.</p>
+      <div class="flow" style="flex-direction: column; gap: 8px;">
+        <div class="flow-step"><div class="step-label">Month 1</div><div class="step-name">Atlanta + Dallas</div><div class="step-sub">US flagship launch</div></div>
+        <div class="flow-step"><div class="step-label">Month 2–3</div><div class="step-name">London + Amsterdam</div><div class="step-sub">EU soft launch</div></div>
+        <div class="flow-step"><div class="step-label">Month 9–12</div><div class="step-name">First EU Enterprise</div><div class="step-sub">Reckitt / Unilever / Heineken</div></div>
+        <div class="flow-step"><div class="step-label">Month 18</div><div class="step-name">Series A Pitch</div><div class="step-sub">"$10M ARR + Unilever in Europe"</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 2: LOCATION-AWARE MODEL ===== -->
+<section id="location">
+  <div class="section-tag">Mandate 2 · Cycles 126–128</div>
+  <h2 class="section-title">The <span>"Already Going There"</span> Model</h2>
+  <p class="section-sub">The highest cost in any gig economy is compensating workers for travel TO the location. Mosaic eliminates this. A commuter is already passing the Sainsbury's. A shopper is already at Whole Foods. The task meets the agent where they already are — and this changes everything about the economics.</p>
+
+  <!-- The Four Modes -->
+  <div class="card-grid card-grid-2" style="margin-bottom: 40px;">
+    <div class="mode-card mode1">
+      <div class="mode-icon">🗺️</div>
+      <h3>Mode 1: Trip Intent</h3>
+      <div class="mode-sub">I'm heading somewhere — show me what's on my route</div>
+      <p>Agent enters destination before leaving home. App computes route corridor and surfaces all tasks within 500m of the fastest path. Tasks ranked by payout × (1 - detour cost). Agent pre-accepts up to 5 tasks before commute begins. No reactive searching — proactive staging of entire earning session.</p>
+    </div>
+    <div class="mode-card mode2">
+      <div class="mode-icon">🚇</div>
+      <h3>Mode 2: Commute Mode</h3>
+      <div class="mode-sub">Turn commute into earnings with one tap</div>
+      <p>Agent activates commute mode when leaving for work. System pre-loads tasks along the learned commute corridor overnight. "Accept All 3" button in a single tap. Each task triggers at geofence crossing. Agent earning £14.50 before arriving at office — zero dedicated travel time. This is the key retention mechanism.</p>
+    </div>
+    <div class="mode-card mode3">
+      <div class="mode-icon">🛒</div>
+      <h3>Mode 3: Shopping Run</h3>
+      <div class="mode-sub">Tasks bundled at your destination store</div>
+      <p>Agent indicates they're heading to a specific store. App queues all tasks at that store AND nearby (500m). Multiple customers' tasks at same location — one agent completes 3 tasks in 3 minutes while grocery shopping. Highest earnings density mode on the platform.</p>
+    </div>
+    <div class="mode-card mode4">
+      <div class="mode-icon">📍</div>
+      <h3>Mode 4: Already Here</h3>
+      <div class="mode-sub">Opportunistic capture when at a location</div>
+      <p>Standard proximity-based task feed for unplanned stops. Geofenced push notification: "You're near a task. 60 seconds, £4.00. Accept?" Modes 1–3 make this less necessary — commute-mode agents arrive at locations with tasks pre-accepted. This mode serves walk-ins and opportunistic agents.</p>
+    </div>
+  </div>
+
+  <!-- Micro-Task Tier -->
+  <div class="highlight" style="margin-bottom: 32px;">
+    <div class="highlight-tag">The Micro-Task Innovation</div>
+    <p>If the agent is already at the location, <strong>there is no travel cost</strong>. The price floor is determined by task effort alone — not 15 minutes of transit time. This enables a new tier that doesn't exist in dispatched gig models: <strong>£2–3 tasks that are economic for both agent and platform</strong> because the agent's effective hourly rate is £72+ (6 tasks × £4 in 20 minutes vs £18/hr dispatched).</p>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom: 32px;">
+    <table>
+      <thead>
+        <tr><th>Task</th><th>Duration</th><th>Agent Payout</th><th>Customer Price</th><th>Margin</th><th>Condition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Crowd level check</td><td>30 sec</td><td>£1.50</td><td>£3.75</td><td>60%</td><td>Commute mode only</td></tr>
+        <tr><td>Single product in-stock</td><td>45 sec</td><td>£2.00</td><td>£5.00</td><td>60%</td><td>Already at store</td></tr>
+        <tr><td>Price scan (1 item)</td><td>30 sec</td><td>£1.50</td><td>£3.75</td><td>60%</td><td>Already at store</td></tr>
+        <tr><td>Queue time check</td><td>20 sec</td><td>£1.00</td><td>£2.50</td><td>60%</td><td>Commute mode</td></tr>
+        <tr><td>Exterior photo</td><td>45 sec</td><td>£2.00</td><td>£5.00</td><td>60%</td><td>On-route only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Economics Comparison -->
+  <div class="card-grid card-grid-3" style="margin-bottom: 40px;">
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$18</div>
+      <div class="desc">Effective cost per fulfilled task — dispatched gig model<br><small style="color:var(--muted);">Including agent travel compensation + surge pricing</small></div>
+    </div>
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$8</div>
+      <div class="desc">Effective cost per fulfilled task — Mosaic standard<br><small style="color:var(--muted);">Agent nearby, no surge required</small></div>
+    </div>
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$4–7</div>
+      <div class="desc">Effective cost per fulfilled task — commute-match<br><small style="color:var(--muted);">56% reduction vs dispatched. No travel, 91% fulfillment rate</small></div>
+    </div>
+  </div>
+
+  <!-- The Daily Commuter Persona -->
+  <div class="section-tag" style="margin-top: 48px;">The Daily Commuter Persona</div>
+  <div class="persona">
+    <div class="persona-name">Maya, 28</div>
+    <div class="persona-title">Junior Marketing Coordinator · London · Mosaic's Highest-LTV Agent Archetype</div>
+    <div class="persona-stats">
+      <div class="persona-stat"><div class="p-num">£240</div><div class="p-label">Monthly Earnings</div></div>
+      <div class="persona-stat"><div class="p-num">60</div><div class="p-label">Tasks/Month</div></div>
+      <div class="persona-stat"><div class="p-num">4 min</div><div class="p-label">Dedicated Task Time/Day</div></div>
+      <div class="persona-stat"><div class="p-num">90:1</div><div class="p-label">Her LTV:CAC</div></div>
+      <div class="persona-stat"><div class="p-num">0</div><div class="p-label">Detour Minutes</div></div>
+    </div>
+    <div style="margin-bottom: 16px; color: var(--muted); font-size: 13px;">Hackney → Old Street → Shoreditch (35-minute commute). She doesn't think of herself as a "gig worker" — she earns money on her commute.</div>
+    <div class="timeline-item"><div class="timeline-time">7:52am</div><div class="timeline-text">Phone notification: <strong>"3 tasks along your commute. Est. £14.50. Accept before 8:30am."</strong></div></div>
+    <div class="timeline-item"><div class="timeline-time">7:55am</div><div class="timeline-text">Opens Mosaic, reviews 3 tasks, taps <strong>"Accept All 3"</strong>. Goes back to getting ready.</div></div>
+    <div class="timeline-item"><div class="timeline-time">8:31am</div><div class="timeline-text">Passes Sainsbury's. App pings. <strong>Shelf check: 75 seconds. £6.00 earned.</strong></div></div>
+    <div class="timeline-item"><div class="timeline-time">8:42am</div><div class="timeline-text">Exits Old Street station. App pings. <strong>Boots product check: 50 seconds. £4.50 earned.</strong></div></div>
+    <div class="timeline-item"><div class="timeline-time">8:51am</div><div class="timeline-text">Passes Pret A Manger. App pings. <strong>Crowd level: 20 seconds. £4.00 earned.</strong></div></div>
+    <div class="timeline-item"><div class="timeline-time">9:01am</div><div class="timeline-text">Arrives at office. <strong>Total: £14.50 earned. Total task time: ~4 minutes.</strong></div></div>
+    <div style="margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 13px; color: var(--muted);">
+      Maya does this 4–5 days/week. She earns <strong style="color:var(--text);">£220–300/month</strong> with zero dedicated travel time. Her LTV:CAC is <strong style="color:var(--accent2);">90:1</strong>. She stays because the product works perfectly for her existing life. <strong style="color:var(--text);">This is the agent retention model that breaks the gig economy churn problem.</strong>
+    </div>
+  </div>
+
+  <!-- Technical Architecture for Location -->
+  <div class="section-tag" style="margin-top: 48px;">Technical Architecture</div>
+  <div class="card-grid card-grid-3" style="margin-top: 16px;">
+    <div class="card">
+      <div class="card-label" style="color: var(--accent1);">Route Matching Algorithm</div>
+      <h4>Corridor-Based, Not Radius-Based</h4>
+      <p>Compute route polyline → buffer 300–500m on each side → find tasks within corridor polygon → rank by Payout ÷ (1 + detour_coefficient). On-route tasks rank highest; detour tasks discounted proportionally. Zero server-side route storage — computed on device.</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent5);">Privacy Architecture</div>
+      <h4>Ephemeral Location Model</h4>
+      <ul>
+        <li>Route computation on-device — full polyline never sent to servers</li>
+        <li>GPS active only at trip start + task completion (< 10 sec/day total)</li>
+        <li>Route data cleared when commute mode disabled</li>
+        <li>Historical routes: opt-in, device-local only, deletable</li>
+        <li>No behavioral movement profiles on servers</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent4);">Battery + Data Cost</div>
+      <h4>Near-Zero Background Impact</h4>
+      <p>GPS active: &lt;10 seconds/day total. Background location: "significant location change" API only — wakes app when phone moves 500m+ (battery cost ≈ 0). Geofencing: native iOS/Android APIs, &lt;0.1% additional battery per monitored region. Total data per commute session: &lt;20KB. Uninstall risk from battery drain: minimal.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 3: AI-NATIVE TEAM ===== -->
+<section id="team">
+  <div class="section-tag">Mandate 3 · Cycles 129–132</div>
+  <h2 class="section-title">2 Humans + <span>Full AI Team</span></h2>
+  <p class="section-sub">The pre-seed model: two founders and a full agentic AI stack doing the work of a 12-person team at a $30K/month burn rate. This isn't a constraint — it's the story.</p>
+
+  <!-- Two roles -->
+  <div class="card-grid card-grid-2" style="margin-bottom: 40px;">
+    <div class="card" style="border-color: rgba(108,92,231,0.4);">
+      <div class="card-label" style="color: var(--accent1);">Role 1</div>
+      <h3>CEO / Commercial Founder</h3>
+      <p style="margin-bottom: 12px;">Owns: Revenue, GTM, investor relations, enterprise sales, partnerships, brand.</p>
+      <ul>
+        <li>CPG/retail intelligence industry experience (buyer perspective)</li>
+        <li>Has sold $1M+ in enterprise SaaS</li>
+        <li>Warm network into CPG brand managers</li>
+        <li>Directs AI content agents, approves strategy</li>
+        <li>Writes monthly investor updates from Day 1</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(0,206,201,0.4);">
+      <div class="card-label" style="color: var(--accent2);">Role 2</div>
+      <h3>CTO / Technical Founder</h3>
+      <p style="margin-bottom: 12px;">Owns: Product, engineering, AI/ML, infrastructure, agent app.</p>
+      <ul>
+        <li>Has shipped a consumer mobile app at scale</li>
+        <li>Directs Claude Code, Cursor, Devin — reviews every PR</li>
+        <li>Geospatial + real-time data pipeline experience</li>
+        <li>Builds with v0 + Figma AI for design</li>
+        <li>Makes all architecture decisions; AI executes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AI Tool Stack -->
+  <div class="section-tag">The AI Tool Stack — Full Cost Breakdown</div>
+  <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin: 16px 0 40px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0;">
+      <div>
+        <div class="burn-row"><span>Claude Code (Anthropic) — AI coding agent</span><span class="cost">$200/mo</span></div>
+        <div class="burn-row"><span>Cursor Pro — AI IDE, 2 licenses</span><span class="cost">$80/mo</span></div>
+        <div class="burn-row"><span>Devin (Cognition) — autonomous coding tasks</span><span class="cost">$500/mo</span></div>
+        <div class="burn-row"><span>v0 by Vercel — AI UI component generation</span><span class="cost">$20/mo</span></div>
+        <div class="burn-row"><span>Midjourney — brand assets</span><span class="cost">$30/mo</span></div>
+        <div class="burn-row"><span>Figma — UI design + Figma AI</span><span class="cost">$45/mo</span></div>
+        <div class="burn-row"><span>Notion AI — internal docs</span><span class="cost">$16/mo</span></div>
+        <div class="burn-row"><span>Linear — engineering project mgmt</span><span class="cost">$8/mo</span></div>
+        <div class="burn-row"><span>Vercel Pro — hosting (web + API)</span><span class="cost">$20/mo</span></div>
+        <div class="burn-row"><span>AWS (EC2/S3/Lambda) — backend infra</span><span class="cost">$500/mo</span></div>
+        <div class="burn-row"><span>Supabase Pro — database + auth</span><span class="cost">$25/mo</span></div>
+      </div>
+      <div>
+        <div class="burn-row"><span>Stripe — payments (variable 2.9%)</span><span class="cost">variable</span></div>
+        <div class="burn-row"><span>Intercom — customer support AI</span><span class="cost">$39/mo</span></div>
+        <div class="burn-row"><span>Pilot.ai — automated bookkeeping</span><span class="cost">$599/mo</span></div>
+        <div class="burn-row"><span>Wise Business — agent payouts (GBP/EUR)</span><span class="cost">$0/mo</span></div>
+        <div class="burn-row"><span>1Password Teams — credentials</span><span class="cost">$19/mo</span></div>
+        <div class="burn-row"><span>Loom — async video comms</span><span class="cost">$25/mo</span></div>
+        <div class="burn-row"><span>Apollo.io — CPG contact database</span><span class="cost">$49/mo</span></div>
+        <div class="burn-row"><span>HubSpot CRM — sales pipeline</span><span class="cost">$0/mo</span></div>
+        <div class="burn-row"><span>Google Workspace — email + docs</span><span class="cost">$24/mo</span></div>
+        <div class="burn-row"><span>Expo — React Native mobile builds</span><span class="cost">$99/mo</span></div>
+        <div class="burn-row"><span>Calendly, GitHub, etc.</span><span class="cost">~$25/mo</span></div>
+      </div>
+    </div>
+    <div style="border-top: 2px solid var(--border); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div style="font-size: 13px; color: var(--muted);">Tools subtotal</div>
+      <div style="font-size: 20px; font-weight: 800; background: var(--grad4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">~$2,400/month</div>
+    </div>
+  </div>
+
+  <!-- Full Burn Rate -->
+  <div class="card-grid card-grid-2" style="margin-bottom: 40px;">
+    <div class="card">
+      <div class="card-label" style="color: var(--accent4);">Pre-Seed Monthly Burn</div>
+      <h3 style="margin-bottom: 16px;">Total: $30,000/month</h3>
+      <div class="burn-row"><span>2 founder salaries ($10K each)</span><span class="cost">$20,000</span></div>
+      <div class="burn-row"><span>AI + tools stack</span><span class="cost">$2,400</span></div>
+      <div class="burn-row"><span>Legal retainer (privacy attorney)</span><span class="cost">$2,000</span></div>
+      <div class="burn-row"><span>Agent acquisition (first city)</span><span class="cost">$3,000</span></div>
+      <div class="burn-row"><span>Conference/travel (1 event)</span><span class="cost">$1,500</span></div>
+      <div class="burn-row"><span>Miscellaneous buffer</span><span class="cost">$1,100</span></div>
+      <div class="burn-row"><strong>Total Monthly Burn</strong><span class="cost" style="color:var(--accent2); font-size: 16px;">$30,000</span></div>
+      <p style="margin-top: 16px; font-size: 12px; color: var(--muted);">$500K raise = 16 months runway. Most companies burn $500K in 3 months with 6 people. <strong style="color:var(--text);">This is the AI-native advantage in numbers.</strong></p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent2);">Hiring Roadmap</div>
+      <h3 style="margin-bottom: 16px;">When People Join the Team</h3>
+      <div class="timeline-item"><div class="timeline-time">Month 0</div><div class="timeline-text"><strong>2 founders.</strong> AI tools handle everything else.</div></div>
+      <div class="timeline-item"><div class="timeline-time">Month 16</div><div class="timeline-text"><strong>Head of Engineering</strong> — CTO stops writing code, starts directing AI agents at scale</div></div>
+      <div class="timeline-item"><div class="timeline-time">Month 18</div><div class="timeline-text"><strong>Account Executive #1</strong> — CEO can't close 20+ deals alone</div></div>
+      <div class="timeline-item"><div class="timeline-time">Month 20</div><div class="timeline-text"><strong>ML Engineer</strong> — AI model quality becomes the moat</div></div>
+      <div class="timeline-item"><div class="timeline-time">Month 24</div><div class="timeline-text"><strong>AE #2 + Head of Marketing</strong></div></div>
+      <div class="timeline-item" style="border: none;"><div class="timeline-time">Month 30</div><div class="timeline-text"><strong>10 people total.</strong> $200K/month burn. $500K+ MRR.</div></div>
+    </div>
+  </div>
+
+  <!-- AI-Native Narrative Box -->
+  <div class="highlight">
+    <div class="highlight-tag">The VC Pitch for an AI-Native Team</div>
+    <p>"We built this company — concept to first 10 enterprise customers — with 2 people and AI agents. <strong>Our burn rate is $30K/month, not $120K.</strong> Your $5M seed gives us 14 months of runway instead of 4. <strong>Our development velocity is 4× a traditional team.</strong> We shipped the agent app, customer portal, AI pipeline, and route-matching algorithm in 8 weeks. <strong>The AI team isn't a weakness — it's the moat.</strong> Every improvement in Claude or GPT-5 makes us faster, not slower. We scale by deploying better AI agents."</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 4: FUNDING ===== -->
+<section id="funding">
+  <div class="section-tag">Mandate 3 · Cycles 129–132</div>
+  <h2 class="section-title">Funding <span>Strategy</span></h2>
+  <p class="section-sub">Pre-seed $400–500K to prove the model. Seed $5M to scale it. Series A $50–100M to own the market.</p>
+
+  <div class="card-grid card-grid-3" style="margin-bottom: 40px;">
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$400–500K</div>
+      <div class="desc">Pre-Seed<br><small>SAFE, $8–10M cap, 20% discount</small><br><small style="color:var(--muted);">Angel round: 3–5 operators at $100K each</small></div>
+    </div>
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$5M</div>
+      <div class="desc">Seed<br><small>Priced round, $20–25M pre-money</small><br><small style="color:var(--muted);">18 months → $10M ARR → Series A</small></div>
+    </div>
+    <div class="stat-callout">
+      <div class="big" style="background: var(--grad4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">$50–100M</div>
+      <div class="desc">Series A<br><small>$100M pre-money at $10M ARR</small><br><small style="color:var(--muted);">Month 18–24, global expansion</small></div>
+    </div>
+  </div>
+
+  <!-- What Pre-Seed Buys -->
+  <div class="card-grid card-grid-2" style="margin-bottom: 40px;">
+    <div class="card">
+      <div class="card-label" style="color: var(--accent1);">Pre-Seed Use of $400K</div>
+      <h3>What It Buys (16 Months)</h3>
+      <ul>
+        <li>Legal entity + IP assignment: $5,000</li>
+        <li>GDPR/privacy compliance foundation: $15,000</li>
+        <li>AWS infrastructure (12 months): $6,000</li>
+        <li>First city agent acquisition (500 agents): $15,000</li>
+        <li>Expo West conference: $5,000</li>
+        <li>AI tool stack (12 months): $29,000</li>
+        <li>Founder salaries (12 months): $240,000</li>
+        <li>Buffer: $85,000</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color: var(--accent2);">What You Need to Show</div>
+      <h3>Pre-Seed Requirements</h3>
+      <ul>
+        <li>Two credible founders (CPG/enterprise + mobile/AI)</li>
+        <li>Working MVP prototype or functional demo</li>
+        <li>One LOI or warm conversation with target customer</li>
+        <li>200+ people on agent waitlist (any city)</li>
+        <li>Sharp, defensible insight about BeMyEye's gap</li>
+        <li>SAFE at $8–10M cap — reasonable for this thesis</li>
+        <li>Timeline to close: 4–8 weeks (angel route)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Top VC Targets -->
+  <div class="section-tag" style="margin-top: 48px;">Top 10 VC Targets</div>
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; margin-bottom: 16px;">
+    <div class="vc-card">
+      <div class="vc-fund">a16z Consumer</div>
+      <div class="vc-partner">Andrew Chen, General Partner</div>
+      <div class="vc-check">$1–5M seed · Marketplace + consumer</div>
+      <div class="vc-why">Wrote "The Cold Start Problem" — literally the network effects + marketplace bible. Backed Airbnb, Lyft, DoorDash, Hipcamp. Intro: through Hipcamp CEO or DoorDash alumni.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">NFX</div>
+      <div class="vc-partner">Pete Flint, James Currier</div>
+      <div class="vc-check">$500K–3M · Marketplace + data networks</div>
+      <div class="vc-why">Pete Flint is ex-Trulia (physical world data). Backed DoorDash, Wolt, Lyft. Deep marketplace DNA. Self-serve intro at signal.nfx.com.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Haystack</div>
+      <div class="vc-partner">Semil Shah</div>
+      <div class="vc-check">$500K–2M · 117 seed investments</div>
+      <div class="vc-why">Backed Instacart, DoorDash, HashiCorp. Extremely accessible via Twitter/X. Include 1-pager. Cold outreach works.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Homebrew</div>
+      <div class="vc-partner">Hunter Walk, Satya Patel</div>
+      <div class="vc-check">$500K–1M · Consumer + marketplace</div>
+      <div class="vc-why">Formerly YouTube/Google. Responds to cold outreach per public guidance. Short Loom video with pitch works.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Bessemer</div>
+      <div class="vc-partner">Byron Deeter</div>
+      <div class="vc-check">$1–5M · Enterprise SaaS + AI</div>
+      <div class="vc-why">Published AI-native company thesis. BVP Atlas community. Open application form. Cold email works with strong memo.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Index Ventures (EU)</div>
+      <div class="vc-partner">Luciana Lixandru</div>
+      <div class="vc-check">£500K–3M · EU consumer + marketplace</div>
+      <div class="vc-why">London HQ. Backed Deliveroo, Robinhood, Figma. Critical for EU story. Deliveroo alumni = intro path.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">LocalGlobe</div>
+      <div class="vc-partner">Saul Klein</div>
+      <div class="vc-check">£250K–1.5M · London seed</div>
+      <div class="vc-why">London-native seed fund. Backed Transferwise. Mosaic's EU story plays perfectly. Active in London startup community.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">USV</div>
+      <div class="vc-partner">Albert Wenger, Rebecca Kaden</div>
+      <div class="vc-check">$500K–2M · Data networks + marketplace</div>
+      <div class="vc-why">Data network effects thesis. Marketplace DNA (Etsy, Twilio). Albert blogs at continuations.com — engage there first.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Precursor Ventures</div>
+      <div class="vc-partner">Charles Hudson</div>
+      <div class="vc-check">$250K–1M · Pre-seed/seed specialist</div>
+      <div class="vc-why">Pre-product stage is fine. Backed Just Eat (marketplace). Cold email actively encouraged per Charles's public guidance.</div>
+    </div>
+    <div class="vc-card">
+      <div class="vc-fund">Gradient Ventures (Google)</div>
+      <div class="vc-partner">Darian Shirazi</div>
+      <div class="vc-check">$500K–2M · AI-native companies</div>
+      <div class="vc-why">Google's AI seed fund. AI-native companies specifically. Access to Google Cloud credits (significant for ML workloads).</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 5: PITCH DECK PREVIEW ===== -->
+<section id="pitch">
+  <div class="section-tag">Mandate 4 · Cycles 136–138</div>
+  <h2 class="section-title">Pitch Deck <span>Preview</span></h2>
+  <p class="section-sub">13-slide deck built for seed-stage fundraising. Best-in-class structure from Airbnb/Uber/YC analysis. Every slide has a single clear point. No fluff — every word earns its place.</p>
+
+  <div class="card-grid card-grid-2" style="gap: 24px;">
+
+    <div class="pitch-slide">
+      <div class="slide-num">01</div>
+      <div class="slide-headline">MOSAIC<br><span>Ground truth at scale.</span></div>
+      <div class="slide-body">Physical world intelligence — on demand, AI-extracted, instantly.<br><br><em>Design: Full-bleed dark background. "MOSAIC" in large purple→blue gradient text. Mosaic tile pattern at 5% opacity.</em></div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">02</div>
+      <div class="slide-headline">The physical world is opaque — <span>and everyone pays for it</span></div>
+      <div class="slide-body"><strong>CPG brands</strong> lose 4–8% of revenue to out-of-stocks they can't see.<br><strong>Retailers</strong> can't verify compliance without 2-week delay.<br><strong>Consumers</strong> can't trust secondhand info.<br><br>Field checks: $50–300/visit · 2–3 weeks · covers &lt;5% of locations · no machine-readable output.<br><br><strong>$35B/year spent on data that's already outdated when it arrives.</strong></div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">03</div>
+      <div class="slide-headline">Mosaic turns any smartphone <span>into a verified data collection device</span></div>
+      <div class="slide-body">Enterprise posts task → Mosaic routes to agents already near those stores during commutes → Agents capture verified photos (on-device face redaction) → AI extracts structured output in &lt;4 hours → Enterprise gets actionable intelligence.<br><br><div class="slide-metric"><div class="m-num">90 sec</div><div class="m-label">to post a task</div></div><div class="slide-metric"><div class="m-num">4 hrs</div><div class="m-label">to deliver</div></div><div class="slide-metric"><div class="m-num">45 sec</div><div class="m-label">per agent task</div></div></div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">04</div>
+      <div class="slide-headline">Why Now: <span>Three forces converged in 2026</span></div>
+      <div class="slide-body"><strong>1. On-device AI</strong> — Face redaction in real-time on any 2020+ phone. GDPR-native, no cloud roundtrip.<br><br><strong>2. Gig economy maturity</strong> — 50M+ workers globally trained by Deliveroo/Uber to complete smartphone micro-tasks for micro-pay.<br><br><strong>3. AI extraction quality</strong> — GPT-4V class models extract structured data from photos at &gt;90% accuracy for $0.20/task.</div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">05</div>
+      <div class="slide-headline">The product your agents love <span>and your customers can't stop checking</span></div>
+      <div class="slide-body"><strong>Customer side:</strong> Post in 90 seconds. Pay by card. Receive JSON report within 4 hours.<br><br><strong>Agent side:</strong> Turn on Commute Mode. Pre-accept 3 tasks. Earn £14.50 before arriving at work with zero detour.<br><br>The commute mode is the breakthrough — tasks matched to agent routes, not just radius. First gig platform that works WITH existing lives.</div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">06</div>
+      <div class="slide-headline">$35B market — <span>and the largest segment has never had a product</span></div>
+      <div class="slide-body"><strong>TAM:</strong> $35B (physical world intelligence + AI training data)<br><strong>SAM:</strong> $8.5B (crowdsourced on-demand visual intelligence)<br><strong>SOM (Year 3):</strong> $350M<br><br>BeMyEye: $35M revenue, enterprise-only, 15 years building.<br>Field Agent: enterprise-only. Trax: hardware-only.<br><br><strong>The consumer/SMB tier has never been served. That's $3–5B of market that doesn't yet exist as a category.</strong></div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">07</div>
+      <div class="slide-headline">Three tiers, one platform, <span>55%+ gross margin</span></div>
+      <div class="slide-body">
+        <strong>Tier 1 Consumer:</strong> $5–25/task, credit wallet, 52% GM<br>
+        <strong>Tier 2 SMB:</strong> $49–749/month subscriptions, self-serve, 62% GM<br>
+        <strong>Tier 3 Enterprise:</strong> $2,500–50,000+/month annual contracts, 58% GM<br><br>
+        Agent payout: 40% (fixed, non-negotiable — agent trust is the moat)<br><br>
+        <strong>Bonus:</strong> AI training data licensing at Month 12+ → $2.4M/month at Month 36 at 95% margin.
+      </div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">08</div>
+      <div class="slide-headline">We occupy white space <span>no incumbent has ever entered</span></div>
+      <div class="slide-body">
+        <strong>2×2 Matrix:</strong> High AI Quality vs Low AI Quality × Enterprise-Only vs Consumer+SMB<br><br>
+        Field Agent, BeMyEye, Trax: all in the Enterprise-Only quadrant.<br>
+        <strong style="background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MOSAIC: High AI Quality + Consumer/SMB</strong><br><br>
+        No competitor with strong AI has ever built a consumer/SMB product. The consumer tier requires a fundamentally different UX, pricing model, and agent acquisition strategy — not just "simplified enterprise."
+      </div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">11</div>
+      <div class="slide-headline">Two founders, <span>one AI team</span></div>
+      <div class="slide-body">
+        <strong>[CEO Name]</strong> — [X years CPG], personally managed [$X] competitive intelligence budget, sold [$X] enterprise SaaS.<br>
+        <strong>[CTO Name]</strong> — Shipped [consumer app with X users], built real-time mobile AI pipelines.<br><br>
+        <strong>The AI team (actual tools, actual costs):</strong><br>
+        Claude Code + Cursor + Devin → 4× engineering velocity<br>
+        v0 + Figma AI → design without headcount<br>
+        Pilot.ai → finance without headcount<br><br>
+        <strong>12-person team output at $30K/month burn.</strong>
+      </div>
+    </div>
+
+    <div class="pitch-slide">
+      <div class="slide-num">12</div>
+      <div class="slide-headline"><span>$10M ARR in 18 months</span> — three engines growing simultaneously</div>
+      <div class="slide-body">
+        <strong>Month 12:</strong> $354K MRR ($4.25M ARR run rate)<br>
+        <strong>Month 18:</strong> $822K MRR ($9.87M ARR run rate) ← Series A trigger<br>
+        <strong>Month 24:</strong> $1.63M MRR ($19.5M ARR run rate)<br><br>
+        Three tiers means three engines. Consumer base fills agent density. SMB generates recurring cash. Enterprise drives LTV. Training data emerges as hidden upside at Month 12+.
+      </div>
+    </div>
+
+    <div class="pitch-slide" style="grid-column: 1 / -1;">
+      <div class="slide-num">13</div>
+      <div class="slide-headline">We're raising $5M <span>to prove three cities and three tiers</span></div>
+      <div class="slide-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 8px;">
+          <div>
+            <strong>The Raise:</strong> $5M seed · Priced round<br>
+            $20–25M pre-money valuation · 18 months runway<br><br>
+            <strong>Use of Funds:</strong><br>
+            Engineering team (3 hires): $1.5M<br>
+            Agent acquisition (4 cities): $1M<br>
+            ML/AI development: $500K<br>
+            Enterprise sales: $500K<br>
+            Marketing SMB+consumer: $500K<br>
+            Legal/GDPR/compliance: $300K<br>
+            Operations: $400K · Buffer: $300K
+          </div>
+          <div>
+            <strong>Milestones This Capital Buys:</strong><br>
+            ✓ 4 cities live (Atlanta, Dallas, London, Amsterdam)<br>
+            ✓ 15,000 active agents<br>
+            ✓ 50 enterprise + 600 SMB customers<br>
+            ✓ $10M ARR run rate by Month 18<br>
+            ✓ GDPR compliance architecture<br>
+            ✓ Series A raise begins Month 16<br><br>
+            <strong>Series A story at Month 18:</strong><br>
+            "$10M ARR + Unilever/Heineken in Europe + 15K agents + 55% gross margin = $100M pre-money"
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 6: CEO IR PLAYBOOK ===== -->
+<section id="ir">
+  <div class="section-tag">Mandate 4 · Cycles 133–135</div>
+  <h2 class="section-title">CEO Investor Relations <span>Playbook</span></h2>
+  <p class="section-sub">Fundraising is a relationship business. The CEOs who raise the best rounds don't start building VC relationships when they need money. They start 12 months before — and they treat every VC interaction as a long-term relationship, not a transaction.</p>
+
+  <!-- 5 Core Principles -->
+  <div class="card-grid card-grid-3" style="margin-bottom: 40px;">
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">01</div>
+      <h3>Start 12 Months Early</h3>
+      <p>A VC who has watched you execute for 12 months and hit every milestone trusts you. A VC who meets you for the first time the day you say "I'm raising" is betting on a stranger. The relationship converts at 40–60%. The cold pitch converts at 2–5%. The math is clear.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">02</div>
+      <h3>Give Before You Ask</h3>
+      <p>Share market research. Make warm intros to deals they'd want. Write content they share. Show up to their events without pitching. Refer founders to their portfolio. Banked goodwill is the most valuable currency in fundraising — and it costs nothing to create.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">03</div>
+      <h3>The "Not Raising" First Meeting</h3>
+      <p>"We're 8 months from our formal raise. We're asking for advice, not capital. What would you want to see us prove?" This removes pressure, gets honest feedback, and starts a relationship. Every specific piece of advice a VC gives becomes their investment in your success.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">04</div>
+      <h3>Be Honest in Updates</h3>
+      <p>The most important section of a monthly update is "What didn't work." VCs who receive only good news don't trust the updates. VCs who receive honest failure accounts AND how you're addressing them update their model of you upward. Honesty compounds into trust.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">05</div>
+      <h3>Run a Process, Not a Pitch</h3>
+      <p>Compress first meetings to a 2-week window. Set a close timeline. When the first term sheet arrives, immediately call the 3 other most interested investors personally. "We received a term sheet we're evaluating." FOMO without deception. The process creates the outcome.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 36px; font-weight: 900; background: var(--grad6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;">+</div>
+      <h3>Never Let a "No" End the Relationship</h3>
+      <p>20–30% of investors who pass at pre-seed invest at seed or Series A when founders stayed in touch. After a pass: thank them specifically, ask to stay on the update list, execute on their feedback. The VC who passes today may lead your Series A in 18 months.</p>
+    </div>
+  </div>
+
+  <!-- Monthly Update Template -->
+  <div class="section-tag" style="margin-top: 48px;">Monthly Investor Update Template</div>
+  <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px; margin-top: 8px;">Send from Day 1 — even before raising. Build the habit before you need it. Investors you send it to now are your future investors.</p>
+
+  <div class="update-template">
+    <span class="ut-key">SUBJECT:</span> <span class="ut-val">Mosaic Update — [Month Year] | [1 key headline metric]</span><br>
+    <br>
+    <span class="ut-key">TOP LINE (3 bullets max — the only part most people read)</span><br>
+    • [Biggest win this month — specific and concrete]<br>
+    • [Biggest challenge / what you're learning — be honest]<br>
+    • [1 specific ask — always include this]<br>
+    <br>
+    <span class="ut-key">METRICS</span><br>
+    Active agents: X (prev: X, change: X%)<br>
+    Tasks completed: X (prev: X, change: X%)<br>
+    MRR: $X (prev: $X, change: X%)<br>
+    Enterprise pilots active: X<br>
+    Fulfillment rate: X%<br>
+    <br>
+    <span class="ut-key">WHAT WORKED</span><br>
+    [2–3 sentences. Specific. "Our Facebook ads targeting former Deliveroo couriers: 4.2% install rate vs 1.1% for general gig targeting."]<br>
+    <br>
+    <span class="ut-key">WHAT DIDN'T WORK ← Most important section</span><br>
+    [Be honest. "First pilot with [CPG brand type] stalled — procurement needs ISO 27001. We're starting that process."]<br>
+    <br>
+    <span class="ut-key">NEXT MONTH FOCUS</span><br>
+    [1–2 sentences. Makes this a commitment device for next month's update.]<br>
+    <br>
+    <span class="ut-key">ASK</span><br>
+    [One specific ask. "Know any CPG brand managers in London for a 20-min call?"]<br>
+    <br>
+    <span class="ut-key">REPLY IF:</span> you have thoughts. Happy to jump on a call. Otherwise see you next month.<br>
+    <br>
+    [Name] | Mosaic | Physical world intelligence, on demand | mosaic-intel.com
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- Footer -->
+<footer style="padding: 60px 40px; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+  <div>
+    <div style="font-size: 20px; font-weight: 800; background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px;">MOSAIC</div>
+    <div style="font-size: 12px; color: var(--muted);">Ground truth at scale · V3 · March 2026</div>
+    <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Cycles 121–140 complete · All mandates delivered</div>
+  </div>
+  <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+    <div><div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Documents</div>
+      <div style="font-size: 13px; color: var(--text);">EUROPE_STRATEGY.md</div>
+      <div style="font-size: 13px; color: var(--text);">LOCATION_AWARE_MODEL.md</div>
+      <div style="font-size: 13px; color: var(--text);">FUNDING_STRATEGY.md</div>
+      <div style="font-size: 13px; color: var(--text);">CEO_IR_PLAYBOOK.md</div>
+      <div style="font-size: 13px; color: var(--text);">PITCH_DECK_V2.md</div>
+    </div>
+    <div><div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Key Numbers</div>
+      <div style="font-size: 13px; color: var(--text);">$35B TAM · $9.87M ARR Month 18</div>
+      <div style="font-size: 13px; color: var(--text);">$30K/mo burn (pre-seed)</div>
+      <div style="font-size: 13px; color: var(--text);">90:1 LTV:CAC (commute agents)</div>
+      <div style="font-size: 13px; color: var(--text);">5 EU cities · 8 EU CPG targets</div>
+      <div style="font-size: 13px; color: var(--text);">15 VC targets with partner names</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

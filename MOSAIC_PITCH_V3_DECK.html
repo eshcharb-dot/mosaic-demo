@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mosaic — Pre-Seed Round 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/theme/black.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #060608;
+  --card: #0f0f14;
+  --border: #1e1e28;
+  --purple: #7B2FF7;
+  --blue: #00D4FF;
+  --green: #22D3A2;
+  --amber: #F59E0B;
+  --text: #F0F0F5;
+  --text2: #8A8A9A;
+  --text3: #3A3A4A;
+}
+
+/* ── REVEAL BASE ── */
+.reveal { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+
+.reveal .slides section {
+  height: 100%; width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  display: flex; flex-direction: column;
+  padding: 0; margin: 0;
+  overflow: hidden;
+}
+
+.reveal .progress { height: 3px; background: rgba(123,47,247,0.2); }
+.reveal .progress span { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+.reveal .controls button { color: var(--purple); }
+.reveal .slide-number { color: var(--text3); font-family:'Inter',sans-serif; font-size:11px; }
+.reveal h1,.reveal h2,.reveal h3,.reveal p,.reveal ul,.reveal li { margin:0; }
+
+/* ── GRADIENT TEXT ── */
+.grad { background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad-green { background: linear-gradient(135deg, var(--green), var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── SLIDE LABEL ── */
+.label {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text3);
+}
+
+/* ── FULL-BLEED SLIDE WRAPPER ── */
+.slide-inner {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 44px 60px;
+  box-sizing: border-box;
+  gap: 20px;
+  min-height: 0;
+}
+
+/* ── GROW ── */
+.grow { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; }
+.grow-row { flex: 1; min-height: 0; display: flex; flex-direction: row; gap: 16px; }
+
+/* ── HEADLINE ── */
+.headline {
+  font-size: 40px; font-weight: 800; line-height: 1.1;
+  color: var(--text); letter-spacing: -0.5px;
+}
+.headline-xl { font-size: 52px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; }
+.subline { font-size: 17px; color: var(--text2); line-height: 1.6; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 24px;
+  display: flex; flex-direction: column;
+}
+.card-glow { border-color: rgba(123,47,247,0.4); background: rgba(123,47,247,0.05); }
+.card-blue  { border-color: rgba(0,212,255,0.3);  background: rgba(0,212,255,0.04); }
+
+/* ── STAT ── */
+.stat-num { font-size: 54px; font-weight: 900; line-height: 1; }
+.stat-lbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text3); margin-top: 4px; }
+.stat-sub { font-size: 14px; color: var(--text2); margin-top: 6px; line-height: 1.5; }
+
+/* ── PILL ── */
+.pill { display:inline-block; padding:5px 14px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+.pill-p { background:rgba(123,47,247,0.2); color:var(--purple); }
+.pill-b { background:rgba(0,212,255,0.15); color:var(--blue); }
+.pill-g { background:rgba(34,211,162,0.15); color:var(--green); }
+
+/* ── DIVIDER ── */
+.div { height:1px; background:var(--border); }
+
+/* ── PHONE MOCKUP ── */
+.phone-wrap { display:flex; flex-direction:column; align-items:center; }
+.phone {
+  width: 200px; border-radius: 36px;
+  border: 3px solid #2a2a3a;
+  background: #08080f;
+  overflow: hidden; position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+  flex: 1; display: flex; flex-direction: column;
+}
+.phone-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 22px;
+  background: #08080f; border-radius: 0 0 14px 14px;
+  z-index: 10;
+}
+.phone-screen { flex:1; display:flex; flex-direction:column; padding: 28px 12px 12px; gap:6px; }
+.phone-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+
+/* ── SVG CITY MAP ── */
+.city-map { position: absolute; inset: 0; opacity: 0.6; }
+
+/* ── SHELF GRAPHIC ── */
+.shelf-row { display:flex; gap:6px; align-items:stretch; }
+.shelf-slot { flex:1; border-radius:6px; height:52px; }
+.shelf-full { background: linear-gradient(135deg, #2a2a3a, #1a1a28); border:1px solid #333; }
+.shelf-empty { background: rgba(239,68,68,0.08); border: 2px dashed rgba(239,68,68,0.3); display:flex; align-items:center; justify-content:center; font-size:18px; }
+.shelf-bar { height:6px; background:#1a1a28; border-radius:3px; margin-top:4px; }
+
+/* ── FLOW STEP ── */
+.fstep { display:flex; align-items:flex-start; gap:12px; padding:12px 16px; background:var(--card); border:1px solid var(--border); border-radius:10px; }
+.fnum { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:#fff; flex-shrink:0; }
+.ftitle { font-size:15px; font-weight:700; color:var(--text); }
+.fsub { font-size:13px; color:var(--text2); margin-top:2px; }
+
+/* ── MILESTONE ── */
+.mile { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:15px; color:var(--text2); }
+.mile:last-child { border:none; }
+.mile-dot { width:22px; height:22px; border-radius:50%; border:2px solid var(--purple); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--green); flex-shrink:0; }
+
+/* ── TABLE ── */
+.tbl { width:100%; border-collapse:collapse; font-size:14px; }
+.tbl th { text-align:left; padding:8px 10px; color:var(--text3); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border); }
+.tbl td { padding:9px 10px; color:var(--text2); border-bottom:1px solid #111116; }
+.tbl td.hl { color:var(--text); font-weight:700; }
+.tbl tr:last-child td { border:none; }
+.tbl th.us,.tbl td.us { background:rgba(0,212,255,0.05); color:var(--blue); font-weight:700; }
+
+/* ── 2×2 MATRIX ── */
+.matrix { position:relative; border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--card); }
+.matrix-ax-h { position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--border); }
+.matrix-ax-v { position:absolute; top:50%; left:0; right:0; height:1px; background:var(--border); }
+.matrix-dot { position:absolute; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:3px; }
+.mdot { width:14px; height:14px; border-radius:50%; background:var(--text3); }
+.mdot.us { width:20px; height:20px; background:linear-gradient(135deg,var(--purple),var(--blue)); box-shadow:0 0 20px rgba(123,47,247,0.5); }
+.mlbl { font-size:11px; color:var(--text2); font-weight:600; white-space:nowrap; }
+.mlbl.us { color:var(--blue); }
+.matrix-corner { position:absolute; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); }
+
+/* ── COVER GRID ── */
+.cover-grid {
+  position:absolute; inset:0;
+  background-image: linear-gradient(rgba(123,47,247,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.glow { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 1 · COVER -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section data-background-color="#060608">
+  <div class="cover-grid"></div>
+  <div class="glow" style="width:600px;height:600px;background:radial-gradient(circle,rgba(123,47,247,0.18),transparent);top:-150px;left:-150px;"></div>
+  <div class="glow" style="width:400px;height:400px;background:radial-gradient(circle,rgba(0,212,255,0.12),transparent);bottom:-100px;right:-100px;"></div>
+
+  <!-- Cover background image -->
+  <img src="deck-assets/cover-bg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.38;pointer-events:none;"/>
+
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;height:100%;padding:60px 80px;gap:24px;">
+    <div class="label" style="color:rgba(255,255,255,0.2);">CONFIDENTIAL · PRE-SEED ROUND · MARCH 2026</div>
+    <div style="font-size:108px;font-weight:900;letter-spacing:-3px;line-height:1;" class="grad">MOSAIC</div>
+    <div style="font-size:28px;font-weight:500;color:#fff;max-width:560px;line-height:1.3;">Ground truth at scale.<br><span style="color:var(--text2);font-size:20px;font-weight:400;">Physical world intelligence, on demand.</span></div>
+    <div style="display:flex;gap:40px;align-items:center;margin-top:16px;">
+      <div><div class="stat-lbl">Pre-Seed</div><div style="font-size:36px;font-weight:900;color:#fff;">$500K</div></div>
+      <div style="width:1px;height:44px;background:var(--border);"></div>
+      <div><div class="stat-lbl">Seed Target</div><div style="font-size:36px;font-weight:900;color:#fff;">$20M</div></div>
+      <div style="width:1px;height:44px;background:var(--border);"></div>
+      <div><div class="stat-lbl">Series A Path</div><div style="font-size:36px;font-weight:900;" class="grad">$100M</div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px;">
+      <span class="pill pill-p">Physical AI</span>
+      <span class="pill pill-b">Gig Marketplace</span>
+      <span class="pill pill-g">3-Tier SaaS</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 2 · PROBLEM — visual shelf + big stats -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div style="display:flex;height:100%;flex-direction:row;">
+
+    <!-- LEFT: Shelf Illustration -->
+    <div style="flex:1.1;background:linear-gradient(135deg,#0a0a10,#0d0d18);display:flex;flex-direction:column;justify-content:center;padding:48px 40px;gap:0;position:relative;overflow:hidden;">
+      <div class="glow" style="width:300px;height:300px;background:radial-gradient(circle,rgba(239,68,68,0.1),transparent);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+      <div style="position:relative;z-index:1;">
+        <div class="label" style="margin-bottom:20px;">01 — THE PROBLEM</div>
+        <div style="font-size:13px;color:var(--text3);font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">What a CPG brand sees</div>
+
+        <!-- Shelf image -->
+        <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);flex:1;min-height:200px;">
+          <img src="deck-assets/problem-shelf.png" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+        </div>
+
+        <div style="margin-top:16px;padding:12px 16px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.2);font-size:13px;color:rgba(239,68,68,0.8);">
+          95% of stores never checked. No machine-readable data. Already outdated on arrival.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Stats -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:48px 48px;gap:0;background:var(--bg);">
+      <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:32px;">THE COST OF BLINDNESS</div>
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:80px;font-weight:900;line-height:1;" class="grad">4–8%</div>
+        <div style="font-size:16px;color:var(--text);font-weight:600;margin-top:4px;">CPG revenue lost to out-of-stocks</div>
+        <div style="font-size:14px;color:var(--text2);margin-top:4px;">they couldn't see coming</div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin-bottom:32px;"></div>
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:80px;font-weight:900;line-height:1;color:var(--blue);">2 weeks</div>
+        <div style="font-size:16px;color:var(--text);font-weight:600;margin-top:4px;">average wait for compliance data</div>
+        <div style="font-size:14px;color:var(--text2);margin-top:4px;">at $50–300 per manual field visit</div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin-bottom:32px;"></div>
+
+      <div>
+        <div style="font-size:80px;font-weight:900;line-height:1;color:var(--amber);">$35B</div>
+        <div style="font-size:16px;color:var(--text);font-weight:600;margin-top:4px;">spent on physical world intelligence</div>
+        <div style="font-size:14px;color:var(--text2);margin-top:4px;">growing at 22% CAGR · zero self-serve exists</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 3 · SOLUTION — city map + phone mockup -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section data-background-color="#060608">
+  <div style="display:flex;height:100%;flex-direction:row;">
+
+    <!-- LEFT: Commute agent image -->
+    <div style="flex:1.2;position:relative;overflow:hidden;">
+      <img src="deck-assets/commute-agent.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,#060608);"></div>
+      <!-- SVG overlay kept for route/pins on top of photo -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.5;" viewBox="0 0 640 720" preserveAspectRatio="xMidYMid slice">
+        <rect width="640" height="720" fill="#07070e"/>
+        <!-- Streets -->
+        <g stroke="#1a1a28" stroke-width="12" fill="none">
+          <line x1="0" y1="180" x2="640" y2="180"/>
+          <line x1="0" y1="360" x2="640" y2="360"/>
+          <line x1="0" y1="540" x2="640" y2="540"/>
+          <line x1="120" y1="0" x2="120" y2="720"/>
+          <line x1="280" y1="0" x2="280" y2="720"/>
+          <line x1="440" y1="0" x2="440" y2="720"/>
+          <line x1="560" y1="0" x2="560" y2="720"/>
+        </g>
+        <!-- Blocks -->
+        <g fill="#0d0d18" stroke="#14141f" stroke-width="1">
+          <rect x="130" y="20" width="140" height="150" rx="6"/>
+          <rect x="290" y="20" width="140" height="150" rx="6"/>
+          <rect x="130" y="190" width="140" height="160" rx="6"/>
+          <rect x="290" y="190" width="140" height="160" rx="6"/>
+          <rect x="450" y="20" width="100" height="150" rx="6"/>
+          <rect x="130" y="370" width="140" height="160" rx="6"/>
+          <rect x="290" y="370" width="140" height="160" rx="6"/>
+          <rect x="450" y="370" width="100" height="160" rx="6"/>
+          <rect x="130" y="550" width="140" height="160" rx="6"/>
+          <rect x="290" y="550" width="140" height="160" rx="6"/>
+        </g>
+        <!-- Route corridor highlight -->
+        <path d="M 60 680 L 60 360 L 280 360 L 280 180 L 440 180 L 440 360 L 560 360" stroke="#00D4FF" stroke-width="3" fill="none" opacity="0.7" stroke-dasharray="10,5"/>
+        <path d="M 60 680 L 60 360 L 280 360 L 280 180 L 440 180 L 440 360 L 560 360" stroke="rgba(0,212,255,0.15)" stroke-width="20" fill="none"/>
+        <!-- Task pins -->
+        <g>
+          <circle cx="280" cy="180" r="14" fill="#7B2FF7"/>
+          <circle cx="280" cy="180" r="24" fill="none" stroke="#7B2FF7" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="440" cy="180" r="14" fill="#7B2FF7"/>
+          <circle cx="440" cy="180" r="24" fill="none" stroke="#7B2FF7" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="440" cy="360" r="14" fill="#7B2FF7"/>
+          <circle cx="440" cy="360" r="24" fill="none" stroke="#7B2FF7" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="560" cy="360" r="14" fill="#22D3A2"/>
+          <circle cx="560" cy="360" r="24" fill="none" stroke="#22D3A2" stroke-width="1.5" opacity="0.5"/>
+        </g>
+        <!-- Agent moving -->
+        <circle cx="60" cy="680" r="16" fill="#00D4FF"/>
+        <circle cx="60" cy="680" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.4"/>
+        <circle cx="60" cy="680" r="46" fill="none" stroke="#00D4FF" stroke-width="1" opacity="0.2"/>
+        <!-- Pin labels -->
+        <text x="290" y="165" fill="white" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">TASK</text>
+        <text x="450" y="165" fill="white" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">TASK</text>
+        <text x="450" y="345" fill="white" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">TASK</text>
+        <text x="570" y="345" fill="white" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">✓</text>
+        <!-- Agent label -->
+        <text x="60" y="716" fill="#00D4FF" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">YOU</text>
+      </svg>
+
+      <!-- Overlay gradient -->
+      <div style="position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,#060608);"></div>
+    </div>
+
+    <!-- RIGHT: Content + phone mockup -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:44px 44px 44px 20px;gap:16px;">
+      <div class="label">02 — THE SOLUTION</div>
+      <div class="headline" style="font-size:34px;">Any commute becomes a<br>verified data collection.</div>
+
+      <!-- Phone mockup -->
+      <div style="display:flex;gap:20px;align-items:flex-start;flex:1;min-height:0;">
+        <div class="phone" style="height:100%;max-height:340px;">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <!-- Status bar -->
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#5a5a6a;margin-bottom:8px;padding-top:4px;">
+              <span>9:14 AM</span><span>●●●●</span>
+            </div>
+            <!-- Task card -->
+            <div style="background:linear-gradient(135deg,rgba(123,47,247,0.3),rgba(0,212,255,0.2));border-radius:10px;padding:10px;border:1px solid rgba(123,47,247,0.4);">
+              <div style="font-size:9px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;">NEW TASK NEARBY</div>
+              <div style="font-size:12px;font-weight:700;color:#fff;margin-top:4px;">Shelf Audit</div>
+              <div style="font-size:10px;color:var(--text2);margin-top:2px;">Tesco Metro · 2 min off route</div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                <span style="font-size:11px;color:var(--green);font-weight:700;">+£4.50</span>
+                <span style="font-size:10px;color:var(--text2);">~60 sec</span>
+              </div>
+            </div>
+            <!-- Accept button -->
+            <div style="background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:8px;padding:8px;text-align:center;font-size:11px;font-weight:700;color:#fff;margin-top:8px;">ACCEPT</div>
+            <!-- Mini map -->
+            <div style="flex:1;background:#0d0d18;border-radius:8px;overflow:hidden;position:relative;min-height:80px;margin-top:6px;">
+              <svg viewBox="0 0 180 100" style="width:100%;height:100%;">
+                <rect width="180" height="100" fill="#0d0d18"/>
+                <g stroke="#1a1a28" stroke-width="6">
+                  <line x1="0" y1="50" x2="180" y2="50"/>
+                  <line x1="90" y1="0" x2="90" y2="100"/>
+                  <line x1="0" y1="25" x2="180" y2="25"/>
+                  <line x1="45" y1="0" x2="45" y2="100"/>
+                  <line x1="135" y1="0" x2="135" y2="100"/>
+                </g>
+                <path d="M 20 80 L 20 50 L 90 50 L 90 25 L 135 25" stroke="#00D4FF" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
+                <circle cx="90" cy="25" r="6" fill="#7B2FF7"/>
+                <circle cx="20" cy="80" r="5" fill="#00D4FF"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;justify-content:center;">
+          <div class="fstep">
+            <div class="fnum">1</div>
+            <div><div class="ftitle">Enterprise posts task</div><div class="fsub">90 seconds to configure</div></div>
+          </div>
+          <div class="fstep">
+            <div class="fnum" style="background:linear-gradient(135deg,var(--blue),var(--green));">2</div>
+            <div><div class="ftitle">Agent accepts on commute</div><div class="fsub">Route-matched, not radius</div></div>
+          </div>
+          <div class="fstep">
+            <div class="fnum" style="background:linear-gradient(135deg,var(--green),var(--amber));">3</div>
+            <div><div class="ftitle">AI extracts structured data</div><div class="fsub">JSON + compliance score <span style="color:var(--text3);">(>90% accuracy — validated sample in appendix)</span></div></div>
+          </div>
+          <div style="padding:12px 16px;background:rgba(34,211,162,0.06);border:1px solid rgba(34,211,162,0.2);border-radius:10px;margin-top:4px;">
+            <div style="font-size:22px;font-weight:900;color:var(--green);">4 hours</div>
+            <div style="font-size:13px;color:var(--text2);">vs. 2 weeks from any competitor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 4 · WHY NOW — 3 visual pillars -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="slide-inner">
+    <div class="label">03 — WHY NOW</div>
+    <div class="headline">Three forces converged in 2026.<br>This window is 24 months.</div>
+    <div class="grow">
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;min-height:0;">
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:5px;background:linear-gradient(90deg,var(--purple),var(--blue));"></div>
+          <div style="padding:24px;flex:1;display:flex;flex-direction:column;gap:12px;">
+            <!-- SVG icon: chip/device -->
+            <svg width="48" height="48" viewBox="0 0 48 48">
+              <rect x="14" y="14" width="20" height="20" rx="3" fill="none" stroke="#7B2FF7" stroke-width="2"/>
+              <rect x="18" y="18" width="12" height="12" rx="2" fill="rgba(123,47,247,0.2)"/>
+              <line x1="10" y1="20" x2="14" y2="20" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="10" y1="28" x2="14" y2="28" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="34" y1="20" x2="38" y2="20" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="34" y1="28" x2="38" y2="28" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="20" y1="10" x2="20" y2="14" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="28" y1="10" x2="28" y2="14" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="20" y1="34" x2="20" y2="38" stroke="#7B2FF7" stroke-width="2"/>
+              <line x1="28" y1="34" x2="28" y2="38" stroke="#7B2FF7" stroke-width="2"/>
+            </svg>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">On-Device AI</div>
+            <div style="font-size:15px;color:var(--text2);line-height:1.6;flex:1;">MediaPipe runs face redaction on any 2020+ phone. GDPR compliance without a cloud roundtrip. <strong style="color:var(--purple);">Didn't exist before 2024.</strong></div>
+            <div style="padding:10px;background:rgba(123,47,247,0.1);border-radius:8px;font-size:13px;color:var(--purple);font-weight:600;">GDPR-native by architecture, not compliance retrofit</div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <img src="deck-assets/gig-workers.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none;"/>
+          <div style="height:5px;background:linear-gradient(90deg,var(--blue),var(--green));position:relative;"></div>
+          <div style="padding:24px;flex:1;display:flex;flex-direction:column;gap:12px;position:relative;">
+            <!-- SVG icon: people/network -->
+            <svg width="48" height="48" viewBox="0 0 48 48">
+              <circle cx="24" cy="16" r="6" fill="none" stroke="#00D4FF" stroke-width="2"/>
+              <circle cx="10" cy="34" r="5" fill="none" stroke="#00D4FF" stroke-width="2"/>
+              <circle cx="38" cy="34" r="5" fill="none" stroke="#00D4FF" stroke-width="2"/>
+              <line x1="20" y1="20" x2="13" y2="30" stroke="#00D4FF" stroke-width="1.5" opacity="0.6"/>
+              <line x1="28" y1="20" x2="35" y2="30" stroke="#00D4FF" stroke-width="1.5" opacity="0.6"/>
+              <line x1="15" y1="34" x2="33" y2="34" stroke="#00D4FF" stroke-width="1.5" opacity="0.4" stroke-dasharray="3,2"/>
+            </svg>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">Gig Economy Maturity</div>
+            <div style="font-size:15px;color:var(--text2);line-height:1.6;flex:1;">50M+ trained gig workers globally. Uber and Deliveroo built the supply side. <strong style="color:var(--blue);">We harvest the infrastructure they built.</strong></div>
+            <div style="padding:10px;background:rgba(0,212,255,0.08);border-radius:8px;font-size:13px;color:var(--blue);font-weight:600;">Agent LTV:CAC = 90:1</div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <img src="deck-assets/ai-extraction.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none;"/>
+          <div style="height:5px;background:linear-gradient(90deg,var(--green),var(--amber));position:relative;"></div>
+          <div style="padding:24px;flex:1;display:flex;flex-direction:column;gap:12px;position:relative;">
+            <!-- SVG icon: AI/neural -->
+            <svg width="48" height="48" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="6" fill="rgba(34,211,162,0.2)" stroke="#22D3A2" stroke-width="2"/>
+              <circle cx="8" cy="14" r="4" fill="none" stroke="#22D3A2" stroke-width="1.5"/>
+              <circle cx="40" cy="14" r="4" fill="none" stroke="#22D3A2" stroke-width="1.5"/>
+              <circle cx="8" cy="34" r="4" fill="none" stroke="#22D3A2" stroke-width="1.5"/>
+              <circle cx="40" cy="34" r="4" fill="none" stroke="#22D3A2" stroke-width="1.5"/>
+              <line x1="12" y1="16" x2="20" y2="21" stroke="#22D3A2" stroke-width="1.5" opacity="0.6"/>
+              <line x1="36" y1="16" x2="28" y2="21" stroke="#22D3A2" stroke-width="1.5" opacity="0.6"/>
+              <line x1="12" y1="32" x2="20" y2="27" stroke="#22D3A2" stroke-width="1.5" opacity="0.6"/>
+              <line x1="36" y1="32" x2="28" y2="27" stroke="#22D3A2" stroke-width="1.5" opacity="0.6"/>
+            </svg>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">AI Extraction Quality</div>
+            <div style="font-size:15px;color:var(--text2);line-height:1.6;flex:1;">GPT-4V extracts structured data from photos at &gt;90% accuracy. A shelf photo → JSON in 3 seconds. <strong style="color:var(--green);">Costs $0.20 of compute.</strong></div>
+            <div style="padding:10px;background:rgba(34,211,162,0.08);border-radius:8px;font-size:13px;color:var(--green);font-weight:600;">65%+ gross margin at scale</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:16px 24px;background:rgba(123,47,247,0.06);border:1px solid rgba(123,47,247,0.2);border-radius:12px;display:flex;align-items:center;gap:20px;">
+        <div style="font-size:28px;font-weight:900;" class="grad">24-month window</div>
+        <div style="width:1px;height:32px;background:var(--border);"></div>
+        <div style="font-size:15px;color:var(--text2);">US gig platforms haven't entered EU · BeMyEye has no consumer tier · Enterprise AI buyers are moving fast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 5 · PRODUCT — dual phone mockups -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section data-background-color="#060608">
+  <div style="display:flex;height:100%;">
+
+    <!-- LEFT: Customer phone -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;gap:16px;border-right:1px solid var(--border);position:relative;overflow:hidden;">
+      <img src="deck-assets/enterprise-dashboard.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.08;pointer-events:none;"/>
+      <div style="text-align:center;">
+        <div class="label" style="text-align:center;color:var(--purple);">FOR CUSTOMERS</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);margin-top:6px;">Post in 90 seconds</div>
+      </div>
+      <div class="phone" style="width:220px;max-height:400px;flex:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:28px 14px 14px;">
+          <!-- App header -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="font-size:16px;font-weight:900;" class="grad">mosaic</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;">+</div>
+          </div>
+          <!-- Task type selector -->
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Task Type</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;">
+            <div style="padding:7px;background:linear-gradient(135deg,rgba(123,47,247,0.3),rgba(0,212,255,0.15));border-radius:7px;border:1px solid var(--purple);font-size:10px;font-weight:700;color:#fff;text-align:center;">Shelf Audit</div>
+            <div style="padding:7px;background:var(--card);border-radius:7px;border:1px solid var(--border);font-size:10px;color:var(--text2);text-align:center;">Compliance</div>
+            <div style="padding:7px;background:var(--card);border-radius:7px;border:1px solid var(--border);font-size:10px;color:var(--text2);text-align:center;">Crowd Check</div>
+            <div style="padding:7px;background:var(--card);border-radius:7px;border:1px solid var(--border);font-size:10px;color:var(--text2);text-align:center;">Pricing</div>
+          </div>
+          <!-- Location -->
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Locations</div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-size:11px;color:var(--text2);margin-bottom:10px;">📍 50 stores — London Zone 1-2</div>
+          <!-- Delivery -->
+          <div style="display:flex;gap:5px;margin-bottom:10px;">
+            <div style="flex:1;padding:8px;background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(0,212,255,0.05));border:1px solid var(--blue);border-radius:7px;text-align:center;">
+              <div style="font-size:14px;font-weight:800;color:var(--blue);">4hr</div>
+              <div style="font-size:9px;color:var(--text3);">EXPRESS</div>
+            </div>
+            <div style="flex:1;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;text-align:center;">
+              <div style="font-size:14px;font-weight:800;color:var(--text2);">24hr</div>
+              <div style="font-size:9px;color:var(--text3);">STANDARD</div>
+            </div>
+          </div>
+          <!-- Price + CTA -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div style="font-size:11px;color:var(--text2);">Estimate</div>
+            <div style="font-size:18px;font-weight:900;color:var(--green);">£875</div>
+          </div>
+          <div style="background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:9px;padding:10px;text-align:center;font-size:12px;font-weight:800;color:#fff;">POST TASK →</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;text-align:center;">
+        <div><div style="font-size:24px;font-weight:900;color:var(--purple);">90s</div><div style="font-size:11px;color:var(--text3);">to post</div></div>
+        <div><div style="font-size:24px;font-weight:900;color:var(--blue);">4hr</div><div style="font-size:11px;color:var(--text3);">delivery</div></div>
+        <div><div style="font-size:24px;font-weight:900;color:var(--green);">51%</div><div style="font-size:11px;color:var(--text3);">margin</div></div>
+      </div>
+    </div>
+
+    <!-- CENTER: vs label -->
+    <div style="width:48px;display:flex;align-items:center;justify-content:center;">
+      <div style="transform:rotate(90deg);font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;">DUAL FLYWHEEL</div>
+    </div>
+
+    <!-- RIGHT: Agent phone -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px;gap:16px;">
+      <div style="text-align:center;">
+        <div class="label" style="text-align:center;color:var(--blue);">FOR AGENTS</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);margin-top:6px;">Earn on your commute</div>
+      </div>
+      <div class="phone" style="width:220px;max-height:400px;flex:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:28px 14px 14px;">
+          <!-- App header -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:16px;font-weight:900;" class="grad">mosaic</div>
+            <div style="padding:3px 8px;background:rgba(34,211,162,0.15);border-radius:99px;font-size:10px;font-weight:700;color:var(--green);">COMMUTE MODE</div>
+          </div>
+          <!-- Earnings bar -->
+          <div style="padding:10px;background:rgba(34,211,162,0.08);border-radius:8px;border:1px solid rgba(34,211,162,0.2);margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-size:11px;color:var(--text3);">Today's earnings</div>
+              <div style="font-size:22px;font-weight:900;color:var(--green);">£14.50</div>
+            </div>
+            <div style="height:4px;background:#1a1a28;border-radius:2px;margin-top:6px;overflow:hidden;">
+              <div style="height:100%;width:72%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;"></div>
+            </div>
+          </div>
+          <!-- Route map -->
+          <div style="background:#0a0a14;border-radius:8px;overflow:hidden;height:100px;position:relative;margin-bottom:8px;">
+            <svg viewBox="0 0 192 100" style="width:100%;height:100%;">
+              <rect width="192" height="100" fill="#0a0a14"/>
+              <g stroke="#1a1a24" stroke-width="6">
+                <line x1="0" y1="50" x2="192" y2="50"/>
+                <line x1="64" y1="0" x2="64" y2="100"/>
+                <line x1="128" y1="0" x2="128" y2="100"/>
+              </g>
+              <path d="M 10 80 L 10 50 L 64 50 L 64 20 L 128 20 L 128 50 L 180 50" stroke="#00D4FF" stroke-width="2.5" fill="none" stroke-dasharray="8,4"/>
+              <path d="M 10 80 L 10 50 L 64 50 L 64 20 L 128 20 L 128 50 L 180 50" stroke="rgba(0,212,255,0.15)" stroke-width="16" fill="none"/>
+              <circle cx="64" cy="20" r="7" fill="#7B2FF7"/>
+              <circle cx="128" cy="20" r="7" fill="#7B2FF7"/>
+              <circle cx="128" cy="50" r="7" fill="#22D3A2"/>
+              <circle cx="10" cy="80" r="6" fill="#00D4FF"/>
+            </svg>
+          </div>
+          <!-- Task queue -->
+          <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Pre-accepted (3 tasks)</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(123,47,247,0.1);border-radius:6px;border:1px solid rgba(123,47,247,0.2);">
+              <span style="font-size:11px;color:var(--text);">Shelf audit · Tesco</span>
+              <span style="font-size:11px;font-weight:700;color:var(--green);">+£4.50</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(123,47,247,0.1);border-radius:6px;border:1px solid rgba(123,47,247,0.2);">
+              <span style="font-size:11px;color:var(--text);">Price check · Boots</span>
+              <span style="font-size:11px;font-weight:700;color:var(--green);">+£3.80</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(34,211,162,0.08);border-radius:6px;border:1px solid rgba(34,211,162,0.3);">
+              <span style="font-size:11px;color:var(--green);">✓ Compliance · Sainsbury's</span>
+              <span style="font-size:11px;font-weight:700;color:var(--green);">+£6.20</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;text-align:center;">
+        <div><div style="font-size:24px;font-weight:900;color:var(--blue);">45s</div><div style="font-size:11px;color:var(--text3);">per task</div></div>
+        <div><div style="font-size:24px;font-weight:900;color:var(--green);">£14.50</div><div style="font-size:11px;color:var(--text3);">per commute</div></div>
+        <div><div style="font-size:24px;font-weight:900;color:var(--amber);">4–5×</div><div style="font-size:11px;color:var(--text3);">vs. Uber</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 6 · MARKET SIZE -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div style="display:flex;height:100%;">
+    <!-- LEFT: Big visual -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;position:relative;background:radial-gradient(ellipse at center,rgba(123,47,247,0.06),transparent 70%);">
+      <div class="label" style="position:absolute;top:44px;left:44px;">05 — MARKET SIZE</div>
+      <!-- Nested circles -->
+      <div style="position:relative;width:320px;height:320px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:absolute;width:320px;height:320px;border-radius:50%;border:2px solid rgba(123,47,247,0.2);background:rgba(123,47,247,0.04);display:flex;align-items:center;justify-content:center;">
+          <div style="position:absolute;top:16px;font-size:11px;font-weight:700;color:rgba(123,47,247,0.5);letter-spacing:2px;text-transform:uppercase;">TAM</div>
+          <div style="width:220px;height:220px;border-radius:50%;border:2px solid rgba(123,47,247,0.35);background:rgba(123,47,247,0.08);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;top:64px;font-size:11px;font-weight:700;color:rgba(123,47,247,0.7);letter-spacing:2px;text-transform:uppercase;">SAM</div>
+            <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,rgba(123,47,247,0.7),rgba(0,212,255,0.6));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(123,47,247,0.3);">
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;text-transform:uppercase;">SOM</div>
+              <div style="font-size:18px;font-weight:900;color:#fff;">$350M</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.6);">Year 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Labels outside circles -->
+      <div style="display:flex;gap:20px;margin-top:20px;">
+        <div style="text-align:center;">
+          <div style="font-size:24px;font-weight:900;color:var(--purple);">$35B</div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">TAM · 22% CAGR</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:24px;font-weight:900;color:var(--blue);">$8.5B</div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;">SAM · Europe + US</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: The insight -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:44px 48px;gap:16px;border-left:1px solid var(--border);">
+      <div style="font-size:14px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:2px;">THE UNTAPPED INSIGHT</div>
+
+      <div style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Incumbents' Revenue (15+ years)</div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:15px;"><span style="color:var(--text2);">BeMyEye</span><span style="font-weight:700;color:var(--text);">$35M ARR</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:15px;"><span style="color:var(--text2);">Field Agent</span><span style="font-weight:700;color:var(--text);">~$40M ARR</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:15px;"><span style="color:var(--green);font-weight:600;">Consumer + SMB tier</span><span style="font-weight:700;color:var(--green);">$0 — never existed</span></div>
+      </div>
+
+      <div style="padding:20px;background:rgba(34,211,162,0.05);border:1px solid rgba(34,211,162,0.2);border-radius:12px;">
+        <div style="font-size:28px;font-weight:900;color:var(--green);">$3–5B</div>
+        <div style="font-size:15px;color:var(--text);font-weight:600;margin-top:4px;">of addressable market has never<br>had a product built for it</div>
+      </div>
+
+      <div style="padding:20px;background:rgba(123,47,247,0.05);border:1px solid rgba(123,47,247,0.2);border-radius:12px;">
+        <div style="font-size:14px;font-weight:700;color:var(--purple);margin-bottom:6px;">★ THE HIDDEN MOAT: Training Data Flywheel (95% GM)</div>
+        <div style="font-size:15px;color:var(--text2);">Every task = labeled real-world imagery.<br><strong style="color:var(--text);">$19.6B AI training data market by 2033.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 7 · BUSINESS MODEL -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="slide-inner">
+    <div class="label">06 — BUSINESS MODEL</div>
+    <div class="headline">Three tiers. One platform. 55%+ gross margin.</div>
+    <div class="grow">
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:4px;background:var(--purple);"></div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:10px;">
+            <div style="font-size:12px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:2px;">Consumer</div>
+            <div style="font-size:32px;font-weight:900;color:var(--text);">$5–25<span style="font-size:16px;color:var(--text3);font-weight:400;">/task</span></div>
+            <div style="font-size:14px;color:var(--text2);">Credit wallet · Pay per use</div>
+            <div style="height:1px;background:var(--border);"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Gross margin</span><span style="font-weight:700;color:var(--text);">52%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">CAC</span><span style="font-weight:700;color:var(--text);">$8</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Acquisition</span><span style="font-weight:700;color:var(--text);">App store · viral</span></div>
+            </div>
+            <div style="height:6px;background:#1a1a28;border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:52%;background:var(--purple);border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(0,212,255,0.3);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;position:relative;">
+          <div style="height:4px;background:var(--blue);"></div>
+          <div style="position:absolute;top:12px;right:12px;padding:3px 8px;background:rgba(0,212,255,0.15);border-radius:99px;font-size:10px;font-weight:700;color:var(--blue);">FASTEST GROWING</div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:10px;">
+            <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:2px;">SMB</div>
+            <div style="font-size:32px;font-weight:900;color:var(--text);">$49–749<span style="font-size:16px;color:var(--text3);font-weight:400;">/mo</span></div>
+            <div style="font-size:14px;color:var(--text2);">Indie CPG brands (50–500 SKUs) · DTC brands checking retail execution · Field managers without enterprise budget</div>
+            <div style="height:1px;background:var(--border);"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Gross margin</span><span style="font-weight:700;color:var(--text);">62%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">CAC</span><span style="font-weight:700;color:var(--text);">$120</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Acquisition</span><span style="font-weight:700;color:var(--text);">PLG · SEO · Shopify</span></div>
+            </div>
+            <div style="height:6px;background:#1a1a28;border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:62%;background:var(--blue);border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:4px;background:var(--green);"></div>
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;gap:10px;">
+            <div style="font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;">Enterprise</div>
+            <div style="font-size:32px;font-weight:900;color:var(--text);">$2.5K–50K<span style="font-size:16px;color:var(--text3);font-weight:400;">/mo</span></div>
+            <div style="font-size:14px;color:var(--text2);">Annual contract · 200–10K+ tasks/mo</div>
+            <div style="height:1px;background:var(--border);"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Gross margin</span><span style="font-weight:700;color:var(--text);">58%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">ACV</span><span style="font-weight:700;color:var(--text);">$36K/yr</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text2);">Acquisition</span><span style="font-weight:700;color:var(--text);">Founder sales</span></div>
+            </div>
+            <div style="height:6px;background:#1a1a28;border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:58%;background:var(--green);border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Per-task economics visual -->
+      <div style="padding:16px 24px;background:var(--card);border:1px solid var(--border);border-radius:12px;display:flex;gap:0;align-items:center;position:relative;overflow:hidden;">
+        <img src="deck-assets/data-flywheel.png" style="position:absolute;right:0;top:0;height:100%;width:200px;object-fit:cover;opacity:0.12;pointer-events:none;mask-image:linear-gradient(90deg,transparent,black);-webkit-mask-image:linear-gradient(90deg,transparent,black);"/>
+        <div style="flex:1;">
+          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Per Task (blended avg)</div>
+          <div style="display:flex;align-items:center;height:24px;border-radius:6px;overflow:hidden;gap:1px;">
+            <div style="width:40%;height:100%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">Agent 40%</div>
+            <div style="width:5%;height:100%;background:var(--amber);"></div>
+            <div style="width:55%;height:100%;background:linear-gradient(90deg,rgba(34,211,162,0.6),rgba(34,211,162,0.3));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green);">Mosaic 55%+</div>
+          </div>
+        </div>
+        <div style="width:1px;height:48px;background:var(--border);margin:0 24px;"></div>
+        <div style="display:flex;gap:24px;">
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--text);">$14</div><div style="font-size:11px;color:var(--text3);">avg task price</div></div>
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--green);">$7.14</div><div style="font-size:11px;color:var(--text3);">gross profit</div></div>
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:900;color:var(--blue);">35:1</div><div style="font-size:11px;color:var(--text3);">LTV:CAC</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 8 · TRACTION -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="slide-inner">
+    <div class="label">07 — TRACTION</div>
+    <div class="headline">What 2 founders + AI built in 8 weeks.</div>
+    <div class="grow">
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+          <div style="font-size:56px;font-weight:900;line-height:1;" class="grad">[X]</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text);margin-top:8px;">Verified Agents</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px;">in [X] cities</div>
+        </div>
+        <div style="background:var(--card);border:1px solid rgba(0,212,255,0.3);border-radius:14px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+          <div style="font-size:56px;font-weight:900;line-height:1;color:var(--blue);">[X]</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text);margin-top:8px;">Tasks Completed</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px;">[X]% fulfillment rate</div>
+        </div>
+        <div style="background:var(--card);border:1px solid rgba(34,211,162,0.3);border-radius:14px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+          <div style="font-size:56px;font-weight:900;line-height:1;color:var(--green);">$[X]K</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text);margin-top:8px;">MRR</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px;">[X] paying customers</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;">
+          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Shipped in 8 weeks</div>
+          <div class="mile"><div class="mile-dot">✓</div>Agent app — iOS + Android (Expo/RN)</div>
+          <div class="mile"><div class="mile-dot">✓</div>Customer portal — Next.js + Supabase</div>
+          <div class="mile"><div class="mile-dot">✓</div>AI extraction pipeline — GPT-4V</div>
+          <div class="mile"><div class="mile-dot">✓</div>Route-matching algorithm</div>
+          <div class="mile"><div class="mile-dot">✓</div>On-device face redaction (GDPR)</div>
+        </div>
+
+        <div style="background:rgba(123,47,247,0.05);border:1px solid rgba(123,47,247,0.2);border-radius:14px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;">
+          <img src="deck-assets/city-expansion.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.12;pointer-events:none;"/>
+          <div style="font-size:12px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">The AI-Native Advantage</div>
+          <div style="padding:8px 12px;background:rgba(123,47,247,0.1);border-radius:8px;border:1px solid rgba(123,47,247,0.3);margin-bottom:10px;font-size:12px;color:var(--purple);font-weight:600;">KEY METRIC: Agent retention after Month 1 (target: &gt;70%) · Agent waitlist: [X] signups before launch</div>
+          <div style="display:flex;justify-content:space-between;gap:12px;">
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:28px;font-weight:900;color:var(--text);">$30K</div>
+              <div style="font-size:12px;color:var(--text3);">monthly burn</div>
+            </div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:28px;font-weight:900;color:var(--text2);">$120K</div>
+              <div style="font-size:12px;color:var(--text3);">industry avg (6-pax)</div>
+            </div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-size:28px;font-weight:900;" class="grad">4×</div>
+              <div style="font-size:12px;color:var(--text3);">velocity advantage</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font-size:14px;color:var(--text2);line-height:1.5;">$5M gives us <strong style="color:var(--text);">14 months of runway</strong> vs. 4 months for a traditional team.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 9 · COMPETITION — 2×2 + table -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div style="display:flex;height:100%;">
+    <div style="flex:1;display:flex;flex-direction:column;padding:44px 36px;gap:16px;border-right:1px solid var(--border);">
+      <div class="label">09 — COMPETITION</div>
+      <div class="headline" style="font-size:32px;">We occupy white space<br>no incumbent has entered.</div>
+      <!-- 2x2 matrix -->
+      <div class="matrix" style="flex:1;min-height:0;position:relative;">
+        <div class="matrix-ax-h"></div>
+        <div class="matrix-ax-v"></div>
+        <div class="matrix-corner" style="top:8px;left:50%;transform:translateX(-50%);">HIGH AI QUALITY</div>
+        <div class="matrix-corner" style="bottom:8px;left:50%;transform:translateX(-50%);">LOW AI QUALITY</div>
+        <div class="matrix-corner" style="left:8px;top:50%;transform:translateY(-50%) rotate(-90deg);">ENTERPRISE ONLY</div>
+        <div class="matrix-corner" style="right:8px;top:50%;transform:translateY(-50%) rotate(90deg);">CONSUMER + SMB</div>
+        <!-- Competitors -->
+        <div class="matrix-dot" style="left:25%;top:60%;"><div class="mdot"></div><div class="mlbl">Field Agent</div></div>
+        <div class="matrix-dot" style="left:28%;top:52%;"><div class="mdot"></div><div class="mlbl">BeMyEye</div></div>
+        <div class="matrix-dot" style="left:22%;top:44%;"><div class="mdot"></div><div class="mlbl">Trax</div></div>
+        <!-- Mosaic -->
+        <div class="matrix-dot" style="left:75%;top:22%;">
+          <div class="mdot us"></div>
+          <div class="mlbl us" style="font-size:13px;font-weight:800;">MOSAIC</div>
+        </div>
+        <!-- White space label -->
+        <div style="position:absolute;right:10%;top:10%;width:38%;height:38%;border:1.5px dashed rgba(0,212,255,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,0.03);">
+          <div style="font-size:11px;font-weight:700;color:rgba(0,212,255,0.5);text-align:center;letter-spacing:1px;text-transform:uppercase;">Untapped<br>white space</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;padding:44px 36px;gap:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:2px;">Feature Comparison</div>
+      <table class="tbl" style="flex:0;">
+        <thead>
+          <tr>
+            <th style="width:42%;">Feature</th>
+            <th style="text-align:center;">Field Agent</th>
+            <th style="text-align:center;">BeMyEye</th>
+            <th style="text-align:center;" class="us">MOSAIC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="hl">Consumer tier</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">AI extraction</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">&lt;4 hour SLA</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">Route matching</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">On-device GDPR</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">?</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">Self-serve platform</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+          <tr><td class="hl">Training data flywheel</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;color:var(--text3);">✗</td><td style="text-align:center;" class="us">✓</td></tr>
+        </tbody>
+      </table>
+
+      <div style="padding:18px 20px;background:rgba(123,47,247,0.06);border:1px solid rgba(123,47,247,0.2);border-radius:12px;font-size:15px;color:var(--text);line-height:1.6;display:flex;align-items:center;">
+        The Uber of physical world data — built for the AI era. BeMyEye reached <strong style="color:var(--purple);">$35M ARR in 15 years</strong> with enterprise-only, slow, manual. We'll be at <strong style="color:var(--blue);">$10M ARR in 18 months</strong> with three tiers and an AI extraction moat. That's not iteration. That's a category.
+      </div>
+
+      <div style="padding:16px 20px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.25);border-radius:12px;font-size:13px;color:var(--text);line-height:1.6;">
+        <div style="font-size:11px;font-weight:700;color:rgba(239,68,68,0.7);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">WHY GOOGLE/UBER CAN'T COPY THIS</div>
+        Their gig workers have exclusive contracts that prohibit competing micro-tasks. Their data never touches CPG enterprise formats. We have an 18-month window — and network effects close the door behind us. <strong style="color:rgba(239,68,68,0.8);">NielsenIQ/IRI acquiring BeMyEye would help us</strong> — it would drive their SMB/consumer customers to the only self-serve alternative: Mosaic.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 10 · FINANCIALS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="slide-inner">
+    <div class="label">11 — FINANCIAL PROJECTIONS</div>
+    <div class="headline">$10M ARR in 18 months — three engines.</div>
+    <div class="grow">
+      <div style="flex:1;min-height:0;position:relative;">
+        <canvas id="revenueChart"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+        <div style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Month 6</div>
+          <div style="font-size:24px;font-weight:900;color:var(--text);">$98.6K</div>
+          <div style="font-size:12px;color:var(--text2);">MRR</div>
+        </div>
+        <div style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Month 12</div>
+          <div style="font-size:24px;font-weight:900;color:var(--blue);">$354.6K</div>
+          <div style="font-size:12px;color:var(--text2);">MRR</div>
+        </div>
+        <div style="padding:16px;background:rgba(123,47,247,0.06);border:1px solid rgba(123,47,247,0.3);border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Month 18 · Seed Metrics</div>
+          <div style="font-size:24px;font-weight:900;" class="grad">$822.1K</div>
+          <div style="font-size:12px;color:var(--text2);">MRR · $9.87M ARR</div>
+          <div style="font-size:11px;color:var(--blue);margin-top:4px;font-weight:600;">→ $20M Seed raise unlocks</div>
+        </div>
+        <div style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Month 24</div>
+          <div style="font-size:24px;font-weight:900;color:var(--green);">$1.63M</div>
+          <div style="font-size:12px;color:var(--text2);">MRR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 11 · TEAM -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section data-background-color="#060608">
+  <div class="slide-inner">
+    <div class="label">10 — THE TEAM</div>
+    <div class="headline">Two founders. <span class="grad">Built to punch well above weight class.</span></div>
+    <div class="grow">
+      <div style="flex:1;display:flex;gap:20px;min-height:0;">
+
+        <!-- CEO card -->
+        <div style="flex:1;background:var(--card);border:1px solid rgba(123,47,247,0.3);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:4px;background:linear-gradient(90deg,var(--purple),var(--blue));"></div>
+          <div style="padding:28px;flex:1;display:flex;flex-direction:column;gap:16px;">
+            <!-- SVG avatar CEO -->
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <svg width="72" height="72" viewBox="0 0 72 72" style="flex-shrink:0;border-radius:14px;">
+                <defs>
+                  <linearGradient id="ceoGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#1a1040"/>
+                    <stop offset="100%" stop-color="#0d0920"/>
+                  </linearGradient>
+                  <clipPath id="ceoClip"><rect width="72" height="72" rx="14"/></clipPath>
+                </defs>
+                <rect width="72" height="72" rx="14" fill="url(#ceoGrad)"/>
+                <rect width="72" height="72" rx="14" fill="none" stroke="rgba(123,47,247,0.4)" stroke-width="1.5"/>
+                <!-- Body / shoulders -->
+                <path d="M6 72 Q6 54 36 54 Q66 54 66 72" fill="#7B2FF7" opacity="0.25"/>
+                <path d="M10 72 Q10 56 36 56 Q62 56 62 72" fill="#7B2FF7" opacity="0.35"/>
+                <!-- Collar / shirt -->
+                <path d="M27 55 L36 62 L45 55 L41 72 L31 72 Z" fill="rgba(123,47,247,0.2)"/>
+                <line x1="36" y1="62" x2="36" y2="72" stroke="rgba(123,47,247,0.3)" stroke-width="1"/>
+                <!-- Head -->
+                <ellipse cx="36" cy="34" rx="14" ry="16" fill="#c49b7a"/>
+                <!-- Hair — short dark -->
+                <path d="M22 32 Q22 16 36 16 Q50 16 50 32 Q50 24 36 22 Q22 24 22 32" fill="#1a1010"/>
+                <path d="M22 29 Q20 22 28 18 Q36 14 44 18 Q52 22 50 29" fill="#221510"/>
+                <!-- Eyes -->
+                <ellipse cx="29" cy="33" rx="2.5" ry="2.5" fill="#1a1010"/>
+                <ellipse cx="43" cy="33" rx="2.5" ry="2.5" fill="#1a1010"/>
+                <circle cx="30" cy="32.5" r="0.8" fill="white"/>
+                <circle cx="44" cy="32.5" r="0.8" fill="white"/>
+                <!-- Eyebrows -->
+                <path d="M26 29.5 Q29 28 32 29.5" stroke="#1a1010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M40 29.5 Q43 28 46 29.5" stroke="#1a1010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- Nose -->
+                <path d="M35 36 Q34 39 36 39.5 Q38 39 37 36" stroke="#a07858" stroke-width="1" fill="none"/>
+                <!-- Mouth — confident smile -->
+                <path d="M30 43 Q36 47 42 43" stroke="#8a5a3a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- Ear -->
+                <path d="M22 33 Q19 34 19 36 Q19 38 22 39" stroke="#b08868" stroke-width="1.5" fill="none"/>
+                <path d="M50 33 Q53 34 53 36 Q53 38 50 39" stroke="#b08868" stroke-width="1.5" fill="none"/>
+                <!-- Purple glow -->
+                <rect width="72" height="72" rx="14" fill="none" stroke="rgba(123,47,247,0.15)" stroke-width="4"/>
+              </svg>
+              <div>
+                <div style="font-size:20px;font-weight:800;color:var(--text);">Co-founder &amp; CEO</div>
+                <div style="font-size:13px;color:var(--purple);margin-top:3px;font-weight:600;">Product · Strategy · GTM</div>
+              </div>
+            </div>
+            <div style="height:1px;background:var(--border);"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--purple);flex-shrink:0;">✦</span>Ex-CPG brand manager — lived the problem firsthand</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--purple);flex-shrink:0;">✦</span>Previously: growth lead at Series B marketplace startup</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--purple);flex-shrink:0;">✦</span>Launched and scaled gig platforms in 3 markets</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--purple);flex-shrink:0;">✦</span>Holds relationships with 8 Tier-1 CPG enterprise targets</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTO card -->
+        <div style="flex:1;background:var(--card);border:1px solid rgba(0,212,255,0.3);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:4px;background:linear-gradient(90deg,var(--blue),var(--green));"></div>
+          <div style="padding:28px;flex:1;display:flex;flex-direction:column;gap:16px;">
+            <!-- SVG avatar CTO -->
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <svg width="72" height="72" viewBox="0 0 72 72" style="flex-shrink:0;border-radius:14px;">
+                <defs>
+                  <linearGradient id="ctoGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#071525"/>
+                    <stop offset="100%" stop-color="#040e18"/>
+                  </linearGradient>
+                </defs>
+                <rect width="72" height="72" rx="14" fill="url(#ctoGrad)"/>
+                <rect width="72" height="72" rx="14" fill="none" stroke="rgba(0,212,255,0.35)" stroke-width="1.5"/>
+                <!-- Hoodie body -->
+                <path d="M6 72 Q8 52 20 50 L28 55 L36 58 L44 55 L52 50 Q64 52 66 72" fill="#0a1a28" opacity="0.9"/>
+                <!-- Hoodie collar -->
+                <path d="M28 55 Q32 58 36 58 Q40 58 44 55 L42 52 Q36 56 36 56 Q36 56 30 52 Z" fill="#0d2030"/>
+                <!-- Head -->
+                <ellipse cx="36" cy="33" rx="13" ry="15" fill="#8a7060"/>
+                <!-- Hair — slightly longer, looser -->
+                <path d="M23 30 Q22 14 36 14 Q50 14 49 30 Q48 20 36 19 Q24 20 23 30" fill="#0d0808"/>
+                <path d="M23 28 Q22 19 30 16 Q36 13 42 16 Q50 19 49 28" fill="#150f0c"/>
+                <!-- Eyes -->
+                <ellipse cx="29.5" cy="32" rx="2.5" ry="2.5" fill="#0d0808"/>
+                <ellipse cx="42.5" cy="32" rx="2.5" ry="2.5" fill="#0d0808"/>
+                <circle cx="30.5" cy="31.5" r="0.8" fill="white"/>
+                <circle cx="43.5" cy="31.5" r="0.8" fill="white"/>
+                <!-- Glasses -->
+                <rect x="25" y="29" width="11" height="7" rx="3" fill="none" stroke="rgba(0,212,255,0.7)" stroke-width="1.2"/>
+                <rect x="38" y="29" width="11" height="7" rx="3" fill="none" stroke="rgba(0,212,255,0.7)" stroke-width="1.2"/>
+                <line x1="36" y1="32" x2="38" y2="32" stroke="rgba(0,212,255,0.5)" stroke-width="1.2"/>
+                <!-- Nose -->
+                <path d="M35 35 Q34 38 36 38.5 Q38 38 37 35" stroke="#7a5f50" stroke-width="1" fill="none"/>
+                <!-- Mouth — slight smile, more reserved -->
+                <path d="M31 42 Q36 45 41 42" stroke="#6a4a35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- Ears -->
+                <path d="M23 32 Q20 33 20 35 Q20 37 23 38" stroke="#7a6055" stroke-width="1.5" fill="none"/>
+                <path d="M49 32 Q52 33 52 35 Q52 37 49 38" stroke="#7a6055" stroke-width="1.5" fill="none"/>
+                <!-- Teal glow -->
+                <rect width="72" height="72" rx="14" fill="none" stroke="rgba(0,212,255,0.12)" stroke-width="4"/>
+              </svg>
+              <div>
+                <div style="font-size:20px;font-weight:800;color:var(--text);">Co-founder &amp; CTO</div>
+                <div style="font-size:13px;color:var(--blue);margin-top:3px;font-weight:600;">Engineering · AI/ML · Architecture</div>
+              </div>
+            </div>
+            <div style="height:1px;background:var(--border);"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex:1;">
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--blue);flex-shrink:0;">✦</span>Ex-ML engineer at top-3 computer vision startup (Series C)</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--blue);flex-shrink:0;">✦</span>Built the GPT-4V extraction pipeline and on-device redaction</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--blue);flex-shrink:0;">✦</span>Shipped iOS + Android + web platform in 8 weeks solo</div>
+              <div style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--text2);"><span style="color:var(--blue);flex-shrink:0;">✦</span>MediaPipe GDPR redaction implementation — first in category</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why us / advisors -->
+        <div style="flex:0.8;display:flex;flex-direction:column;gap:14px;">
+          <div style="background:rgba(123,47,247,0.05);border:1px solid rgba(123,47,247,0.2);border-radius:14px;padding:20px;flex:1;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:13px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;">Why us</div>
+            <div style="font-size:14px;color:var(--text2);line-height:1.7;flex:1;">The CEO has sold into CPG enterprise. The CTO has built the exact AI stack we run. No one else combines physical intelligence domain expertise with this engineering depth.</div>
+            <div style="font-size:13px;color:var(--text3);">2-person AI-native team · $30K/month burn · 14 months runway post-raise</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;">Advisors</div>
+            <div style="font-size:13px;color:var(--text2);">→ Former VP of Field Operations · Mars Inc</div>
+            <div style="font-size:13px;color:var(--text2);">→ Partner · EU Mobility VC (BeMyEye competitive intel)</div>
+            <div style="font-size:13px;color:var(--text2);">→ Head of Platform · leading gig economy app</div>
+          </div>
+        </div>
+
+      </div>
+      <div style="font-size:11px;color:var(--text3);text-align:center;padding-top:8px;">Illustrations · photos available on request</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SLIDE 12 · THE ASK — 3-stage capital roadmap -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section data-background-color="#060608">
+  <div class="cover-grid"></div>
+  <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(123,47,247,0.15),transparent);top:-100px;right:-100px;"></div>
+  <div style="position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:44px 60px;gap:20px;box-sizing:border-box;">
+
+    <div class="label">12 — THE ASK · CAPITAL ROADMAP</div>
+    <div class="headline" style="font-size:32px;">Three stages. One thesis. <span class="grad">$30K/month burn · 16× more efficient than traditional teams.</span></div>
+
+    <!-- Three panels -->
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+
+      <!-- LEFT: PRE-SEED (highlighted) -->
+      <div style="background:rgba(123,47,247,0.08);border:2px solid rgba(123,47,247,0.5);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:12px;right:12px;padding:4px 10px;background:var(--purple);border-radius:99px;font-size:10px;font-weight:800;color:#fff;letter-spacing:1px;">DEPLOYING NOW</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Stage 1 · Pre-Seed</div>
+          <div style="font-size:72px;font-weight:900;line-height:1;letter-spacing:-2px;" class="grad">$500K</div>
+        </div>
+        <div style="height:1px;background:rgba(123,47,247,0.3);"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text3);">Structure</span><span style="color:var(--text);font-weight:700;">SAFE · $8–12M cap · 20% discount</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text3);">Burn</span><span style="color:var(--green);font-weight:700;">$30K/month → 16 months runway</span></div>
+        </div>
+        <div style="height:1px;background:rgba(123,47,247,0.3);"></div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;">Milestones</div>
+          <div style="font-size:13px;color:var(--text2);">→ MVP live</div>
+          <div style="font-size:13px;color:var(--text2);">→ 5 enterprise pilots</div>
+          <div style="font-size:13px;color:var(--text2);">→ 500 active agents</div>
+          <div style="font-size:13px;color:var(--text2);">→ Seed metrics locked</div>
+        </div>
+      </div>
+
+      <!-- MIDDLE: SEED GATE (metrics unlock) -->
+      <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.25);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Stage 2 · Seed Gate</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue);">UNLOCK METRICS</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px;">Month 12–14 trigger</div>
+        </div>
+        <div style="height:1px;background:rgba(0,212,255,0.2);"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
+          <div style="padding:10px 14px;background:rgba(0,212,255,0.06);border-radius:8px;border:1px solid rgba(0,212,255,0.2);">
+            <div style="font-size:20px;font-weight:900;color:var(--blue);">$150K+ ARR</div>
+            <div style="font-size:12px;color:var(--text3);">monthly recurring revenue</div>
+          </div>
+          <div style="font-size:13px;color:var(--text2);">→ 3 enterprise contracts signed</div>
+          <div style="font-size:13px;color:var(--text2);">→ 500+ active agents</div>
+          <div style="font-size:13px;color:var(--text2);">>75% fulfillment rate</div>
+        </div>
+        <div style="padding:12px 14px;background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(123,47,247,0.1));border-radius:10px;border:1px solid rgba(0,212,255,0.3);text-align:center;">
+          <div style="font-size:13px;font-weight:800;color:var(--blue);">→ Raise $20M Seed at Month 12–14</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: SEED + SERIES A -->
+      <div style="background:rgba(34,211,162,0.03);border:1px solid rgba(34,211,162,0.2);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Stage 3 · Scale</div>
+        </div>
+
+        <!-- Seed block -->
+        <div style="padding:16px;background:rgba(34,211,162,0.06);border-radius:12px;border:1px solid rgba(34,211,162,0.2);">
+          <div style="font-size:36px;font-weight:900;line-height:1;" class="grad-green">$20M Seed</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px;">Pre-money: $60–80M</div>
+        </div>
+
+        <!-- Arrow -->
+        <div style="text-align:center;font-size:20px;color:var(--text3);">↓</div>
+
+        <!-- Series A block -->
+        <div style="padding:16px;background:rgba(245,158,11,0.05);border-radius:12px;border:1px solid rgba(245,158,11,0.2);">
+          <div style="font-size:36px;font-weight:900;line-height:1;color:var(--amber);">$100M Series A</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px;">Month 30</div>
+          <div style="height:1px;background:rgba(245,158,11,0.15);margin:10px 0;"></div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--text2);">
+            <div>$10M ARR · 3× YoY · 115% NRR</div>
+          </div>
+        </div>
+
+        <!-- VC targets -->
+        <div style="padding:10px 14px;background:rgba(123,47,247,0.05);border-radius:10px;border:1px solid rgba(123,47,247,0.15);">
+          <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Target</div>
+          <div style="font-size:12px;color:var(--text2);">NFX · a16z Consumer · Homebrew · Haystack · Founders Fund</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script>
+Reveal.initialize({
+  hash: true, slideNumber: 'c/t', progress: true,
+  controls: true, controlsLayout: 'bottom-right',
+  transition: 'slide', transitionSpeed: 'fast',
+  backgroundTransition: 'fade',
+  width: 1280, height: 720,
+  margin: 0, minScale: 0.1, maxScale: 4.0,
+  plugins: []
+});
+
+Reveal.on('slidechanged', function(e) {
+  if (e.currentSlide.querySelector('#revenueChart')) setTimeout(buildChart, 80);
+});
+Reveal.on('ready', function() {
+  if (document.querySelector('#revenueChart')) setTimeout(buildChart, 80);
+});
+
+function buildChart() {
+  var ctx = document.getElementById('revenueChart');
+  if (!ctx || ctx._built) return;
+  ctx._built = true;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Mo 3','Mo 6','Mo 9','Mo 12','Mo 15','Mo 18','Mo 21','Mo 24'],
+      datasets: [
+        { label: 'Total MRR', data: [34825,98600,194000,354570,562000,822100,1180000,1626300], borderColor:'#7B2FF7', backgroundColor:'rgba(123,47,247,0.08)', borderWidth:3, fill:true, tension:0.4, pointBackgroundColor:'#7B2FF7', pointRadius:4 },
+        { label: 'Enterprise', data: [22000,49500,88000,137500,198000,275000,357000,467500], borderColor:'#22D3A2', borderWidth:1.5, fill:false, tension:0.4, borderDash:[4,4], pointRadius:2 },
+        { label: 'SMB', data: [6225,24900,62000,107070,175000,242100,315000,398800], borderColor:'#00D4FF', borderWidth:1.5, fill:false, tension:0.4, borderDash:[4,4], pointRadius:2 },
+        { label: 'Consumer', data: [6600,24200,44000,110000,189000,305000,508000,760000], borderColor:'#9B6DFF', borderWidth:1.5, fill:false, tension:0.4, borderDash:[4,4], pointRadius:2 },
+        { label: 'Burn Rate', data: [30000,30000,30000,30000,30000,30000,167000,167000], borderColor:'rgba(239,68,68,0.4)', borderWidth:1, fill:false, tension:0, borderDash:[6,3], pointRadius:0 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend: { display:true, position:'top', labels:{ color:'#5A5A6A', font:{family:'Inter',size:11}, boxWidth:20, padding:12 } },
+        tooltip: { backgroundColor:'#0f0f14', borderColor:'#1e1e28', borderWidth:1, titleColor:'#F0F0F5', bodyColor:'#8A8A9A', callbacks:{ label: function(c){ var v=c.parsed.y; return c.dataset.label+': $'+(v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v); } } }
+      },
+      scales: {
+        x: { grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#4A4A5A',font:{family:'Inter',size:11}} },
+        y: { grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#4A4A5A',font:{family:'Inter',size:11}, callback:function(v){ return v>=1000000?'$'+(v/1000000).toFixed(1)+'M':v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v; }} }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

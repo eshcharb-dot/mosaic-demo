@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaic — Physical World Intelligence | V4 Deck</title>
+<style>
+  :root {
+    --bg: #080810;
+    --bg2: #0f0f1a;
+    --bg3: #16162a;
+    --card: #12121e;
+    --border: #242438;
+    --text: #eeeef8;
+    --muted: #7878a0;
+    --accent1: #7c6df5;
+    --accent2: #00d4d4;
+    --accent3: #ff6b9d;
+    --accent4: #ffc947;
+    --accent5: #00e096;
+    --accent6: #ff7f5e;
+    --grad-main: linear-gradient(135deg, #7c6df5, #00d4d4);
+    --grad-warm: linear-gradient(135deg, #ffc947, #ff6b9d);
+    --grad-green: linear-gradient(135deg, #00e096, #00d4d4);
+    --grad-fire: linear-gradient(135deg, #ff7f5e, #ffc947);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.65; overflow-x: hidden; }
+
+  /* ─── Nav ─── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(8,8,16,0.95); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 48px;
+    display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+  }
+  nav .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  nav .brand .logo { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  nav .brand .ver { font-size: 10px; color: var(--muted); background: rgba(124,109,245,0.15); border: 1px solid rgba(124,109,245,0.3); border-radius: 100px; padding: 2px 8px; }
+  nav .links { display: flex; gap: 24px; flex: 1; flex-wrap: wrap; }
+  nav .links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+  nav .links a:hover { color: var(--text); }
+  nav .cta { background: var(--grad-main); border: none; color: white; font-size: 12px; font-weight: 700; padding: 8px 20px; border-radius: 100px; cursor: pointer; white-space: nowrap; }
+
+  /* ─── Sections ─── */
+  .section { padding: 80px 48px; max-width: 1240px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent1); margin-bottom: 10px; }
+  .section-h { font-size: clamp(28px, 3.5vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 14px; letter-spacing: -0.5px; }
+  .section-h .grad { background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-h .grad-warm { background: var(--grad-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-sub { color: var(--muted); font-size: 17px; line-height: 1.7; max-width: 720px; margin-bottom: 48px; }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent); margin: 0 48px; }
+
+  /* ─── Hero ─── */
+  .hero-wrap {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,109,245,0.18) 0%, rgba(0,212,212,0.08) 50%, transparent 80%);
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background-image: url('deck-assets/mosaic-hero-cover-bg_v1.png');
+    background-size: cover; background-position: center;
+    opacity: 0.25;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; text-align: center; padding: 48px; max-width: 900px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(124,109,245,0.15); border: 1px solid rgba(124,109,245,0.4);
+    border-radius: 100px; padding: 7px 18px; font-size: 12px; font-weight: 600;
+    color: #a89cf8; margin-bottom: 32px; letter-spacing: 0.5px;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--accent1); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .hero-title { font-size: clamp(56px, 8vw, 108px); font-weight: 900; line-height: 0.95; letter-spacing: -2px; margin-bottom: 24px; }
+  .hero-title .m { background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-tagline { font-size: clamp(18px, 2.5vw, 26px); color: var(--muted); font-weight: 300; margin-bottom: 48px; letter-spacing: 1px; }
+  .hero-tagline em { color: var(--text); font-style: normal; font-weight: 600; }
+  .hero-stats-row { display: flex; justify-content: center; gap: 64px; flex-wrap: wrap; margin-bottom: 48px; }
+  .hs { text-align: center; }
+  .hs .n { font-size: 36px; font-weight: 900; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hs .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+  .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--grad-main); border: none; color: white; font-size: 14px; font-weight: 700; padding: 14px 32px; border-radius: 100px; cursor: pointer; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); font-size: 14px; padding: 14px 32px; border-radius: 100px; cursor: pointer; }
+  .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .scroll-hint::after { content: '↓'; font-size: 18px; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ─── Cards ─── */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; }
+  .card-accent { position: relative; overflow: hidden; }
+  .card-accent::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .card-accent.ca1::before { background: var(--grad-main); }
+  .card-accent.ca2::before { background: var(--grad-warm); }
+  .card-accent.ca3::before { background: var(--grad-green); }
+  .card-accent.ca4::before { background: var(--grad-fire); }
+  .card h3 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+  .card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+  .card .kv { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .card .kv-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .card .kv-row:last-child { border-bottom: none; }
+  .card .kv-row .k { color: var(--muted); flex-shrink: 0; }
+  .card .kv-row .v { color: var(--text); font-weight: 600; text-align: right; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+  /* ─── Callouts ─── */
+  .big-callout {
+    background: linear-gradient(135deg, rgba(124,109,245,0.12), rgba(0,212,212,0.07));
+    border: 1px solid rgba(124,109,245,0.25); border-radius: 24px;
+    padding: 48px; text-align: center; margin-bottom: 48px;
+  }
+  .big-callout .bq { font-size: clamp(20px, 3vw, 32px); font-weight: 700; line-height: 1.4; color: var(--text); max-width: 800px; margin: 0 auto 20px; }
+  .big-callout .bq em { background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: normal; }
+  .big-callout .bsrc { font-size: 13px; color: var(--muted); }
+
+  .highlight {
+    background: linear-gradient(135deg, rgba(124,109,245,0.09), rgba(0,212,212,0.05));
+    border: 1px solid rgba(124,109,245,0.2); border-radius: 16px;
+    padding: 24px 28px; margin-bottom: 28px;
+  }
+  .highlight p { color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .highlight p strong { color: var(--text); }
+
+  /* ─── Stat callouts ─── */
+  .stat-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 48px; }
+  .stat-box {
+    flex: 1; min-width: 160px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; text-align: center;
+  }
+  .stat-box .sn { font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1; }
+  .stat-box .sl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 6px; }
+  .stat-box.s1 .sn { background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-box.s2 .sn { background: var(--grad-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-box.s3 .sn { background: var(--grad-green); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-box.s4 .sn { background: var(--grad-fire); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  /* ─── Flow diagram ─── */
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 24px 0; }
+  .flow-step { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; flex: 1; min-width: 160px; }
+  .flow-step .fs-num { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .flow-step .fs-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 4px; }
+  .flow-step .fs-sub { font-size: 12px; color: var(--muted); }
+  .flow-arrow { display: flex; align-items: center; padding: 0 8px; color: var(--accent2); font-size: 22px; flex-shrink: 0; }
+
+  /* ─── Table ─── */
+  .tbl-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--bg3); color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .chk { color: var(--accent5); font-weight: 700; font-size: 16px; }
+  .x { color: var(--muted); font-size: 16px; }
+  .hl { color: var(--accent1); font-weight: 700; }
+
+  /* ─── Pills ─── */
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; }
+  .pill-p { background: rgba(124,109,245,0.2); color: #a89cf8; }
+  .pill-t { background: rgba(0,212,212,0.15); color: #00d4d4; }
+  .pill-g { background: rgba(0,224,150,0.15); color: #00e096; }
+  .pill-y { background: rgba(255,201,71,0.15); color: #ffc947; }
+  .pill-r { background: rgba(255,107,157,0.15); color: #ff6b9d; }
+  .pill-o { background: rgba(255,127,94,0.15); color: #ff7f5e; }
+
+  /* ─── Images ─── */
+  .img-full { width: 100%; border-radius: 20px; margin: 32px 0; border: 1px solid var(--border); overflow: hidden; }
+  .img-full img { width: 100%; display: block; }
+  .img-placeholder { width: 100%; aspect-ratio: 16/7; background: var(--bg3); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--border); margin: 32px 0; }
+  .img-placeholder .ip-inner { text-align: center; }
+  .img-placeholder .ip-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
+  .img-placeholder .ip-label { font-size: 12px; color: var(--muted); font-family: monospace; }
+  .img-split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; }
+  .img-split .img-pane { aspect-ratio: 4/3; background: var(--bg3); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+  .img-split .img-pane img { width: 100%; height: 100%; object-fit: cover; }
+  .img-pane-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; }
+  .img-pane-placeholder span { font-size: 11px; color: var(--muted); font-family: monospace; }
+
+  /* ─── Collector persona card ─── */
+  .persona { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .persona-img { width: 100%; aspect-ratio: 3/2; background: var(--bg3); position: relative; overflow: hidden; }
+  .persona-img img { width: 100%; height: 100%; object-fit: cover; }
+  .persona-body { padding: 24px; }
+  .persona-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .persona-where { font-size: 12px; color: var(--accent2); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .persona-bio { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .persona-earn { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--border); }
+  .persona-earn .pe { text-align: center; }
+  .persona-earn .pe .pn { font-size: 18px; font-weight: 800; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .persona-earn .pe .pl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ─── Timeline ─── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background: linear-gradient(to bottom, var(--accent1), var(--accent2)); border-radius: 2px; }
+  .tl-item { position: relative; padding-left: 28px; padding-bottom: 32px; }
+  .tl-item::before { content:''; position:absolute; left:-31px; top:4px; width:10px; height:10px; border-radius:50%; background: var(--grad-main); box-shadow: 0 0 12px rgba(124,109,245,0.6); }
+  .tl-item .tl-month { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent1); margin-bottom: 4px; }
+  .tl-item .tl-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .tl-item .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .tl-item .tl-metrics { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+
+  /* ─── 2x2 Matrix ─── */
+  .matrix-wrap { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; margin-bottom: 32px; }
+  .matrix-axis-x { position: absolute; bottom: 24px; left: 48px; right: 48px; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
+  .matrix-axis-y { position: absolute; left: 16px; top: 48px; bottom: 48px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+  .matrix-axis-y span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 340px; }
+  .matrix-cell { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; }
+  .matrix-cell.winner { background: linear-gradient(135deg, rgba(124,109,245,0.15), rgba(0,212,212,0.1)); border-color: rgba(124,109,245,0.4); }
+  .matrix-dot { width: 14px; height: 14px; border-radius: 50%; position: absolute; }
+  .md-mosaic { background: var(--grad-main); box-shadow: 0 0 20px rgba(124,109,245,0.8); top: 30px; right: 30px; width: 18px; height: 18px; }
+  .md-comp { background: var(--muted); opacity: 0.5; }
+  .matrix-cell .mc-name { font-size: 12px; font-weight: 700; }
+  .matrix-cell .mc-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ─── Revenue chart ─── */
+  .rev-chart { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 32px; }
+  .rev-chart-title { font-size: 16px; font-weight: 700; margin-bottom: 24px; }
+  .rev-bars { display: flex; align-items: flex-end; gap: 8px; height: 180px; }
+  .rev-bar-group { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; height: 100%; justify-content: flex-end; }
+  .rev-bar-stack { display: flex; flex-direction: column; width: 100%; gap: 2px; justify-content: flex-end; }
+  .rev-bar { width: 100%; border-radius: 4px 4px 0 0; min-height: 4px; transition: height 0.3s; }
+  .rb1 { background: rgba(124,109,245,0.7); }
+  .rb2 { background: rgba(0,212,212,0.7); }
+  .rb3 { background: rgba(0,224,150,0.7); }
+  .rb4 { background: rgba(255,201,71,0.5); }
+  .rev-bar-label { font-size: 10px; color: var(--muted); text-align: center; margin-top: 4px; }
+  .rev-bar-val { font-size: 10px; font-weight: 700; color: var(--text); text-align: center; }
+  .rev-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .rev-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .rev-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ─── Use cases grid ─── */
+  .uc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .uc-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .uc-item .uc-vertical { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .uc-item .uc-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .uc-item .uc-payer { font-size: 11px; color: var(--muted); }
+
+  /* ─── Manifesto ─── */
+  .manifesto { background: linear-gradient(135deg, rgba(124,109,245,0.1), rgba(0,212,212,0.06)); border: 1px solid rgba(124,109,245,0.2); border-radius: 24px; padding: 56px; margin: 48px 0; }
+  .manifesto p { font-size: clamp(16px, 2vw, 21px); line-height: 1.8; color: var(--text); margin-bottom: 28px; }
+  .manifesto p:last-child { margin-bottom: 0; }
+  .manifesto p em { color: var(--accent2); font-style: normal; font-weight: 600; }
+  .manifesto p strong { color: white; font-weight: 800; }
+
+  /* ─── Moat cards ─── */
+  .moat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 32px; }
+  .moat-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+  .moat-card .mc-stage { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
+  .moat-card .mc-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .moat-card .mc-title span { background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .moat-card .mc-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+  .moat-card .mc-tag { margin-top: 16px; }
+
+  /* ─── API endpoints ─── */
+  .api-list { display: flex; flex-direction: column; gap: 8px; }
+  .api-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+  .api-method { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; flex-shrink: 0; font-family: monospace; }
+  .api-method.get { background: rgba(0,224,150,0.2); color: var(--accent5); }
+  .api-method.post { background: rgba(124,109,245,0.2); color: var(--accent1); }
+  .api-endpoint { font-family: monospace; font-size: 13px; color: var(--accent2); flex: 1; }
+  .api-desc { font-size: 12px; color: var(--muted); }
+
+  /* ─── Competitive table colors ─── */
+  .comp-mosaic { background: rgba(124,109,245,0.07); }
+
+  /* ─── Ask slide ─── */
+  .ask-hero {
+    background: linear-gradient(135deg, rgba(124,109,245,0.14), rgba(0,212,212,0.08));
+    border: 1px solid rgba(124,109,245,0.3); border-radius: 28px; padding: 56px;
+    text-align: center; margin-bottom: 48px;
+    position: relative; overflow: hidden;
+  }
+  .ask-hero::before {
+    content:''; position:absolute; top:-100px; right:-100px; width:400px; height:400px;
+    background: radial-gradient(circle, rgba(124,109,245,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .ask-hero .ah-raise { font-size: clamp(48px, 7vw, 88px); font-weight: 900; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; margin-bottom: 8px; }
+  .ask-hero .ah-label { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
+  .ask-details { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .ask-detail { text-align: center; }
+  .ask-detail .ad-val { font-size: 22px; font-weight: 800; color: var(--text); }
+  .ask-detail .ad-key { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+  /* ─── Footer ─── */
+  footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 48px; text-align: center; }
+  footer .fc { font-size: 28px; font-weight: 900; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+  footer .fs { font-size: 13px; color: var(--muted); }
+
+  /* ─── Misc ─── */
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .ul-clean { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .ul-clean li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .ul-clean li::before { content: '→'; color: var(--accent2); font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .ul-clean li strong { color: var(--text); }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .check-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+  .check-list li::before { content: '✓'; color: var(--accent5); font-weight: 800; flex-shrink: 0; }
+  .check-list li strong { color: var(--text); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 700px) { .two-col, .grid-2, .img-split { grid-template-columns: 1fr; } .section { padding: 48px 24px; } nav { padding: 12px 24px; } }
+</style>
+</head>
+<body>
+
+<!-- ───────────────────────── NAV ───────────────────────── -->
+<nav>
+  <a class="brand" href="#top">
+    <span class="logo">MOSAIC</span>
+    <span class="ver">V4 · 2026</span>
+  </a>
+  <div class="links">
+    <a href="#vision">Vision</a>
+    <a href="#collector">The Collector</a>
+    <a href="#product">Product</a>
+    <a href="#market">Market</a>
+    <a href="#moat">The Moat</a>
+    <a href="#model">Business Model</a>
+    <a href="#platform">Platform</a>
+    <a href="#team">Team</a>
+    <a href="#ask">The Ask</a>
+  </div>
+  <button class="cta">Request Access</button>
+</nav>
+
+<!-- ───────────────────────── HERO ───────────────────────── -->
+<div class="hero-wrap" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-img"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Physical World Intelligence · Seed Round 2026
+    </div>
+    <div class="hero-title">
+      <div class="m">MOSAIC</div>
+    </div>
+    <div class="hero-tagline">The physical world, <em>finally legible.</em></div>
+    <div class="hero-stats-row">
+      <div class="hs"><div class="n">$35B</div><div class="l">Market Underserved</div></div>
+      <div class="hs"><div class="n">6.8B</div><div class="l">Smartphones</div></div>
+      <div class="hs"><div class="n">0</div><div class="l">Sensing the world</div></div>
+      <div class="hs"><div class="n">$5M</div><div class="l">Seed Round</div></div>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-primary">View the Deck</button>
+      <button class="btn-ghost">Download PDF</button>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</div>
+
+<!-- ───────────────────────── SECTION 1: WE ARE BLIND ───────────────────────── -->
+<section class="section" id="vision">
+  <div class="section-label">The Vision</div>
+  <h2 class="section-h"><span class="grad">We Are Blind</span></h2>
+  <p class="section-sub">The founding insight behind Mosaic — and why it creates a generational company.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-problem-blindness_v1.png'); background-size:cover; background-position:center; border-style:solid;">
+    <div class="ip-inner" style="display:none">
+      <div class="ip-icon">📷</div>
+      <div class="ip-label">mosaic-problem-blindness_v1.png</div>
+    </div>
+  </div>
+
+  <div class="manifesto">
+    <p>There are <em>6.8 billion smartphones</em> on this planet. Each one has a camera, GPS, and more processing power than a 1990s supercomputer. Together they represent the most distributed sensor network ever assembled. And yet <strong>the physical world is almost entirely dark.</strong></p>
+
+    <p>A brand manager in London is blind to what her products look like on a shelf in Lagos. A city planner in Berlin has no idea where people actually walk on Tuesday mornings. A blind person in São Paulo doesn't know whether the entrance ramp on her route is broken today.</p>
+
+    <p>The problem is not technological. GPS told us where things <em>are</em>. Mosaic tells us what things <em>are</em>. That shift — from coordinate to content — is the founding insight. And it's never been built at scale.</p>
+
+    <p><strong>For the first time in human history, the physical world will have an answer.</strong></p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box s1">
+      <div class="sn">$35B</div>
+      <div class="sl">Spent on physical intelligence/yr</div>
+    </div>
+    <div class="stat-box s2">
+      <div class="sn">&lt;5%</div>
+      <div class="sl">Of locations ever visited</div>
+    </div>
+    <div class="stat-box s3">
+      <div class="sn">2–3 wks</div>
+      <div class="sl">Data latency today</div>
+    </div>
+    <div class="stat-box s4">
+      <div class="sn">$200</div>
+      <div class="sl">Cost per field check visit</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card card-accent ca1">
+      <h4>The CPG Blind Spot</h4>
+      <p>A typical Fortune 500 CPG brand has 50,000 retail doors in their distribution network. Their field team visits approximately 2,400 per year. For 95% of stores, they have <strong style="color:var(--text)">no idea what their shelf looks like right now.</strong></p>
+    </div>
+    <div class="card card-accent ca2">
+      <h4>The Urban Planner's Gap</h4>
+      <p>Cities spend $2B/year on urban mobility studies based on surveys and fixed counters. Real pedestrian patterns — which corners are crowded Tuesday at 8am — are <strong style="color:var(--text)">simply unknown.</strong></p>
+    </div>
+    <div class="card card-accent ca3">
+      <h4>The Accessibility Void</h4>
+      <p>1 billion people with mobility needs navigate a world where ramp status, queue length, and step count at their local destinations is <strong style="color:var(--text)">not captured anywhere in any database.</strong></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 2: THE COLLECTOR ───────────────────────── -->
+<section class="section" id="collector">
+  <div class="section-label">The Hero</div>
+  <h2 class="section-h">She Was <span class="grad">Already There</span></h2>
+  <p class="section-sub">Mosaic doesn't dispatch workers. It pings the people already present. That architectural difference is everything.</p>
+
+  <div class="big-callout">
+    <div class="bq">Money is a reason to <em>start</em>. What makes collectors stay is the recognition that where they are and what they see <em>matters.</em></div>
+    <div class="bsrc">The psychological shift that no financial competitor can replicate.</div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom: 32px">
+    <!-- Amara -->
+    <div class="persona">
+      <div class="persona-img">
+        <img src="deck-assets/mosaic-collector-amara-lagos_v1.png" alt="Amara, Lagos" onerror="this.parentElement.style.background='var(--bg3)'">
+        <div style="position:absolute;bottom:16px;left:16px"><span class="pill pill-o">Lagos, Nigeria</span></div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-name">Amara</div>
+        <div class="persona-where">Market trader · Lagos · Yoruba/English</div>
+        <div class="persona-bio">Walks through Balogun Market every morning. Three tasks per walk — shelf checks for an FMCG brand she'll never meet. <strong style="color:var(--text)">₦1,200 per walk.</strong> She was already there.</div>
+        <div class="persona-earn">
+          <div class="pe"><div class="pn">₦18K</div><div class="pl">Monthly</div></div>
+          <div class="pe"><div class="pn">3.8</div><div class="pl">Tasks/day</div></div>
+          <div class="pe"><div class="pn">90:1</div><div class="pl">LTV:CAC</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Joon-seo -->
+    <div class="persona">
+      <div class="persona-img" style="background: var(--bg3); display:flex; align-items:center; justify-content:center;">
+        <img src="deck-assets/mosaic-collectors-global-grid_v1.png" alt="Collectors" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+        <div style="position:absolute;bottom:16px;left:16px"><span class="pill pill-p">Seoul, Korea</span></div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-name">Joon-seo</div>
+        <div class="persona-where">Office worker · Seoul · Daily commuter</div>
+        <div class="persona-bio">Passes 6 convenience stores and 3 pharmacy chains on his daily Bundang Line commute. Commute Mode activates automatically. <strong style="color:var(--text)">€180/month passive.</strong> No detour. No effort.</div>
+        <div class="persona-earn">
+          <div class="pe"><div class="pn">€180</div><div class="pl">Monthly passive</div></div>
+          <div class="pe"><div class="pn">0min</div><div class="pl">Extra commute time</div></div>
+          <div class="pe"><div class="pn">67%</div><div class="pl">Retention rate</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:32px">
+    <div class="card">
+      <div class="card-label" style="color:var(--accent4)">Carlos · São Paulo</div>
+      <h4>iFood Rider</h4>
+      <p>R$700–1,200 supplemental. Already covering 40 stops per day. Each delivery is a data opportunity.</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--accent5)">Rachel · London</div>
+      <h4>School-Run Mum</h4>
+      <p>£200–350/month. Passes Sainsbury's, M&S, Boots daily. 60 tasks/month on routes she walks anyway.</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--accent2)">Marco · Manila</div>
+      <h4>Security Guard</h4>
+      <p>Stationed at a building entrance 8hrs/day. Passive ambient data from fixed position. $80–120/month, zero movement required.</p>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--accent6)">The Pro Collector</div>
+      <h4>Full-Time</h4>
+      <p>$1,500–4,000/month. Builds specialty routes. Urban explorer, brand scanner, crowd analyst. <strong style="color:var(--text)">A new profession.</strong></p>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Collector Type</th>
+          <th>Monthly Earnings</th>
+          <th>Tasks/Month</th>
+          <th>Mode</th>
+          <th>Platform Take</th>
+          <th>LTV:CAC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Ghost (passive ambient)</td><td>$5–20</td><td>10–40</td><td><span class="pill pill-p">Passive</span></td><td>$12–50</td><td>20:1</td></tr>
+        <tr><td>Casual commuter</td><td>$40–100</td><td>40–100</td><td><span class="pill pill-t">Commute</span></td><td>$60–150</td><td>60:1</td></tr>
+        <tr><td>Active commuter</td><td>$100–240</td><td>100–200</td><td><span class="pill pill-t">Commute</span></td><td>$150–360</td><td>90:1</td></tr>
+        <tr><td>Active standard</td><td>$200–500</td><td>150–400</td><td><span class="pill pill-g">Active</span></td><td>$300–750</td><td>45:1</td></tr>
+        <tr><td class="hl">Pro collector</td><td class="hl">$1,500–4,000</td><td class="hl">800–2,000</td><td><span class="pill pill-y">Pro</span></td><td class="hl">$2,250–6,000</td><td class="hl">200:1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 3: PRODUCT ───────────────────────── -->
+<section class="section" id="product">
+  <div class="section-label">The Product</div>
+  <h2 class="section-h">How <span class="grad">Mosaic Works</span></h2>
+  <p class="section-sub">Two apps. One platform. Physical world intelligence delivered in hours, not weeks.</p>
+
+  <!-- Flow -->
+  <div class="flow" style="margin-bottom:48px">
+    <div class="flow-step">
+      <div class="fs-num" style="color:var(--accent1)">01 — Enterprise</div>
+      <div class="fs-title">Posts a task</div>
+      <div class="fs-sub">"Check oat milk shelf at 50 Tesco stores, London, today"</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-num" style="color:var(--accent2)">02 — Mosaic</div>
+      <div class="fs-title">Matches to 12 agents</div>
+      <div class="fs-sub">Already near those stores. No dispatch. No recruitment.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-num" style="color:var(--accent5)">03 — Collector</div>
+      <div class="fs-title">Captures in 45 seconds</div>
+      <div class="fs-sub">On-device face redaction. GPS proof. Quality validation.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-num" style="color:var(--accent4)">04 — AI</div>
+      <div class="fs-title">Extracts structured data</div>
+      <div class="fs-sub">JSON report, compliance scores, anomaly flags. &lt;4 hours.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-num" style="color:var(--accent3)">05 — Client</div>
+      <div class="fs-title">Gets ground truth</div>
+      <div class="fs-sub">"6 OOS. 3 wrong placement. 41 compliant." Actionable now.</div>
+    </div>
+  </div>
+
+  <div class="img-split">
+    <div class="img-pane">
+      <img src="deck-assets/mosaic-ui-app-commute-mode_v1.png" alt="Commute Mode App" onerror="this.parentElement.innerHTML='<div class=img-pane-placeholder><span>mosaic-ui-app-commute-mode_v1.png</span></div>'">
+    </div>
+    <div class="img-pane">
+      <img src="deck-assets/mosaic-ui-enterprise-dashboard_v1.png" alt="Enterprise Dashboard" onerror="this.parentElement.innerHTML='<div class=img-pane-placeholder><span>mosaic-ui-enterprise-dashboard_v1.png</span></div>'">
+    </div>
+  </div>
+  <div style="display:flex;gap:24px;margin-bottom:48px">
+    <div style="flex:1;text-align:center;font-size:12px;color:var(--muted)">Collector App — Commute Mode</div>
+    <div style="flex:1;text-align:center;font-size:12px;color:var(--muted)">Enterprise Dashboard</div>
+  </div>
+
+  <!-- Magic numbers -->
+  <div class="stat-row">
+    <div class="stat-box s1"><div class="sn">90s</div><div class="sl">To post a task</div></div>
+    <div class="stat-box s2"><div class="sn">4 hrs</div><div class="sl">To deliver results</div></div>
+    <div class="stat-box s3"><div class="sn">45s</div><div class="sl">Per capture</div></div>
+    <div class="stat-box s4"><div class="sn">£14.50</div><div class="sl">Per morning commute</div></div>
+  </div>
+
+  <!-- Key features -->
+  <div class="grid-3" style="margin-bottom:32px">
+    <div class="card card-accent ca1">
+      <h4>Commute Mode</h4>
+      <p>Tasks are matched to your <strong style="color:var(--text)">existing route</strong>, not a radius. Pre-accept before you leave. Earn on the way to work. 3.8× more productive than standard gig work — because collectors are already there.</p>
+      <div class="tag-row" style="margin-top:16px"><span class="pill pill-p">Route-matching</span><span class="pill pill-t">Pre-acceptance</span></div>
+    </div>
+    <div class="card card-accent ca2">
+      <h4>Live Streaming</h4>
+      <p>Request a live view of any location for <strong style="color:var(--text)">$0.60–$3.00/min</strong>. Collector earns 65–70%. Brand manager watches their product launch live from London to Lagos. Blind person navigates São Paulo airport in real-time.</p>
+      <div class="tag-row" style="margin-top:16px"><span class="pill pill-y">WebRTC</span><span class="pill pill-g">Edge AI overlay</span></div>
+    </div>
+    <div class="card card-accent ca3">
+      <h4>Passive Intelligence</h4>
+      <p>Background-mode collection with <strong style="color:var(--text)">zero active effort</strong>. Environmental dwell detection, visual anomaly elevation, change detection vs. baseline. The phone contributes just by being there.</p>
+      <div class="tag-row" style="margin-top:16px"><span class="pill pill-t">Ambient</span><span class="pill pill-p">On-device AI</span></div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <p><strong>On-device privacy by design:</strong> Face redaction runs entirely on the collector's phone before any image upload. GPS is ephemeral — active for &lt;10 seconds per task. No persistent location storage. No biometric data ever reaches our servers. GDPR compliance is architectural, not procedural — making us the only platform in this category with clean EU regulatory posture from Day 1.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 4: USE CASES ───────────────────────── -->
+<section class="section">
+  <div class="section-label">Use Cases</div>
+  <h2 class="section-h">72 <span class="grad">Use Cases</span> Across 15 Verticals</h2>
+  <p class="section-sub">The physical world has problems everywhere. We mapped them.</p>
+
+  <div class="uc-grid">
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent1)">Retail & CPG</div><div class="uc-name">Shelf compliance audit</div><div class="uc-payer">Unilever, P&G, Reckitt</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent1)">Retail & CPG</div><div class="uc-name">Out-of-stock detection</div><div class="uc-payer">Any retail brand</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent1)">Retail & CPG</div><div class="uc-name">Competitor pricing scan</div><div class="uc-payer">Category managers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent1)">Retail & CPG</div><div class="uc-name">Planogram verification</div><div class="uc-payer">Retailers + suppliers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent2)">Real Estate</div><div class="uc-name">Property condition check</div><div class="uc-payer">REITs, insurers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent2)">Real Estate</div><div class="uc-name">Neighborhood change detection</div><div class="uc-payer">Appraisers, lenders</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent5)">Urban Planning</div><div class="uc-name">Foot traffic counting</div><div class="uc-payer">City governments</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent5)">Urban Planning</div><div class="uc-name">Infrastructure condition</div><div class="uc-payer">Municipalities</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent4)">Finance</div><div class="uc-name">Hedge fund foot traffic alpha</div><div class="uc-payer">Quant funds</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent4)">Finance</div><div class="uc-name">Alternative earnings signals</div><div class="uc-payer">Asset managers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent6)">Insurance</div><div class="uc-name">Claim site verification</div><div class="uc-payer">Insurers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent6)">Insurance</div><div class="uc-name">Flood/damage assessment</div><div class="uc-payer">Reinsurers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent3)">Accessibility</div><div class="uc-name">Ramp/step status mapping</div><div class="uc-payer">NGOs, gov, consumers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent3)">Accessibility</div><div class="uc-name">Lift/escalator uptime</div><div class="uc-payer">Transport authorities</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent2)">Emergency</div><div class="uc-name">Post-disaster rapid survey</div><div class="uc-payer">Red Cross, FEMA</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent5)">Agriculture</div><div class="uc-name">Crop health monitoring</div><div class="uc-payer">Agtech, insurers</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent1)">Logistics</div><div class="uc-name">Queue / congestion monitoring</div><div class="uc-payer">Retailers, 3PLs</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent4)">Media</div><div class="uc-name">OOH ad compliance check</div><div class="uc-payer">Media agencies</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent6)">Healthcare</div><div class="uc-name">Pharmacy stock monitoring</div><div class="uc-payer">Pharma brands</div></div>
+    <div class="uc-item"><div class="uc-vertical" style="color:var(--accent3)">Environmental</div><div class="uc-name">Air quality / pollution spot-check</div><div class="uc-payer">NGOs, municipalities</div></div>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:20px">Showing 20 of 72 mapped use cases across 15 verticals. Full use case map available on request.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 5: MARKET ───────────────────────── -->
+<section class="section" id="market">
+  <div class="section-label">Market Size</div>
+  <h2 class="section-h">$35B Today. <span class="grad">$200B+</span> Tomorrow.</h2>
+  <p class="section-sub">The incumbents only serve the enterprise. The largest segment of the market has never had a product built for it.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-market-size-visual_v1.png'); background-size:cover; background-position:center; aspect-ratio:21/8; border-style:solid; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-market-size-visual_v1.png</div></div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:40px">
+    <div class="card card-accent ca1">
+      <div class="card-label" style="color:var(--muted)">Total Addressable Market</div>
+      <div style="font-size:48px;font-weight:900;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0">$35B</div>
+      <p>Physical world intelligence: retail + mystery shopping + insurance field + AI training data + brand compliance + site intelligence. 22% CAGR.</p>
+    </div>
+    <div class="card card-accent ca2">
+      <div class="card-label" style="color:var(--muted)">Serviceable Addressable Market</div>
+      <div style="font-size:48px;font-weight:900;background:var(--grad-warm);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0">$8.5B</div>
+      <p>Crowdsourced, on-demand, visual intelligence — the portion addressable by a smartphone-first platform with AI extraction.</p>
+    </div>
+    <div class="card card-accent ca3">
+      <div class="card-label" style="color:var(--muted)">Year 3 SOM</div>
+      <div style="font-size:48px;font-weight:900;background:var(--grad-green);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0">$350M</div>
+      <p>50K enterprise customers ($66K ACV) + 2M SMB subscribers ($500 ACV) + 50M consumer credits across 8 cities.</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <p><strong>The insight competitors have missed:</strong> BeMyEye reached $35M revenue in 15 years serving enterprise-only. Field Agent, Trax — all enterprise-only. <strong>The consumer/SMB tier has never been served.</strong> That's not a smaller version of the enterprise market. It's a $3–5B category that doesn't yet exist. The Uber insight: don't serve only corporations when individuals are willing to pay too.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>The AI Training Data Flywheel</h4>
+      <p style="margin-bottom:12px">Every completed task produces labeled real-world visual data as a byproduct. At scale, this becomes an independent revenue stream:</p>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Month 12</span><span class="v" style="color:var(--accent2)">$22K/month · 95% margin</span></div>
+        <div class="kv-row"><span class="k">Month 18</span><span class="v" style="color:var(--accent5)">$85K/month · 95% margin</span></div>
+        <div class="kv-row"><span class="k">Month 24</span><span class="v" style="color:var(--accent4)">$210K/month · 95% margin</span></div>
+        <div class="kv-row"><span class="k">Month 36</span><span class="v" style="color:var(--accent1)">$2.4M/month · hidden upside</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Why Now — Three Converging Forces</h4>
+      <ul class="ul-clean">
+        <li><strong>On-device AI (2024+)</strong> — MediaPipe + TFLite run face redaction in real-time on any 2020+ phone. GDPR compliance without cloud roundtrip. Impossible before 2024.</li>
+        <li><strong>Gig economy maturity</strong> — 50M+ gig workers globally, trained by Deliveroo/Uber/DoorDash to complete smartphone micro-tasks for micro-pay.</li>
+        <li><strong>AI extraction quality</strong> — GPT-4V class models extract structured data from photos at &gt;90% accuracy. A shelf photo → JSON data in 3 seconds for $0.20.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 6: THE MOAT ───────────────────────── -->
+<section class="section" id="moat">
+  <div class="section-label">Competitive Moat</div>
+  <h2 class="section-h">The <span class="grad">Already There</span> Architecture</h2>
+  <p class="section-sub">This is not a marginal efficiency gain. It's a structural discontinuity. Dispatch-based competitors cannot pivot without destroying their existing product.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-arch-already-there_v1.png'); background-size:cover; background-position:center; border-style:solid; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-arch-already-there_v1.png</div></div>
+  </div>
+
+  <div class="moat-grid">
+    <div class="moat-card">
+      <div class="mc-stage">Stage 1 · Pre-network</div>
+      <div class="mc-title"><span>Architectural</span> Insight</div>
+      <div class="mc-desc">Route-matching means no logistics cost. A collector completing a task on their commute costs $0 to dispatch. Every competitor pays a human to travel. That structural gap compounds at scale — our effective cost per task is 56% lower than any dispatch model.</div>
+      <div class="mc-tag"><span class="pill pill-p">$4–7 vs $18 per fulfilled task</span></div>
+    </div>
+    <div class="moat-card">
+      <div class="mc-stage">Stage 2 · Early-network</div>
+      <div class="mc-title"><span>Collector</span> Relationships</div>
+      <div class="mc-desc">Collector retention at 67% monthly (vs. 38% for dispatch gig platforms). Their financial history, behavioral familiarity, and community identity are with Mosaic. You can't buy a competitor's collector network — it takes months to build local density regardless of capital.</div>
+      <div class="mc-tag"><span class="pill pill-t">67% vs 38% monthly retention</span></div>
+    </div>
+    <div class="moat-card">
+      <div class="mc-stage">Stage 3 · Dense-network</div>
+      <div class="mc-title"><span>Data Asset</span> Moat</div>
+      <div class="mc-desc">Month 1: point-in-time snapshots. Month 6: time series. Month 12: seasonal patterns. Month 36: the only database of physical world change over time at street level. At 100M collectors, this is not a product — it's infrastructure. The Google Maps moment.</div>
+      <div class="mc-tag"><span class="pill pill-y">Irreplicable at any price</span></div>
+    </div>
+  </div>
+
+  <div class="matrix-wrap">
+    <div class="matrix-grid">
+      <div class="matrix-cell">
+        <div class="matrix-dot md-comp" style="top:30px;left:30px"></div>
+        <div class="matrix-dot md-comp" style="top:60px;left:50px"></div>
+        <div class="mc-name" style="color:var(--muted)">Field Agent · BeMyEye · Trax</div>
+        <div class="mc-sub">Enterprise-only, dispatch-based, low AI quality</div>
+      </div>
+      <div class="matrix-cell winner">
+        <div class="matrix-dot md-mosaic"></div>
+        <div class="mc-name" style="color:white;font-size:16px">MOSAIC</div>
+        <div class="mc-sub" style="color:var(--accent2)">High AI quality · Consumer + SMB + Enterprise</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="mc-name" style="color:var(--muted)">Survey platforms</div>
+        <div class="mc-sub">Consumer tier, no AI extraction</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="mc-name" style="color:var(--muted)">No one here</div>
+        <div class="mc-sub">White space — consumer + high AI</div>
+      </div>
+    </div>
+    <div class="matrix-axis-y">
+      <span>High AI Quality</span>
+      <span>Low AI Quality</span>
+    </div>
+    <div class="matrix-axis-x">
+      <span>Enterprise Only</span>
+      <span>Consumer + SMB</span>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:32px">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Field Agent</th>
+          <th>BeMyEye</th>
+          <th>Trax</th>
+          <th class="hl">MOSAIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Consumer / SMB tier</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>AI extraction (&gt;90% accuracy)</td>
+          <td class="x">✗</td><td class="x">✗</td><td>Partial</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>&lt;4 hour SLA</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>Route-matching (already there)</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>On-device GDPR / face redaction</td>
+          <td class="x">✗</td><td>Unknown</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>Self-serve (no sales call)</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>Live streaming</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+        <tr>
+          <td>Passive intelligence layer</td>
+          <td class="x">✗</td><td class="x">✗</td><td class="x">✗</td>
+          <td class="comp-mosaic chk">✓</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 7: BUSINESS MODEL ───────────────────────── -->
+<section class="section" id="model">
+  <div class="section-label">Business Model</div>
+  <h2 class="section-h">Three Tiers. <span class="grad">Four Revenue Levers.</span></h2>
+  <p class="section-sub">55%+ gross margin from Day 1. Training data revenue growing silently beneath. Platform fees unlocked at scale.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-diagram-data-flywheel_v1.png'); background-size:contain; background-position:center; background-repeat:no-repeat; background-color:var(--bg3); border-style:solid; aspect-ratio:3/1; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-diagram-data-flywheel_v1.png</div></div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:40px">
+    <div class="card card-accent ca1">
+      <div class="card-label" style="color:var(--accent1)">Tier 1 — Consumer</div>
+      <h3>Pay-per-task</h3>
+      <p>$5–25/task · Credit wallet · App store / viral acquisition</p>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Gross margin</span><span class="v">52%</span></div>
+        <div class="kv-row"><span class="k">Avg task price</span><span class="v">$12</span></div>
+        <div class="kv-row"><span class="k">Acquisition</span><span class="v">App store + sharing</span></div>
+      </div>
+    </div>
+    <div class="card card-accent ca2">
+      <div class="card-label" style="color:var(--accent2)">Tier 2 — SMB</div>
+      <h3>$49–$749/mo</h3>
+      <p>Self-serve subscription · 5–150 tasks/month · Content + PLG growth</p>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Gross margin</span><span class="v">62%</span></div>
+        <div class="kv-row"><span class="k">Avg MRR/customer</span><span class="v">$249</span></div>
+        <div class="kv-row"><span class="k">Acquisition</span><span class="v">Shopify + Faire + SEO</span></div>
+      </div>
+    </div>
+    <div class="card card-accent ca3">
+      <div class="card-label" style="color:var(--accent5)">Tier 3 — Enterprise</div>
+      <h3>$2,500–$50K/mo</h3>
+      <p>Annual contract · 200–10,000+ tasks/month · Founder sales → AE</p>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Gross margin</span><span class="v">58%</span></div>
+        <div class="kv-row"><span class="k">Avg ACV</span><span class="v">$66,000</span></div>
+        <div class="kv-row"><span class="k">Target buyer</span><span class="v">Mid-size CPG, $100M–$1B</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revenue projections -->
+  <div class="rev-chart">
+    <div class="rev-chart-title">Monthly Recurring Revenue — 3-Tier Model + Training Data</div>
+    <div class="rev-bars">
+      <div class="rev-bar-group">
+        <div class="rev-bar-val">$35K</div>
+        <div class="rev-bar-stack">
+          <div class="rev-bar rb1" style="height:4px"></div>
+          <div class="rev-bar rb2" style="height:5px"></div>
+          <div class="rev-bar rb3" style="height:14px"></div>
+        </div>
+        <div class="rev-bar-label">Mo 3</div>
+      </div>
+      <div class="rev-bar-group">
+        <div class="rev-bar-val">$99K</div>
+        <div class="rev-bar-stack">
+          <div class="rev-bar rb1" style="height:7px"></div>
+          <div class="rev-bar rb2" style="height:18px"></div>
+          <div class="rev-bar rb3" style="height:31px"></div>
+        </div>
+        <div class="rev-bar-label">Mo 6</div>
+      </div>
+      <div class="rev-bar-group">
+        <div class="rev-bar-val">$377K</div>
+        <div class="rev-bar-stack">
+          <div class="rev-bar rb4" style="height:4px"></div>
+          <div class="rev-bar rb1" style="height:23px"></div>
+          <div class="rev-bar rb2" style="height:58px"></div>
+          <div class="rev-bar rb3" style="height:85px"></div>
+        </div>
+        <div class="rev-bar-label">Mo 12</div>
+      </div>
+      <div class="rev-bar-group">
+        <div class="rev-bar-val">$907K</div>
+        <div class="rev-bar-stack">
+          <div class="rev-bar rb4" style="height:10px"></div>
+          <div class="rev-bar rb1" style="height:52px"></div>
+          <div class="rev-bar rb2" style="height:59px"></div>
+          <div class="rev-bar rb3" style="height:68px"></div>
+        </div>
+        <div class="rev-bar-label">Mo 18</div>
+      </div>
+      <div class="rev-bar-group">
+        <div class="rev-bar-val">$1.84M</div>
+        <div class="rev-bar-stack">
+          <div class="rev-bar rb4" style="height:25px"></div>
+          <div class="rev-bar rb1" style="height:130px"></div>
+          <div class="rev-bar rb2" style="height:80px"></div>
+          <div class="rev-bar rb3" style="height:90px"></div>
+        </div>
+        <div class="rev-bar-label">Mo 24</div>
+      </div>
+    </div>
+    <div class="rev-legend">
+      <div class="rev-legend-item"><div class="rev-legend-dot" style="background:rgba(0,224,150,0.7)"></div>Enterprise</div>
+      <div class="rev-legend-item"><div class="rev-legend-dot" style="background:rgba(0,212,212,0.7)"></div>SMB</div>
+      <div class="rev-legend-item"><div class="rev-legend-dot" style="background:rgba(124,109,245,0.7)"></div>Consumer</div>
+      <div class="rev-legend-item"><div class="rev-legend-dot" style="background:rgba(255,201,71,0.5)"></div>Training data</div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <p><strong>Month 18 ARR run rate: $9.87M → Series A trigger achieved.</strong> Training data is the hidden upside: at 500K tasks/month, licensed at $0.10–0.15/image, it generates $2.4M/month at 95% gross margin — a revenue stream that appears in Month 12 and compounds silently beneath the main tiers.</p>
+  </div>
+
+  <!-- Unit economics -->
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Period</th><th>T1 Consumer</th><th>T2 SMB</th><th>T3 Enterprise</th><th>Training Data</th><th class="hl">Total MRR</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Month 3</td><td>$6,600</td><td>$6,225</td><td>$22,000</td><td>—</td><td class="hl">$34,825</td></tr>
+        <tr><td>Month 6</td><td>$24,200</td><td>$24,900</td><td>$49,500</td><td>—</td><td class="hl">$98,600</td></tr>
+        <tr><td>Month 12</td><td>$88,000</td><td>$107,070</td><td>$137,500</td><td>$22,000</td><td class="hl">$354,570</td></tr>
+        <tr><td>Month 18</td><td>$220,000</td><td>$242,100</td><td>$275,000</td><td>$85,000</td><td class="hl">$822,100</td></tr>
+        <tr><td>Month 24</td><td>$550,000</td><td>$398,800</td><td>$467,500</td><td>$210,000</td><td class="hl">$1,626,300</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 8: PLATFORM ───────────────────────── -->
+<section class="section" id="platform">
+  <div class="section-label">Platform Vision</div>
+  <h2 class="section-h">The <span class="grad">Mosaic API</span></h2>
+  <p class="section-sub">When network density reaches critical mass, Mosaic becomes infrastructure — and the third-party ecosystem begins.</p>
+
+  <div class="two-col" style="margin-bottom:40px">
+    <div>
+      <h3 style="margin-bottom:16px;font-size:20px">Core API Endpoints</h3>
+      <div class="api-list">
+        <div class="api-item">
+          <span class="api-method post">POST</span>
+          <span class="api-endpoint">/tasks</span>
+          <span class="api-desc">Create a new intelligence task</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method get">GET</span>
+          <span class="api-endpoint">/world-state</span>
+          <span class="api-desc">Query current physical conditions</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method post">POST</span>
+          <span class="api-endpoint">/streams</span>
+          <span class="api-desc">Request live view of any location</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method get">GET</span>
+          <span class="api-endpoint">/collectors/density</span>
+          <span class="api-desc">Collector coverage heatmap</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method get">GET</span>
+          <span class="api-endpoint">/history</span>
+          <span class="api-desc">Time-series physical world state</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method post">POST</span>
+          <span class="api-endpoint">/alerts</span>
+          <span class="api-desc">Subscribe to change detection</span>
+        </div>
+        <div class="api-item">
+          <span class="api-method get">GET</span>
+          <span class="api-endpoint">/ai/recognize</span>
+          <span class="api-desc">Vision AI on any real-world photo</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:16px;font-size:20px">Third-Party Products Built on Mosaic</h3>
+      <div class="grid-2" style="gap:10px">
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent2)">ShelfWatch</div><p style="font-size:12px">Automated CPG compliance SaaS</p></div>
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent1)">QueueSignal</div><p style="font-size:12px">Retail queue intelligence</p></div>
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent5)">AccessMap</div><p style="font-size:12px">Accessibility routing layer</p></div>
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent4)">PriceRadar</div><p style="font-size:12px">Real-time competitive pricing</p></div>
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent3)">VerifyNow</div><p style="font-size:12px">Remote legal verification</p></div>
+        <div class="card" style="padding:14px"><div style="font-size:12px;font-weight:700;color:var(--accent6)">GroundTruth</div><p style="font-size:12px">Hedge fund alpha signals</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="big-callout">
+    <div class="bq">At 100 million collectors, Mosaic is not a product. <em>It's infrastructure.</em> The physical world gets a voice — and every application that needs to hear it pays to listen.</div>
+    <div class="bsrc">The endgame: Physical World Search Engine — natural language queries about any place on Earth, answered in seconds.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 9: GTM ───────────────────────── -->
+<section class="section">
+  <div class="section-label">Go-To-Market</div>
+  <h2 class="section-h">Retail Wedge → <span class="grad">Global Platform</span></h2>
+  <p class="section-sub">Phase 1 is not "launch everywhere." It's going so deep in CPG retail that London becomes a reference that opens every door in EU enterprise sales.</p>
+
+  <div class="grid-3" style="margin-bottom:40px">
+    <div class="card card-accent ca1">
+      <div class="card-label" style="color:var(--muted)">Phase 1 · Now → Month 6</div>
+      <h3>Beachhead</h3>
+      <ul class="ul-clean" style="margin-top:12px">
+        <li>CPG shelf audits: 2 US cities + London</li>
+        <li>Target: 10 enterprise customers + 500 agents/city</li>
+        <li>First pilot: $15,000 flat, 50 locations, 30 days</li>
+        <li><strong>Signal:</strong> Field Agent charges $30–175/task, 2-week turnaround. We deliver in 4 hours at $8–25.</li>
+      </ul>
+    </div>
+    <div class="card card-accent ca2">
+      <div class="card-label" style="color:var(--muted)">Phase 2 · Month 6 → 18</div>
+      <h3>Multi-City</h3>
+      <ul class="ul-clean" style="margin-top:12px">
+        <li>8 US cities + 5 EU cities (London → Amsterdam → Berlin)</li>
+        <li>SMB self-serve product launches — PLG growth</li>
+        <li>15,000 active agents by Month 18</li>
+        <li><strong>EU anchor:</strong> Unilever or Reckitt by Month 8</li>
+      </ul>
+    </div>
+    <div class="card card-accent ca3">
+      <div class="card-label" style="color:var(--muted)">Phase 3 · Month 18+</div>
+      <h3>Category Creation</h3>
+      <ul class="ul-clean" style="margin-top:12px">
+        <li>Consumer brand — "the app you use to check a place"</li>
+        <li>Mosaic API opens third-party developer ecosystem</li>
+        <li>Physical World Search Engine launches</li>
+        <li><strong>Series A raise begins Month 16</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:40px">
+    <div class="card">
+      <h4>Agent Acquisition Flywheel</h4>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Campus ambassadors</span><span class="v pill pill-p">40%</span></div>
+        <div class="kv-row"><span class="k">Agent referral</span><span class="v pill pill-t">30%</span></div>
+        <div class="kv-row"><span class="k">Paid social</span><span class="v pill pill-y">20%</span></div>
+        <div class="kv-row"><span class="k">Organic / app store</span><span class="v pill pill-g">10%</span></div>
+        <div class="kv-row"><span class="k">First city CAC</span><span class="v">$5K ad → 500 verified agents</span></div>
+        <div class="kv-row"><span class="k">Commuter LTV:CAC</span><span class="v hl">90:1</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>EU Launch Sequence</h4>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Month 2 — London</span><span class="v">Unilever/Reckitt, ICO, English-native</span></div>
+        <div class="kv-row"><span class="k">Month 3 — Amsterdam</span><span class="v">Heineken HQ, 95% EN proficiency</span></div>
+        <div class="kv-row"><span class="k">Month 5 — Berlin</span><span class="v">Henkel/Beiersdorf, German CPG market</span></div>
+        <div class="kv-row"><span class="k">Month 7 — Barcelona</span><span class="v">Nestlé Iberia, gig economy density</span></div>
+        <div class="kv-row"><span class="k">Month 9 — Paris</span><span class="v">L'Oréal/Danone, CNIL DPIA ready</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 10: TEAM ───────────────────────── -->
+<section class="section" id="team">
+  <div class="section-label">The Team</div>
+  <h2 class="section-h">Two Founders. <span class="grad">Twelve-Person Output.</span></h2>
+  <p class="section-sub">The AI-native team is the story, not a limitation. $30K/month burn rate vs $120K+ for a traditional 6-person team at the same stage.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-team-founders_v1.png'); background-size:cover; background-position:center; aspect-ratio:21/6; border-style:solid; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-team-founders_v1.png</div></div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:40px">
+    <div class="card card-accent ca1">
+      <div class="card-label" style="color:var(--accent1)">CEO — Commercial Founder</div>
+      <h3>[CEO Name]</h3>
+      <ul class="ul-clean" style="margin-top:12px">
+        <li>X years at [CPG company] — personally managed [$X] competitive intelligence budget</li>
+        <li>Sold [$X] in enterprise SaaS — knows every procurement pattern at Tier 3 CPG</li>
+        <li>Revenue, GTM, investor relations, enterprise sales</li>
+      </ul>
+    </div>
+    <div class="card card-accent ca2">
+      <div class="card-label" style="color:var(--accent2)">CTO — Technical Founder</div>
+      <h3>[CTO Name]</h3>
+      <ul class="ul-clean" style="margin-top:12px">
+        <li>Shipped [consumer app, X million users] — knows mobile at scale</li>
+        <li>AI/ML background — built real-time inference pipelines</li>
+        <li>Product, engineering, ML/AI, infrastructure</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:20px;font-size:18px">The AI Team — $2,400/month replacing $80,000/month in headcount</h3>
+  <div class="tbl-wrap" style="margin-bottom:40px">
+    <table>
+      <thead>
+        <tr><th>Function</th><th>AI Tool</th><th>Monthly Cost</th><th>Human Equivalent</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Engineering velocity</td><td>Claude Code + Cursor Pro + Devin</td><td>$780</td><td>2 senior engineers · $25K/mo</td></tr>
+        <tr><td>Product design</td><td>v0 + Figma AI</td><td>$65</td><td>1 designer · $8K/mo</td></tr>
+        <tr><td>Finance / accounting</td><td>Pilot.ai + Stripe</td><td>$619</td><td>Fractional CFO · $4K/mo</td></tr>
+        <tr><td>Customer success (first line)</td><td>Intercom AI</td><td>$39</td><td>1 CS rep · $5K/mo</td></tr>
+        <tr><td>Marketing / content</td><td>Claude + Midjourney</td><td>$230</td><td>1 marketer · $7K/mo</td></tr>
+        <tr><td>Legal research</td><td>Claude + retainer</td><td>$400</td><td>In-house counsel · $10K/mo</td></tr>
+        <tr><td>Infrastructure</td><td>Vercel + AWS + Supabase</td><td>$545</td><td>DevOps eng · $12K/mo</td></tr>
+        <tr class="hl"><td><strong>TOTAL AI TOOLSTACK</strong></td><td>22 specific tools</td><td><strong>$2,678</strong></td><td><strong>~$80K/month equivalent</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box s1"><div class="sn">$30K</div><div class="sl">Monthly burn (pre-seed)</div></div>
+    <div class="stat-box s2"><div class="sn">16mo</div><div class="sl">Runway on $500K pre-seed</div></div>
+    <div class="stat-box s3"><div class="sn">4×</div><div class="sl">Engineering velocity vs solo</div></div>
+    <div class="stat-box s4"><div class="sn">8 wks</div><div class="sl">To full MVP (2 people)</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 11: ROADMAP ───────────────────────── -->
+<section class="section">
+  <div class="section-label">Execution Roadmap</div>
+  <h2 class="section-h">18 Months to <span class="grad">Series A</span></h2>
+  <p class="section-sub">Three phases. Month-by-month milestones. One goal: $10M ARR run rate by Month 18.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-month">Month 3</div>
+      <div class="tl-title">First Revenue</div>
+      <div class="tl-desc">First pilot signed. 50 collectors in City 1. 50 enterprise locations completed. AI extraction pipeline live. First paying customer = proof of concept.</div>
+      <div class="tl-metrics">
+        <span class="pill pill-p">$34K MRR</span>
+        <span class="pill pill-t">50 collectors</span>
+        <span class="pill pill-g">1 enterprise</span>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-month">Month 6</div>
+      <div class="tl-title">City #1 Proof</div>
+      <div class="tl-desc">500 collectors in City 1. 80%+ task fulfillment rate. 3–5 enterprise customers. SMB self-serve product live. London pilot started. $15K MRR → burn-rate milestone begins.</div>
+      <div class="tl-metrics">
+        <span class="pill pill-p">$99K MRR</span>
+        <span class="pill pill-t">500 collectors</span>
+        <span class="pill pill-g">3 cities</span>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-month">Month 9</div>
+      <div class="tl-title">Burn-Rate Equal</div>
+      <div class="tl-desc">MRR ≥ $120K = revenue covering seed burn rate. EU reference customer signed. Amsterdam collectors live. First SMB subscriber cohort showing retention.</div>
+      <div class="tl-metrics">
+        <span class="pill pill-p">$120K MRR</span>
+        <span class="pill pill-t">EU reference</span>
+        <span class="pill pill-y">Burn-rate equal</span>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-month">Month 12</div>
+      <div class="tl-title">Series A Ramp Begins</div>
+      <div class="tl-desc">$100K MRR. Seed close in parallel. Enterprise contract signed. Training data revenue begins compounding. 8 cities live. Start seed conversations at Month 10, don't wait for Month 14.</div>
+      <div class="tl-metrics">
+        <span class="pill pill-p">$377K MRR</span>
+        <span class="pill pill-t">8 cities</span>
+        <span class="pill pill-g">Enterprise signed</span>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-month">Month 18</div>
+      <div class="tl-title">Series A Launch</div>
+      <div class="tl-desc">$10M ARR run rate. 5,000+ active collectors. 3 EU cities live. 50 enterprise customers. 115% NRR. Series A raise active — not desperate, running from strength.</div>
+      <div class="tl-metrics">
+        <span class="pill pill-p">$907K MRR → $10M ARR</span>
+        <span class="pill pill-t">5,000 collectors</span>
+        <span class="pill pill-g">Series A active</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 12: 2036 VISION ───────────────────────── -->
+<section class="section">
+  <div class="section-label">The Endgame</div>
+  <h2 class="section-h">The World in <span class="grad-warm">2036</span></h2>
+  <p class="section-sub">Three moments that will be ordinary in 2036 — and are completely impossible today.</p>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-vision-2036_v1.png'); background-size:cover; background-position:center; border-style:solid; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-vision-2036_v1.png</div></div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:40px">
+    <div class="card card-accent ca1">
+      <div class="card-label" style="color:var(--accent1)">2036 Moment 1</div>
+      <h4>The Blind Person in London</h4>
+      <p>She needs to catch the 8:47 at King's Cross. She asks: "Is the lift at King's Cross working, and is platform 4 crowded?" An answer arrives in 3 seconds — verified by 6 collectors who passed through in the last 14 minutes. <strong style="color:var(--text)">This doesn't exist today.</strong></p>
+    </div>
+    <div class="card card-accent ca2">
+      <div class="card-label" style="color:var(--accent2)">2036 Moment 2</div>
+      <h4>The Brand Manager in Düsseldorf</h4>
+      <p>At 7:42am, she receives an alert: a competitor has placed a new display at 14 Rewe stores in Munich — overnight. She has competitive intelligence in 4 hours. Her old workflow was 3 weeks and a $50K research contract. <strong style="color:var(--text)">Advantage decided in hours, not months.</strong></p>
+    </div>
+    <div class="card card-accent ca3">
+      <div class="card-label" style="color:var(--accent5)">2036 Moment 3</div>
+      <h4>The Mayor of Lagos</h4>
+      <p>He needs to decide where to invest N2B in pedestrian infrastructure. He opens Mosaic: 18 months of foot traffic patterns, vendor density, crowd pressure points — all visualized. Decision in 4 hours instead of 6 months. <strong style="color:var(--text)">Cities run on ground truth.</strong></p>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box s1"><div class="sn">38M</div><div class="sl">Active collectors (2036)</div></div>
+    <div class="stat-box s2"><div class="sn">$2.1B</div><div class="sl">Revenue (Year 10)</div></div>
+    <div class="stat-box s3"><div class="sn">400M</div><div class="sl">MAU, Mosaic Now app</div></div>
+    <div class="stat-box s4"><div class="sn">$200B+</div><div class="sl">Market created</div></div>
+  </div>
+
+  <div class="big-callout">
+    <div class="bq"><em>GPS</em> told us where things are. <em>Mosaic</em> tells us what things are. The shift from coordinate to content — captured at scale by the people already there — is the category-defining insight of the decade.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ───────────────────────── SECTION 13: THE ASK ───────────────────────── -->
+<section class="section" id="ask">
+  <div class="section-label">The Ask</div>
+  <h2 class="section-h">$5M Seed to <span class="grad">Prove the Loop</span></h2>
+
+  <div class="ask-hero">
+    <div class="ah-raise">$5,000,000</div>
+    <div class="ah-label">Seed Round · SAFE · $20M Cap · 18-Month Runway to Series A</div>
+    <div class="ask-details">
+      <div class="ask-detail"><div class="ad-val">$20–25M</div><div class="ad-key">Pre-money valuation</div></div>
+      <div class="ask-detail"><div class="ad-val">18 months</div><div class="ad-key">To Series A metrics</div></div>
+      <div class="ask-detail"><div class="ad-val">$10M ARR</div><div class="ad-key">Series A trigger</div></div>
+      <div class="ask-detail"><div class="ad-val">10×</div><div class="ad-key">Revenue multiple at Series A</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:40px">
+    <div class="card">
+      <h4>Use of Funds</h4>
+      <div class="kv">
+        <div class="kv-row"><span class="k">Engineering team (3 hires)</span><span class="v">$1,500,000 · 30%</span></div>
+        <div class="kv-row"><span class="k">Agent acquisition (4 cities)</span><span class="v">$1,000,000 · 20%</span></div>
+        <div class="kv-row"><span class="k">ML/AI model development</span><span class="v">$500,000 · 10%</span></div>
+        <div class="kv-row"><span class="k">Enterprise sales (1 AE)</span><span class="v">$500,000 · 10%</span></div>
+        <div class="kv-row"><span class="k">Marketing (SMB + consumer)</span><span class="v">$500,000 · 10%</span></div>
+        <div class="kv-row"><span class="k">Legal / compliance (GDPR, SOC 2)</span><span class="v">$300,000 · 6%</span></div>
+        <div class="kv-row"><span class="k">Operations (city launches)</span><span class="v">$400,000 · 8%</span></div>
+        <div class="kv-row"><span class="k">Buffer</span><span class="v">$300,000 · 6%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>What This Capital Buys</h4>
+      <ul class="check-list" style="margin-top:8px">
+        <li><strong>4 cities live</strong> — Atlanta, Dallas, London, Amsterdam</li>
+        <li><strong>15,000 active collectors</strong> — verified, retained, productive</li>
+        <li><strong>50 enterprise customers</strong> + 600 SMB subscribers</li>
+        <li><strong>$10M ARR run rate</strong> by Month 18 → Series A trigger</li>
+        <li><strong>EU reference customer</strong> — Unilever or Heineken signed</li>
+        <li><strong>GDPR compliance architecture</strong> completed, documented</li>
+        <li><strong>Series A raise begins</strong> Month 16 from strength</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="img-placeholder" style="background-image: url('deck-assets/mosaic-close-momentum_v1.png'); background-size:cover; background-position:center; aspect-ratio:21/6; border-style:solid; margin-bottom:40px">
+    <div class="ip-inner" style="display:none"><div class="ip-label">mosaic-close-momentum_v1.png</div></div>
+  </div>
+
+  <div class="manifesto" style="text-align:center">
+    <p>We are not raising capital to find product-market fit. We are raising capital to deploy a model we understand — in more cities, with more collectors, serving customers who are already asking for this. The founding insight is not a hypothesis. The technology works. The economics work. The question is simply: <em>how fast?</em></p>
+    <p style="margin-top:0"><strong>This round answers that question.</strong></p>
+  </div>
+</section>
+
+<!-- ───────────────────────── FOOTER ───────────────────────── -->
+<footer>
+  <div class="fc">MOSAIC</div>
+  <div class="fs">Physical World Intelligence · Confidential · April 2026<br>Built on the insight that the people already there are the answer.</div>
+</footer>
+
+</body>
+</html>

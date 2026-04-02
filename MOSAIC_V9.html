@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaic — Market Thesis & Competitive Positioning | V9</title>
+<style>
+  :root{--bg:#060408;--bg2:#0a060c;--bg3:#110915;--card:#0d070f;--border:#1c0f20;--text:#f4eef8;--muted:#7055a0;--a1:#ff6b9d;--a2:#ffc947;--a3:#7c6df5;--a4:#00e096;--a5:#00d4d4;--a6:#ff7f5e;--g1:linear-gradient(135deg,#ff6b9d,#ffc947);--g2:linear-gradient(135deg,#7c6df5,#ff6b9d);--g3:linear-gradient(135deg,#00e096,#00d4d4);--g4:linear-gradient(135deg,#ffc947,#ff7f5e)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden}
+  nav{position:sticky;top:0;z-index:200;background:rgba(6,4,8,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand-logo{font-size:18px;font-weight:900;letter-spacing:-0.5px;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .brand-ver{font-size:10px;color:var(--muted);background:rgba(255,107,157,0.12);border:1px solid rgba(255,107,157,0.25);border-radius:100px;padding:2px 8px}
+  .nav-links{display:flex;gap:18px;flex:1;flex-wrap:wrap}
+  .nav-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{background:var(--g1);border:none;color:#fff;font-size:12px;font-weight:700;padding:8px 20px;border-radius:100px;cursor:pointer}
+  .section{padding:88px 48px;max-width:1280px;margin:0 auto}
+  .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--a1);margin-bottom:10px}
+  .sh{font-size:clamp(28px,3.5vw,52px);font-weight:900;line-height:1.05;margin-bottom:14px;letter-spacing:-0.5px}
+  .sh .g{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sh .gw{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sh .gg{background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:17px;line-height:1.7;max-width:720px;margin-bottom:48px}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);margin:0 48px}
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 40%,rgba(255,107,157,0.15) 0%,rgba(124,109,245,0.08) 50%,transparent 80%)}
+  .hero-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-hero-v6.png');background-size:cover;background-position:center;opacity:0.2}
+  .hero-grid{position:absolute;inset:0;opacity:0.03;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px}
+  .hero-content{position:relative;text-align:center;padding:48px;max-width:960px}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,107,157,0.1);border:1px solid rgba(255,107,157,0.3);border-radius:100px;padding:7px 18px;font-size:12px;font-weight:600;color:#ff6b9d;margin-bottom:32px}
+  .dot{width:6px;height:6px;background:var(--a1);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+  .hero-title{font-size:clamp(56px,8vw,108px);font-weight:900;line-height:0.92;letter-spacing:-3px;margin-bottom:16px}
+  .hero-title .m{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-tagline{font-size:clamp(16px,2.2vw,24px);color:var(--muted);margin-bottom:48px;line-height:1.5}
+  .hero-tagline em{color:var(--text);font-style:normal;font-weight:600}
+  .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:52px}
+  .hs .n{font-size:36px;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hs .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;text-align:center}
+  .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn-p{background:var(--g1);border:none;color:#fff;font-size:14px;font-weight:700;padding:14px 32px;border-radius:100px;cursor:pointer}
+  .btn-g{background:transparent;border:1px solid var(--border);color:var(--text);font-size:14px;padding:14px 32px;border-radius:100px;cursor:pointer}
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll-hint::after{content:'↓';font-size:18px;animation:bounce 2s infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px}
+  .card h3{font-size:19px;font-weight:800;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:14px;line-height:1.65}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:20px}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .sec-img{width:100%;border-radius:20px;margin:32px 0;border:1px solid var(--border);overflow:hidden;aspect-ratio:16/7;background:var(--bg3);background-size:cover;background-position:center}
+  .tbl{overflow-x:auto;border-radius:16px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:var(--bg3);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:11px;padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,0.02)}
+  .chk{color:var(--a4);font-weight:700;font-size:16px}
+  .x{color:var(--muted);font-size:14px}
+  .hi{color:var(--a3);font-weight:700}
+  .comp-m{background:rgba(124,109,245,0.08)}
+  .pill{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:0.5px;white-space:nowrap}
+  .pr{background:rgba(255,107,157,0.15);color:#ff6b9d}
+  .py{background:rgba(255,201,71,0.15);color:#ffc947}
+  .pp{background:rgba(124,109,245,0.2);color:#a89cf8}
+  .pg{background:rgba(0,224,150,0.15);color:#00e096}
+  .pt{background:rgba(0,212,212,0.15);color:#00d4d4}
+  .po{background:rgba(255,127,94,0.15);color:#ff7f5e}
+  .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .stat-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:48px}
+  .stat-box{flex:1;min-width:160px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center}
+  .stat-box .sn{font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1}
+  .stat-box .sl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px}
+  .s1 .sn{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .s2 .sn{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .s3 .sn{background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .s4 .sn{background:var(--g4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .callout{background:linear-gradient(135deg,rgba(255,107,157,0.1),rgba(124,109,245,0.06));border:1px solid rgba(255,107,157,0.25);border-radius:24px;padding:48px;text-align:center;margin-bottom:48px}
+  .callout .bq{font-size:clamp(18px,2.5vw,28px);font-weight:700;line-height:1.45;color:var(--text);max-width:820px;margin:0 auto 16px}
+  .callout .bq em{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal}
+  .callout .src{font-size:13px;color:var(--muted)}
+  .ul-clean{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .ul-clean li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);line-height:1.5}
+  .ul-clean li::before{content:'→';color:var(--a5);font-size:13px;flex-shrink:0;margin-top:2px}
+  .ul-clean li strong{color:var(--text)}
+
+  /* COMPETITOR AUTOPSY */
+  .autopsy{background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:32px}
+  .autopsy-hdr{padding:24px 32px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+  .autopsy-name{font-size:22px;font-weight:900;margin-bottom:4px}
+  .autopsy-sub{font-size:14px;color:var(--muted)}
+  .autopsy-verdict{padding:6px 16px;border-radius:100px;font-size:12px;font-weight:800;white-space:nowrap}
+  .dead{background:rgba(255,107,157,0.15);color:#ff6b9d}
+  .weak{background:rgba(255,127,94,0.15);color:#ff7f5e}
+  .niche{background:rgba(255,201,71,0.15);color:#ffc947}
+  .autopsy-body{padding:24px 32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .ab-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px}
+  .ab-col p{font-size:13px;color:var(--muted);line-height:1.65}
+  .ab-col p strong{color:var(--text)}
+
+  /* 2x2 MATRIX */
+  .matrix{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;margin-bottom:32px}
+  .matrix-title{font-size:16px;font-weight:700;margin-bottom:32px}
+  .matrix-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;height:320px}
+  .matrix-cell{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;display:flex;flex-direction:column;justify-content:flex-end}
+  .matrix-cell.winner{background:linear-gradient(135deg,rgba(124,109,245,0.15),rgba(255,107,157,0.08));border-color:rgba(124,109,245,0.4)}
+  .matrix-dot{width:14px;height:14px;border-radius:50%;position:absolute}
+  .md-mosaic{background:linear-gradient(135deg,#7c6df5,#ff6b9d);box-shadow:0 0 20px rgba(255,107,157,0.6);top:16px;right:16px;width:18px;height:18px}
+  .md-comp{background:var(--muted);opacity:0.35}
+  .mc-name{font-size:13px;font-weight:700}
+  .mc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+  .matrix-axis-x{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:12px;display:flex;justify-content:space-between}
+  .matrix-axis-y{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;writing-mode:vertical-lr;transform:rotate(180deg);position:absolute;left:-24px;top:50%;transform:translateX(-50%) rotate(-90deg)}
+
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px;text-align:center}
+  footer .fc{font-size:32px;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+  footer .fs{font-size:13px;color:var(--muted)}
+  @media(max-width:700px){.two-col,.grid-2,.autopsy-body{grid-template-columns:1fr}.section{padding:48px 24px}nav{padding:12px 24px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="#top">
+    <span class="brand-logo">MOSAIC</span>
+    <span class="brand-ver">V9 · Market Thesis</span>
+  </a>
+  <div class="nav-links">
+    <a href="#market">Market</a>
+    <a href="#why-now">Why Now</a>
+    <a href="#autopsy">Competitor Autopsies</a>
+    <a href="#positioning">Positioning</a>
+    <a href="#why-we-win">Why We Win</a>
+    <a href="#eu">EU Expansion</a>
+    <a href="#expansion">Adjacent Markets</a>
+  </div>
+  <button class="nav-cta">Market Brief</button>
+</nav>
+
+<div class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-img" onerror="this.style.display='none'"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span>Market Thesis · Competitive Intelligence · 2026</div>
+    <div class="hero-title"><span class="m">MOSAIC</span></div>
+    <div class="hero-tagline">The <em>physical world intelligence market</em> has a $35B gap<br>and zero modern platform players. That changes now.</div>
+    <div class="hero-stats">
+      <div class="hs"><div class="n">$35B</div><div class="l">Market Underserved</div></div>
+      <div class="hs"><div class="n">2020</div><div class="l">BeMyEye Last Product Update</div></div>
+      <div class="hs"><div class="n">0</div><div class="l">Modern Platform Competitors</div></div>
+      <div class="hs"><div class="n">2026</div><div class="l">The Window Opens</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-p">View Competitive Analysis</button>
+      <button class="btn-g">Market Brief PDF</button>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</div>
+
+<!-- MARKET OPPORTUNITY -->
+<section class="section" id="market">
+  <div class="label">Market Analysis</div>
+  <h2 class="sh">$35B Market. <span class="g">No Platform Layer.</span></h2>
+  <p class="sub">The physical intelligence market is fragmented, under-digitized, and has no infrastructure layer. Every current solution is a vertical point tool — none is a platform.</p>
+
+  <div class="sec-img" style="background-image:url('deck-assets/mosaic-market-v6.png')"></div>
+
+  <div class="stat-row">
+    <div class="stat-box s1"><div class="sn">$35B</div><div class="sl">Total Addressable Market</div></div>
+    <div class="stat-box s2"><div class="sn">$4.2B</div><div class="sl">CPG Field Intelligence SAM</div></div>
+    <div class="stat-box s3"><div class="sn">14 days</div><div class="sl">Current Industry Response Time</div></div>
+    <div class="stat-box s4"><div class="sn">$150–300</div><div class="sl">Incumbent Price Per Store Check</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="bq">The CPG retail intelligence market has existed for 30 years. BeMyEye and Field Agent have operated for 12+ years. <em>Nobody has built the platform layer.</em> The market has point tools. It's waiting for infrastructure.</div>
+    <div class="src">Core market thesis · Mosaic V9</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY NOW -->
+<section class="section" id="why-now">
+  <div class="label">Timing Analysis</div>
+  <h2 class="sh">Three Forces <span class="gw">Converging Now</span></h2>
+  <p class="sub">The market has been ready for this for a decade. What changed between 2022 and 2026 is what makes it buildable today.</p>
+
+  <div class="grid-3" style="margin-bottom:48px">
+    <div class="card" style="border-top:3px solid var(--a1)">
+      <div style="font-size:36px;margin-bottom:16px">🤖</div>
+      <h3>AI Vision Economics</h3>
+      <p style="margin-bottom:12px">Image analysis cost: <strong style="color:var(--text)">$0.40+ per image in 2022 → $0.002–0.02 in 2026.</strong> A 20–200x cost reduction in 4 years. The unit economics that make a crowdsourced AI extraction platform viable only exist today.</p>
+      <div class="tag-row"><span class="pill pr">GPT-4o-mini API pricing</span><span class="pill py">80% YoY cost decline</span></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--a2)">
+      <div style="font-size:36px;margin-bottom:16px">📱</div>
+      <h3>6.8B Camera Sensors</h3>
+      <p style="margin-bottom:12px"><strong style="color:var(--text)">48MP+ cameras, GPS, LiDAR</strong> in every pocket. Global smartphone penetration is 85%+ in developed markets. The infrastructure for capturing physical world data exists in every commuter's pocket — it just hasn't been organized.</p>
+      <div class="tag-row"><span class="pill py">6.8B smartphones</span><span class="pill pg">85% urban penetration</span></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--a3)">
+      <div style="font-size:36px;margin-bottom:16px">💊</div>
+      <h3>Post-COVID Field Ops Crisis</h3>
+      <p style="margin-bottom:12px">COVID exposed catastrophic gaps in CPG field visibility. <strong style="color:var(--text)">Every major brand experienced OOS disasters, compliance failures, and distributor disputes</strong> they couldn't verify because their field networks were grounded. That trauma created the budget.</p>
+      <div class="tag-row"><span class="pill pp">$200K–$2M field intel budgets</span><span class="pill pr">Active RFPs now</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>The Incumbent Decline Signal</h3>
+      <p style="margin-bottom:16px">BeMyEye and Field Agent both show clear signs of stagnation — the classic pattern before market disruption:</p>
+      <ul class="ul-clean">
+        <li><strong>No major product updates</strong> from BeMyEye since 2020</li>
+        <li><strong>Revenue declining</strong> at BeMyEye from €35M peak (estimated)</li>
+        <li><strong>Field Agent still US-only</strong> with no stated international expansion</li>
+        <li><strong>Zero AI extraction</strong> in either platform — output is raw photos</li>
+        <li><strong>No APIs</strong> for programmatic enterprise integration</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The Buyer Readiness Signal</h3>
+      <p style="margin-bottom:16px">Direct customer research evidence that the market is ready to switch:</p>
+      <ul class="ul-clean">
+        <li><strong>Field intelligence modernization</strong> is now a named budget line at major CPG brands</li>
+        <li><strong>30–60 day pilot cycles</strong> with 60–70% conversion — buyers are not over-complex</li>
+        <li><strong>API requirement</strong> appearing in new RFPs — legacy platforms can't satisfy</li>
+        <li><strong>Explicit frustration</strong> with BeMyEye's photo-gallery-only output in discovery calls</li>
+        <li><strong>Price sensitivity</strong> to $150–300/store legacy pricing — $12–45 is a clear win</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPETITOR AUTOPSIES -->
+<section class="section" id="autopsy">
+  <div class="label">Competitive Intelligence</div>
+  <h2 class="sh">Competitor <span class="g">Autopsies</span></h2>
+  <p class="sub">Primary research across 10 cycles. Every major incumbent analyzed for product, pricing, customers, and — most importantly — why they can't respond.</p>
+
+  <!-- BeMyEye -->
+  <div class="autopsy">
+    <div class="autopsy-hdr">
+      <div>
+        <div class="autopsy-name">BeMyEye</div>
+        <div class="autopsy-sub">Founded 2012 · Milan · €30M raised · ~3M registered contributors · Estimated €20–25M ARR (declining)</div>
+      </div>
+      <div class="autopsy-verdict dead">Declining Incumbent</div>
+    </div>
+    <div class="autopsy-body">
+      <div class="ab-col">
+        <h4>What They Built</h4>
+        <p>The European pioneer in crowdsourced retail intelligence. Correctly identified the CPG field coverage gap in 2012 and built a platform that attracted Nestlé, PepsiCo, Henkel as customers. <strong>Raised €30M, grew to 3M contributors, reached €35M ARR by 2021.</strong> Then stopped innovating.</p>
+        <p style="margin-top:12px">Their contributor app: functional but dated. Last major redesign: 2020 based on App Store screenshots. No real-time AI validation on-device.</p>
+      </div>
+      <div class="ab-col">
+        <h4>Why They Can't Catch Up</h4>
+        <p><strong>No AI extraction</strong> — output is still raw photo galleries reviewed by humans, exactly as in 2015. To add AI would require rebuilding their data pipeline and retraining their QA team — a 12–18 month project.</p>
+        <p style="margin-top:12px"><strong>No API</strong> — enterprise customers cannot integrate programmatically. Adding an API would require architectural changes to a legacy platform that likely wasn't designed for it.</p>
+        <p style="margin-top:12px"><strong>Revenue declining</strong> — they cannot fund a rebuild from declining cash flow.</p>
+      </div>
+      <div class="ab-col">
+        <h4>Mosaic's Competitive Window</h4>
+        <p>BeMyEye's customers are actively evaluating alternatives. Their enterprise contracts typically renew annually — <strong>each renewal cycle is a sales opportunity for Mosaic.</strong></p>
+        <p style="margin-top:12px">Target customer list: every major FMCG brand in EU that references BeMyEye as a "field intelligence partner" in any press release is a warm lead. Estimated 120+ enterprise accounts across EU.</p>
+        <div class="tag-row" style="margin-top:16px"><span class="pill pr">Switching window: open</span><span class="pill py">120+ EU enterprise leads</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Field Agent -->
+  <div class="autopsy">
+    <div class="autopsy-hdr">
+      <div>
+        <div class="autopsy-name">Field Agent</div>
+        <div class="autopsy-sub">Founded 2010 · Rogers, Arkansas · $22M raised · ~3M registered agents (US) · Acquired by Inmar Intelligence 2022</div>
+      </div>
+      <div class="autopsy-verdict weak">Limited Competitor</div>
+    </div>
+    <div class="autopsy-body">
+      <div class="ab-col">
+        <h4>What They Built</h4>
+        <p>The US equivalent of BeMyEye. Enterprise-only crowdsourced field intelligence with a mobile app and web portal. Acquired by Inmar Intelligence in 2022 for strategic CPG data reasons. <strong>Focused exclusively on US market after 12+ years.</strong></p>
+        <p style="margin-top:12px">Strengths: recognized brand in US CPG field intelligence, enterprise sales team, existing customer relationships with major US brands.</p>
+      </div>
+      <div class="ab-col">
+        <h4>Why They're Not a Threat Globally</h4>
+        <p><strong>US-only with no international expansion plans</strong> after 12 years. If you're a CPG brand operating in EU, LATAM, or APAC — Field Agent is not relevant.</p>
+        <p style="margin-top:12px"><strong>No AI extraction layer</strong> — same raw photo review model as BeMyEye. Post-acquisition by Inmar, innovation is unlikely to accelerate.</p>
+        <p style="margin-top:12px"><strong>Enterprise-only</strong> — no consumer or SMB tier. Cannot execute the viral growth model Mosaic uses for collector acquisition.</p>
+      </div>
+      <div class="ab-col">
+        <h4>Coexistence Strategy</h4>
+        <p>Mosaic's initial markets (London, NYC, Berlin, Amsterdam) have <strong>zero overlap with Field Agent's US-centric coverage.</strong> International CPG brands operating in EU have no quality alternative.</p>
+        <p style="margin-top:12px">In the US, Mosaic competes on AI extraction quality, API access, and price. Field Agent's post-acquisition innovation trajectory is unclear — but their legacy tech makes a rapid product response unlikely.</p>
+        <div class="tag-row" style="margin-top:16px"><span class="pill py">US: price + AI + API advantage</span><span class="pill pg">EU: uncontested</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trax -->
+  <div class="autopsy">
+    <div class="autopsy-hdr">
+      <div>
+        <div class="autopsy-name">Trax</div>
+        <div class="autopsy-sub">Founded 2010 · Singapore · $750M+ raised · ~$100M ARR · Real-time shelf analytics via in-store cameras</div>
+      </div>
+      <div class="autopsy-verdict niche">Hardware-Locked</div>
+    </div>
+    <div class="autopsy-body">
+      <div class="ab-col">
+        <h4>What They Built</h4>
+        <p>The most technically advanced competitor: <strong>permanent in-store cameras with real-time computer vision.</strong> Best-in-class accuracy for the stores that have them. $100M+ ARR, $1B+ valuation. Real technology, real customers, real AI.</p>
+        <p style="margin-top:12px">Used by Coca-Cola, Nestlé, and major retailers. Their accuracy is genuinely excellent for stores with installed hardware.</p>
+      </div>
+      <div class="ab-col">
+        <h4>The Hardware Lock Problem</h4>
+        <p><strong>$50,000+ per store for hardware installation.</strong> A CPG brand with 4,200 stores cannot afford Trax for all locations — the economics only work for the top 50–100 priority stores.</p>
+        <p style="margin-top:12px">This creates an inherent 95%+ coverage gap. Trax customers still need Mosaic (or similar) for the stores without hardware. <strong>We're complements, not pure substitutes, for the high end.</strong></p>
+      </div>
+      <div class="ab-col">
+        <h4>Why Trax Won't Disrupt Down</h4>
+        <p>Trax's entire business model, investor story, and sales team is built around hardware. Pivoting to a crowdsourced, no-hardware model would cannibalize their core revenue and require rebuilding their go-to-market from scratch.</p>
+        <p style="margin-top:12px">Additionally, Trax's accuracy advantage disappears in crowdsourced contexts — the structured camera environment is what makes their vision models work. Open-world photos require different AI architecture.</p>
+        <div class="tag-row" style="margin-top:16px"><span class="pill pg">Complement for &lt;100 stores</span><span class="pill pr">No down-market pivot</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPETITIVE POSITIONING MATRIX -->
+<section class="section" id="positioning">
+  <div class="label">Market Positioning</div>
+  <h2 class="sh">Where <span class="gg">Mosaic Lives</span> on the Matrix</h2>
+  <p class="sub">High AI intelligence, low cost. Nobody else is here. This is a white space, not a contested position.</p>
+
+  <div class="matrix">
+    <div class="matrix-title">Physical World Intelligence — Speed vs. AI Quality</div>
+    <div style="position:relative;padding-left:40px">
+      <div class="matrix-axis-y">AI Intelligence Level →</div>
+      <div class="matrix-grid">
+        <div class="matrix-cell">
+          <div class="matrix-dot md-comp" style="top:50%;left:50%"></div>
+          <div class="mc-name" style="color:var(--muted)">Mystery Shopping Firms</div>
+          <div class="mc-sub">Low speed, low AI</div>
+        </div>
+        <div class="matrix-cell winner">
+          <div class="matrix-dot md-mosaic"></div>
+          <div class="mc-name" style="background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent">MOSAIC</div>
+          <div class="mc-sub">Fast + AI-extracted + cheap</div>
+        </div>
+        <div class="matrix-cell">
+          <div class="matrix-dot md-comp" style="top:30%;left:40%"></div>
+          <div class="matrix-dot md-comp" style="top:60%;left:60%;background:#a0a0a0"></div>
+          <div class="mc-name" style="color:var(--muted)">BeMyEye / Field Agent</div>
+          <div class="mc-sub">Medium speed, no AI</div>
+        </div>
+        <div class="matrix-cell">
+          <div class="matrix-dot md-comp" style="top:25%;left:55%;background:#555"></div>
+          <div class="mc-name" style="color:var(--muted)">Trax</div>
+          <div class="mc-sub">Fast + AI, but $50K/store hardware</div>
+        </div>
+      </div>
+      <div class="matrix-axis-x"><span>Slow (days)</span><span>Speed →</span><span>Fast (hours)</span></div>
+    </div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr><th>Company</th><th>Speed</th><th>AI Extraction</th><th>Price/Store</th><th>API</th><th>Coverage</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr class="comp-m">
+          <td><strong class="hi">Mosaic</strong></td>
+          <td class="chk">4 hrs</td>
+          <td class="chk">Full JSON</td>
+          <td class="chk">$12–45</td>
+          <td class="chk">Yes</td>
+          <td class="chk">Global</td>
+          <td><span class="pill pg">Category Creator</span></td>
+        </tr>
+        <tr><td>BeMyEye</td><td class="x">24–72 hrs</td><td class="x">Photos only</td><td style="color:var(--muted)">€25–90</td><td class="x">No</td><td style="color:var(--muted)">EU only</td><td><span class="pill pr">Declining</span></td></tr>
+        <tr><td>Field Agent</td><td style="color:var(--muted)">24–48 hrs</td><td class="x">Human review</td><td style="color:var(--muted)">$15–50</td><td style="color:var(--muted)">Limited</td><td class="x">US only</td><td><span class="pill py">Acquired</span></td></tr>
+        <tr><td>Trax</td><td class="chk">Real-time</td><td class="chk">Computer vision</td><td class="x">$50K+/store</td><td class="chk">Yes</td><td class="x">Hardware req.</td><td><span class="pill po">Hardware niche</span></td></tr>
+        <tr><td>Mystery Shopping</td><td class="x">1–4 weeks</td><td class="x">Human narrative</td><td class="x">$150–400</td><td class="x">No</td><td class="x">No scale</td><td><span class="pill pr">Obsolete</span></td></tr>
+        <tr><td>Google Maps</td><td class="x">Yearly cadence</td><td style="color:var(--muted)">Street View only</td><td class="x">Consumer-only</td><td style="color:var(--muted)">Consumer</td><td class="chk">Global</td><td><span class="pill pt">Not competing</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY WE WIN -->
+<section class="section" id="why-we-win">
+  <div class="label">Competitive Advantages</div>
+  <h2 class="sh">Why <span class="g">We Win</span> — Structurally</h2>
+  <p class="sub">Not just faster or cheaper — structurally different. The advantages that compound as the platform grows.</p>
+
+  <div class="grid-3" style="margin-bottom:48px">
+    <div class="card" style="border-top:3px solid var(--a1)">
+      <h3>Speed is a Moat</h3>
+      <p style="margin-bottom:16px">4-hour SLA vs. 24–72 hours isn't just a feature — it's a different product category. A brand manager can make Monday's distributor call with Friday's data. That requires 4-hour SLA. Our competitors literally cannot deliver this without our collector network.</p>
+      <div class="tag-row"><span class="pill pr">4 hrs vs. 24–72 hrs</span></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--a2)">
+      <h3>Price is a 10x Advantage</h3>
+      <p style="margin-bottom:16px">$12–45 per store vs. $150–300 from legacy mystery shopping firms. This isn't a small pricing optimization — it's an order-of-magnitude change that unlocks market segments legacy players couldn't serve (SMBs, high-frequency weekly monitoring).</p>
+      <div class="tag-row"><span class="pill py">$12–45 vs $150–300</span></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--a3)">
+      <h3>AI Output vs. Photo Output</h3>
+      <p style="margin-bottom:16px">BeMyEye delivers a photo gallery. Mosaic delivers structured JSON that flows directly into enterprise dashboards, PowerBI reports, and compliance tracking systems. The API integration is the switching cost. Once Mosaic data is in the workflow, switching back to a photo-gallery requires re-building the integration from scratch.</p>
+      <div class="tag-row"><span class="pill pp">JSON API vs. photo gallery</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EU STRATEGY -->
+<section class="section" id="eu">
+  <div class="label">Geographic Strategy</div>
+  <h2 class="sh">EU Launch — <span class="gw">Stealing BeMyEye's Customers</span></h2>
+  <p class="sub">BeMyEye's weakness is our opportunity. EU CPG brands with BeMyEye contracts are actively evaluating alternatives at renewal. We launch into their highest-value markets.</p>
+
+  <div class="grid-2" style="margin-bottom:48px">
+    <div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">5 EU Launch Cities</h3>
+      <div class="card">
+        <table>
+          <thead><tr><th>City</th><th>Market</th><th>CPG Targets</th><th>GDPR Risk</th></tr></thead>
+          <tbody>
+            <tr><td><strong>London</strong></td><td>UK CPG + FS</td><td>Unilever, RB, Diageo</td><td style="color:var(--a4)">Low (post-Brexit)</td></tr>
+            <tr><td><strong>Amsterdam</strong></td><td>EU HQ hub</td><td>Heineken, Philips</td><td style="color:var(--a2)">Medium</td></tr>
+            <tr><td><strong>Berlin</strong></td><td>DACH CPG</td><td>Henkel, Beiersdorf</td><td style="color:var(--a2)">Medium</td></tr>
+            <tr><td><strong>Barcelona</strong></td><td>South EU + LATAM</td><td>Puig, Codorniu</td><td style="color:var(--a1)">High (consent)</td></tr>
+            <tr><td><strong>Stockholm</strong></td><td>Nordics + SaaS</td><td>H&M, Essity, IKEA FS</td><td style="color:var(--a2)">Medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">GDPR Compliance Architecture</h3>
+      <div class="card">
+        <p style="margin-bottom:16px">Physical world data collection has a clear GDPR path — we designed for it from day zero:</p>
+        <ul class="ul-clean">
+          <li><strong>Collector consent</strong> — explicit GDPR-compliant data processing consent at onboarding, with clear task data retention policies</li>
+          <li><strong>No personal data in outputs</strong> — AI explicitly trained to detect and exclude human faces and vehicle plates before delivery to enterprise customers</li>
+          <li><strong>Data residency</strong> — EU collector data stored on EU-region infrastructure (AWS Frankfurt), no transatlantic transfer of personal data</li>
+          <li><strong>Right to erasure</strong> — automated collector data deletion pipeline within 30 days of account closure</li>
+          <li><strong>DPA with enterprise customers</strong> — standard Data Processing Agreement included in all enterprise contracts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ADJACENT MARKETS -->
+<section class="section" id="expansion">
+  <div class="label">Growth Thesis</div>
+  <h2 class="sh">The Adjacent <span class="gg">Market Stack</span></h2>
+  <p class="sub">The same platform infrastructure serves six distinct verticals. CPG builds the collector network. Every vertical after that is incremental revenue on existing supply.</p>
+
+  <div class="two-col" style="margin-bottom:48px">
+    <div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">Market Entry Sequence</h3>
+      <div class="card">
+        <table>
+          <thead><tr><th>Year</th><th>Vertical</th><th>Market Size</th><th>Entry Trigger</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>CPG Field Intelligence</td><td>$4.2B</td><td>Core beachhead</td></tr>
+            <tr><td><strong>2</strong></td><td>Insurance Verification</td><td>$8.0B</td><td>Series A funding</td></tr>
+            <tr><td><strong>2–3</strong></td><td>Real Estate Intel</td><td>$2.0B</td><td>Collector density</td></tr>
+            <tr><td><strong>3</strong></td><td>Logistics Verification</td><td>$5.0B</td><td>20K+ MAC</td></tr>
+            <tr><td><strong>3–4</strong></td><td>Gov / Smart Cities</td><td>$3.0B</td><td>100+ cities</td></tr>
+            <tr><td><strong>4–5</strong></td><td>Alt Financial Data</td><td>$1.5B</td><td>50K+ MAC</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">Why the Stack Works</h3>
+      <div class="card" style="background:linear-gradient(135deg,rgba(255,107,157,0.08),rgba(124,109,245,0.05));border-color:rgba(255,107,157,0.2)">
+        <p style="font-size:15px;line-height:1.75;color:var(--text)">Every vertical uses the <strong>same three assets</strong>: the collector network, the AI extraction engine, and the proof-of-completion infrastructure. Adding insurance doesn't require rebuilding anything — it requires defining new task types and adding property-specific AI extractors.</p>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:16px">The collector network is the scarce resource. Collectors commuting past grocery stores are also commuting past properties, logistics hubs, and government infrastructure. <strong>They don't need to be re-acquired to serve the next vertical.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="bq">The CPG beachhead is not the product. <em>The CPG beachhead is the fastest path to building the collector network and proprietary training data that powers every vertical.</em> We're playing the long game from day one.</div>
+    <div class="src">Mosaic V9 · Market Thesis</div>
+  </div>
+</section>
+
+<footer>
+  <div class="fc">MOSAIC</div>
+  <div class="fs">Physical World Intelligence Infrastructure</div>
+  <div class="fs" style="margin-top:8px;color:var(--a1)">Market Thesis V9 · Competitive Intelligence · 2026</div>
+</footer>
+
+</body>
+</html>
