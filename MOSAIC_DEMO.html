@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Mosaic — Interactive Product Demo</title>
 <meta name="description" content="Mosaic Physical World Intelligence — Full product demo: Collector App + Enterprise Portal">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1874,8 +1874,66 @@ body {
   .two-col { grid-template-columns: 1fr; }
 }
 
+/* ── Enterprise frame: scrollable on mobile ── */
+@media (max-width: 768px) {
+  .desktop-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .desktop-frame {
+    width: 100vw;
+    min-width: 320px;
+    transform-origin: top left;
+  }
+  .desktop-body { flex-direction: column; }
+  .ent-sidebar { display: none; }
+  .ent-main { width: 100%; }
+
+  /* Nav bar: bigger tap targets */
+  .dot { width: 10px; height: 10px; }
+  .dot.active { width: 24px; }
+  .nav-btn { width: 48px; height: 48px; font-size: 20px; }
+  .nav-bar { padding: 12px 16px 20px; }
+}
+
+/* ── Header bar ── */
+@media (max-width: 600px) {
+  .demo-header {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .screen-title { display: none; }
+  .mode-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+  .mode-btn { flex: 1; text-align: center; font-size: 12px; padding: 8px 10px; }
+}
+
+/* ── Phone frame: scale to viewport on small screens ── */
+@media (max-width: 480px) {
+  .phone-frame {
+    width: 100vw;
+    max-width: 390px;
+    height: calc(100vw * 844 / 390);
+    max-height: 844px;
+    border-radius: clamp(20px, 8vw, 55px);
+  }
+
+  .demo-shell {
+    padding: 0;
+    align-items: flex-start;
+  }
+  .phone-wrap {
+    margin: 0 auto;
+  }
+
+  /* Screen content inner padding */
+  .c-screen-inner { padding-top: 30px; }
+  .onboard-title { font-size: 26px; }
+  .payout-amount { font-size: 44px; }
+}
+
+/* ── Legacy fallback (keep existing rule merged in) ── */
 @media (max-width: 420px) {
-  .phone-frame { width: 100%; border-radius: 24px; }
   .demo-header { flex-direction: column; align-items: flex-start; }
   .mode-toggle { width: 100%; }
   .mode-btn { flex: 1; }
@@ -2961,7 +3019,27 @@ function setMode(m) {
   document.getElementById('btnEnterprise').classList.toggle('active', m === 'enterprise');
   renderNav();
   updateLabel();
+  checkMobileBanner();
 }
+
+function checkMobileBanner() {
+  const isMobile = window.innerWidth < 768;
+  let banner = document.getElementById('mobileBanner');
+  if (mode === 'enterprise' && isMobile) {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'mobileBanner';
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(124,58,237,0.9);color:#fff;font-size:11px;text-align:center;padding:6px;z-index:999;backdrop-filter:blur(8px)';
+      banner.textContent = '🖥 Enterprise Portal is optimised for desktop — rotate or use a larger screen';
+      document.body.appendChild(banner);
+    }
+    banner.style.display = 'block';
+  } else if (banner) {
+    banner.style.display = 'none';
+  }
+}
+
+window.addEventListener('resize', checkMobileBanner);
 
 // ═══════════════════════════════════════════════════════════
 //  SCREEN NAVIGATION
