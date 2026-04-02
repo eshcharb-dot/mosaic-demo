@@ -2023,7 +2023,7 @@ body {
             <div class="app-header">
               <div class="app-header-row">
                 <div>
-                  <div class="app-greeting">Good morning</div>
+                  <div class="app-greeting">Good morning, Thursday 9:41 AM</div>
                   <div class="app-name">Maya Chen 👋</div>
                 </div>
                 <div class="avatar">MC</div>
@@ -2033,20 +2033,34 @@ body {
                 <div class="text-xs text-muted">↑ 23% vs last week</div>
               </div>
             </div>
-            <div class="section-label">📍 Tasks Near You · London SE1 <span style="font-size:10px;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:2px 8px;font-weight:600;vertical-align:middle">⚡ Live tasks near you</span></div>
+            <!-- Commute mode banner -->
+            <div style="margin:0 16px 4px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.12));border:1px solid rgba(124,58,237,0.35);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:12px;font-weight:800;color:var(--purple-light);">⚡ COMMUTE MODE ACTIVE</div>
+                <div style="font-size:11px;color:var(--text2);margin-top:2px;">Tasks matched to Borough Market → Bank route</div>
+              </div>
+              <div style="background:rgba(124,58,237,0.3);color:var(--purple-light);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;">ON</div>
+            </div>
+            <div class="section-label" style="display:flex;align-items:center;gap:8px;">
+              📍 4 tasks on your route &nbsp;·&nbsp; Borough Market SE1
+              <span style="font-size:10px;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:2px 8px;font-weight:600;">⚡ Live</span>
+            </div>
             <div class="task-card" onclick="goScreen(3)">
+              <div style="font-size:10px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">⚡ Best match — on your exact route</div>
               <div class="task-card-top">
                 <div class="brand-chip brand-meridian">MF</div>
                 <div class="task-info">
                   <div class="task-brand">Meridian Foods</div>
-                  <div class="task-name">Oat+ Shelf Check<br>& Compliance Scan</div>
+                  <div class="task-name">Oat+ Shelf Check &amp; Compliance Scan</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Sainsbury's Borough Market · 0.2mi north</div>
                 </div>
                 <div class="task-payout">$14.50</div>
               </div>
               <div class="task-meta">
-                <span class="tag tag-blue">📍 0.2mi</span>
-                <span class="tag tag-purple">⚡ 8 min</span>
-                <span class="tag tag-green">✓ Preferred</span>
+                <span class="tag tag-blue">📍 4 min walk</span>
+                <span class="tag tag-purple">⚡ 8 min task</span>
+                <span class="tag tag-green">✓ Pre-verified</span>
+                <span class="tag tag-amber">3 slots left</span>
               </div>
             </div>
             <div class="task-card">
@@ -2054,12 +2068,13 @@ body {
                 <div class="brand-chip brand-nestle">NK</div>
                 <div class="task-info">
                   <div class="task-brand">Nestlé UK</div>
-                  <div class="task-name">KitKat Display<br>Placement Verify</div>
+                  <div class="task-name">KitKat Display Placement Verify</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Tesco Metro Southwark · 0.5mi</div>
                 </div>
                 <div class="task-payout">$9.00</div>
               </div>
               <div class="task-meta">
-                <span class="tag tag-blue">📍 0.5mi</span>
+                <span class="tag tag-blue">📍 8 min walk</span>
                 <span class="tag tag-purple">⚡ 5 min</span>
                 <span class="tag tag-amber">2 slots left</span>
               </div>
@@ -2069,75 +2084,122 @@ body {
                 <div class="brand-chip brand-unilever">UL</div>
                 <div class="task-info">
                   <div class="task-brand">Unilever</div>
-                  <div class="task-name">Dove Promo Display<br>+ Facing Count</div>
+                  <div class="task-name">Dove Promo Display + Facing Count</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Boots Borough · 0.8mi</div>
                 </div>
                 <div class="task-payout">$22.00</div>
               </div>
               <div class="task-meta">
-                <span class="tag tag-blue">📍 0.8mi</span>
+                <span class="tag tag-blue">📍 14 min walk</span>
                 <span class="tag tag-purple">⚡ 15 min</span>
-                <span class="tag tag-green">Bonus Active</span>
+                <span class="tag tag-green">💎 Bonus +$3</span>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-card-top">
+                <div class="brand-chip" style="background:linear-gradient(135deg,#713f12,#92400e);color:#fff;font-size:11px;font-weight:800;border-radius:10px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">PG</div>
+                <div class="task-info">
+                  <div class="task-brand">Procter &amp; Gamble</div>
+                  <div class="task-name">Ariel Promo End-Cap Check</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Waitrose London Bridge · 1.1mi</div>
+                </div>
+                <div class="task-payout">$11.00</div>
+              </div>
+              <div class="task-meta">
+                <span class="tag tag-blue">📍 18 min walk</span>
+                <span class="tag tag-purple">⚡ 6 min</span>
               </div>
             </div>
           </div>
 
           <!-- C3: Map View -->
           <div class="c-screen" id="c2">
-            <div class="map-filter-row">
-              <span class="tag tag-purple">All Tasks</span>
-              <span class="tag tag-blue">Dairy</span>
-              <span class="tag tag-green">Snacks</span>
-              <span class="tag tag-amber">Personal Care</span>
+            <div style="background:var(--bg2);padding:52px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Your Location</div>
+                <div style="font-size:16px;font-weight:700;margin-top:2px;">Borough Market, SE1 <span style="font-size:12px;color:var(--cyan);font-weight:600;">● Live</span></div>
+              </div>
+              <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:6px 12px;font-size:12px;color:var(--green);font-weight:700;">4 tasks nearby</div>
             </div>
-            <div class="map-container">
-              <svg class="map-svg" viewBox="0 0 390 420">
-                <!-- Street grid approximation -->
-                <rect fill="#0a1020" width="390" height="420"/>
-                <g stroke="#141b2d" stroke-width="1" fill="none">
-                  <line x1="0" y1="100" x2="390" y2="100"/>
-                  <line x1="0" y1="200" x2="390" y2="200"/>
-                  <line x1="0" y1="300" x2="390" y2="300"/>
-                  <line x1="0" y1="350" x2="390" y2="350"/>
-                  <line x1="80" y1="0" x2="80" y2="420"/>
-                  <line x1="160" y1="0" x2="160" y2="420"/>
-                  <line x1="240" y1="0" x2="240" y2="420"/>
-                  <line x1="320" y1="0" x2="320" y2="420"/>
+            <div class="map-filter-row">
+              <span class="tag tag-purple" style="cursor:pointer">All Tasks</span>
+              <span class="tag tag-blue" style="cursor:pointer">🥛 Dairy</span>
+              <span class="tag tag-green" style="cursor:pointer">🍫 Snacks</span>
+              <span class="tag tag-amber" style="cursor:pointer">🧴 Personal Care</span>
+            </div>
+            <div class="map-container" style="height:360px;">
+              <svg class="map-svg" viewBox="0 0 390 360" style="opacity:1;">
+                <rect fill="#070d1a" width="390" height="360"/>
+                <!-- Major roads -->
+                <g stroke="#161f35" stroke-width="8" fill="none" opacity="0.9">
+                  <line x1="0" y1="180" x2="390" y2="180"/>
+                  <line x1="195" y1="0" x2="195" y2="360"/>
+                  <path d="M0 120 Q195 140 390 120"/>
+                  <path d="M0 240 Q195 220 390 240"/>
                 </g>
-                <!-- River Thames approximation -->
-                <path d="M0 250 Q100 230 200 260 Q300 290 390 270" stroke="#0d2a4a" stroke-width="30" fill="none"/>
-                <!-- Blocks -->
-                <rect x="90" y="110" width="60" height="80" rx="4" fill="#111827"/>
-                <rect x="170" y="110" width="60" height="80" rx="4" fill="#111827"/>
-                <rect x="250" y="110" width="60" height="80" rx="4" fill="#111827"/>
-                <rect x="90" y="210" width="60" height="30" rx="4" fill="#111827"/>
-                <rect x="170" y="210" width="60" height="30" rx="4" fill="#111827"/>
+                <!-- Minor streets -->
+                <g stroke="#111827" stroke-width="3" fill="none">
+                  <line x1="0" y1="90" x2="390" y2="90"/>
+                  <line x1="0" y1="270" x2="390" y2="270"/>
+                  <line x1="100" y1="0" x2="100" y2="360"/>
+                  <line x1="290" y1="0" x2="290" y2="360"/>
+                </g>
+                <!-- River Thames (wider, more realistic) -->
+                <path d="M0 220 Q80 200 160 215 Q240 230 320 210 Q360 200 390 205" stroke="#0a1e38" stroke-width="28" fill="none" opacity="0.85"/>
+                <!-- Building blocks -->
+                <rect x="110" y="95" width="75" height="75" rx="3" fill="#0f1624"/>
+                <rect x="200" y="95" width="75" height="75" rx="3" fill="#0f1624"/>
+                <rect x="110" y="195" width="75" height="60" rx="3" fill="#0f1624"/>
+                <rect x="200" y="195" width="75" height="60" rx="3" fill="#0f1624"/>
+                <rect x="20" y="130" width="65" height="45" rx="3" fill="#0f1624"/>
+                <rect x="305" y="130" width="65" height="45" rx="3" fill="#0f1624"/>
+                <!-- Street labels -->
+                <text x="130" y="87" fill="#1e2d45" font-size="9" font-family="Inter, sans-serif">Borough High St</text>
+                <text x="60" y="177" fill="#1e2d45" font-size="8" font-family="Inter, sans-serif">Southwark St</text>
+                <text x="220" y="177" fill="#1e2d45" font-size="8" font-family="Inter, sans-serif">London Bridge St</text>
+                <!-- Commute route highlight -->
+                <path d="M195 300 Q210 260 235 155" stroke="rgba(124,58,237,0.6)" stroke-width="3" fill="none" stroke-dasharray="6,4"/>
               </svg>
               <div class="map-overlay">
-                <!-- User location -->
-                <div class="map-user-pin" style="left:200px;top:180px;"></div>
-                <!-- Task pins -->
-                <div class="map-pin pin-purple" style="left:240px;top:145px;">
-                  <div class="pin-ring"></div><div class="pin-dot"></div>
+                <!-- User position (bottom center) -->
+                <div class="map-user-pin" style="left:195px;top:300px;">
+                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--cyan);color:#000;font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;">YOU</div>
                 </div>
-                <div class="map-pin pin-cyan" style="left:150px;top:230px;">
-                  <div class="pin-ring"></div><div class="pin-dot"></div>
+                <!-- Commute route label -->
+                <div style="position:absolute;left:238px;top:210px;font-size:9px;color:rgba(124,58,237,0.8);white-space:nowrap;font-weight:600;">── Your route</div>
+                <!-- Task pin 1: CLOSEST — Sainsbury's -->
+                <div class="map-pin pin-purple" style="left:235px;top:150px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(124,58,237,0.95);border:2px solid rgba(124,58,237,0.8);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 12px rgba(124,58,237,0.5);">
+                    $14.50 · 0.2mi
+                    <div style="font-size:9px;font-weight:600;opacity:0.8">Sainsbury's · ON YOUR ROUTE</div>
+                  </div>
                 </div>
-                <div class="map-pin pin-green" style="left:290px;top:220px;">
-                  <div class="pin-ring"></div><div class="pin-dot"></div>
+                <!-- Task pin 2 -->
+                <div class="map-pin pin-cyan" style="left:140px;top:230px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(6,182,212,0.9);border:2px solid rgba(6,182,212,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
+                    $9.00 · 0.5mi
+                    <div style="font-size:9px;opacity:0.7">Tesco Metro</div>
+                  </div>
                 </div>
-                <div class="map-pin pin-purple" style="left:120px;top:160px;">
-                  <div class="pin-ring"></div><div class="pin-dot"></div>
+                <!-- Task pin 3 -->
+                <div class="map-pin pin-green" style="left:310px;top:200px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(16,185,129,0.9);border:2px solid rgba(16,185,129,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
+                    $22.00 · 0.8mi
+                    <div style="font-size:9px;opacity:0.7">Boots</div>
+                  </div>
                 </div>
               </div>
               <div class="map-task-popup">
+                <div style="font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">⚡ Best match on your route</div>
                 <div class="flex-between mb8">
                   <div>
-                    <div class="text-xs text-muted">Meridian Foods · 0.2mi</div>
-                    <div class="fw700">Oat+ Shelf Check</div>
+                    <div class="text-xs text-muted">Meridian Foods · Sainsbury's Borough Market</div>
+                    <div class="fw700">Oat+ Shelf Check &amp; Compliance</div>
+                    <div style="font-size:11px;color:var(--text2);margin-top:3px;">📍 0.2mi north · ~4 min walk · 8 min task</div>
                   </div>
-                  <div class="text-green fw800">$14.50</div>
+                  <div class="text-green fw800" style="font-size:18px;">$14.50</div>
                 </div>
-                <button class="cta-btn" style="margin:0;width:100%;padding:12px;" onclick="goScreen(3)">Accept Task →</button>
+                <button class="cta-btn" style="margin:0;width:100%;padding:12px;" onclick="goScreen(3)">Accept &amp; Navigate →</button>
               </div>
             </div>
           </div>
@@ -2155,27 +2217,64 @@ body {
                 <span class="tag tag-purple">3 photos needed</span>
               </div>
             </div>
+            <!-- Location card -->
+            <div style="margin:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+              <div style="display:flex;align-items:stretch;">
+                <div style="flex:1;padding:12px 14px;">
+                  <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:6px;">📍 Location</div>
+                  <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.3;">Sainsbury's<br>Borough Market</div>
+                  <div style="font-size:12px;color:var(--text2);margin-top:4px;">15 Borough High St, SE1 1NB</div>
+                  <div style="margin-top:8px;display:flex;gap:8px;">
+                    <span style="font-size:11px;background:rgba(6,182,212,0.12);color:var(--cyan);border:1px solid rgba(6,182,212,0.25);border-radius:6px;padding:3px 8px;font-weight:600;">📍 0.2mi · 4 min walk</span>
+                    <span style="font-size:11px;background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.25);border-radius:6px;padding:3px 8px;font-weight:600;">⏰ Opens 7am</span>
+                  </div>
+                  <div style="margin-top:8px;font-size:11px;color:var(--purple-light);font-weight:600;cursor:pointer;">▶ Start Navigation →</div>
+                </div>
+                <!-- Mini static map -->
+                <div style="width:110px;background:#070e1a;flex-shrink:0;position:relative;">
+                  <svg width="110" height="100%" viewBox="0 0 110 120" style="display:block;">
+                    <rect fill="#060c18" width="110" height="120"/>
+                    <g stroke="#111f35" stroke-width="4" fill="none">
+                      <line x1="0" y1="60" x2="110" y2="60"/>
+                      <line x1="55" y1="0" x2="55" y2="120"/>
+                    </g>
+                    <rect x="20" y="15" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="60" y="15" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="20" y="65" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="60" y="65" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <!-- Route line from user to store -->
+                    <path d="M55 110 L55 72" stroke="rgba(124,58,237,0.8)" stroke-width="2.5" stroke-dasharray="4,3"/>
+                    <!-- User dot -->
+                    <circle cx="55" cy="110" r="5" fill="var(--cyan)" stroke="#fff" stroke-width="2"/>
+                    <!-- Store pin -->
+                    <circle cx="55" cy="65" r="8" fill="var(--purple)" stroke="rgba(124,58,237,0.6)" stroke-width="2"/>
+                    <text x="55" y="69" text-anchor="middle" fill="#fff" font-size="9" font-weight="800" font-family="Inter,sans-serif">S</text>
+                    <text x="55" y="85" text-anchor="middle" fill="#94a3b8" font-size="7" font-family="Inter,sans-serif">0.2mi</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
             <div class="task-steps">
-              <div class="text-xs text-muted fw700 mb8" style="text-transform:uppercase;letter-spacing:0.08em;">Task Steps</div>
+              <div class="text-xs text-muted fw700 mb8" style="text-transform:uppercase;letter-spacing:0.08em;">Task Steps · Aisle 6</div>
               <div class="task-step">
                 <div class="step-num">1</div>
                 <div class="step-body">
-                  <div class="step-title">Locate the Oat Milk aisle</div>
-                  <div class="step-desc">Find Oat+ Oat Milk 1L in dairy alternative section (usually Aisle 6 or 7)</div>
+                  <div class="step-title">Enter via Borough High St entrance → Aisle 6</div>
+                  <div class="step-desc">Oat+ Oat Milk 1L is in the dairy alternatives section. Look for the white &amp; blue cartons on the middle shelf.</div>
                 </div>
               </div>
               <div class="task-step">
                 <div class="step-num">2</div>
                 <div class="step-body">
                   <div class="step-title">Photograph full shelf section</div>
-                  <div class="step-desc">Capture the full facing — all 4 SKUs in frame, including shelf tag</div>
+                  <div class="step-desc">Capture all 4 SKUs in frame — include the shelf price tag. Stand back 1–1.5m for full width.</div>
                 </div>
               </div>
               <div class="task-step">
                 <div class="step-num">3</div>
                 <div class="step-body">
-                  <div class="step-title">Scan for compliance indicators</div>
-                  <div class="step-desc">Our AI checks: stock level, facings count, correct placement, promo tag presence</div>
+                  <div class="step-title">AI scans instantly — result in 30 seconds</div>
+                  <div class="step-desc">Mosaic checks: stock level, facings count, correct placement, promo tag. Done automatically.</div>
                 </div>
               </div>
             </div>
@@ -2646,69 +2745,49 @@ body {
 
             <!-- E3: Live Map -->
             <div class="e-screen" id="e2">
-              <div class="live-map-full" style="height:636px;">
-                <img src="deck-assets/mosaic-map-london-v1.png" alt="London map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.75;" onerror="this.remove()">
-                <div class="live-badge">
-                  <div class="live-pulse"></div>LIVE · 247 stores
+              <div class="live-map-full" style="height:636px;position:relative;overflow:hidden;background:#060d1a;">
+                <!-- Base map image -->
+                <img src="deck-assets/mosaic-map-london-v1.png" alt="London map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" onerror="this.style.display='none'">
+                <!-- Dark vignette overlay -->
+                <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,rgba(6,13,26,0.6) 100%);pointer-events:none;z-index:1"></div>
+                <!-- Compliance store dots -->
+                <svg style="position:absolute;inset:0;z-index:2" width="100%" height="100%" viewBox="0 0 840 636">
+                  <!-- Compliant (green) — scattered across London area -->
+                  <circle cx="455" cy="355" r="7" fill="#10b981" opacity="0.92"><animate attributeName="r" values="7;10;7" dur="3s" repeatCount="indefinite"/></circle>
+                  <circle cx="490" cy="330" r="5" fill="#10b981" opacity="0.85"/>
+                  <circle cx="420" cy="370" r="5" fill="#10b981" opacity="0.85"/>
+                  <circle cx="475" cy="385" r="5" fill="#10b981" opacity="0.85"/>
+                  <circle cx="440" cy="310" r="5" fill="#10b981" opacity="0.80"/>
+                  <circle cx="510" cy="360" r="5" fill="#10b981" opacity="0.80"/>
+                  <circle cx="430" cy="400" r="5" fill="#10b981" opacity="0.80"/>
+                  <circle cx="465" cy="415" r="5" fill="#10b981" opacity="0.75"/>
+                  <circle cx="500" cy="345" r="4" fill="#10b981" opacity="0.75"/>
+                  <circle cx="445" cy="340" r="4" fill="#10b981" opacity="0.75"/>
+                  <circle cx="480" cy="405" r="4" fill="#10b981" opacity="0.75"/>
+                  <!-- Warning (amber) -->
+                  <circle cx="415" cy="330" r="6" fill="#f59e0b" opacity="0.90"><animate attributeName="r" values="6;9;6" dur="2.5s" repeatCount="indefinite"/></circle>
+                  <circle cx="460" cy="295" r="5" fill="#f59e0b" opacity="0.85"/>
+                  <circle cx="505" cy="375" r="5" fill="#f59e0b" opacity="0.80"/>
+                  <!-- Critical (red) — pulsing -->
+                  <circle cx="450" cy="360" r="8" fill="#ef4444" opacity="0.95"><animate attributeName="r" values="8;13;8" dur="1.5s" repeatCount="indefinite"/></circle>
+                  <circle cx="490" cy="315" r="5" fill="#ef4444" opacity="0.85"/>
+                </svg>
+                <!-- Store tooltip on hover area (decorative) -->
+                <div style="position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(13,17,23,0.92);border:1px solid rgba(239,68,68,0.5);border-radius:10px;padding:10px 16px;white-space:nowrap;backdrop-filter:blur(8px);">
+                  <div style="font-size:11px;color:var(--text3);margin-bottom:3px;">🚨 CRITICAL ALERT</div>
+                  <div style="font-size:13px;font-weight:700;">Co-op Shoreditch · E1</div>
+                  <div style="font-size:12px;color:var(--red);font-weight:600;">Score: 48 · Out of stock detected</div>
                 </div>
-                <div class="live-map-controls">
+                <div class="live-badge" style="z-index:4">
+                  <div class="live-pulse"></div>LIVE · 247 stores · London
+                </div>
+                <div class="live-map-controls" style="z-index:4">
                   <div class="map-ctrl-btn">+</div>
                   <div class="map-ctrl-btn">−</div>
                   <div class="map-ctrl-btn">⊕</div>
                   <div class="map-ctrl-btn">⊞</div>
                 </div>
-                <!-- SVG UK map -->
-                <svg width="100%" height="100%" viewBox="0 0 840 636" style="opacity:0.9;position:relative;z-index:1">
-                  <rect fill="transparent" width="840" height="636"/>
-                  <!-- Grid lines -->
-                  <g stroke="#141b2d" stroke-width="1">
-                    <line x1="0" y1="100" x2="840" y2="100"/>
-                    <line x1="0" y1="200" x2="840" y2="200"/>
-                    <line x1="0" y1="300" x2="840" y2="300"/>
-                    <line x1="0" y1="400" x2="840" y2="400"/>
-                    <line x1="0" y1="500" x2="840" y2="500"/>
-                    <line x1="140" y1="0" x2="140" y2="636"/>
-                    <line x1="280" y1="0" x2="280" y2="636"/>
-                    <line x1="420" y1="0" x2="420" y2="636"/>
-                    <line x1="560" y1="0" x2="560" y2="636"/>
-                    <line x1="700" y1="0" x2="700" y2="636"/>
-                  </g>
-                  <!-- UK outline approximation -->
-                  <path d="M380 80 L410 60 L440 80 L460 120 L450 160 L480 200 L500 250 L490 310 L470 370 L450 420 L430 480 L420 540 L410 580 L400 540 L380 500 L360 450 L350 400 L340 350 L330 290 L320 230 L340 180 L360 130 Z" fill="none" stroke="#1e2d45" stroke-width="2"/>
-                  <!-- Scotland -->
-                  <path d="M380 80 L350 50 L320 40 L300 70 L310 110 L340 130 L380 80" fill="none" stroke="#1e2d45" stroke-width="2"/>
-                  <!-- City dots - London area -->
-                  <circle cx="460" cy="370" r="5" fill="#7c3aed" opacity="0.8"/>
-                  <text x="472" y="374" fill="#94a3b8" font-size="10">London</text>
-                  <!-- Manchester -->
-                  <circle cx="400" cy="250" r="4" fill="#06b6d4" opacity="0.8"/>
-                  <text x="412" y="254" fill="#94a3b8" font-size="10">Manchester</text>
-                  <!-- Glasgow -->
-                  <circle cx="340" cy="100" r="4" fill="#10b981" opacity="0.8"/>
-                  <text x="352" y="104" fill="#94a3b8" font-size="10">Glasgow</text>
-                  <!-- Birmingham -->
-                  <circle cx="430" cy="310" r="4" fill="#7c3aed" opacity="0.6"/>
-                  <text x="442" y="314" fill="#94a3b8" font-size="10">Birmingham</text>
-                </svg>
-                <!-- Store markers overlaid -->
-                <svg style="position:absolute;inset:0" width="100%" height="100%" viewBox="0 0 840 636">
-                  <!-- Compliant stores -->
-                  <circle cx="460" cy="360" r="6" fill="#10b981" opacity="0.9"><animate attributeName="r" values="6;9;6" dur="3s" repeatCount="indefinite"/></circle>
-                  <circle cx="430" cy="305" r="5" fill="#10b981" opacity="0.9"/>
-                  <circle cx="400" cy="245" r="5" fill="#10b981" opacity="0.9"/>
-                  <circle cx="340" cy="95" r="5" fill="#10b981" opacity="0.9"/>
-                  <circle cx="420" cy="380" r="5" fill="#10b981" opacity="0.7"/>
-                  <circle cx="470" cy="340" r="5" fill="#10b981" opacity="0.7"/>
-                  <circle cx="445" cy="395" r="5" fill="#10b981" opacity="0.7"/>
-                  <!-- Warning stores -->
-                  <circle cx="415" cy="270" r="6" fill="#f59e0b" opacity="0.9"><animate attributeName="r" values="6;9;6" dur="2.5s" repeatCount="indefinite"/></circle>
-                  <circle cx="360" cy="200" r="5" fill="#f59e0b" opacity="0.8"/>
-                  <circle cx="380" cy="320" r="5" fill="#f59e0b" opacity="0.8"/>
-                  <!-- Critical stores -->
-                  <circle cx="450" cy="290" r="7" fill="#ef4444" opacity="0.95"><animate attributeName="r" values="7;11;7" dur="1.5s" repeatCount="indefinite"/></circle>
-                  <circle cx="390" cy="350" r="5" fill="#ef4444" opacity="0.8"/>
-                </svg>
-                <div class="live-legend">
+                <div class="live-legend" style="z-index:4">
                   <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Compliant (215)</div>
                   <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Warning (20)</div>
                   <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Critical (12)</div>
@@ -2723,94 +2802,123 @@ body {
                 <div class="ent-page-sub">1,847 photos · Last 7 days · Auto-analysed by Mosaic AI</div>
                 <div class="results-toolbar">
                   <div class="results-toolbar-left">
-                    <span class="filter-pill active">All</span>
-                    <span class="filter-pill">✓ Compliant</span>
-                    <span class="filter-pill">⚠ Issues</span>
-                    <span class="filter-pill">🆕 Unreviewed</span>
+                    <span class="filter-pill active" onclick="filterGallery('all',this)">All (9)</span>
+                    <span class="filter-pill" onclick="filterGallery('pass',this)">✓ Compliant (5)</span>
+                    <span class="filter-pill" onclick="filterGallery('warn',this)">⚠ Warning (2)</span>
+                    <span class="filter-pill" onclick="filterGallery('fail',this)">✗ Critical (2)</span>
                   </div>
-                  <div class="results-stat">Showing <strong>1,847</strong> of 1,847</div>
+                  <div class="results-stat">Showing <strong id="galleryCount">9</strong> results</div>
                 </div>
-                <div class="results-grid">
+                <div class="results-grid" id="galleryGrid">
                   <!-- PASS: Sainsbury's — full stock -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                      <div class="shelf-visual shelf-tint-pass" style="height:100%;display:none">
-                        <div class="s-row" style="margin-top:4px"><div class="sp sp-oat-feat sp-sm"></div><div class="sp sp-oat-feat sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-green sp-sm"></div><div class="sp sp-green sp-sm"></div></div>
-                        <div class="s-row"><div class="sp sp-white sp-sm"></div><div class="sp sp-white sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-purple sp-sm"></div><div class="sp sp-red sp-sm"></div></div>
-                      </div>
-                      <div class="result-status pass">PASS</div>
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('sainsburys')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">94/100</div>
                     </div>
-                    <div class="result-meta"><strong>Sainsbury's Borough Mkt</strong>Score: 94 · Maya C.</div>
+                    <div class="result-meta"><strong>Sainsbury's Borough Mkt</strong>Fully stocked · 4/4 facings · Maya C. · 2h ago</div>
                   </div>
                   <!-- PASS: Tesco — full stock -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
-                      <div class="result-status pass">PASS</div>
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('tesco')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">89/100</div>
                     </div>
-                    <div class="result-meta"><strong>Tesco Clapham</strong>Score: 89 · Arjun S.</div>
+                    <div class="result-meta"><strong>Tesco Clapham Junction</strong>4/4 facings · Good stock · Arjun S. · 5h ago</div>
                   </div>
-                  <!-- WARN: Waitrose — one gap -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Waitrose shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
-                      <div class="result-status warn">WARN</div>
-                    </div>
-                    <div class="result-meta"><strong>Waitrose Canary Whf</strong>Score: 71 · Sophie L.</div>
-                  </div>
-                  <!-- PASS: M&S — full stock, neat -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="M&S shelf" style="width:100%;height:100%;object-fit:cover;display:block;filter:hue-rotate(20deg)" onerror="this.remove()">
-                      <div class="result-status pass">PASS</div>
-                    </div>
-                    <div class="result-meta"><strong>M&S Marble Arch</strong>Score: 91 · James T.</div>
-                  </div>
-                  <!-- FAIL: Co-op — mostly empty -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Co-op shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                      <div class="shelf-visual shelf-tint-fail" style="height:100%;display:none;background:#1a0a0a">
-                        <div class="s-row" style="margin-top:4px"><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div></div>
-                        <div class="s-row"><div class="sp sp-empty sp-sm"></div><div class="sp sp-white sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div></div>
+                  <!-- WARN: Waitrose — gap -->
+                  <div class="result-item" data-status="warn" onclick="openGalleryDetail('waitrose')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(245,158,11,0.5);">
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Waitrose low stock" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+                      <div class="result-status warn">⚠ WARN</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(245,158,11,0.95);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">71/100</div>
+                      <!-- Non-compliance overlay indicator -->
+                      <div style="position:absolute;inset:0;border:3px solid rgba(245,158,11,0.4);border-radius:2px;pointer-events:none;">
+                        <div style="position:absolute;top:30%;left:20%;width:28%;height:40%;border:2px dashed rgba(245,158,11,0.8);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                          <span style="font-size:10px;color:rgba(245,158,11,0.95);font-weight:800;background:rgba(0,0,0,0.7);padding:1px 3px;border-radius:2px;">GAP</span>
+                        </div>
                       </div>
-                      <div class="result-status fail">FAIL</div>
                     </div>
-                    <div class="result-meta"><strong>Co-op Shoreditch</strong>Score: 48 · Emma K.</div>
+                    <div class="result-meta"><strong>Waitrose Canary Wharf</strong>⚠ 2 empty slots · Stock at 18% · Sophie L. · 1d ago</div>
                   </div>
-                  <!-- PASS: Asda — full -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Asda shelf" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.9) saturate(0.9)" onerror="this.remove()">
-                      <div class="result-status pass">PASS</div>
+                  <!-- FAIL: Co-op — mostly empty, CRITICAL -->
+                  <div class="result-item" data-status="fail" onclick="openGalleryDetail('coop')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(239,68,68,0.6);">
+                      <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Co-op out of stock" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-status fail">✗ FAIL</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(239,68,68,0.95);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">48/100</div>
+                      <!-- Critical overlay -->
+                      <div style="position:absolute;inset:0;background:rgba(239,68,68,0.08);border:3px solid rgba(239,68,68,0.5);border-radius:2px;pointer-events:none;display:flex;align-items:center;justify-content:center;">
+                        <span style="background:rgba(239,68,68,0.9);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;letter-spacing:0.05em;">OUT OF STOCK</span>
+                      </div>
                     </div>
-                    <div class="result-meta"><strong>Asda Old St</strong>Score: 88 · Kai M.</div>
+                    <div class="result-meta"><strong>Co-op Shoreditch</strong>🚨 Zero facings · Out of stock · Emma K. · 3h ago</div>
                   </div>
-                  <!-- PASS: Sainsbury's Angel — excellent -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's Angel" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
-                      <div class="result-status pass">PASS</div>
+                  <!-- PASS: M&S — scan result -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('mas')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-shelf-scan-v2.png" alt="M&S AI scan" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">91/100</div>
                     </div>
-                    <div class="result-meta"><strong>Sainsbury's Angel</strong>Score: 96 · Priya R.</div>
+                    <div class="result-meta"><strong>M&S Marble Arch</strong>AI scan · 4/4 facings · Eye-level ✓ · James T.</div>
+                  </div>
+                  <!-- FAIL: Asda — wrong placement -->
+                  <div class="result-item" data-status="fail" onclick="openGalleryDetail('asda')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(239,68,68,0.5);">
+                      <img src="deck-assets/mosaic-shelf-scan-v1.png" alt="Asda wrong placement" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.85)">
+                      <div class="result-status fail">✗ FAIL</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(239,68,68,0.95);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">52/100</div>
+                      <div style="position:absolute;bottom:28px;left:6px;right:6px;background:rgba(239,68,68,0.85);color:#fff;font-size:9px;font-weight:700;padding:3px 6px;border-radius:4px;text-align:center;">Wrong shelf level · Missing promo tag</div>
+                    </div>
+                    <div class="result-meta"><strong>Asda Old Street</strong>🚨 Wrong placement · Promo tag missing · Kai M.</div>
+                  </div>
+                  <!-- PASS: Sainsbury's Angel -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('angel')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's Angel" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;filter:brightness(1.05) contrast(1.02)">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">96/100</div>
+                    </div>
+                    <div class="result-meta"><strong>Sainsbury's Angel</strong>⭐ Excellent · Top score this week · Priya R.</div>
                   </div>
                   <!-- WARN: Lidl — partial stock -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Lidl shelf" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.85)" onerror="this.remove()">
-                      <div class="result-status warn">WARN</div>
+                  <div class="result-item" data-status="warn" onclick="openGalleryDetail('lidl')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(245,158,11,0.5);">
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Lidl partial" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.80) saturate(0.85)">
+                      <div class="result-status warn">⚠ WARN</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(245,158,11,0.95);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">68/100</div>
+                      <div style="position:absolute;inset:0;border:3px solid rgba(245,158,11,0.35);border-radius:2px;pointer-events:none;">
+                        <div style="position:absolute;top:25%;left:45%;width:22%;height:38%;border:2px dashed rgba(245,158,11,0.85);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                          <span style="font-size:9px;color:rgba(245,158,11,0.95);font-weight:800;background:rgba(0,0,0,0.75);padding:1px 3px;border-radius:2px;">GAP</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="result-meta"><strong>Lidl Bermondsey</strong>Score: 68 · Tom H.</div>
+                    <div class="result-meta"><strong>Lidl Bermondsey</strong>⚠ 1 empty slot · Low stock risk · Tom H.</div>
                   </div>
-                  <!-- PASS: Tesco King's Cross -->
-                  <div class="result-item">
-                    <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco King's Cross shelf" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.95) hue-rotate(-10deg)" onerror="this.remove()">
-                      <div class="result-status pass">PASS</div>
+                  <!-- PASS: Tesco King's Cross — store worker photo -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('kingscross')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-store-worker-v2.png" alt="Tesco collector" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">93/100</div>
                     </div>
-                    <div class="result-meta"><strong>Tesco King's Cross</strong>Score: 93 · Zara O.</div>
+                    <div class="result-meta"><strong>Tesco King's Cross</strong>Verified capture · 4/4 facings · Zara O. · 4h ago</div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Detail Modal -->
+            <div id="galleryModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeGalleryModal()">
+              <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;width:min(700px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;" id="galleryModalInner">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border);">
+                  <div style="font-size:16px;font-weight:800;" id="modalTitle">Store Detail</div>
+                  <button onclick="closeGalleryModal()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
+                </div>
+                <div id="modalBody" style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
                 </div>
               </div>
             </div>
@@ -3017,8 +3125,8 @@ function setMode(m) {
   document.body.setAttribute('data-mode', m);
   document.getElementById('btnCollector').classList.toggle('active', m === 'collector');
   document.getElementById('btnEnterprise').classList.toggle('active', m === 'enterprise');
-  renderNav();
-  updateLabel();
+  // Always activate the current screen so nothing is blank on switch
+  goScreen(m === 'collector' ? cIdx : eIdx);
   checkMobileBanner();
 }
 
@@ -3223,6 +3331,202 @@ function onScreenChanged() {
     maybeTypewrite();
     maybeAnimatePayout();
   }, 400);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY FILTER
+// ═══════════════════════════════════════════════════════════
+function filterGallery(status, el) {
+  document.querySelectorAll('.results-toolbar .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const items = document.querySelectorAll('#galleryGrid .result-item');
+  let count = 0;
+  items.forEach(item => {
+    const show = status === 'all' || item.dataset.status === status;
+    item.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  const cntEl = document.getElementById('galleryCount');
+  if (cntEl) cntEl.textContent = count;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY DETAIL MODAL
+// ═══════════════════════════════════════════════════════════
+const GALLERY_DATA = {
+  sainsburys: {
+    title: "Sainsbury's Borough Market · PASS",
+    status: 'pass', score: 94,
+    img: 'deck-assets/mosaic-gallery-sainsburys-v1.png',
+    store: "15 Borough High St, SE1 1NB",
+    collector: "Maya C. — Top Collector (94.2 avg)", submitted: "2 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '85% — Good', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: 'Not applicable', ok: true }
+    ]
+  },
+  tesco: {
+    title: "Tesco Clapham Junction · PASS",
+    status: 'pass', score: 89,
+    img: 'deck-assets/mosaic-shelf-oat-v1.png',
+    store: "48 Clapham High St, SW4 7UR",
+    collector: "Arjun S.", submitted: "5 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '72% — Adequate', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: '⚠ Promo poster missing', ok: false }
+    ]
+  },
+  waitrose: {
+    title: "Waitrose Canary Wharf · WARNING",
+    status: 'warn', score: 71,
+    img: 'deck-assets/mosaic-shelf-empty-v1.png',
+    store: "Canada Place, Canary Wharf, E14 5EW",
+    collector: "Sophie L.", submitted: "1 day ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '2 / 4 required ⚠', ok: false },
+      { label: 'Stock Level', val: '18% — Critical ⚠', ok: false },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'AI Prediction', val: 'Stockout within 48hrs', ok: false }
+    ]
+  },
+  coop: {
+    title: "Co-op Shoreditch · CRITICAL FAIL",
+    status: 'fail', score: 48,
+    img: 'deck-assets/mosaic-gallery-coop-v1.png',
+    store: "146 Bethnal Green Rd, E1 6JB",
+    collector: "Emma K.", submitted: "3 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'NOT FOUND ✗', ok: false },
+      { label: 'Facings Count', val: '0 / 4 ✗ OUT OF STOCK', ok: false },
+      { label: 'Stock Level', val: '0% — Empty ✗', ok: false },
+      { label: 'Shelf Tag Present', val: 'Tag present (product missing)', ok: false },
+      { label: 'Est. Lost Sales Today', val: '~$340 (Saturday traffic)', ok: false },
+      { label: 'Action Required', val: '🚨 Emergency restock', ok: false }
+    ]
+  },
+  mas: {
+    title: "M&S Marble Arch · PASS",
+    status: 'pass', score: 91,
+    img: 'deck-assets/mosaic-shelf-scan-v2.png',
+    store: "458 Oxford St, W1C 1AP",
+    collector: "James T.", submitted: "6 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '78% — Good', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: 'April promo ✓', ok: true },
+      { label: 'AI Confidence', val: '98.4%', ok: true }
+    ]
+  },
+  asda: {
+    title: "Asda Old Street · CRITICAL FAIL",
+    status: 'fail', score: 52,
+    img: 'deck-assets/mosaic-shelf-scan-v1.png',
+    store: "Old St Roundabout, EC1V 9NR",
+    collector: "Kai M.", submitted: "8 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓ (found)', ok: true },
+      { label: 'Facings Count', val: '2 / 4 required ✗', ok: false },
+      { label: 'Shelf Level', val: 'Bottom shelf ✗ (not eye level)', ok: false },
+      { label: 'Promo Tag', val: 'Missing — contract breach ✗', ok: false },
+      { label: 'Est. Revenue Impact', val: '-28% promo uplift lost', ok: false },
+      { label: 'Action Required', val: 'Field rep escalation', ok: false }
+    ]
+  },
+  angel: {
+    title: "Sainsbury's Angel · PASS — Top Score",
+    status: 'pass', score: 96,
+    img: 'deck-assets/mosaic-gallery-sainsburys-v1.png',
+    store: "10 Upper St, Islington, N1 0PQ",
+    collector: "Priya R. — #1 this week", submitted: "4 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '94% — Excellent', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes — prominent ✓', ok: true },
+      { label: 'Promo Compliance', val: 'April campaign ✓', ok: true },
+      { label: 'Notes', val: '⭐ Best-in-network store', ok: true }
+    ]
+  },
+  lidl: {
+    title: "Lidl Bermondsey · WARNING",
+    status: 'warn', score: 68,
+    img: 'deck-assets/mosaic-shelf-empty-v1.png',
+    store: "Tower Bridge Rd, SE1 3DG",
+    collector: "Tom H.", submitted: "12 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '3 / 4 required ⚠', ok: false },
+      { label: 'Stock Level', val: '42% — Watch closely', ok: false },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Placement', val: 'Mid-level ✓', ok: true },
+      { label: 'Next Audit', val: 'Recommended within 3 days', ok: false }
+    ]
+  },
+  kingscross: {
+    title: "Tesco King's Cross · PASS",
+    status: 'pass', score: 93,
+    img: 'deck-assets/mosaic-store-worker-v2.png',
+    store: "King's Cross Station, N1C 4TB",
+    collector: "Zara O.", submitted: "4 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '80% — Good', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Commute capture', val: '⚡ Route-matched agent', ok: true }
+    ]
+  }
+};
+
+function openGalleryDetail(key) {
+  const d = GALLERY_DATA[key];
+  if (!d) return;
+  const modal = document.getElementById('galleryModal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  const statusColor = d.status === 'pass' ? 'var(--green)' : d.status === 'warn' ? 'var(--amber)' : 'var(--red)';
+  const statusIcon = d.status === 'pass' ? '✓' : d.status === 'warn' ? '⚠' : '✗';
+  title.innerHTML = `<span style="color:${statusColor}">${statusIcon}</span> ${d.title}`;
+  body.innerHTML = `
+    <div>
+      <img src="${d.img}" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:2px solid ${statusColor}33;margin-bottom:12px;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:6px;">Store Info</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:3px;">${d.store}</div>
+        <div style="font-size:12px;color:var(--text2);">Collector: ${d.collector}</div>
+        <div style="font-size:12px;color:var(--text2);">Submitted: ${d.submitted}</div>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">AI Compliance Report</div>
+        <div style="font-size:28px;font-weight:900;color:${statusColor};">${d.score}<span style="font-size:14px;font-weight:500;color:var(--text2);">/100</span></div>
+      </div>
+      ${d.findings.map(f => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="font-size:13px;color:var(--text2);">${f.label}</span>
+          <span style="font-size:13px;font-weight:600;color:${f.ok ? 'var(--green)' : f.label.includes('Prediction')||f.label.includes('Action')||f.label.includes('Next') ? 'var(--amber)' : 'var(--red)'};">${f.val}</span>
+        </div>`).join('')}
+      <button onclick="closeGalleryModal()" style="width:100%;margin-top:16px;padding:12px;background:var(--gradient);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Close</button>
+    </div>`;
+  modal.style.display = 'flex';
+}
+
+function closeGalleryModal() {
+  document.getElementById('galleryModal').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════════
