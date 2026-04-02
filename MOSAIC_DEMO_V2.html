@@ -1944,7 +1944,26 @@ body {
   .mode-btn { flex: 1; text-align: center; font-size: 12px; padding: 8px 10px; }
 }
 
-/* ── Phone frame: scale to viewport on small screens ── */
+/* ── Phone frame: scale to fit viewport height ── */
+.phone-wrap {
+  position: relative;
+  display: none;
+}
+[data-mode="collector"] .phone-wrap { display: flex; justify-content: center; }
+
+/* Scale phone to fit available vertical space on any screen */
+@media (max-height: 900px) {
+  .phone-frame {
+    --phone-scale: calc((100vh - 160px) / 844);
+    transform: scale(var(--phone-scale));
+    transform-origin: top center;
+    margin-bottom: calc((844px * var(--phone-scale)) - 844px);
+  }
+  .phone-wrap {
+    align-items: flex-start;
+  }
+}
+
 @media (max-width: 480px) {
   .phone-frame {
     width: 100vw;
@@ -1952,6 +1971,8 @@ body {
     height: calc(100vw * 844 / 390);
     max-height: 844px;
     border-radius: clamp(20px, 8vw, 55px);
+    transform: none;
+    margin-bottom: 0;
   }
 
   .demo-shell {

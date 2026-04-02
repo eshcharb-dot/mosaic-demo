@@ -70,10 +70,35 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 .div-line{height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent)}
 
 /* ===========================
+   SLIDE VISION 1 — GRAND OPENING
+   =========================== */
+#sv1{justify-content:center;align-items:center;text-align:center;position:relative}
+#sv1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-hero_v1.png');background-size:cover;background-position:center;opacity:1;z-index:0}
+#sv1 .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,3,5,0.55) 0%,rgba(3,3,5,0.2) 50%,rgba(3,3,5,0.7) 100%);z-index:1}
+#sv1 .inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;width:100%;padding:80px}
+#sv1 .eyebrow{font-size:20px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:40px;font-weight:400}
+#sv1 .v1-head{font-size:120px;font-weight:900;letter-spacing:-4px;line-height:0.9;margin-bottom:32px;color:#fff}
+#sv1 .v1-sub{font-size:34px;color:rgba(255,255,255,0.75);max-width:1000px;line-height:1.5;margin-bottom:48px;font-weight:300}
+#sv1 .v1-tag{font-size:28px;color:var(--cyan);font-weight:700;letter-spacing:1px}
+
+/* ===========================
+   SLIDE VISION 2 — CONNECTED WORLD
+   =========================== */
+#sv2{justify-content:center;align-items:center;text-align:center;position:relative}
+#sv2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-sensors-city_v1.png');background-size:cover;background-position:center;opacity:1;z-index:0}
+#sv2 .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,3,5,0.6) 0%,rgba(3,3,5,0.15) 50%,rgba(3,3,5,0.75) 100%);z-index:1}
+#sv2 .inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;width:100%;padding:80px}
+#sv2 .v2-eyebrow{font-size:20px;letter-spacing:6px;text-transform:uppercase;color:rgba(0,212,212,0.8);margin-bottom:36px;font-weight:600}
+#sv2 .v2-head{font-size:100px;font-weight:900;letter-spacing:-3px;line-height:0.92;margin-bottom:32px;color:#fff;max-width:1400px}
+#sv2 .v2-sub{font-size:30px;color:rgba(255,255,255,0.7);max-width:1100px;line-height:1.55;margin-bottom:44px;font-weight:300}
+#sv2 .v2-badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+#sv2 .v2-badge{background:rgba(124,109,245,0.2);border:1px solid rgba(124,109,245,0.4);border-radius:100px;padding:10px 28px;font-size:22px;font-weight:700;color:#a89cf8}
+
+/* ===========================
    SLIDE 1 — COVER
    =========================== */
 #s1{justify-content:center;align-items:center;text-align:center}
-#s1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-hero-v6.png');background-size:cover;background-position:center;opacity:0.18}
+#s1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-hero_v1.png');background-size:cover;background-position:center;opacity:0.15}
 #s1 .orb1{width:900px;height:900px;top:-300px;left:-200px}
 #s1 .orb2{width:700px;height:700px;bottom:-200px;right:-100px}
 #s1 .orb3{width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%)}
@@ -97,7 +122,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE 2 — THE GAP
    =========================== */
 #s2{flex-direction:row}
-#s2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-blindness-v6.png');background-size:cover;background-position:center;opacity:0.06}
+#s2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-slide_v1.png');background-size:cover;background-position:center;opacity:0.15}
 #s2 .left{width:820px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 60px;border-right:1px solid var(--border);position:relative;z-index:2;text-align:center}
 #s2 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;position:relative;z-index:2}
 #s2 .big-stat{font-size:200px;font-weight:900;letter-spacing:-8px;line-height:0.85}
@@ -110,6 +135,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 #s2 .bullets li strong{color:var(--text)}
 #s2 .callout{background:rgba(124,109,245,0.08);border:1px solid rgba(124,109,245,0.25);border-radius:16px;padding:28px 36px}
 #s2 .callout p{font-size:26px;color:var(--text);line-height:1.5;font-style:italic}
+
+/* ── Shared bg-img pattern for all slides ── */
+.slide .bg-img{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none;z-index:0}
+#s3 .bg-img{background-image:url('deck-assets/mosaic-eyes-bridge_v1.png');opacity:0.10}
+#s4 .bg-img{background-image:url('deck-assets/mosaic-uber-moment_v1.png');opacity:0.08}
+#s5 .bg-img{background-image:url('deck-assets/problem-shelf.jpg');opacity:0.07}
+#s6 .bg-img{background-image:url('deck-assets/demo-screenshot-e1-dashboard.png');opacity:0.06}
+#s7 .bg-img{background-image:url('deck-assets/mosaic-diagram-data-flywheel_v1.png');opacity:0.05}
+#s8 .bg-img{background-image:url('deck-assets/mosaic-market-v6.png');opacity:0.06}
+#s9 .bg-img{background-image:url('deck-assets/demo-screenshot-e4-gallery.png');opacity:0.06}
+#s10 .bg-img{background-image:url('deck-assets/enterprise-dashboard.png');opacity:0.05}
+#s11 .bg-img{background-image:url('deck-assets/mosaic-flywheel-v6.png');opacity:0.05}
+#s12 .bg-img{background-image:url('deck-assets/gig-workers.png');opacity:0.06}
+#s13 .bg-img{background-image:url('deck-assets/mosaic-hero-v6.png');opacity:0.08}
 
 /* ===========================
    SLIDE 3 — WHY NOW
@@ -395,7 +434,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 <div id="progress"></div>
 
 <!-- SLIDE COUNTER -->
-<div id="counter">1 / 13</div>
+<div id="counter">1 / 15</div>
 
 <!-- NAV DOTS -->
 <div id="dots"></div>
@@ -403,22 +442,51 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 <!-- DECK CANVAS -->
 <div id="deck">
 
+<!-- =================== SLIDE V1: GRAND VISION =================== -->
+<div class="slide active" id="sv1">
+  <div class="bg-img"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="eyebrow">The next billion-dollar infrastructure shift</div>
+    <div class="v1-head">8 Billion<br><span style="background:linear-gradient(135deg,#7c6df5,#00d4d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Cameras.</span></div>
+    <div class="v1-sub">Every smartphone is a precision sensor — GPS, 48MP camera, AI chip, LiDAR.<br>The physical world generates zero data unless someone deliberately captures it.</div>
+    <div class="v1-tag">Mosaic connects them all.</div>
+  </div>
+</div>
+
+<!-- =================== SLIDE V2: CONNECTED WORLD =================== -->
+<div class="slide" id="sv2">
+  <div class="bg-img"></div>
+  <div class="veil"></div>
+  <div class="inner">
+    <div class="v2-eyebrow">The Uber moment for physical-world data</div>
+    <div class="v2-head">Billions of sensors,<br>already in every pocket.</div>
+    <div class="v2-sub">Broadband. On-device AI. A gig-economy workforce trained by Uber, DoorDash, and Deliveroo. The supply side is already built — and nobody has connected it to enterprise intelligence.<br><br><strong style="color:#fff">Until now.</strong></div>
+    <div class="v2-badges">
+      <div class="v2-badge">6.8B smartphones deployed</div>
+      <div class="v2-badge">Physical reality · on demand · in hours</div>
+      <div class="v2-badge">As transformative as Uber</div>
+    </div>
+  </div>
+</div>
+
 <!-- =================== SLIDE 1: COVER =================== -->
-<div class="slide active" id="s1">
+<div class="slide" id="s1">
   <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple orb1" style="width:900px;height:900px;top:-300px;left:-200px"></div>
   <div class="orb orb-cyan orb2" style="width:700px;height:700px;bottom:-200px;right:-100px"></div>
   <div class="orb orb-purple orb3" style="width:500px;height:500px;top:290px;left:710px"></div>
   <div class="inner">
+    <div style="font-size:22px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;font-weight:400">8 billion humans. Each carrying a supercomputer with a camera.<br>The physical world is still completely dark.</div>
     <div class="logo g-text">MOSAIC</div>
-    <div class="super">Physical World Intelligence Infrastructure</div>
-    <div class="tagline">"The physical world, <em>finally legible.</em>"</div>
+    <div class="super" style="font-size:26px;margin-bottom:8px">turns any smartphone into a verified ground-truth sensor</div>
+    <div class="tagline" style="font-size:28px;margin-bottom:48px">Physical reality — on demand, AI-extracted, in hours. <em>Not weeks.</em></div>
     <div class="kpis">
       <div class="kpi"><div class="kn g-text">$35B</div><div class="kl">Market</div></div>
       <div class="kpi"><div class="kn g2-text">6.8B</div><div class="kl">Sensors Deployed</div></div>
       <div class="kpi"><div class="kn g3-text">4 hrs</div><div class="kl">Delivery SLA</div></div>
-      <div class="kpi"><div class="kn g4-text">55%+</div><div class="kl">Gross Margin</div></div>
+      <div class="kpi"><div class="kn g4-text">44.6%</div><div class="kl">Launch GM</div></div>
       <div class="kpi"><div class="kn g5-text">$5M</div><div class="kl">Seed Round</div></div>
     </div>
     <div class="founders">[CEO Name] · [CTO Name]</div>
@@ -464,6 +532,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 3: WHY NOW =================== -->
 <div class="slide" id="s3">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-cyan" style="width:700px;height:700px;top:-200px;right:-100px"></div>
   <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
@@ -498,6 +567,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 4: THE PLATFORM =================== -->
 <div class="slide" id="s4">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;left:-100px"></div>
   <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;right:-100px"></div>
@@ -564,6 +634,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 5: CPG DEEP DIVE =================== -->
 <div class="slide" id="s5">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-green" style="width:600px;height:600px;top:-100px;right:-100px"></div>
   <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
@@ -616,6 +687,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 6: PRODUCT =================== -->
 <div class="slide" id="s6">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
   <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
@@ -682,6 +754,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 7: BUSINESS MODEL =================== -->
 <div class="slide" id="s7">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-yellow" style="width:600px;height:600px;top:-150px;right:-100px"></div>
   <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
@@ -738,6 +811,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 8: MARKET =================== -->
 <div class="slide" id="s8">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
   <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
@@ -775,6 +849,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 9: TRACTION =================== -->
 <div class="slide" id="s9">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-cyan" style="width:600px;height:600px;top:-150px;left:-100px"></div>
   <div class="orb orb-green" style="width:500px;height:500px;bottom:-100px;right:-100px"></div>
@@ -821,6 +896,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 10: COMPETITION =================== -->
 <div class="slide" id="s10">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;right:-100px"></div>
   <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
@@ -885,6 +961,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 11: MOAT =================== -->
 <div class="slide" id="s11">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
   <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
@@ -922,6 +999,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE 12: TEAM =================== -->
 <div class="slide" id="s12">
+  <div class="bg-img"></div>
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;right:-100px"></div>
   <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
@@ -969,6 +1047,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 </div>
 
 <!-- =================== SLIDE 13: THE ASK =================== -->
+
 <div class="slide" id="s13">
   <div class="slide-grid"></div>
   <div class="orb orb-purple" style="width:900px;height:900px;top:-300px;left:-250px"></div>
