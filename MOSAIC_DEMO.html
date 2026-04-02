@@ -1941,11 +1941,11 @@ body {
                     <defs><linearGradient id="og" x1="0" y1="0" x2="52" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
                   </svg>
                 </div>
-                <div class="onboard-title">Turn your commute<br>into income.</div>
-                <div class="onboard-sub">Mosaic pays you to collect real-world data near places you already visit.<br><strong style="color:var(--text)">Average $18/hr — tasks take under 10 minutes.</strong></div>
+                <div class="onboard-title">Earn money — anywhere<br>you already are.</div>
+                <div class="onboard-sub">Mosaic sends you real tasks near your location. Complete a shelf photo in 8 minutes, get paid instantly.<br><strong style="color:var(--text)">Average $18/hr · Results delivered to brands in under 10 minutes.</strong></div>
                 <div class="stat-row">
                   <div class="stat-chip"><span class="val">$847</span><div class="lbl">Avg/Month</div></div>
-                  <div class="stat-chip"><span class="val">2.4mi</span><div class="lbl">Avg Range</div></div>
+                  <div class="stat-chip"><span class="val">&lt;10min</span><div class="lbl">Task Time</div></div>
                   <div class="stat-chip"><span class="val">4★+</span><div class="lbl">Rated</div></div>
                 </div>
               </div>
@@ -1975,7 +1975,7 @@ body {
                 <div class="text-xs text-muted">↑ 23% vs last week</div>
               </div>
             </div>
-            <div class="section-label">📍 Tasks Near You · London SE1</div>
+            <div class="section-label">📍 Tasks Near You · London SE1 <span style="font-size:10px;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:2px 8px;font-weight:600;vertical-align:middle">⚡ Live tasks near you</span></div>
             <div class="task-card" onclick="goScreen(3)">
               <div class="task-card-top">
                 <div class="brand-chip brand-meridian">MF</div>
@@ -2155,7 +2155,7 @@ body {
           <div class="c-screen" id="c4">
             <div class="camera-view">
               <div class="camera-bg" style="position:relative;overflow:hidden">
-                <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Shelf view" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.8)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <img src="deck-assets/mosaic-store-worker-v2.png" alt="Collector in store" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;display:block;filter:brightness(0.8)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
                 <div class="shelf-sim" style="display:none">
                   <div class="shelf-row">
                     <div class="product-slot featured"></div>
@@ -2203,10 +2203,10 @@ body {
           <div class="c-screen" id="c5">
             <div class="verify-header">
               <div class="verify-title">AI Analysis Running</div>
-              <div class="verify-sub">Mosaic Vision · Imagen 3 · Processing…</div>
+              <div class="verify-sub">Mosaic Vision · Imagen 3 · <span style="color:var(--green)">Result in ~30 seconds</span></div>
             </div>
             <div class="verify-photo" style="position:relative;overflow:hidden">
-              <img src="deck-assets/mosaic-shelf-scan-v1.png" alt="AI scan" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+              <img src="deck-assets/mosaic-shelf-scan-v2.png" alt="AI scan" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
               <div class="shelf-visual" style="height:100%;background:#0d1520;position:absolute;inset:0;opacity:0;" aria-hidden="true">
                 <div class="ar-scan-beam"></div>
                 <div class="shelf-store-bar"><div class="shelf-store-dot" style="background:var(--cyan)"></div>Live capture · AI scanning…</div>
@@ -2434,7 +2434,7 @@ body {
             <div class="e-screen" id="e0">
               <div class="ent-screen-inner">
                 <div class="ent-page-title">Campaign Overview</div>
-                <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · Updated 4 min ago</div>
+                <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · <span style="color:var(--green)">⚡ Live — data in under 10 min</span></div>
                 <div class="metrics-grid">
                   <div class="metric-card">
                     <div class="metric-label">Compliance Score</div>
@@ -2688,7 +2688,7 @@ body {
                   <!-- PASS: Tesco — full stock -->
                   <div class="result-item">
                     <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.remove()">
+                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
                       <div class="result-status pass">PASS</div>
                     </div>
                     <div class="result-meta"><strong>Tesco Clapham</strong>Score: 89 · Arjun S.</div>
@@ -2696,7 +2696,7 @@ body {
                   <!-- WARN: Waitrose — one gap -->
                   <div class="result-item">
                     <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Waitrose shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.remove()">
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Waitrose shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
                       <div class="result-status warn">WARN</div>
                     </div>
                     <div class="result-meta"><strong>Waitrose Canary Whf</strong>Score: 71 · Sophie L.</div>
@@ -2732,7 +2732,7 @@ body {
                   <!-- PASS: Sainsbury's Angel — excellent -->
                   <div class="result-item">
                     <div class="result-img" style="overflow:hidden;position:relative">
-                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's Angel" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.remove()">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's Angel" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" onerror="this.remove()">
                       <div class="result-status pass">PASS</div>
                     </div>
                     <div class="result-meta"><strong>Sainsbury's Angel</strong>Score: 96 · Priya R.</div>
