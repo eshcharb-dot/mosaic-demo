@@ -2107,8 +2107,9 @@ body {
             </div>
             <div class="task-examples mb12">
               <div class="text-xs text-muted fw700 mb8" style="text-transform:uppercase;letter-spacing:0.08em;">Reference Photo</div>
-              <div class="example-img">
-                <div class="shelf-visual shelf-tint-pass" style="height:100%">
+              <div class="example-img" style="overflow:hidden;position:relative">
+                <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Reference shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="shelf-visual shelf-tint-pass" style="height:100%;display:none">
                   <div class="shelf-store-bar"><div class="shelf-store-dot" style="background:var(--green)"></div>Reference · Sainsbury's Borough Market</div>
                   <div class="s-row" style="margin-top:24px">
                     <div class="sp sp-oat-feat sp-tag"><div class="sp-ar-box" data-pct="✓ Oat+"></div></div>
@@ -2137,8 +2138,9 @@ body {
           <!-- C5: Camera -->
           <div class="c-screen" id="c4">
             <div class="camera-view">
-              <div class="camera-bg">
-                <div class="shelf-sim">
+              <div class="camera-bg" style="position:relative;overflow:hidden">
+                <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Shelf view" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.8)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="shelf-sim" style="display:none">
                   <div class="shelf-row">
                     <div class="product-slot featured"></div>
                     <div class="product-slot featured"></div>
@@ -2187,8 +2189,9 @@ body {
               <div class="verify-title">AI Analysis Running</div>
               <div class="verify-sub">Mosaic Vision · Imagen 3 · Processing…</div>
             </div>
-            <div class="verify-photo">
-              <div class="shelf-visual" style="height:100%;background:#0d1520;">
+            <div class="verify-photo" style="position:relative;overflow:hidden">
+              <img src="deck-assets/mosaic-shelf-scan-v1.png" alt="AI scan" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+              <div class="shelf-visual" style="height:100%;background:#0d1520;position:absolute;inset:0;opacity:0;" aria-hidden="true">
                 <div class="ar-scan-beam"></div>
                 <div class="shelf-store-bar"><div class="shelf-store-dot" style="background:var(--cyan)"></div>Live capture · AI scanning…</div>
                 <div class="s-row" style="margin-top:22px">
@@ -2655,8 +2658,9 @@ body {
                 <div class="results-grid">
                   <!-- PASS: Sainsbury's — full stock -->
                   <div class="result-item">
-                    <div class="result-img" style="overflow:hidden">
-                      <div class="shelf-visual shelf-tint-pass" style="height:100%">
+                    <div class="result-img" style="overflow:hidden;position:relative">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                      <div class="shelf-visual shelf-tint-pass" style="height:100%;display:none">
                         <div class="s-row" style="margin-top:4px"><div class="sp sp-oat-feat sp-sm"></div><div class="sp sp-oat-feat sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-green sp-sm"></div><div class="sp sp-green sp-sm"></div></div>
                         <div class="s-row"><div class="sp sp-white sp-sm"></div><div class="sp sp-white sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-purple sp-sm"></div><div class="sp sp-red sp-sm"></div></div>
                       </div>
@@ -2699,8 +2703,9 @@ body {
                   </div>
                   <!-- FAIL: Co-op — mostly empty -->
                   <div class="result-item">
-                    <div class="result-img" style="overflow:hidden">
-                      <div class="shelf-visual shelf-tint-fail" style="height:100%;background:#1a0a0a">
+                    <div class="result-img" style="overflow:hidden;position:relative">
+                      <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Co-op shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                      <div class="shelf-visual shelf-tint-fail" style="height:100%;display:none;background:#1a0a0a">
                         <div class="s-row" style="margin-top:4px"><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-oat sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div></div>
                         <div class="s-row"><div class="sp sp-empty sp-sm"></div><div class="sp sp-white sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-amber sp-sm"></div><div class="sp sp-empty sp-sm"></div><div class="sp sp-empty sp-sm"></div></div>
                       </div>
