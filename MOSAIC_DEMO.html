@@ -653,6 +653,21 @@ body {
 .task-detail-hero {
   background: linear-gradient(180deg, rgba(124,58,237,0.15) 0%, transparent 100%);
   padding: 60px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.task-detail-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
+  z-index: 0;
+}
+.task-detail-hero > *:not(.task-detail-hero-bg) {
+  position: relative;
+  z-index: 1;
 }
 .task-hero-brand { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); }
 .task-hero-name { font-size: 24px; font-weight: 800; margin-top: 4px; }
@@ -2072,6 +2087,7 @@ body {
           <!-- C4: Task Detail -->
           <div class="c-screen" id="c3">
             <div class="task-detail-hero">
+              <img class="task-detail-hero-bg" src="deck-assets/mosaic-store-exterior-v1.png" alt="" onerror="this.remove()">
               <div class="task-hero-brand">Meridian Foods · Sainsbury's Borough Market</div>
               <div class="task-hero-name">Oat+ Oat Milk — Shelf Compliance</div>
               <div class="task-hero-earn">$14.50 <span>/ ~8 min</span></div>
@@ -2573,6 +2589,7 @@ body {
             <!-- E3: Live Map -->
             <div class="e-screen" id="e2">
               <div class="live-map-full" style="height:636px;">
+                <img src="deck-assets/mosaic-map-london-v1.png" alt="London map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.75;" onerror="this.remove()">
                 <div class="live-badge">
                   <div class="live-pulse"></div>LIVE · 247 stores
                 </div>
@@ -2583,8 +2600,8 @@ body {
                   <div class="map-ctrl-btn">⊞</div>
                 </div>
                 <!-- SVG UK map -->
-                <svg width="100%" height="100%" viewBox="0 0 840 636" style="opacity:0.8">
-                  <rect fill="#08101e" width="840" height="636"/>
+                <svg width="100%" height="100%" viewBox="0 0 840 636" style="opacity:0.9;position:relative;z-index:1">
+                  <rect fill="transparent" width="840" height="636"/>
                   <!-- Grid lines -->
                   <g stroke="#141b2d" stroke-width="1">
                     <line x1="0" y1="100" x2="840" y2="100"/>
