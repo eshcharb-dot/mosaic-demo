@@ -93,6 +93,172 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
   background-clip: text;
 }
 
+/* ────────── GLOBAL SLIDE WATERMARK ────────── */
+.slide-watermark {
+  position: absolute;
+  top: 20px;
+  left: 28px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.30;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ────────── COMPETITOR CHIPS ────────── */
+.comp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 8px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid;
+}
+.comp-chip-bme { background: rgba(249,115,22,0.12); border-color: rgba(249,115,22,0.4); color: #fb923c; }
+.comp-chip-fa  { background: rgba(34,197,94,0.12);  border-color: rgba(34,197,94,0.4);  color: #4ade80; }
+.comp-chip-trax{ background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.4); color: #60a5fa; }
+.comp-chip-dot { width: 8px; height: 8px; border-radius: 50%; }
+.comp-chip-bme .comp-chip-dot { background: #fb923c; }
+.comp-chip-fa  .comp-chip-dot { background: #4ade80; }
+.comp-chip-trax .comp-chip-dot { background: #60a5fa; }
+
+/* ────────── WINS CALLOUT ────────── */
+.wins-callout {
+  background: linear-gradient(135deg, rgba(123,47,247,0.18), rgba(0,212,255,0.1));
+  border: 1.5px solid rgba(123,47,247,0.45);
+  border-radius: 12px;
+  padding: 14px 22px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+  margin-top: 16px;
+}
+.wins-callout span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* ────────── REVENUE CHART ────────── */
+.rev-chart-wrap { padding: 20px; }
+.rev-bars { display: flex; align-items: flex-end; gap: 14px; height: 130px; }
+.rev-bar-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.rev-bar { width: 100%; border-radius: 6px 6px 0 0; background: var(--grad); transform: scaleY(0); transform-origin: bottom; transition: transform 0.9s cubic-bezier(0.34,1.56,0.64,1); }
+.slide.active .rev-bar { transform: scaleY(1); }
+.rev-bar-label { font-size: 11px; color: rgba(255,255,255,0.45); text-align: center; }
+.rev-bar-val { font-size: 12px; font-weight: 800; color: #fff; }
+
+/* ────────── URGENCY WINDOW ────────── */
+.urgency-window {
+  background: linear-gradient(135deg, rgba(255,71,87,0.12), rgba(255,179,71,0.08));
+  border: 1px solid rgba(255,71,87,0.3);
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.urgency-icon { font-size: 28px; flex-shrink: 0; }
+.urgency-text { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+.urgency-text strong { color: var(--red); }
+
+/* ────────── CONTACT ROW ────────── */
+.contact-row {
+  position: absolute;
+  bottom: 40px;
+  left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+}
+.contact-row a { color: var(--blue); text-decoration: none; font-weight: 600; }
+.contact-row a:hover { color: #fff; }
+
+/* ────────── CONVERGENCE CHART ────────── */
+.converge-wrap { margin-top: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 28px; }
+.converge-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+
+/* ────────── SLIDE 9 CIRCULAR FLYWHEEL ────────── */
+.circular-flywheel {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  flex-shrink: 0;
+}
+.cfw-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cfw-center-text { font-size: 12px; font-weight: 800; color: var(--blue); line-height: 1.4; }
+.cfw-item {
+  position: absolute;
+  width: 72px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+.cfw-icon { font-size: 20px; }
+.cfw-label { font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 3px; line-height: 1.3; }
+
+/* ────────── METRIC DRILL-DOWN TOOLTIP ────────── */
+.metric-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: #12141c;
+  border: 1px solid rgba(123,47,247,0.4);
+  border-radius: 10px;
+  padding: 14px 16px;
+  z-index: 50;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.metric-tooltip.visible { display: block; }
+.metric-tooltip-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 8px; }
+.metric-tooltip-row { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+.metric-tooltip-row strong { color: #fff; }
+
+/* ────────── GANTT PHASES ────────── */
+.gantt-wrap { margin-top: 16px; }
+.gantt-row { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+.gantt-label-col { width: 120px; font-size: 12px; color: rgba(255,255,255,0.5); flex-shrink: 0; text-align: right; }
+.gantt-track { flex: 1; height: 22px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; position: relative; }
+.gantt-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; padding: 0 8px; font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.5px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.slide.active .gantt-bar { /* widths set inline */ }
+.gantt-milestone { font-size: 11px; color: var(--green); font-weight: 700; white-space: nowrap; width: 110px; flex-shrink: 0; }
+
+/* ────────── NAV DOT TOOLTIPS ────────── */
+.nav-dot[data-title]:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10,10,15,0.95);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.nav-dot { position: relative; }
+
 /* ────────── SLIDE 1: COVER ────────── */
 #s1 {
   flex-direction: column;
@@ -105,8 +271,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.07;
-  filter: saturate(0.3);
+  opacity: 0.18;
+  filter: saturate(0.5) brightness(0.6);
 }
 #s1::after {
   content: '';
@@ -172,33 +338,73 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 #s1 .demo-link:hover { background: rgba(0,212,255,0.08); border-color: var(--blue); }
 
 /* ────────── SLIDE 2: PROBLEM ────────── */
-#s2 { flex-direction: column; justify-content: center; padding: 80px 100px; }
+#s2 { flex-direction: row; align-items: stretch; padding: 0; overflow: hidden; }
+#s2 .s2-left {
+  flex: 1 1 58%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px 80px 72px 100px;
+}
+#s2 .s2-right {
+  flex: 0 0 42%;
+  position: relative;
+  overflow: hidden;
+}
+#s2 .s2-right img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.6) saturate(0.8);
+}
+#s2 .s2-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--dark) 0%, rgba(10,10,15,0.1) 30%, transparent 100%);
+  pointer-events: none;
+}
+#s2 .s2-right-badge {
+  position: absolute;
+  bottom: 60px;
+  right: 48px;
+  z-index: 2;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.45);
+  border-radius: 14px;
+  padding: 18px 24px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+#s2 .s2-right-badge .badge-num { font-size: 40px; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 6px; }
+#s2 .s2-right-badge .badge-label { font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 #s2 .headline {
-  font-size: 52px;
+  font-size: 50px;
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 64px;
-  max-width: 900px;
+  margin-bottom: 40px;
 }
-#s2 .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 48px; }
-#s2 .col { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 36px; }
-#s2 .col-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 20px; }
-#s2 .col-stat { font-size: 40px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; line-height: 1; }
-#s2 .col-desc { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+#s2 .three-col { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+#s2 .col { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 28px; display: flex; align-items: center; gap: 28px; }
+#s2 .col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+#s2 .col-stat { font-size: 36px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; flex-shrink: 0; min-width: 120px; }
+#s2 .col-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.55; }
 #s2 .core-problem {
-  background: linear-gradient(135deg, rgba(123,47,247,0.15), rgba(0,212,255,0.08));
-  border: 1px solid rgba(123,47,247,0.3);
-  border-radius: 16px;
-  padding: 36px 48px;
+  background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(255,179,71,0.06));
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 14px;
+  padding: 20px 32px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 32px;
+  gap: 24px;
   align-items: center;
 }
 #s2 .problem-item { text-align: center; }
-#s2 .problem-num { font-size: 36px; font-weight: 900; color: var(--red); display: block; margin-bottom: 8px; }
-#s2 .problem-label { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
-#s2 .problem-headline { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.9); grid-column: span 4; text-align: center; border-top: 1px solid var(--border); padding-top: 28px; margin-top: 8px; }
+#s2 .problem-num { font-size: 30px; font-weight: 900; color: var(--red); display: block; margin-bottom: 6px; }
+#s2 .problem-label { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+#s2 .problem-headline { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.85); grid-column: span 4; text-align: center; border-top: 1px solid var(--border); padding-top: 16px; margin-top: 4px; }
 
 /* ────────── SLIDE 3: SOLUTION ────────── */
 #s3 { padding: 70px 100px; flex-direction: column; justify-content: center; }
@@ -319,7 +525,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 #s5 .mn-box { background: linear-gradient(135deg, rgba(123,47,247,0.12), rgba(0,212,255,0.06)); border: 1px solid rgba(123,47,247,0.2); border-radius: 12px; padding: 24px; text-align: center; }
 #s5 .mn-num { font-size: 38px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 8px; }
 #s5 .mn-label { font-size: 13px; color: rgba(255,255,255,0.45); }
-#s5 .panel-img { position: absolute; bottom: 24px; right: 24px; width: 120px; border-radius: 10px; opacity: 0.8; }
+#s5 .panel-img { position: absolute; bottom: 24px; right: 24px; width: 230px; border-radius: 12px; opacity: 0.92; box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06); }
 
 /* ────────── SLIDE 6: MARKET ────────── */
 #s6 { padding: 70px 100px; flex-direction: column; justify-content: center; }
@@ -665,6 +871,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
   SLIDE 1 — COVER
 ══════════════════════════════════════════ -->
 <div class="slide active" id="s1">
+  <div class="slide-watermark">◆ MOSAIC</div>
   <img class="bg-img" src="deck-assets/mosaic-shelf-oat-v1.png" alt="">
   <div class="content">
     <div class="mosaic-logo">MOSAIC</div>
@@ -674,64 +881,105 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       Confidential · Seed Round · March 2026<br>
       mosaic-intel.com
     </div>
-    <a href="https://eshcharb-dot.github.io/mosaic-demo/MOSAIC_DEMO.html" target="_blank" class="demo-link">
+    <a href="https://eshcharb-dot.github.io/mosaic-demo/MOSAIC_DEMO.html" target="_blank" class="demo-link" onclick="event.stopPropagation()">
       ▶ &nbsp; View Interactive Demo
     </a>
+    <div style="display:flex;gap:48px;justify-content:center;margin-top:56px;align-items:center;">
+      <div style="text-align:center;">
+        <div style="font-size:32px;font-weight:900;color:#fff;line-height:1;">4 hrs</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:6px;letter-spacing:0.5px;">vs 3-week industry standard</div>
+      </div>
+      <div style="width:1px;height:40px;background:rgba(255,255,255,0.1);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:32px;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">$5M</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:6px;letter-spacing:0.5px;">Seed Round · Raising Now</div>
+      </div>
+      <div style="width:1px;height:40px;background:rgba(255,255,255,0.1);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:32px;font-weight:900;color:#fff;line-height:1;">$35B</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:6px;letter-spacing:0.5px;">TAM · 22% CAGR</div>
+      </div>
+    </div>
   </div>
   <div class="slide-number">01 / 13</div>
+  <div class="contact-row">
+    <span>investors@mosaic-intel.com</span>
+    <span style="color:rgba(255,255,255,0.15)">·</span>
+    <a href="https://linkedin.com/company/mosaic-intel" onclick="event.stopPropagation()">linkedin.com/company/mosaic-intel</a>
+    <span style="color:rgba(255,255,255,0.15)">·</span>
+    <span>Confidential · Seed Round · 2026</span>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
   SLIDE 2 — PROBLEM
 ══════════════════════════════════════════ -->
 <div class="slide" id="s2">
-  <div class="tag">The Problem</div>
-  <div class="headline">The physical world is opaque —<br>and <span class="grad-text">everyone pays for it.</span></div>
-  <div class="three-col">
-    <div class="col">
-      <div class="col-title">CPG Brands</div>
-      <div class="col-stat">4–8%</div>
-      <div class="col-desc">Revenue lost to out-of-stocks they never knew about. The brand manager has 50,000 stores. They visit 2,400 per year.</div>
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <div class="s2-left">
+    <div class="tag">The Problem</div>
+    <div class="headline">The physical world is opaque —<br>and <span class="grad-text">everyone pays for it.</span></div>
+    <div class="three-col">
+      <div class="col">
+        <div class="col-stat">4–8%</div>
+        <div>
+          <div class="col-title">CPG Brands</div>
+          <div class="col-desc">Revenue lost to out-of-stocks they never knew about. Brand managers have 50,000 stores. They visit 2,400 per year.</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-stat">2 wks</div>
+        <div>
+          <div class="col-title">Retailers</div>
+          <div class="col-desc">To verify shelf compliance — at $50–$300 per store visit. Covering less than 5% of locations.</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-stat">$35B</div>
+        <div>
+          <div class="col-title">The Market</div>
+          <div class="col-desc">Spent annually on physical world intelligence. Most data is outdated the moment it arrives.</div>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <div class="col-title">Retailers</div>
-      <div class="col-stat">2 weeks</div>
-      <div class="col-desc">To verify shelf compliance — minimum. At $50–$300 per store visit. Covering less than 5% of locations.</div>
+    <div class="core-problem">
+      <div class="problem-item">
+        <span class="problem-num">$50–$300</span>
+        <span class="problem-label">Per store visit<br>today</span>
+      </div>
+      <div class="problem-item">
+        <span class="problem-num">2–3 wks</span>
+        <span class="problem-label">To complete<br>field audit</span>
+      </div>
+      <div class="problem-item">
+        <span class="problem-num">&lt;5%</span>
+        <span class="problem-label">Of locations<br>ever covered</span>
+      </div>
+      <div class="problem-item">
+        <span class="problem-num">Zero</span>
+        <span class="problem-label">Machine-readable<br>output</span>
+      </div>
+      <div class="problem-headline">The physical world generates no data unless someone deliberately captures it.</div>
     </div>
-    <div class="col">
-      <div class="col-title">The Market</div>
-      <div class="col-stat">$35B</div>
-      <div class="col-desc">Spent annually on physical world intelligence. Most of it produces data that's already outdated when it arrives.</div>
+    <div class="slide-number">02 / 13</div>
+  </div>
+  <div class="s2-right">
+    <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Empty shelf — the problem">
+    <div class="s2-right-badge">
+      <div class="badge-num">$1.1T</div>
+      <div class="badge-label">Lost annually to<br>out-of-stocks globally</div>
     </div>
   </div>
-  <div class="core-problem">
-    <div class="problem-item">
-      <span class="problem-num">$50–$300</span>
-      <span class="problem-label">Per store visit<br>today</span>
-    </div>
-    <div class="problem-item">
-      <span class="problem-num">2–3 weeks</span>
-      <span class="problem-label">Time to complete<br>field audit</span>
-    </div>
-    <div class="problem-item">
-      <span class="problem-num">&lt;5%</span>
-      <span class="problem-label">Of locations<br>ever covered</span>
-    </div>
-    <div class="problem-item">
-      <span class="problem-num">Zero</span>
-      <span class="problem-label">Machine-readable<br>output</span>
-    </div>
-    <div class="problem-headline">The physical world generates no data unless someone deliberately captures it.</div>
-  </div>
-  <div class="slide-number">02 / 13</div>
 </div>
 
 <!-- ═══════════════════════════════════════════
   SLIDE 3 — SOLUTION
 ══════════════════════════════════════════ -->
-<div class="slide" id="s3">
-  <div class="tag">The Solution</div>
-  <div class="headline">Mosaic turns any smartphone into a<br><span class="grad-text">verified intelligence collection device.</span></div>
+<div class="slide" id="s3" style="overflow:hidden;">
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.04;filter:saturate(0.2);pointer-events:none;z-index:0;" src="deck-assets/mosaic-shelf-scan-v1.png" alt="">
+  <div class="tag" style="position:relative;z-index:1;">The Solution</div>
+  <div class="headline" style="position:relative;z-index:1;">Mosaic turns any smartphone into a<br><span class="grad-text">verified intelligence collection device.</span></div>
   <div class="flow-container">
     <div class="flow-step">
       <div class="step-icon">🏢</div>
@@ -792,7 +1040,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 4 — WHY NOW
 ══════════════════════════════════════════ -->
-<div class="slide" id="s4">
+<div class="slide" id="s4" style="overflow:hidden;">
+  <img style="position:absolute;top:0;right:0;width:380px;height:100%;object-fit:cover;object-position:center center;opacity:0.05;filter:saturate(0.25) blur(1px);pointer-events:none;z-index:0;" src="deck-assets/gig-workers.png" alt="">
+  <div style="position:absolute;top:0;right:0;width:500px;height:100%;background:linear-gradient(270deg,transparent 0%,var(--dark) 55%);pointer-events:none;z-index:0;"></div>
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">Why Now</div>
   <div class="headline">Three forces converged in 2026 that make Mosaic<br><span class="grad-text">possible — and defensible.</span></div>
   <div class="three-forces">
@@ -818,15 +1069,42 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       <div class="force-kicker">The cost curve makes our margin work.</div>
     </div>
   </div>
-  <div class="window-banner">
-    <div>
-      <div class="window-title">The 24-Month Window</div>
+  <div class="window-banner" style="gap:36px;">
+    <div style="flex-shrink:0;">
+      <div class="window-title" style="margin-bottom:8px;">The 2026 Inflection Point</div>
+      <!-- Three converging trend lines -->
+      <svg width="240" height="80" viewBox="0 0 240 80" style="display:block;">
+        <defs>
+          <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(123,47,247,0.3)"/><stop offset="100%" stop-color="#7B2FF7"/></linearGradient>
+          <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(0,212,255,0.3)"/><stop offset="100%" stop-color="#00D4FF"/></linearGradient>
+          <linearGradient id="lg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(0,229,160,0.3)"/><stop offset="100%" stop-color="#00E5A0"/></linearGradient>
+        </defs>
+        <!-- Grid lines -->
+        <line x1="0" y1="70" x2="240" y2="70" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <text x="195" y="76" fill="rgba(255,255,255,0.25)" font-size="8" font-family="Inter,sans-serif" font-weight="700">2026 →</text>
+        <!-- AI Quality curve (purple) - exponential rise -->
+        <path d="M0 65 Q60 60 100 45 Q150 25 200 8 L200 8" stroke="url(#lg1)" stroke-width="2" fill="none"/>
+        <!-- Gig adoption (cyan) - steady rise -->
+        <path d="M0 60 Q80 50 140 38 Q170 30 200 18" stroke="url(#lg2)" stroke-width="2" fill="none"/>
+        <!-- CPG demand (green) - inflection at right -->
+        <path d="M0 68 Q100 65 160 55 Q185 40 200 22" stroke="url(#lg3)" stroke-width="2" fill="none"/>
+        <!-- Convergence zone -->
+        <circle cx="200" cy="14" r="6" fill="rgba(123,47,247,0.3)" stroke="#7B2FF7" stroke-width="1.5"/>
+        <circle cx="200" cy="14" r="10" fill="rgba(123,47,247,0.1)" stroke="rgba(123,47,247,0.4)" stroke-width="1"/>
+        <!-- Labels -->
+        <text x="2" y="57" fill="rgba(123,47,247,0.8)" font-size="7" font-family="Inter,sans-serif">AI Quality</text>
+        <text x="2" y="47" fill="rgba(0,212,255,0.8)" font-size="7" font-family="Inter,sans-serif">Gig Scale</text>
+        <text x="2" y="66" fill="rgba(0,229,160,0.8)" font-size="7" font-family="Inter,sans-serif">CPG Demand</text>
+      </svg>
     </div>
-    <div class="window-items">
-      <div class="window-item">US gig platforms haven't noticed Europe</div>
-      <div class="window-item">BeMyEye has no consumer tier — ever</div>
-      <div class="window-item">Enterprise AI buyers signed up 3× faster in 2025</div>
-      <div class="window-item">On-device GDPR competitors can't retrofit</div>
+    <div>
+      <div class="window-title" style="margin-bottom:12px;">The 24-Month Window</div>
+      <div class="window-items">
+        <div class="window-item">US gig platforms haven't noticed Europe</div>
+        <div class="window-item">BeMyEye has no consumer tier — ever</div>
+        <div class="window-item">Enterprise AI buyers signed up 3× faster in 2025</div>
+        <div class="window-item">On-device GDPR competitors can't retrofit</div>
+      </div>
     </div>
   </div>
   <div class="slide-number">04 / 13</div>
@@ -835,7 +1113,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 5 — PRODUCT
 ══════════════════════════════════════════ -->
-<div class="slide" id="s5">
+<div class="slide" id="s5" style="overflow:hidden;">
+  <img style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.03;filter:saturate(0.2) blur(2px);pointer-events:none;z-index:0;" src="deck-assets/mosaic-shelf-scan-v2.png" alt="">
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">The Product</div>
   <div class="headline">The platform your agents love to use<br>and your customers <span class="grad-text">can't stop checking.</span></div>
   <div class="split">
@@ -859,25 +1139,25 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
     </div>
     <div class="panel">
       <div class="panel-label agent">Agent Side</div>
-      <div class="panel-headline">"Earn $15 on your morning commute"</div>
+      <div class="panel-headline">"Earn £15 on your morning commute"</div>
       <div class="steps">
         <div class="step-row"><div class="step-n">1</div><div class="step-text">Turn on Commute Mode before leaving home</div></div>
         <div class="step-row"><div class="step-n">2</div><div class="step-text">Pre-accept 3 tasks matched to your exact route</div></div>
         <div class="step-row"><div class="step-n">3</div><div class="step-text">Complete each task in 45–90 seconds — no detours needed</div></div>
-        <div class="step-row"><div class="step-n">4</div><div class="step-text">Earn $14.50 before you arrive at work</div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-text">Earn £14.50 before you arrive at work</div></div>
       </div>
       <div class="commute-badge">
         ⚡ Commute Mode — first gig platform that works <em>with</em> your existing life.<br>
         LTV:CAC ratio 90:1 for commute-mode agents.
       </div>
-      <img class="panel-img" src="deck-assets/mosaic-payout-screen-v1.png" alt="Payout Screen">
+      <img class="panel-img" src="deck-assets/mosaic-app-ui-v1.png" alt="App UI" onerror="this.src='deck-assets/mosaic-payout-screen-v1.png'">
     </div>
   </div>
   <div class="magic-numbers">
     <div class="mn-box"><div class="mn-num">90s</div><div class="mn-label">To post a task</div></div>
     <div class="mn-box"><div class="mn-num">4 hrs</div><div class="mn-label">To deliver results</div></div>
     <div class="mn-box"><div class="mn-num">45s</div><div class="mn-label">Per task for agents</div></div>
-    <div class="mn-box"><div class="mn-num">$14.50</div><div class="mn-label">Agent earn per commute</div></div>
+    <div class="mn-box"><div class="mn-num">£14.50</div><div class="mn-label">Agent earn per commute</div></div>
   </div>
   <div class="slide-number">05 / 13</div>
 </div>
@@ -885,7 +1165,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 6 — MARKET SIZE
 ══════════════════════════════════════════ -->
-<div class="slide" id="s6">
+<div class="slide" id="s6" style="overflow:hidden;">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.04;filter:saturate(0.15) blur(2px);pointer-events:none;z-index:0;" src="deck-assets/mosaic-enterprise-dashboard-v1.png" alt="">
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">Market Size</div>
   <div class="headline">$35B market, 22% CAGR — and the largest segment<br><span class="grad-text">has never had a self-serve product.</span></div>
   <div class="market-layout">
@@ -893,14 +1175,22 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       <div class="circle c-tam">
         <div class="c-label">TAM</div>
         <div class="c-num">$35B</div>
+        <div style="font-size:10px;color:rgba(123,47,247,0.7);font-weight:600;margin-top:4px;">22% CAGR</div>
       </div>
       <div class="circle c-sam">
         <div class="c-label">SAM</div>
         <div class="c-num">$8.5B</div>
+        <div style="font-size:9px;color:rgba(0,212,255,0.7);font-weight:600;margin-top:2px;">Crowdsourced visual</div>
       </div>
       <div class="circle c-som">
         <div class="c-label">SOM Y3</div>
         <div class="c-num">$350M</div>
+      </div>
+      <!-- Training data callout badge -->
+      <div style="position:absolute;bottom:-10px;left:0;right:0;text-align:center;">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,179,71,0.18),rgba(255,71,87,0.1));border:1px solid rgba(255,179,71,0.4);border-radius:20px;padding:6px 18px;font-size:12px;font-weight:700;color:var(--amber);">
+          ★ Training data alone: $19.6B by 2033 (24.3% CAGR)
+        </div>
       </div>
     </div>
     <div class="market-right">
@@ -928,7 +1218,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 7 — BUSINESS MODEL
 ══════════════════════════════════════════ -->
-<div class="slide" id="s7">
+<div class="slide" id="s7" style="overflow:hidden;">
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <img style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.04;filter:saturate(0.2);pointer-events:none;z-index:0;" src="deck-assets/mosaic-enterprise-dashboard-v1.png" alt="">
   <div class="tag">Business Model</div>
   <div class="headline">Three tiers. One platform. <span class="grad-text">55%+ gross margin.</span></div>
   <div class="tiers">
@@ -1008,7 +1300,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 8 — TRACTION
 ══════════════════════════════════════════ -->
-<div class="slide" id="s8">
+<div class="slide" id="s8" style="overflow:hidden;">
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <img style="position:absolute;top:0;right:0;width:340px;height:100%;object-fit:cover;object-position:center top;opacity:0.12;filter:saturate(0.4);pointer-events:none;z-index:0;" src="deck-assets/mosaic-app-ui-v1.png" alt="">
+  <div style="position:absolute;top:0;right:0;width:480px;height:100%;background:linear-gradient(270deg,transparent 0%,var(--dark) 60%);pointer-events:none;z-index:0;"></div>
   <div class="tag">Traction</div>
   <div class="headline">What two people and an AI stack<br><span class="grad-text">built in 8 weeks.</span></div>
   <div class="traction-grid">
@@ -1043,66 +1338,139 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       <strong style="color: var(--amber)">Burn rate: $30K/month. Full-featured MVP: built. That's the AI-native advantage in action.</strong>
     </div>
   </div>
+  <!-- 8-week build timeline -->
+  <div style="margin-top:20px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;">8 Weeks · What Was Built</div>
+    <div style="display:flex;gap:0;align-items:stretch;">
+      <div style="flex:1;background:rgba(123,47,247,0.12);border:1px solid rgba(123,47,247,0.25);border-radius:8px 0 0 8px;padding:12px 16px;border-right:none;">
+        <div style="font-size:10px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Wks 1–2</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Core architecture · Supabase · Auth · Data schema</div>
+      </div>
+      <div style="flex:1;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:12px 16px;border-right:none;">
+        <div style="font-size:10px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Wks 3–4</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Agent mobile app · Map · Task feed · Camera</div>
+      </div>
+      <div style="flex:1;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);padding:12px 16px;border-right:none;">
+        <div style="font-size:10px;color:var(--green);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Wks 5–6</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Enterprise portal · AI pipeline · GPT-4V extraction</div>
+      </div>
+      <div style="flex:1;background:rgba(255,179,71,0.08);border:1px solid rgba(255,179,71,0.25);border-radius:0 8px 8px 0;padding:12px 16px;">
+        <div style="font-size:10px;color:var(--amber);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Wks 7–8</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Face redaction · Route matching · 3-tier pricing · This deck</div>
+      </div>
+    </div>
+  </div>
   <div class="slide-number">08 / 13</div>
 </div>
 
 <!-- ═══════════════════════════════════════════
   SLIDE 9 — GTM
 ══════════════════════════════════════════ -->
-<div class="slide" id="s9">
+<div class="slide" id="s9" style="overflow:hidden;">
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <img style="position:absolute;bottom:0;right:0;width:420px;height:100%;object-fit:cover;object-position:left center;opacity:0.08;filter:saturate(0.3);pointer-events:none;z-index:0;" src="deck-assets/city-expansion.png" alt="">
+  <div style="position:absolute;top:0;right:0;width:560px;height:100%;background:linear-gradient(270deg,transparent,var(--dark) 55%);pointer-events:none;z-index:0;"></div>
   <div class="tag">Go-to-Market</div>
   <div class="headline">Beachhead → expansion →<br><span class="grad-text">the physical world intelligence default.</span></div>
-  <div class="phases">
-    <div class="phase">
+  <!-- Gantt-style phase timeline -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:28px;">
+    <div class="phase" style="border-top:3px solid var(--purple);">
       <div class="phase-num">1</div>
       <div class="phase-time">Now → Month 6</div>
       <div class="phase-title">Beachhead</div>
       <div class="phase-items">
         <div class="phase-item">CPG shelf audits in 2 US cities + London</div>
-        <div class="phase-item">10 enterprise customers + 500 agents per city</div>
-        <div class="phase-item">Field Agent charges $30–175/task at 2-week turnaround — we deliver in 4 hours for $8–25</div>
-        <div class="phase-item">First Unilever/Reckitt conversation by Month 3</div>
+        <div class="phase-item">10 enterprise + 500 agents per city</div>
+        <div class="phase-item">4× cheaper, 15× faster than Field Agent</div>
+        <div class="phase-item">Unilever/Reckitt — first conversation M3</div>
       </div>
-      <div class="phase-metric">→ $98K MRR by Month 6</div>
+      <div class="phase-metric">→ $98K MRR · Month 6</div>
     </div>
-    <div class="phase">
+    <div class="phase" style="border-top:3px solid var(--blue);">
       <div class="phase-num">2</div>
       <div class="phase-time">Month 6 → 18</div>
-      <div class="phase-title">Multi-City Expansion</div>
+      <div class="phase-title">Multi-City Scale</div>
       <div class="phase-items">
-        <div class="phase-item">8 US cities + 5 EU cities (London, Amsterdam, Berlin, Barcelona, Paris)</div>
-        <div class="phase-item">SMB self-serve product launches → content + PLG</div>
-        <div class="phase-item">15,000 active agents by Month 18</div>
-        <div class="phase-item">One EU enterprise anchor (Unilever/Heineken) = opens every enterprise door in Europe</div>
+        <div class="phase-item">8 US + 5 EU cities (London, AMS, Berlin)</div>
+        <div class="phase-item">SMB self-serve + PLG growth engine</div>
+        <div class="phase-item">15,000 active agents by M18</div>
+        <div class="phase-item">EU anchor enterprise = every CPG door</div>
       </div>
-      <div class="phase-metric">→ $822K MRR / $9.87M ARR by Month 18</div>
+      <div class="phase-metric">→ $822K MRR · $9.87M ARR</div>
     </div>
-    <div class="phase">
+    <div class="phase" style="border-top:3px solid var(--green);">
       <div class="phase-num">3</div>
       <div class="phase-time">Month 18+</div>
-      <div class="phase-title">Category Creation</div>
+      <div class="phase-title">Category Default</div>
       <div class="phase-items">
-        <div class="phase-item">Consumer brand: "the app you use to check a place"</div>
-        <div class="phase-item">Training data licensing → $2M+/month at scale</div>
-        <div class="phase-item">Data network effects: more tasks → better AI → more customers</div>
-        <div class="phase-item">Series A raise begins Month 16 at $9.87M ARR trigger</div>
+        <div class="phase-item">"The app you use to check a place"</div>
+        <div class="phase-item">Training data: $2M+/month at scale</div>
+        <div class="phase-item">Data flywheel compounds moat</div>
+        <div class="phase-item">Series A begins M16</div>
       </div>
       <div class="phase-metric">→ Series A: $50–100M valuation</div>
     </div>
   </div>
-  <div class="flywheel">
-    <div class="fw-title" style="white-space: nowrap">The Data Flywheel:</div>
-    <div class="fw-item"><div class="fw-icon">📱</div><div class="fw-label">More Tasks</div></div>
-    <div class="fw-arrow">→</div>
-    <div class="fw-item"><div class="fw-icon">🏷️</div><div class="fw-label">More Training Data</div></div>
-    <div class="fw-arrow">→</div>
-    <div class="fw-item"><div class="fw-icon">🧠</div><div class="fw-label">Better AI Models</div></div>
-    <div class="fw-arrow">→</div>
-    <div class="fw-item"><div class="fw-icon">⚡</div><div class="fw-label">Lower Task Cost</div></div>
-    <div class="fw-arrow">→</div>
-    <div class="fw-item"><div class="fw-icon">🏢</div><div class="fw-label">More Customers</div></div>
-    <div class="fw-arrow">→</div>
-    <div class="fw-item"><div class="fw-icon">💰</div><div class="fw-label">Data Licensing Revenue</div></div>
+  <!-- Circular flywheel + Gantt bar -->
+  <div style="display:flex;gap:28px;align-items:center;">
+    <!-- SVG circular flywheel -->
+    <div style="flex-shrink:0;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">The Data Flywheel</div>
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <defs>
+          <linearGradient id="fw-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7B2FF7"/><stop offset="100%" stop-color="#00D4FF"/></linearGradient>
+        </defs>
+        <!-- Circle track -->
+        <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+        <!-- Circular arrows (arc segments) -->
+        <path d="M100 28 A72 72 0 0 1 172 100" stroke="url(#fw-grad)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <path d="M172 100 A72 72 0 0 1 100 172" stroke="url(#fw-grad)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <path d="M100 172 A72 72 0 0 1 28 100" stroke="url(#fw-grad)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <path d="M28 100 A72 72 0 0 1 100 28" stroke="url(#fw-grad)" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+        <!-- Nodes -->
+        <circle cx="100" cy="28" r="18" fill="rgba(123,47,247,0.2)" stroke="rgba(123,47,247,0.5)" stroke-width="1"/>
+        <text x="100" y="24" text-anchor="middle" fill="white" font-size="9" font-family="Inter,sans-serif">📱</text>
+        <text x="100" y="36" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter,sans-serif">Tasks</text>
+        <circle cx="172" cy="100" r="18" fill="rgba(0,212,255,0.2)" stroke="rgba(0,212,255,0.5)" stroke-width="1"/>
+        <text x="172" y="96" text-anchor="middle" fill="white" font-size="9" font-family="Inter,sans-serif">🏷️</text>
+        <text x="172" y="108" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter,sans-serif">Data</text>
+        <circle cx="100" cy="172" r="18" fill="rgba(0,229,160,0.2)" stroke="rgba(0,229,160,0.5)" stroke-width="1"/>
+        <text x="100" y="168" text-anchor="middle" fill="white" font-size="9" font-family="Inter,sans-serif">🧠</text>
+        <text x="100" y="180" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter,sans-serif">AI</text>
+        <circle cx="28" cy="100" r="18" fill="rgba(255,179,71,0.2)" stroke="rgba(255,179,71,0.5)" stroke-width="1"/>
+        <text x="28" y="96" text-anchor="middle" fill="white" font-size="9" font-family="Inter,sans-serif">⚡</text>
+        <text x="28" y="108" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter,sans-serif">Cost↓</text>
+        <!-- Center label -->
+        <text x="100" y="97" text-anchor="middle" fill="rgba(0,212,255,0.9)" font-size="9" font-weight="700" font-family="Inter,sans-serif">MOSAIC</text>
+        <text x="100" y="109" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Inter,sans-serif">FLYWHEEL</text>
+      </svg>
+    </div>
+    <!-- Revenue Gantt bars -->
+    <div style="flex:1;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;">Revenue Trajectory</div>
+      <div class="gantt-wrap">
+        <div class="gantt-row">
+          <div class="gantt-label-col">Month 6</div>
+          <div class="gantt-track"><div class="gantt-bar" style="width:9%;background:linear-gradient(90deg,#7B2FF7,#00D4FF);">$98K</div></div>
+          <div class="gantt-milestone"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-label-col">Month 12</div>
+          <div class="gantt-track"><div class="gantt-bar" style="width:32%;background:linear-gradient(90deg,#7B2FF7,#00D4FF);">$354K</div></div>
+          <div class="gantt-milestone"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-label-col">Month 18</div>
+          <div class="gantt-track"><div class="gantt-bar" style="width:75%;background:linear-gradient(90deg,#00D4FF,#00E5A0);">$822K MRR</div></div>
+          <div class="gantt-milestone" style="color:var(--green);">→ Series A</div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-label-col">Month 24</div>
+          <div class="gantt-track"><div class="gantt-bar" style="width:100%;background:linear-gradient(90deg,#00E5A0,#7B2FF7);">$1.6M MRR</div></div>
+          <div class="gantt-milestone" style="color:var(--amber);">Break-even</div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="slide-number">09 / 13</div>
 </div>
@@ -1110,7 +1478,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 10 — COMPETITION
 ══════════════════════════════════════════ -->
-<div class="slide" id="s10">
+<div class="slide" id="s10" style="overflow:hidden;">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.03;filter:saturate(0.2) blur(2px);pointer-events:none;z-index:0;" src="deck-assets/mosaic-map-london-v1.png" alt="">
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">Competitive Landscape</div>
   <div class="headline">We occupy white space no incumbent<br><span class="grad-text">has ever entered.</span></div>
   <div class="comp-layout">
@@ -1128,16 +1498,22 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
           <div class="dot-name">MOSAIC ✦</div>
         </div>
         <div class="dot fa-dot" style="top:38%; left:18%">
-          <div class="dot-circle" style="background:rgba(255,255,255,0.3)"></div>
-          <div class="dot-name" style="color:rgba(255,255,255,0.45); font-size:13px">Field Agent</div>
+          <div class="dot-circle" style="background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,0.5);"></div>
+          <div class="dot-name" style="color:#4ade80; font-size:13px">Field Agent</div>
         </div>
         <div class="dot bme-dot" style="top:28%; left:24%">
-          <div class="dot-circle" style="background:rgba(255,255,255,0.3)"></div>
-          <div class="dot-name" style="color:rgba(255,255,255,0.45); font-size:13px">BeMyEye</div>
+          <div class="dot-circle" style="background:#fb923c;box-shadow:0 0 10px rgba(251,146,60,0.5);"></div>
+          <div class="dot-name" style="color:#fb923c; font-size:13px">BeMyEye</div>
         </div>
         <div class="dot trax-dot" style="top:20%; left:16%">
-          <div class="dot-circle"></div>
-          <div class="dot-name">Trax</div>
+          <div class="dot-circle" style="background:#60a5fa;box-shadow:0 0 8px rgba(96,165,250,0.5);"></div>
+          <div class="dot-name" style="color:#60a5fa;">Trax</div>
+        </div>
+        <!-- Competitor chip legend below matrix -->
+        <div style="position:absolute;bottom:-50px;left:0;right:0;display:flex;gap:10px;justify-content:center;">
+          <div class="comp-chip comp-chip-bme"><div class="comp-chip-dot"></div>BeMyEye · $35M rev · enterprise-only</div>
+          <div class="comp-chip comp-chip-fa"><div class="comp-chip-dot"></div>Field Agent · 2–3 week SLA</div>
+          <div class="comp-chip comp-chip-trax"><div class="comp-chip-dot"></div>Trax · hardware + enterprise</div>
         </div>
       </div>
     </div>
@@ -1165,6 +1541,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       <div class="gap-note">
         <strong>BeMyEye reached $35M revenue in 15 years</strong> with enterprise-only, sales-led, slow. Mosaic is building for the era where a brand manager gets shelf data in 4 hours for $50 without a sales call — and where the same platform serves anyone with a one-time question about a physical place. <strong>That's not a feature. That's a category.</strong>
       </div>
+      <div class="wins-callout">
+        Mosaic wins on <span>ALL 7 dimensions</span> — the only platform with consumer tier, AI extraction, &lt;4hr SLA, route matching, on-device GDPR, self-serve, and training data revenue.
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.4);text-align:center;font-style:italic;">Competitive moat deepens over time — each task generates labeled data that improves AI accuracy, which widens speed/cost advantage.</div>
     </div>
   </div>
   <div class="slide-number">10 / 13</div>
@@ -1173,7 +1553,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 11 — TEAM
 ══════════════════════════════════════════ -->
-<div class="slide" id="s11">
+<div class="slide" id="s11" style="overflow:hidden;">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.04;filter:saturate(0.15) blur(2px);pointer-events:none;z-index:0;" src="deck-assets/cover-bg.png" alt="">
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">The Team</div>
   <div class="headline">The two people who can build this —<br>and the <span class="grad-text">AI team they've assembled.</span></div>
   <div class="founders">
@@ -1201,12 +1583,42 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
   <div class="ai-team">
     <div class="ai-title">The AI Team — 12-Person Output at $30K/Month Burn</div>
     <div class="ai-tools">
-      <div class="ai-tool"><div class="ai-tool-name">Claude Code + Cursor</div><div class="ai-tool-desc">4× engineering velocity</div></div>
-      <div class="ai-tool"><div class="ai-tool-name">v0 + Figma AI</div><div class="ai-tool-desc">Design without design headcount</div></div>
-      <div class="ai-tool"><div class="ai-tool-name">Expo + Supabase</div><div class="ai-tool-desc">Full-stack, no infra team</div></div>
-      <div class="ai-tool"><div class="ai-tool-name">GPT-4V Pipeline</div><div class="ai-tool-desc">Enterprise extraction product</div></div>
+      <div class="ai-tool">
+        <div class="ai-tool-name" style="color:#a78bfa;">Claude Code + Cursor</div>
+        <div class="ai-tool-desc">4× engineering velocity — full codebase awareness, no context loss</div>
+      </div>
+      <div class="ai-tool">
+        <div class="ai-tool-name" style="color:#67e8f9;">GPT-4V · Gemini</div>
+        <div class="ai-tool-desc">Core extraction pipeline — shelf photos → JSON in 3 seconds at 90%+ accuracy</div>
+      </div>
+      <div class="ai-tool">
+        <div class="ai-tool-name" style="color:#6ee7b7;">MediaPipe · TFLite</div>
+        <div class="ai-tool-desc">On-device face redaction — GDPR-native, runs on any 2020+ smartphone</div>
+      </div>
+      <div class="ai-tool">
+        <div class="ai-tool-name" style="color:#fcd34d;">v0 + Supabase + Expo</div>
+        <div class="ai-tool-desc">Full-stack UI, database, and mobile — zero infra team needed</div>
+      </div>
     </div>
-    <div class="burn-badge">We built a complete three-tier marketplace MVP in 8 weeks at <strong>$30K/month</strong>. That's the AI-native founding advantage.</div>
+    <!-- Burn rate efficiency callout -->
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+      <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">$30K</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Monthly burn rate</div>
+      </div>
+      <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">8 wks</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">To full MVP</div>
+      </div>
+      <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">166×</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Runway months on seed</div>
+      </div>
+      <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">2 ppl</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;">Humans, 12-person output</div>
+      </div>
+    </div>
   </div>
   <div class="slide-number">11 / 13</div>
 </div>
@@ -1214,7 +1626,10 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 12 — FINANCIALS
 ══════════════════════════════════════════ -->
-<div class="slide" id="s12">
+<div class="slide" id="s12" style="overflow:hidden;">
+  <img style="position:absolute;top:0;right:0;width:400px;height:100%;object-fit:cover;object-position:center center;opacity:0.05;filter:saturate(0.2) blur(1px);pointer-events:none;z-index:0;" src="deck-assets/data-flywheel.png" alt="">
+  <div style="position:absolute;top:0;right:0;width:520px;height:100%;background:linear-gradient(270deg,transparent 0%,var(--dark) 50%);pointer-events:none;z-index:0;"></div>
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">Financial Projections</div>
   <div class="headline">$10M ARR in 18 months —<br><span class="grad-text">three tiers building compounding revenue.</span></div>
   <div class="fin-layout">
@@ -1257,12 +1672,37 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
         </div>
       </div>
       <div class="fin-card">
-        <div class="fin-card-title">Revenue Composition at Month 24</div>
-        <div class="fin-items">
-          <div class="fin-item"><strong>$1.6M MRR</strong> from 3 commercial tiers</div>
-          <div class="fin-item"><strong>$210K MRR</strong> from training data (95% GM)</div>
-          <div class="fin-item"><strong>115%</strong> target Net Revenue Retention</div>
-          <div class="fin-item">Built bottom-up from task economics, not top-down market %</div>
+        <div class="fin-card-title">Revenue Trajectory (MRR)</div>
+        <!-- SVG bar chart -->
+        <div style="display:flex;align-items:flex-end;gap:10px;height:100px;padding:0 4px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="font-size:10px;color:#fff;font-weight:700;">$35K</div>
+            <div style="width:100%;height:16px;background:var(--grad);border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">M3</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="font-size:10px;color:#fff;font-weight:700;">$99K</div>
+            <div style="width:100%;height:30px;background:var(--grad);border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">M6</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="font-size:10px;color:#fff;font-weight:700;">$355K</div>
+            <div style="width:100%;height:54px;background:var(--grad);border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">M12</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="font-size:10px;color:var(--green);font-weight:700;">$822K</div>
+            <div style="width:100%;height:78px;background:linear-gradient(135deg,var(--green),var(--blue));border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">M18</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="font-size:10px;color:var(--amber);font-weight:700;">$1.6M</div>
+            <div style="width:100%;height:96px;background:linear-gradient(135deg,var(--amber),var(--green));border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.4);">M24</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;">
+          <strong style="color:#fff">$1.6M MRR</strong> from 3 commercial tiers · <strong style="color:var(--amber)">$210K</strong> training data (95% GM) · <strong style="color:var(--green)">115%</strong> NRR target
         </div>
       </div>
     </div>
@@ -1273,9 +1713,17 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ═══════════════════════════════════════════
   SLIDE 13 — ASK
 ══════════════════════════════════════════ -->
-<div class="slide" id="s13">
+<div class="slide" id="s13" style="overflow:hidden;">
+  <img style="position:absolute;top:0;right:0;width:440px;height:100%;object-fit:cover;object-position:left center;opacity:0.07;filter:saturate(0.3) blur(1px);pointer-events:none;z-index:0;" src="deck-assets/city-expansion.png" alt="">
+  <div style="position:absolute;top:0;right:0;width:580px;height:100%;background:linear-gradient(270deg,transparent 0%,var(--dark) 50%);pointer-events:none;z-index:0;"></div>
+  <div class="slide-watermark">◆ MOSAIC</div>
   <div class="tag">The Ask</div>
   <div class="headline">We're raising $5M to prove<br><span class="grad-text">three cities and three tiers.</span></div>
+  <!-- Urgency banner -->
+  <div class="urgency-window" style="margin-bottom:20px;margin-top:-16px;">
+    <div class="urgency-icon">⏳</div>
+    <div class="urgency-text"><strong>24-Month Window Closing.</strong> BeMyEye has no consumer tier in development. US platforms haven't noticed Europe. Enterprise AI buyers are signing up 3× faster than in 2025. This category will be owned by whoever moves first — and we've already built the product.</div>
+  </div>
   <div class="ask-layout">
     <div class="raise-card">
       <div class="raise-label">Seed Round</div>
@@ -1317,7 +1765,46 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
       Starting in CPG. Ending everywhere.
     </div>
   </div>
+  <!-- Contact row -->
+  <div class="contact-row">
+    <a href="mailto:investors@mosaic-intel.com" onclick="event.stopPropagation()">investors@mosaic-intel.com</a>
+    <span style="color:rgba(255,255,255,0.15)">·</span>
+    <a href="https://linkedin.com/company/mosaic-intel" onclick="event.stopPropagation()">LinkedIn</a>
+    <span style="color:rgba(255,255,255,0.15)">·</span>
+    <span>mosaic-intel.com · Data Room available on request</span>
+  </div>
   <div class="slide-number">13 / 13</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 14 — APPENDIX
+══════════════════════════════════════════ -->
+<div class="slide" id="s14" style="flex-direction:column;align-items:center;justify-content:center;gap:48px;">
+  <div class="slide-watermark">◆ MOSAIC</div>
+  <div style="text-align:center;">
+    <div class="tag">Appendix</div>
+    <div style="font-size:56px;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:20px;">A</div>
+    <div style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.6);">Additional materials available on request</div>
+  </div>
+  <div style="display:flex;gap:28px;">
+    <a href="MOSAIC_DEMO.html" target="_blank" onclick="event.stopPropagation()" style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:32px 48px;background:rgba(123,47,247,0.12);border:1px solid rgba(123,47,247,0.35);border-radius:18px;text-decoration:none;transition:all 0.2s;">
+      <div style="font-size:40px;">📱</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;">Interactive Demo</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.4);">MOSAIC_DEMO.html</div>
+    </a>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:32px 48px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:18px;">
+      <div style="font-size:40px;">📁</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;">Data Room</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.4);">investors@mosaic-intel.com</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:32px 48px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:18px;">
+      <div style="font-size:40px;">📊</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;">Financial Model</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.4);">Full model on request</div>
+    </div>
+  </div>
+  <div style="font-size:14px;color:rgba(255,255,255,0.3);">Confidential · Mosaic Intel Ltd · Seed Round 2026</div>
+  <div class="slide-number">A / 14</div>
 </div>
 
 </div><!-- /#deck -->
@@ -1325,25 +1812,26 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0F; f
 <!-- ────────── NAV ────────── -->
 <div id="nav">
   <button id="nav-prev" onclick="go(-1)">‹</button>
-  <button class="nav-dot active" onclick="goTo(0)"></button>
-  <button class="nav-dot" onclick="goTo(1)"></button>
-  <button class="nav-dot" onclick="goTo(2)"></button>
-  <button class="nav-dot" onclick="goTo(3)"></button>
-  <button class="nav-dot" onclick="goTo(4)"></button>
-  <button class="nav-dot" onclick="goTo(5)"></button>
-  <button class="nav-dot" onclick="goTo(6)"></button>
-  <button class="nav-dot" onclick="goTo(7)"></button>
-  <button class="nav-dot" onclick="goTo(8)"></button>
-  <button class="nav-dot" onclick="goTo(9)"></button>
-  <button class="nav-dot" onclick="goTo(10)"></button>
-  <button class="nav-dot" onclick="goTo(11)"></button>
-  <button class="nav-dot" onclick="goTo(12)"></button>
+  <button class="nav-dot active" onclick="goTo(0)" data-title="Cover"></button>
+  <button class="nav-dot" onclick="goTo(1)" data-title="Problem"></button>
+  <button class="nav-dot" onclick="goTo(2)" data-title="Solution"></button>
+  <button class="nav-dot" onclick="goTo(3)" data-title="Why Now"></button>
+  <button class="nav-dot" onclick="goTo(4)" data-title="Product"></button>
+  <button class="nav-dot" onclick="goTo(5)" data-title="Market"></button>
+  <button class="nav-dot" onclick="goTo(6)" data-title="Business Model"></button>
+  <button class="nav-dot" onclick="goTo(7)" data-title="Traction"></button>
+  <button class="nav-dot" onclick="goTo(8)" data-title="Go-to-Market"></button>
+  <button class="nav-dot" onclick="goTo(9)" data-title="Competition"></button>
+  <button class="nav-dot" onclick="goTo(10)" data-title="Team"></button>
+  <button class="nav-dot" onclick="goTo(11)" data-title="Financials"></button>
+  <button class="nav-dot" onclick="goTo(12)" data-title="The Ask"></button>
+  <button class="nav-dot" onclick="goTo(13)" data-title="Appendix"></button>
   <button id="nav-next" onclick="go(1)">›</button>
 </div>
 
 <script>
 (function() {
-  const TOTAL = 13;
+  const TOTAL = 14;
   let cur = 0;
 
   const slides = document.querySelectorAll('.slide');

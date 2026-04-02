@@ -1081,6 +1081,26 @@ body {
 .metric-trend.up { color: var(--green); }
 .metric-trend.down { color: var(--red); }
 
+/* Metric drill-down tooltip */
+.metric-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  background: #12141c;
+  border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 10px;
+  padding: 12px 14px;
+  z-index: 50;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+.metric-tooltip.visible { display: block; pointer-events: all; }
+.metric-tooltip-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple-light); margin-bottom: 8px; }
+.metric-tooltip-row { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+.metric-tooltip-row strong { color: #fff; }
+
 .map-panel {
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -1337,6 +1357,21 @@ body {
   transition: border-color 0.2s;
 }
 .result-item:hover { border-color: rgba(124,58,237,0.4); }
+.result-item .result-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(124,58,237,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.result-item:hover .result-hover-overlay { opacity: 1; }
 .result-img {
   aspect-ratio: 4/3;
   background: var(--bg4);
@@ -1941,16 +1976,43 @@ body {
 </style>
 </head>
 <body data-mode="collector">
+<!-- LOADING SPLASH (1 second) -->
+<div id="loadingSplash" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.5s;">
+  <div style="font-size:48px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;">◆ MOSAIC</div>
+  <div style="font-size:14px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;">Physical World Intelligence</div>
+  <div style="display:flex;gap:6px;margin-top:8px;">
+    <div style="width:6px;height:6px;background:var(--purple);border-radius:50%;animation:dot-bounce 1s ease-in-out infinite;"></div>
+    <div style="width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:dot-bounce 1s ease-in-out 0.2s infinite;"></div>
+    <div style="width:6px;height:6px;background:var(--green);border-radius:50%;animation:dot-bounce 1s ease-in-out 0.4s infinite;"></div>
+  </div>
+  <style>@keyframes dot-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}</style>
+</div>
+
 <!-- INTRO OVERLAY -->
-<div class="demo-intro-overlay" id="introOverlay">
+<div class="demo-intro-overlay" id="introOverlay" style="display:none;">
   <div class="demo-intro-card">
     <div class="demo-intro-logo">◆ Mosaic</div>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">Interactive Product Demo</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">Interactive Product Demo · 2026</div>
     <div class="demo-intro-sub">Experience the full Mosaic platform — from a collector's first gig to enterprise-grade compliance intelligence.</div>
+    <!-- Animated stats row -->
+    <div style="display:flex;gap:16px;justify-content:center;margin-bottom:20px;">
+      <div style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div id="introCount1" style="font-size:24px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">0</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Collector Screens</div>
+      </div>
+      <div style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div id="introCount2" style="font-size:24px;font-weight:900;color:var(--cyan);">0</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Enterprise Screens</div>
+      </div>
+      <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">AI✦</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Powered Platform</div>
+      </div>
+    </div>
     <div class="demo-intro-features">
-      <div class="demo-intro-feat">📱 Collector App<br><span style="color:var(--text3);font-size:11px">8 screens</span></div>
-      <div class="demo-intro-feat">🖥 Enterprise Portal<br><span style="color:var(--text3);font-size:11px">6 screens</span></div>
-      <div class="demo-intro-feat">✦ AI-Powered<br><span style="color:var(--text3);font-size:11px">Real data flows</span></div>
+      <div class="demo-intro-feat">📱 Full collector journey<br><span style="color:var(--text3);font-size:11px">Onboarding → Payout</span></div>
+      <div class="demo-intro-feat">🖥 Enterprise portal<br><span style="color:var(--text3);font-size:11px">Dashboard → Alerts</span></div>
+      <div class="demo-intro-feat">✦ Live AI analysis<br><span style="color:var(--text3);font-size:11px">Real data flows</span></div>
     </div>
     <button class="cta-btn" style="margin:0;width:100%;padding:16px;font-size:17px;" onclick="dismissIntro()">Start Demo →</button>
     <div style="margin-top:14px;font-size:11px;color:var(--text3);">Use ← → arrow keys · Press 1 for Collector, 2 for Enterprise</div>
@@ -1965,12 +2027,31 @@ body {
       <div class="demo-logo-dot"></div>
       Mosaic
     </div>
-    <div id="screenLabel" class="screen-title">
-      <span id="screenName">Onboarding</span> &nbsp;·&nbsp; Screen <span id="screenNum">1</span> of <span id="screenTotal">8</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div id="screenLabel" class="screen-title">
+        <span id="screenName">Onboarding</span> &nbsp;·&nbsp; Screen <span id="screenNum">1</span> of <span id="screenTotal">8</span>
+      </div>
+      <!-- Keyboard shortcut chips -->
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">←</kbd>
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">→</kbd>
+          navigate
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--purple-light);">1</kbd> collector
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--cyan);">2</kbd> enterprise
+        </div>
+      </div>
     </div>
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="btnCollector" onclick="setMode('collector')">📱 Collector App</button>
-      <button class="mode-btn" id="btnEnterprise" onclick="setMode('enterprise')">🖥 Enterprise Portal</button>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btnCollector" onclick="setMode('collector')">📱 Collector App</button>
+        <button class="mode-btn" id="btnEnterprise" onclick="setMode('enterprise')">🖥 Enterprise Portal</button>
+      </div>
+      <button id="tourBtn" onclick="toggleTour()" style="background:rgba(123,47,247,0.12);border:1px solid rgba(123,47,247,0.4);color:rgba(167,139,250,0.9);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.02em;">▶ Demo Tour</button>
     </div>
   </div>
 
@@ -2000,11 +2081,57 @@ body {
                   </svg>
                 </div>
                 <div class="onboard-title">Earn money — anywhere<br>you already are.</div>
-                <div class="onboard-sub">Mosaic sends you real tasks near your location. Complete a shelf photo in 8 minutes, get paid instantly.<br><strong style="color:var(--text)">Average $18/hr · Results delivered to brands in under 10 minutes.</strong></div>
+                <div class="onboard-sub">Mosaic sends you real tasks near your location. Complete a shelf photo in 8 minutes, get paid instantly.<br><strong style="color:var(--text)">Average £18/hr · Results delivered to brands in under 10 minutes.</strong></div>
                 <div class="stat-row">
-                  <div class="stat-chip"><span class="val">$847</span><div class="lbl">Avg/Month</div></div>
+                  <div class="stat-chip"><span class="val">£847</span><div class="lbl">Avg/Month</div></div>
                   <div class="stat-chip"><span class="val">&lt;10min</span><div class="lbl">Task Time</div></div>
                   <div class="stat-chip"><span class="val">4★+</span><div class="lbl">Rated</div></div>
+                </div>
+                <!-- Commute Mode highlight -->
+                <div style="background:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(124,58,237,0.06));border:1px solid rgba(6,182,212,0.22);border-radius:14px;padding:14px 16px;width:100%;text-align:left;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                    <span style="background:var(--cyan);color:#000;font-size:9px;font-weight:900;padding:2px 7px;border-radius:10px;letter-spacing:0.04em;">NEW</span>
+                    <span style="font-size:12px;font-weight:800;color:var(--cyan);">⚡ Commute Mode</span>
+                  </div>
+                  <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;">Earn £15 before you reach the office.</div>
+                  <!-- Commute route mini-map -->
+                  <div style="margin:8px 0;background:rgba(0,0,0,0.25);border-radius:10px;padding:8px;overflow:hidden;">
+                    <svg width="100%" height="56" viewBox="0 0 240 56" style="display:block;">
+                      <!-- Route path -->
+                      <path d="M12 44 Q40 44 52 36 Q64 28 80 28 Q100 28 110 22 Q124 16 140 16 Q160 16 170 22 Q184 28 200 28 Q216 28 228 20" stroke="rgba(6,182,212,0.25)" stroke-width="2.5" fill="none" stroke-dasharray="4,3"/>
+                      <!-- Tube/metro line highlight -->
+                      <path d="M12 44 Q40 44 52 36 Q64 28 80 28 Q100 28 110 22 Q124 16 140 16 Q160 16 170 22 Q184 28 200 28 Q216 28 228 20" stroke="url(#routeGrad)" stroke-width="2" fill="none" stroke-dasharray="100,200" stroke-dashoffset="-20">
+                        <animate attributeName="stroke-dashoffset" from="-20" to="-220" dur="3s" repeatCount="indefinite"/>
+                      </path>
+                      <defs><linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="transparent"/><stop offset="30%" stop-color="#06b6d4"/><stop offset="70%" stop-color="#7c3aed"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+                      <!-- Start: Home pin -->
+                      <circle cx="12" cy="44" r="5" fill="rgba(124,58,237,0.3)" stroke="#7c3aed" stroke-width="1.5"/>
+                      <circle cx="12" cy="44" r="2.5" fill="#a78bfa"/>
+                      <!-- Task pins along route -->
+                      <g transform="translate(80,28)">
+                        <circle r="6" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#06b6d4" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <g transform="translate(140,16)">
+                        <circle r="6" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#06b6d4" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <g transform="translate(200,28)">
+                        <circle r="6" fill="rgba(0,229,160,0.2)" stroke="#00e5a0" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#00e5a0" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <!-- End: Office pin -->
+                      <circle cx="228" cy="20" r="5" fill="rgba(0,229,160,0.3)" stroke="#00e5a0" stroke-width="1.5"/>
+                      <circle cx="228" cy="20" r="2.5" fill="#6ee7b7"/>
+                      <!-- Labels -->
+                      <text x="12" y="54" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.35)" font-family="sans-serif">Home</text>
+                      <text x="228" y="14" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.35)" font-family="sans-serif">Office</text>
+                      <text x="80" y="20" text-anchor="middle" font-size="7" fill="rgba(6,182,212,0.7)" font-family="sans-serif">+£5</text>
+                      <text x="140" y="10" text-anchor="middle" font-size="7" fill="rgba(6,182,212,0.7)" font-family="sans-serif">+£5</text>
+                      <text x="200" y="22" text-anchor="middle" font-size="7" fill="rgba(0,229,160,0.7)" font-family="sans-serif">+£5</text>
+                    </svg>
+                  </div>
+                  <div style="font-size:11px;color:var(--text2);line-height:1.55;">Tasks auto-matched to your daily commute. No detours. Complete a shelf scan on the way — get paid by the time you sit down.</div>
                 </div>
               </div>
               <div style="display:flex;gap:10px;align-items:center;justify-content:center;font-size:11px;color:var(--text3);margin-bottom:8px;">
@@ -2012,7 +2139,7 @@ body {
                 <span>·</span>
                 <span>✓ Instant payouts</span>
                 <span>·</span>
-                <span>✓ No minimum hours</span>
+                <span>✓ No detours needed</span>
               </div>
               <button class="cta-btn" onclick="goScreen(1)">Start Earning Now →</button>
             </div>
@@ -2029,7 +2156,7 @@ body {
                 <div class="avatar">MC</div>
               </div>
               <div class="earnings-banner mt12">
-                <div><div class="earnings-label">This week's earnings</div><div class="earnings-val">$134.50</div></div>
+                <div><div class="earnings-label">This week's earnings</div><div class="earnings-val">£134.50</div></div>
                 <div class="text-xs text-muted">↑ 23% vs last week</div>
               </div>
             </div>
@@ -2054,7 +2181,7 @@ body {
                   <div class="task-name">Oat+ Shelf Check &amp; Compliance Scan</div>
                   <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Sainsbury's Borough Market · 0.2mi north</div>
                 </div>
-                <div class="task-payout">$14.50</div>
+                <div class="task-payout">£14.50</div>
               </div>
               <div class="task-meta">
                 <span class="tag tag-blue">📍 4 min walk</span>
@@ -2071,7 +2198,7 @@ body {
                   <div class="task-name">KitKat Display Placement Verify</div>
                   <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Tesco Metro Southwark · 0.5mi</div>
                 </div>
-                <div class="task-payout">$9.00</div>
+                <div class="task-payout">£9.00</div>
               </div>
               <div class="task-meta">
                 <span class="tag tag-blue">📍 8 min walk</span>
@@ -2087,12 +2214,12 @@ body {
                   <div class="task-name">Dove Promo Display + Facing Count</div>
                   <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Boots Borough · 0.8mi</div>
                 </div>
-                <div class="task-payout">$22.00</div>
+                <div class="task-payout">£22.00</div>
               </div>
               <div class="task-meta">
                 <span class="tag tag-blue">📍 14 min walk</span>
                 <span class="tag tag-purple">⚡ 15 min</span>
-                <span class="tag tag-green">💎 Bonus +$3</span>
+                <span class="tag tag-green">💎 Bonus +£3</span>
               </div>
             </div>
             <div class="task-card">
@@ -2103,7 +2230,7 @@ body {
                   <div class="task-name">Ariel Promo End-Cap Check</div>
                   <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Waitrose London Bridge · 1.1mi</div>
                 </div>
-                <div class="task-payout">$11.00</div>
+                <div class="task-payout">£11.00</div>
               </div>
               <div class="task-meta">
                 <span class="tag tag-blue">📍 18 min walk</span>
@@ -2170,21 +2297,21 @@ body {
                 <!-- Task pin 1: CLOSEST — Sainsbury's -->
                 <div class="map-pin pin-purple" style="left:235px;top:150px;width:auto;transform:translate(-50%,-50%);">
                   <div style="background:rgba(124,58,237,0.95);border:2px solid rgba(124,58,237,0.8);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 12px rgba(124,58,237,0.5);">
-                    $14.50 · 0.2mi
+                    £14.50 · 0.2mi
                     <div style="font-size:9px;font-weight:600;opacity:0.8">Sainsbury's · ON YOUR ROUTE</div>
                   </div>
                 </div>
                 <!-- Task pin 2 -->
                 <div class="map-pin pin-cyan" style="left:140px;top:230px;width:auto;transform:translate(-50%,-50%);">
                   <div style="background:rgba(6,182,212,0.9);border:2px solid rgba(6,182,212,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
-                    $9.00 · 0.5mi
+                    £9.00 · 0.5mi
                     <div style="font-size:9px;opacity:0.7">Tesco Metro</div>
                   </div>
                 </div>
                 <!-- Task pin 3 -->
                 <div class="map-pin pin-green" style="left:310px;top:200px;width:auto;transform:translate(-50%,-50%);">
                   <div style="background:rgba(16,185,129,0.9);border:2px solid rgba(16,185,129,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
-                    $22.00 · 0.8mi
+                    £22.00 · 0.8mi
                     <div style="font-size:9px;opacity:0.7">Boots</div>
                   </div>
                 </div>
@@ -2197,7 +2324,7 @@ body {
                     <div class="fw700">Oat+ Shelf Check &amp; Compliance</div>
                     <div style="font-size:11px;color:var(--text2);margin-top:3px;">📍 0.2mi north · ~4 min walk · 8 min task</div>
                   </div>
-                  <div class="text-green fw800" style="font-size:18px;">$14.50</div>
+                  <div class="text-green fw800" style="font-size:18px;">£14.50</div>
                 </div>
                 <button class="cta-btn" style="margin:0;width:100%;padding:12px;" onclick="goScreen(3)">Accept &amp; Navigate →</button>
               </div>
@@ -2210,7 +2337,7 @@ body {
               <img class="task-detail-hero-bg" src="deck-assets/mosaic-store-exterior-v1.png" alt="" onerror="this.remove()">
               <div class="task-hero-brand">Meridian Foods · Sainsbury's Borough Market</div>
               <div class="task-hero-name">Oat+ Oat Milk — Shelf Compliance</div>
-              <div class="task-hero-earn">$14.50 <span>/ ~8 min</span></div>
+              <div class="task-hero-earn">£14.50 <span>/ ~8 min</span></div>
               <div class="task-meta mt8">
                 <span class="tag tag-green">✓ AI Verified</span>
                 <span class="tag tag-blue">📍 0.2mi away</span>
@@ -2346,12 +2473,16 @@ body {
                 <div class="camera-corner bl"></div>
                 <div class="camera-corner br"></div>
                 <div class="camera-scan-line"></div>
-                <div class="camera-detect-badge">🔍 Detecting: Oat+ Oat Milk shelf</div>
+                <div class="camera-detect-badge" id="cameraDetectBadge">🔍 Detecting: Oat+ Oat Milk shelf</div>
+              </div>
+              <!-- Scan progress bar -->
+              <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.06);">
+                <div id="cameraScanBar" style="height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#06b6d4);transition:width 2s ease-out;"></div>
               </div>
             </div>
             <div class="camera-controls">
-              <div class="camera-tip">📸 Photo 1 of 3 · Keep shelf in frame</div>
-              <button class="shutter-btn" onclick="goScreen(5)"></button>
+              <div class="camera-tip" id="cameraTip">📸 Scanning… keep shelf in frame</div>
+              <button class="shutter-btn" id="shutterBtn" onclick="goScreen(5)" style="opacity:0.4;transition:opacity 0.3s,box-shadow 0.3s;"></button>
               <div class="camera-gallery"></div>
             </div>
           </div>
@@ -2387,30 +2518,37 @@ body {
               <div class="verify-tag detect">✓ Product Detected</div>
               <div class="verify-tag compliant">✓ Compliant</div>
             </div>
-            <div class="ai-analysis mt12">
+            <!-- Scanning state -->
+            <div id="aiScanningState" style="display:none;margin:12px 20px 0;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:12px;padding:16px;text-align:center;">
+              <div style="font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:8px;" id="scanStateText">🔍 Finding shelf…</div>
+              <div style="height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;">
+                <div id="scanProgressBar" style="height:100%;background:var(--gradient);border-radius:2px;width:0;transition:width 0.8s ease-in-out;"></div>
+              </div>
+            </div>
+            <div class="ai-analysis mt12" id="aiResultsBlock">
               <div class="ai-title">✦ AI Results</div>
               <div class="ai-result-card">
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0s;">
                   <span class="ai-row-label">Product Identified</span>
                   <span class="ai-row-val ok">Oat+ 1L ✓</span>
                 </div>
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.25s;">
                   <span class="ai-row-label">Facings Count</span>
                   <span class="ai-row-val ok">4 / 4 required ✓</span>
                 </div>
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.5s;">
                   <span class="ai-row-label">Stock Level</span>
                   <span class="ai-row-val warn">62% (Low risk)</span>
                 </div>
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.75s;">
                   <span class="ai-row-label">Shelf Tag Present</span>
                   <span class="ai-row-val ok">Yes ✓</span>
                 </div>
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:1.0s;">
                   <span class="ai-row-label">Promo Placement</span>
                   <span class="ai-row-val ok">Eye-level ✓</span>
                 </div>
-                <div class="ai-row">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:1.25s;">
                   <span class="ai-row-label">Overall Score</span>
                   <span class="ai-row-val ok fw800">92 / 100 ✓</span>
                 </div>
@@ -2431,7 +2569,7 @@ body {
             <div style="margin:12px 20px 0;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.5;">
               ✦ <strong style="color:var(--text)">AI Note:</strong> Stock level at 62% — flagging for restocking recommendation to Meridian Foods supply team.
             </div>
-            <button class="cta-btn mt8" onclick="goScreen(6)">Submit & Collect $14.50 →</button>
+            <button class="cta-btn mt8" onclick="goScreen(6)">Submit & Collect £14.50 →</button>
           </div>
 
           <!-- C7: Complete / Payout -->
@@ -2439,15 +2577,29 @@ body {
             <div class="payout-hero" style="position:relative">
               <div class="confetti-wrap" id="confettiWrap"></div>
               <div style="font-size:60px;position:relative;z-index:1">🎉</div>
-              <div class="payout-amount">$14.50</div>
+              <div class="payout-amount" id="payoutMainAmt">£14.50</div>
               <div class="payout-label">earned in 7 minutes</div>
               <div class="payout-breakdown">
-                <div class="payout-row"><span class="key">Base pay</span><span class="val">$12.00</span></div>
-                <div class="payout-row"><span class="key">Quality bonus (92/100)</span><span class="val text-green">+$2.00</span></div>
-                <div class="payout-row"><span class="key">Speed bonus (&lt; 10 min)</span><span class="val text-cyan">+$0.50</span></div>
-                <div class="payout-row total"><span class="key fw700">Total</span><span class="val">$14.50</span></div>
+                <div class="payout-row"><span class="key">Base pay</span><span class="val" id="payRow1">£12.00</span></div>
+                <div class="payout-row"><span class="key">Quality bonus (92/100)</span><span class="val text-green" id="payRow2">+£2.00</span></div>
+                <div class="payout-row"><span class="key">Speed bonus (&lt; 10 min)</span><span class="val text-cyan" id="payRow3">+£0.50</span></div>
+                <div class="payout-row total"><span class="key fw700">Total</span><span class="val" id="payRowTotal">£14.50</span></div>
               </div>
               <div class="text-xs text-muted">💸 Instant transfer to Monzo · Available now</div>
+            </div>
+            <!-- View History button -->
+            <div style="padding:12px 20px 0;display:flex;gap:10px;">
+              <button onclick="togglePayoutHistory(this)" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(124,58,237,0.4)'" onmouseout="this.style.borderColor='var(--border)'">📋 View History</button>
+              <button onclick="goScreen(7)" style="flex:1;background:var(--gradient);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;">Earnings Dashboard →</button>
+            </div>
+            <!-- History panel (hidden initially) -->
+            <div id="payoutHistoryPanel" style="display:none;margin:10px 20px 0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+              <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);">Last 5 tasks</div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Oat+ · Sainsbury's Borough</span><span style="color:var(--green);font-weight:700;">+£14.50</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">KitKat · Tesco Clapham</span><span style="color:var(--green);font-weight:700;">+£9.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Dove Promo · Boots</span><span style="color:var(--green);font-weight:700;">+£22.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Ariel End-Cap · Waitrose</span><span style="color:var(--green);font-weight:700;">+£11.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:12px;"><span style="color:var(--text2)">Shelf Audit · Co-op Borough</span><span style="color:var(--green);font-weight:700;">+£18.00</span></div>
             </div>
             <div class="next-tasks">
               <div class="section-label" style="padding:0 0 10px;">Tasks Nearby</div>
@@ -2457,7 +2609,7 @@ body {
                   <div class="nearby-name">KitKat Display Check</div>
                   <div class="nearby-meta">Tesco Metro · 0.3mi</div>
                 </div>
-                <div class="nearby-earn">$9.00</div>
+                <div class="nearby-earn">£9.00</div>
               </div>
               <div class="nearby-task">
                 <div class="brand-chip brand-unilever" style="width:36px;height:36px;font-size:11px;border-radius:8px">UL</div>
@@ -2465,7 +2617,7 @@ body {
                   <div class="nearby-name">Dove Promo Scan</div>
                   <div class="nearby-meta">Boots · 0.5mi</div>
                 </div>
-                <div class="nearby-earn">$22.00</div>
+                <div class="nearby-earn">£22.00</div>
               </div>
             </div>
           </div>
@@ -2479,13 +2631,13 @@ body {
               </div>
             </div>
             <div class="earnings-main">
-              <div class="earnings-big">$847.50</div>
+              <div class="earnings-big">£847.50</div>
               <div class="earnings-period">This month · 68 tasks completed</div>
               <div class="progress-bar mt12" style="--pct:73%">
                 <div class="progress-fill"></div>
               </div>
               <div class="flex-between mt8">
-                <span class="text-xs text-muted">73% to $1,200 goal</span>
+                <span class="text-xs text-muted">73% to £1,200 goal</span>
                 <span class="text-xs text-green">+12% vs March</span>
               </div>
             </div>
@@ -2539,6 +2691,32 @@ body {
                 <div class="badge-sub">94.2 avg score</div>
               </div>
             </div>
+            <!-- Transaction history -->
+            <div style="padding:0 20px 20px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:10px;">Recent Transactions</div>
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Oat+ Shelf Check · Sainsbury's</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Today 9:47 AM · 7 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£14.50</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">KitKat Display · Tesco Metro</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Today 8:55 AM · 5 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£9.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Dove Promo Display · Boots</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Yesterday 3:12 PM · 14 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£22.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Ariel End-Cap · Waitrose</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Yesterday 9:30 AM · 6 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£11.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:12px;">
+                  <div><div style="font-weight:600;">Shelf Audit · Co-op Borough</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Mon 11:00 AM · 9 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£18.00</div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div><!-- /collector-screens -->
@@ -2584,59 +2762,102 @@ body {
         </div>
 
         <!-- Main content -->
-        <div class="ent-main">
+        <div class="ent-main" style="position:relative;">
+          <!-- Scroll to top button for enterprise screens -->
+          <button id="scrollTopBtn" onclick="scrollEntToTop()" style="display:none;position:absolute;bottom:20px;right:20px;z-index:50;width:36px;height:36px;background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.35);border-radius:50%;color:var(--cyan);font-size:16px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.3);" title="Scroll to top">↑</button>
           <div class="enterprise-screens" id="enterpriseScreens">
 
             <!-- E1: Overview Dashboard -->
             <div class="e-screen" id="e0">
               <div class="ent-screen-inner">
-                <div class="ent-page-title">Campaign Overview</div>
-                <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · <span style="color:var(--green)">⚡ Live — data in under 10 min</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div class="ent-page-title" style="margin-bottom:0;">Campaign Overview</div>
+                  <div style="display:flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--green);">
+                    <div style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:live-blink 1s ease-in-out infinite;"></div>
+                    LIVE
+                  </div>
+                </div>
+                <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · <span style="color:var(--green)">refreshed <span id="refreshTicker">0</span>s ago</span></div>
                 <div class="metrics-grid">
-                  <div class="metric-card">
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
                     <div class="metric-label">Compliance Score</div>
                     <div class="metric-val green">87.4%</div>
                     <div class="metric-trend up">↑ 3.2% this week</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Compliance Detail</div>
+                      <div class="metric-tooltip-row"><strong>Pass:</strong> 216 stores (87.4%)</div>
+                      <div class="metric-tooltip-row"><strong>Warning:</strong> 19 stores (7.7%)</div>
+                      <div class="metric-tooltip-row"><strong>Fail:</strong> 12 stores (4.9%)</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--green);">↑ Up from 84.2% last week</div>
+                    </div>
                   </div>
-                  <div class="metric-card">
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
                     <div class="metric-label">Stores Audited</div>
                     <div class="metric-val cyan">247</div>
                     <div class="metric-trend up">↑ 18 new today</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Coverage Detail</div>
+                      <div class="metric-tooltip-row"><strong>London:</strong> 98 stores</div>
+                      <div class="metric-tooltip-row"><strong>New York:</strong> 87 stores</div>
+                      <div class="metric-tooltip-row"><strong>Chicago:</strong> 62 stores</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;">Target: 500 by M6</div>
+                    </div>
                   </div>
-                  <div class="metric-card">
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
                     <div class="metric-label">Critical Issues</div>
                     <div class="metric-val amber">12</div>
                     <div class="metric-trend down">↓ 4 resolved today</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Issue Breakdown</div>
+                      <div class="metric-tooltip-row"><strong>Out of stock:</strong> 5 stores</div>
+                      <div class="metric-tooltip-row"><strong>Wrong placement:</strong> 4 stores</div>
+                      <div class="metric-tooltip-row"><strong>Missing promo:</strong> 3 stores</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--amber);">~$4,200 daily revenue impact</div>
+                    </div>
                   </div>
-                  <div class="metric-card">
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
                     <div class="metric-label">Avg Facing Score</div>
                     <div class="metric-val purple">3.8 / 4</div>
                     <div class="metric-trend up">↑ 0.2 vs target</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Facing Score Detail</div>
+                      <div class="metric-tooltip-row"><strong>4/4 facings:</strong> 164 stores (66%)</div>
+                      <div class="metric-tooltip-row"><strong>3/4 facings:</strong> 58 stores (23%)</div>
+                      <div class="metric-tooltip-row"><strong>&lt;3 facings:</strong> 25 stores (10%)</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--purple-light);">Industry avg: 3.2/4</div>
+                    </div>
                   </div>
                 </div>
                 <div class="map-panel">
-                  <div class="map-panel-inner">
+                  <div class="map-panel-inner" style="position:relative;overflow:hidden;">
+                    <!-- London map background -->
+                    <img src="deck-assets/mosaic-map-london-v1.png" alt="London compliance map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.65;">
+                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 50% 50%,transparent 50%,rgba(13,17,23,0.5) 100%);"></div>
                     <!-- Compliant stores -->
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:48%;top:35%"></div>
-                    <div class="uk-dot compliant" style="width:10px;height:10px;left:52%;top:58%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:58%;top:40%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:45%;top:65%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:55%;top:30%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:65%;top:60%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:42%;top:72%"></div>
-                    <div class="uk-dot compliant" style="width:8px;height:8px;left:38%;top:38%"></div>
-                    <div class="uk-dot compliant" style="width:7px;height:7px;left:62%;top:45%"></div>
-                    <div class="uk-dot compliant" style="width:7px;height:7px;left:44%;top:50%"></div>
-                    <div class="uk-dot compliant" style="width:7px;height:7px;left:56%;top:68%"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:48%;top:35%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:10px;height:10px;left:52%;top:58%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:58%;top:40%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:45%;top:65%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:55%;top:30%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:65%;top:60%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:42%;top:72%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:38%;top:38%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:62%;top:45%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:44%;top:50%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:56%;top:68%;z-index:2"></div>
                     <!-- Warning stores -->
-                    <div class="uk-dot warning" style="width:8px;height:8px;left:40%;top:45%"></div>
-                    <div class="uk-dot warning" style="width:8px;height:8px;left:35%;top:55%"></div>
-                    <div class="uk-dot warning" style="width:8px;height:8px;left:60%;top:35%"></div>
-                    <!-- Critical stores -->
-                    <div class="uk-dot critical" style="width:10px;height:10px;left:60%;top:50%"></div>
-                    <div class="uk-dot critical" style="width:8px;height:8px;left:50%;top:48%"></div>
-                    <div style="position:absolute;top:8px;left:8px;font-size:11px;color:var(--text3);">🇬🇧 United Kingdom · 247 stores</div>
-                    <div style="position:absolute;bottom:8px;right:8px;display:flex;gap:8px;font-size:10px;align-items:center;">
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:40%;top:45%;z-index:2"></div>
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:35%;top:55%;z-index:2"></div>
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:60%;top:35%;z-index:2"></div>
+                    <!-- Critical stores with pulse rings -->
+                    <div style="position:absolute;width:10px;height:10px;left:60%;top:50%;z-index:2;transform:translate(-50%,-50%);">
+                      <div class="uk-dot critical" style="width:10px;height:10px;position:absolute;inset:0;"></div>
+                      <div style="position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(239,68,68,0.5);animation:pin-pulse 1.5s ease-in-out infinite;"></div>
+                      <div style="position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);animation:pin-pulse 1.5s ease-in-out 0.5s infinite;"></div>
+                    </div>
+                    <div class="uk-dot critical" style="width:8px;height:8px;left:50%;top:48%;z-index:2"></div>
+                    <div style="position:absolute;top:8px;left:8px;font-size:11px;color:var(--text3);z-index:2;">🇬🇧 London · 247 stores</div>
+                    <div style="position:absolute;bottom:8px;right:8px;display:flex;gap:8px;font-size:10px;align-items:center;z-index:2;">
                       <span style="display:flex;align-items:center;gap:4px;color:var(--green)"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block"></span>215 OK</span>
                       <span style="display:flex;align-items:center;gap:4px;color:var(--amber)"><span style="width:8px;height:8px;background:var(--amber);border-radius:50%;display:inline-block"></span>20 Warn</span>
                       <span style="display:flex;align-items:center;gap:4px;color:var(--red)"><span style="width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block"></span>12 Crit</span>
@@ -2671,6 +2892,51 @@ body {
                         stores meeting target
                         <div class="text-xs text-amber mt8">⚠ 32 need attention</div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tasks completed today counter + recently viewed -->
+                <div style="display:flex;gap:10px;margin-top:12px;margin-bottom:0;">
+                  <div style="flex:1;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:11px;color:var(--text3);">Tasks completed today</span>
+                    <span id="tasksToday" style="font-size:18px;font-weight:800;color:var(--purple-light);">142</span>
+                  </div>
+                  <div style="flex:2;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+                    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:6px;">Recently Viewed</div>
+                    <div style="display:flex;gap:8px;font-size:11px;flex-wrap:wrap;">
+                      <span style="background:var(--bg4);border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--text2);">Sainsbury's Borough ✓</span>
+                      <span style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:3px 8px;color:var(--red);">Co-op Shoreditch ✗</span>
+                      <span style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;padding:3px 8px;color:var(--amber);">Waitrose CW ⚠</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Live activity feed -->
+                <div class="chart-card mt12">
+                  <div class="chart-card-title">⚡ Live Activity — Last 30 min</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Sainsbury's Borough Market</span>
+                      <span style="color:var(--green);font-weight:700;">94/100 ✓</span>
+                      <span style="color:var(--text3);">2m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Co-op Shoreditch <span style="color:var(--red);font-weight:600;">🚨 Critical</span></span>
+                      <span style="color:var(--red);font-weight:700;">48/100</span>
+                      <span style="color:var(--text3);">8m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Tesco King's Cross</span>
+                      <span style="color:var(--green);font-weight:700;">93/100 ✓</span>
+                      <span style="color:var(--text3);">14m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Waitrose Canary Wharf <span style="color:var(--amber);">⚠ Low stock</span></span>
+                      <span style="color:var(--amber);font-weight:700;">71/100</span>
+                      <span style="color:var(--text3);">22m ago</span>
                     </div>
                   </div>
                 </div>
@@ -2713,12 +2979,12 @@ body {
                       </div>
                       <div class="form-field">
                         <label class="form-label">Store Count</label>
-                        <input class="form-input" type="text" value="320 stores">
+                        <input class="form-input" id="storeCountInput" type="number" value="320" oninput="updateCostEstimate()" style="font-size:14px;">
                       </div>
                     </div>
                     <div class="form-field">
-                      <label class="form-label">Visit Frequency</label>
-                      <input class="form-input" type="text" value="Weekly (every 7 days)">
+                      <label class="form-label">Visit Frequency (per month)</label>
+                      <input class="form-input" id="visitFreqInput" type="number" value="4" oninput="updateCostEstimate()" style="font-size:14px;">
                     </div>
                   </div>
                   <div class="form-section">
@@ -2735,11 +3001,11 @@ body {
                 <div class="cost-estimate">
                   <div>
                     <div class="cost-label">Estimated Monthly Cost</div>
-                    <div class="text-xs text-muted mt8">320 stores · Weekly · 5 data points</div>
+                    <div class="text-xs text-muted mt8" id="costBreakdown">320 stores · 4× visits · $13/visit</div>
                   </div>
-                  <div class="cost-val">$4,160</div>
+                  <div class="cost-val" id="costVal">$16,640</div>
                 </div>
-                <button class="cta-btn" style="margin:16px 0 0;width:100%;padding:14px">Launch Campaign →</button>
+                <button class="cta-btn" id="launchCampaignBtn" style="margin:16px 0 0;width:100%;padding:14px" onclick="launchCampaign(this)">Launch Campaign →</button>
               </div>
             </div>
 
@@ -2781,6 +3047,10 @@ body {
                 <div class="live-badge" style="z-index:4">
                   <div class="live-pulse"></div>LIVE · 247 stores · London
                 </div>
+                <!-- Last updated ticker -->
+                <div style="position:absolute;top:52px;left:16px;z-index:4;background:rgba(13,17,23,0.85);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--text3);">
+                  Last updated: <span id="mapUpdateTicker" style="color:var(--text2);font-weight:600;">just now</span>
+                </div>
                 <div class="live-map-controls" style="z-index:4">
                   <div class="map-ctrl-btn">+</div>
                   <div class="map-ctrl-btn">−</div>
@@ -2800,6 +3070,10 @@ body {
               <div class="ent-screen-inner">
                 <div class="ent-page-title">Submission Gallery</div>
                 <div class="ent-page-sub">1,847 photos · Last 7 days · Auto-analysed by Mosaic AI</div>
+                <!-- Search bar -->
+                <div style="position:relative;margin-bottom:10px;">
+                  <input id="gallerySearch" type="text" placeholder="🔍  Search by store name..." oninput="searchGallery(this.value)" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(124,58,237,0.5)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
                 <div class="results-toolbar">
                   <div class="results-toolbar-left">
                     <span class="filter-pill active" onclick="filterGallery('all',this)">All (9)</span>
@@ -2811,18 +3085,20 @@ body {
                 </div>
                 <div class="results-grid" id="galleryGrid">
                   <!-- PASS: Sainsbury's — full stock -->
-                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('sainsburys')">
+                  <div class="result-item" data-status="pass" data-store="sainsburys borough" onclick="openGalleryDetail('sainsburys')">
                     <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
                       <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-hover-overlay">View detail →</div>
                       <div class="result-status pass">✓ PASS</div>
                       <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">94/100</div>
                     </div>
                     <div class="result-meta"><strong>Sainsbury's Borough Mkt</strong>Fully stocked · 4/4 facings · Maya C. · 2h ago</div>
                   </div>
                   <!-- PASS: Tesco — full stock -->
-                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('tesco')">
+                  <div class="result-item" data-status="pass" data-store="tesco clapham junction" onclick="openGalleryDetail('tesco')">
                     <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
                       <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+                      <div class="result-hover-overlay">View detail →</div>
                       <div class="result-status pass">✓ PASS</div>
                       <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">89/100</div>
                     </div>
@@ -2926,7 +3202,10 @@ body {
             <!-- E5: Compliance Report -->
             <div class="e-screen" id="e4">
               <div class="ent-screen-inner">
-                <div class="ent-page-title">Compliance Report</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div class="ent-page-title" style="margin-bottom:0;">Compliance Report</div>
+                  <button onclick="exportReport(this)" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);color:var(--cyan);font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;">⬇ Export PDF</button>
+                </div>
                 <div class="ent-page-sub">Oat+ 1L · Week of 24 March 2026 · 247 locations</div>
                 <div class="report-header-card">
                   <div>
@@ -2948,28 +3227,28 @@ body {
                     <div>
                       <div class="flex-between mb8">
                         <span class="text-xs text-muted">Facings Compliance</span>
-                        <span class="text-xs text-green fw700">91%</span>
+                        <span class="text-xs text-green fw700">91% <span style="color:var(--green);font-size:10px;">↑+2%</span></span>
                       </div>
                       <div class="progress-bar" style="--pct:91%"><div class="progress-fill"></div></div>
                     </div>
                     <div>
                       <div class="flex-between mb8">
                         <span class="text-xs text-muted">Stock Level OK</span>
-                        <span class="text-xs text-amber fw700">78%</span>
+                        <span class="text-xs text-amber fw700">78% <span style="color:var(--red);font-size:10px;">↓−3%</span></span>
                       </div>
                       <div class="progress-bar" style="--pct:78%"><div class="progress-fill" style="background:var(--amber)"></div></div>
                     </div>
                     <div class="mt8">
                       <div class="flex-between mb8">
                         <span class="text-xs text-muted">Price Tag Present</span>
-                        <span class="text-xs text-green fw700">97%</span>
+                        <span class="text-xs text-green fw700">97% <span style="color:var(--green);font-size:10px;">↑+1%</span></span>
                       </div>
                       <div class="progress-bar" style="--pct:97%"><div class="progress-fill"></div></div>
                     </div>
                     <div class="mt8">
                       <div class="flex-between mb8">
                         <span class="text-xs text-muted">Promo Compliance</span>
-                        <span class="text-xs text-amber fw700">82%</span>
+                        <span class="text-xs text-amber fw700">82% <span style="color:var(--green);font-size:10px;">↑+5%</span></span>
                       </div>
                       <div class="progress-bar" style="--pct:82%"><div class="progress-fill" style="background:var(--amber)"></div></div>
                     </div>
@@ -2982,31 +3261,31 @@ body {
                     <div>Issues</div>
                     <div>Last Audit</div>
                   </div>
-                  <div class="ct-row">
+                  <div class="ct-row" style="cursor:pointer;" onclick="goScreen(3);setTimeout(()=>openGalleryDetail('sainsburys'),200)" title="View evidence">
                     <div><div class="store-name">Sainsbury's Borough Mkt</div><div class="store-addr">London SE1</div></div>
                     <div><span class="score-pill score-a">94</span></div>
                     <div class="text-green text-xs">None</div>
                     <div class="text-xs text-muted">2h ago</div>
                   </div>
-                  <div class="ct-row">
+                  <div class="ct-row" style="cursor:pointer;" onclick="goScreen(3);setTimeout(()=>openGalleryDetail('tesco'),200)" title="View evidence">
                     <div><div class="store-name">Tesco Clapham Junction</div><div class="store-addr">London SW11</div></div>
                     <div><span class="score-pill score-a">89</span></div>
                     <div class="text-amber text-xs">1 minor</div>
                     <div class="text-xs text-muted">5h ago</div>
                   </div>
-                  <div class="ct-row">
+                  <div class="ct-row" style="cursor:pointer;" onclick="goScreen(3);setTimeout(()=>openGalleryDetail('waitrose'),200)" title="View evidence">
                     <div><div class="store-name">Waitrose Canary Wharf</div><div class="store-addr">London E14</div></div>
                     <div><span class="score-pill score-b">71</span></div>
                     <div class="text-amber text-xs">3 issues</div>
                     <div class="text-xs text-muted">1d ago</div>
                   </div>
-                  <div class="ct-row">
+                  <div class="ct-row" style="cursor:pointer;background:rgba(239,68,68,0.04);" onclick="goScreen(3);setTimeout(()=>openGalleryDetail('coop'),200)" title="View evidence — Critical">
                     <div><div class="store-name">Co-op Shoreditch</div><div class="store-addr">London E1</div></div>
                     <div><span class="score-pill score-c">48</span></div>
-                    <div class="text-red text-xs">Critical</div>
+                    <div class="text-red text-xs">Critical 🚨</div>
                     <div class="text-xs text-muted">3h ago</div>
                   </div>
-                  <div class="ct-row">
+                  <div class="ct-row" style="cursor:pointer;" onclick="goScreen(3);setTimeout(()=>openGalleryDetail('mas'),200)" title="View evidence">
                     <div><div class="store-name">M&S Marble Arch</div><div class="store-addr">London W1</div></div>
                     <div><span class="score-pill score-a">91</span></div>
                     <div class="text-green text-xs">None</div>
@@ -3038,9 +3317,9 @@ body {
                       <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Evidence photo" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(239,68,68,0.4);flex-shrink:0;" onerror="this.remove()">
                     </div>
                     <div class="alert-actions">
-                      <button class="alert-btn primary">Dispatch Rep</button>
-                      <button class="alert-btn">Notify Store Manager</button>
-                      <button class="alert-btn">View Evidence</button>
+                      <button class="alert-btn primary" onclick="alertAction(this,'Dispatch Rep','Rep dispatched — ETA 45 min')">Dispatch Rep</button>
+                      <button class="alert-btn" onclick="alertAction(this,'Notify Store Manager','Store manager notified via SMS')">Notify Store Manager</button>
+                      <button class="alert-btn" onclick="openGalleryDetail('coop')">View Evidence</button>
                     </div>
                   </div>
                 </div>
@@ -3056,8 +3335,8 @@ body {
                       <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Low stock evidence" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(245,158,11,0.4);flex-shrink:0;" onerror="this.remove()">
                     </div>
                     <div class="alert-actions">
-                      <button class="alert-btn primary">Auto-Replenish</button>
-                      <button class="alert-btn">Snooze 24h</button>
+                      <button class="alert-btn primary" onclick="alertAction(this,'Auto-Replenish','Replenishment order raised · Delivery Fri 9am')">Auto-Replenish</button>
+                      <button class="alert-btn" onclick="alertAction(this,'Snooze 24h','Snoozed until tomorrow 9am')">Snooze 24h</button>
                     </div>
                   </div>
                 </div>
@@ -3189,6 +3468,7 @@ function dismissIntro() {
 }
 
 function navPrev() {
+  if (tourActive) toggleTour(); // stop tour on manual nav
   if (mode === 'collector') {
     if (cIdx > 0) goScreen(cIdx - 1);
   } else {
@@ -3197,6 +3477,7 @@ function navPrev() {
 }
 
 function navNext() {
+  if (tourActive) toggleTour(); // stop tour on manual nav
   const total = mode === 'collector' ? 8 : 6;
   const cur = mode === 'collector' ? cIdx : eIdx;
   if (cur < total - 1) goScreen(cur + 1);
@@ -3274,7 +3555,7 @@ function maybeTypewrite() {
 // ═══════════════════════════════════════════════════════════
 //  PAYOUT COUNTER ANIMATION
 // ═══════════════════════════════════════════════════════════
-function animateCounter(el, start, end, duration, prefix = '$', decimals = 2) {
+function animateCounter(el, start, end, duration, prefix = '£', decimals = 2) {
   const startTime = performance.now();
   function step(now) {
     const progress = Math.min((now - startTime) / duration, 1);
@@ -3287,6 +3568,7 @@ function animateCounter(el, start, end, duration, prefix = '$', decimals = 2) {
 }
 
 let payoutAnimated = false;
+let lastPayoutScreen = -1;
 function spawnConfetti() {
   const wrap = document.getElementById('confettiWrap');
   if (!wrap) return;
@@ -3308,11 +3590,15 @@ function spawnConfetti() {
   }
 }
 function maybeAnimatePayout() {
-  if (!payoutAnimated && mode === 'collector' && cIdx === 6) {
+  if (mode === 'collector' && cIdx === 6 && lastPayoutScreen !== cIdx) {
+    lastPayoutScreen = cIdx;
     payoutAnimated = true;
     const el = document.querySelector('#c6 .payout-amount');
     if (el) animateCounter(el, 0, 14.5, 1200);
     spawnConfetti();
+  } else if (cIdx !== 6) {
+    lastPayoutScreen = -1;
+    payoutAnimated = false;
   }
 }
 
@@ -3330,7 +3616,28 @@ function onScreenChanged() {
   setTimeout(() => {
     maybeTypewrite();
     maybeAnimatePayout();
-  }, 400);
+    resetBarAnimations();
+  }, 50);
+}
+
+function resetBarAnimations() {
+  // Re-trigger CSS animations on mini-bars and progress-fills when entering a screen
+  const activeScreen = document.querySelector('.e-screen.active, .c-screen.active');
+  if (!activeScreen) return;
+  activeScreen.querySelectorAll('.mini-bar, .bar-fill').forEach(el => {
+    el.style.transform = 'scaleY(0)';
+  });
+  activeScreen.querySelectorAll('.progress-fill').forEach(el => {
+    el.style.width = '0';
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    activeScreen.querySelectorAll('.mini-bar, .bar-fill').forEach(el => {
+      el.style.transform = '';
+    });
+    activeScreen.querySelectorAll('.progress-fill').forEach(el => {
+      el.style.width = '';
+    });
+  }));
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3527,6 +3834,391 @@ function openGalleryDetail(key) {
 
 function closeGalleryModal() {
   document.getElementById('galleryModal').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COMPLIANCE REPORT EXPORT
+// ═══════════════════════════════════════════════════════════
+function exportReport(btn) {
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⟳ Generating…';
+  setTimeout(() => {
+    btn.textContent = '✓ Downloaded';
+    btn.style.background = 'rgba(16,185,129,0.15)';
+    btn.style.borderColor = 'rgba(16,185,129,0.4)';
+    btn.style.color = 'var(--green)';
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(13,17,23,0.95);border:1px solid rgba(16,185,129,0.4);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:20px;z-index:999;backdrop-filter:blur(12px);white-space:nowrap;';
+    toast.innerHTML = '📄 Oat+_Compliance_Week24_March2026.pdf — <span style="color:var(--green)">saved</span>';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }, 4000);
+  }, 1400);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ALERT CENTER INTERACTIONS
+// ═══════════════════════════════════════════════════════════
+function alertAction(btn, label, confirmation) {
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '…';
+  setTimeout(() => {
+    btn.textContent = '✓ ' + label;
+    btn.style.background = 'rgba(16,185,129,0.2)';
+    btn.style.borderColor = 'rgba(16,185,129,0.4)';
+    btn.style.color = 'var(--green)';
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,0.95);color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:20px;z-index:999;backdrop-filter:blur(12px);white-space:nowrap;';
+    toast.textContent = '✓ ' + confirmation;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 2500);
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CAMPAIGN LAUNCH INTERACTION
+// ═══════════════════════════════════════════════════════════
+function launchCampaign(btn) {
+  btn.disabled = true;
+  btn.textContent = '⚡ Deploying to 320 stores…';
+  btn.style.background = 'rgba(124,58,237,0.6)';
+  setTimeout(() => {
+    btn.textContent = '✓ Campaign Live — 320 stores active';
+    btn.style.background = 'linear-gradient(135deg, var(--green), #059669)';
+    btn.disabled = false;
+    // Show a brief toast
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,0.95);color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:20px;z-index:999;backdrop-filter:blur(12px);white-space:nowrap;';
+    toast.textContent = '🚀 Campaign launched! First results expected in < 4 hours';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);
+  }, 1800);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LOADING SPLASH
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const splash = document.getElementById('loadingSplash');
+  const intro = document.getElementById('introOverlay');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      splash.style.pointerEvents = 'none';
+      setTimeout(() => {
+        splash.remove();
+        if (intro) intro.style.display = 'flex';
+        // Animate intro counters
+        const c1 = document.getElementById('introCount1');
+        const c2 = document.getElementById('introCount2');
+        if (c1) animIntroCounter(c1, 0, 8, 600);
+        if (c2) animIntroCounter(c2, 0, 6, 600);
+      }, 500);
+    }, 1200);
+  }
+})();
+
+function animIntroCounter(el, start, end, dur) {
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min((now - startTime) / dur, 1);
+    el.textContent = Math.round(start + (end - start) * p);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  METRIC CARD DRILL-DOWN TOGGLE
+// ═══════════════════════════════════════════════════════════
+function toggleMetricTooltip(card) {
+  const tip = card.querySelector('.metric-tooltip');
+  if (!tip) return;
+  const isVisible = tip.classList.contains('visible');
+  // Close all others
+  document.querySelectorAll('.metric-tooltip.visible').forEach(t => t.classList.remove('visible'));
+  if (!isVisible) tip.classList.add('visible');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.metric-card')) {
+    document.querySelectorAll('.metric-tooltip.visible').forEach(t => t.classList.remove('visible'));
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+//  COST ESTIMATOR
+// ═══════════════════════════════════════════════════════════
+function updateCostEstimate() {
+  const storeInput = document.getElementById('storeCountInput');
+  const freqInput = document.getElementById('visitFreqInput');
+  const costValEl = document.getElementById('costVal');
+  const costBreakdownEl = document.getElementById('costBreakdown');
+  if (!storeInput || !freqInput || !costValEl) return;
+  const stores = parseInt(storeInput.value) || 0;
+  const freq = parseInt(freqInput.value) || 0;
+  const cost = stores * freq * 13;
+  costValEl.textContent = '£' + cost.toLocaleString();
+  if (costBreakdownEl) costBreakdownEl.textContent = stores + ' stores · ' + freq + '× visits · $13/visit';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY SEARCH
+// ═══════════════════════════════════════════════════════════
+function searchGallery(query) {
+  const q = query.toLowerCase().trim();
+  const items = document.querySelectorAll('#galleryGrid .result-item');
+  let count = 0;
+  items.forEach(item => {
+    const store = (item.dataset.store || item.querySelector('.result-meta')?.textContent || '').toLowerCase();
+    const show = !q || store.includes(q);
+    item.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  const cntEl = document.getElementById('galleryCount');
+  if (cntEl) cntEl.textContent = count;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PAYOUT HISTORY TOGGLE
+// ═══════════════════════════════════════════════════════════
+function togglePayoutHistory(btn) {
+  const panel = document.getElementById('payoutHistoryPanel');
+  if (!panel) return;
+  const isHidden = panel.style.display === 'none';
+  panel.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? '📋 Hide History' : '📋 View History';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AI SCANNING ANIMATION
+// ═══════════════════════════════════════════════════════════
+let aiScanDone = false;
+function triggerAIScan() {
+  if (aiScanDone) return;
+  aiScanDone = true;
+  const scanState = document.getElementById('aiScanningState');
+  const resultsBlock = document.getElementById('aiResultsBlock');
+  const scanText = document.getElementById('scanStateText');
+  const scanBar = document.getElementById('scanProgressBar');
+  if (!scanState || !resultsBlock) return;
+  // Hide results, show scanning
+  resultsBlock.style.display = 'none';
+  scanState.style.display = 'block';
+  // Step 1: Finding shelf
+  setTimeout(() => { if (scanBar) scanBar.style.width = '35%'; }, 100);
+  setTimeout(() => { if (scanText) scanText.textContent = '🔍 Finding shelf…'; }, 100);
+  // Step 2: Shelf detected
+  setTimeout(() => {
+    if (scanText) scanText.innerHTML = '🟢 Shelf detected! ✓';
+    if (scanBar) scanBar.style.width = '65%';
+  }, 900);
+  // Step 3: Analyzing
+  setTimeout(() => {
+    if (scanText) scanText.textContent = '🧠 AI analyzing products…';
+    if (scanBar) scanBar.style.width = '90%';
+  }, 1400);
+  // Step 4: Show results
+  setTimeout(() => {
+    scanState.style.display = 'none';
+    resultsBlock.style.display = 'block';
+    // Trigger staggered row appearances
+    resultsBlock.querySelectorAll('.ai-row').forEach(row => {
+      row.style.opacity = '1';
+    });
+  }, 2000);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REFRESH TICKER (E1 Dashboard)
+// ═══════════════════════════════════════════════════════════
+let refreshSeconds = 0;
+setInterval(() => {
+  refreshSeconds++;
+  const el = document.getElementById('refreshTicker');
+  if (el) {
+    if (refreshSeconds < 60) el.textContent = refreshSeconds + 's';
+    else el.textContent = Math.floor(refreshSeconds / 60) + 'm';
+    // Reset every 5 minutes
+    if (refreshSeconds >= 300) refreshSeconds = 0;
+  }
+}, 1000);
+
+// ═══════════════════════════════════════════════════════════
+//  DEMO TOUR MODE (auto-advance)
+// ═══════════════════════════════════════════════════════════
+let tourActive = false;
+let tourInterval = null;
+const TOUR_COLLECTOR_SCREENS = [0, 1, 2, 3, 4, 5, 6, 7]; // all 8 collector screens
+const TOUR_ENTERPRISE_SCREENS = [0, 1, 2, 3, 4, 5]; // all 6 enterprise screens
+let tourPhase = 0; // 0 = collector, 1 = enterprise
+let tourIdx = 0;
+const TOUR_DELAY = 7000; // 7s per screen
+
+function toggleTour() {
+  const btn = document.getElementById('tourBtn');
+  if (tourActive) {
+    // Stop tour
+    tourActive = false;
+    clearInterval(tourInterval);
+    tourInterval = null;
+    btn.textContent = '▶ Demo Tour';
+    btn.style.background = 'rgba(123,47,247,0.12)';
+    btn.style.borderColor = 'rgba(123,47,247,0.4)';
+    btn.style.color = 'rgba(167,139,250,0.9)';
+  } else {
+    // Start tour from beginning
+    tourActive = true;
+    tourPhase = 0;
+    tourIdx = 0;
+    btn.textContent = '⏹ Stop Tour';
+    btn.style.background = 'rgba(239,68,68,0.12)';
+    btn.style.borderColor = 'rgba(239,68,68,0.4)';
+    btn.style.color = 'rgba(252,165,165,0.9)';
+    setMode('collector');
+    goScreen(0);
+    tourInterval = setInterval(() => {
+      if (!tourActive) return;
+      if (tourPhase === 0) {
+        tourIdx++;
+        if (tourIdx < TOUR_COLLECTOR_SCREENS.length) {
+          goScreen(TOUR_COLLECTOR_SCREENS[tourIdx]);
+        } else {
+          // Switch to enterprise
+          tourPhase = 1;
+          tourIdx = 0;
+          setMode('enterprise');
+          goScreen(0);
+        }
+      } else {
+        tourIdx++;
+        if (tourIdx < TOUR_ENTERPRISE_SCREENS.length) {
+          goScreen(TOUR_ENTERPRISE_SCREENS[tourIdx]);
+        } else {
+          // Tour complete — restart
+          tourPhase = 0;
+          tourIdx = 0;
+          setMode('collector');
+          goScreen(0);
+        }
+      }
+    }, TOUR_DELAY);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCROLL TO TOP (Enterprise screens)
+// ═══════════════════════════════════════════════════════════
+function scrollEntToTop() {
+  const active = document.querySelector('.e-screen.active');
+  if (active) active.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Monitor scroll position in enterprise screens to show/hide the button
+document.addEventListener('scroll', () => {
+  const active = document.querySelector('.e-screen.active');
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn || !active) return;
+  const isEnt = document.body.getAttribute('data-mode') === 'enterprise';
+  btn.style.display = (isEnt && active.scrollTop > 80) ? 'flex' : 'none';
+  if (btn.style.display === 'flex') btn.style.alignItems = 'center';
+  btn.style.justifyContent = 'center';
+}, true); // capture phase to catch scrolls on nested elements
+
+// ═══════════════════════════════════════════════════════════
+//  MAP UPDATE TICKER (E3 Live Map)
+// ═══════════════════════════════════════════════════════════
+let mapUpdateSeconds = 0;
+setInterval(() => {
+  mapUpdateSeconds++;
+  const el = document.getElementById('mapUpdateTicker');
+  if (el) {
+    if (mapUpdateSeconds < 60) el.textContent = mapUpdateSeconds + 's ago';
+    else el.textContent = Math.floor(mapUpdateSeconds / 60) + 'm ago';
+    if (mapUpdateSeconds >= 300) mapUpdateSeconds = 0;
+  }
+}, 1000);
+
+// ═══════════════════════════════════════════════════════════
+//  TASKS TODAY COUNTER (E1)
+// ═══════════════════════════════════════════════════════════
+let tasksCount = 142;
+setInterval(() => {
+  const r = Math.random();
+  if (r > 0.7) {
+    tasksCount++;
+    const el = document.getElementById('tasksToday');
+    if (el) el.textContent = tasksCount;
+  }
+}, 4000);
+
+// ═══════════════════════════════════════════════════════════
+//  SCREEN CHANGE HOOK (for AI scan reset)
+// ═══════════════════════════════════════════════════════════
+function triggerCameraScan() {
+  const bar = document.getElementById('cameraScanBar');
+  const badge = document.getElementById('cameraDetectBadge');
+  const tip = document.getElementById('cameraTip');
+  const btn = document.getElementById('shutterBtn');
+  if (!bar) return;
+  // Reset
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  if (btn) btn.style.opacity = '0.4';
+  if (tip) tip.textContent = '📸 Scanning… keep shelf in frame';
+  if (badge) badge.textContent = '🔍 Detecting: Oat+ Oat Milk shelf';
+  // Start fill
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    bar.style.transition = 'width 2s ease-out';
+    bar.style.width = '100%';
+    // Halfway: badge updates
+    setTimeout(() => {
+      if (badge) badge.textContent = '🟢 Shelf identified — Oat+ confirmed';
+    }, 1000);
+    // Complete: button activates
+    setTimeout(() => {
+      if (btn) { btn.style.opacity = '1'; btn.style.boxShadow = '0 0 20px rgba(6,182,212,0.6), 0 0 40px rgba(123,47,247,0.3)'; }
+      if (tip) tip.textContent = '✓ Scan complete — tap to submit';
+      if (badge) badge.innerHTML = '✓ <strong style="color:#00e5a0">3 products detected · 1 gap found</strong>';
+    }, 2100);
+  }));
+}
+
+function onScreenChanged() {
+  // Trigger camera scan when entering C5 (Camera)
+  if (mode === 'collector' && cIdx === 4) {
+    setTimeout(() => triggerCameraScan(), 200);
+  }
+  // Trigger AI scan when entering C6 (AI Verify)
+  if (mode === 'collector' && cIdx === 5) {
+    aiScanDone = false;
+    const resultsBlock = document.getElementById('aiResultsBlock');
+    if (resultsBlock) {
+      resultsBlock.querySelectorAll('.ai-row').forEach(row => {
+        row.style.opacity = '0';
+      });
+    }
+    setTimeout(() => triggerAIScan(), 300);
+  }
+  // Trigger payout count-up when entering C7
+  if (mode === 'collector' && cIdx === 6) {
+    const amtEl = document.getElementById('payoutMainAmt');
+    if (amtEl) {
+      amtEl.textContent = '£0.00';
+      setTimeout(() => animateCounter(amtEl, 0, 14.5, 800, '£'), 400);
+    }
+    const row1 = document.getElementById('payRow1');
+    const row2 = document.getElementById('payRow2');
+    const row3 = document.getElementById('payRow3');
+    if (row1) { row1.textContent = '£0.00'; setTimeout(() => animateCounter(row1, 0, 12, 600, '£'), 600); }
+    if (row2) { row2.textContent = '+£0.00'; setTimeout(() => animateCounter(row2, 0, 2, 400, '+£'), 900); }
+    if (row3) { row3.textContent = '+£0.00'; setTimeout(() => animateCounter(row3, 0, 0.5, 400, '+£'), 1100); }
+  }
+  // Update cost estimate on E2 load
+  if (mode === 'enterprise' && eIdx === 1) {
+    updateCostEstimate();
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
