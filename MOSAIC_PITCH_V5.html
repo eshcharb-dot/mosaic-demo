@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaic — Pre-Seed Pitch 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #slides {
+    position: fixed;
+    width: 1920px;
+    height: 1080px;
+    background: #0d1117;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1920px;
+    height: 1080px;
+    display: none;
+    flex-direction: column;
+    background: #0d1117;
+    overflow: hidden;
+  }
+
+  /* ── Watermark ── */
+  .wm {
+    position: absolute;
+    top: 36px;
+    left: 48px;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    color: #fff;
+    opacity: 0.12;
+    z-index: 10;
+    text-transform: uppercase;
+  }
+
+  /* ── Slide number ── */
+  .slide-num {
+    position: absolute;
+    bottom: 34px;
+    right: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    opacity: 0.3;
+    letter-spacing: 0.12em;
+    z-index: 10;
+  }
+
+  /* ── Nav dots ── */
+  #nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.25s;
+    border: none;
+  }
+
+  .nav-dot.active {
+    background: #7c3aed;
+    transform: scale(1.4);
+  }
+
+  /* ── Arrow buttons ── */
+  .arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .arrow:hover { background: rgba(124,58,237,0.3); color: #fff; }
+  #prev { left: 16px; }
+  #next { right: 16px; }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 1 — COVER
+  ══════════════════════════════════════════════ */
+  #s1 {
+    background: #060810;
+  }
+
+  #s1 .bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('deck-assets/cover-bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.18;
+  }
+
+  #s1 .cover-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 2;
+  }
+
+  #s1 .brand {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.35em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+
+  #s1 h1 {
+    font-size: 92px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    max-width: 1300px;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #ffffff 60%, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #s1 .sub {
+    font-size: 28px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.04em;
+    margin-bottom: 80px;
+  }
+
+  #s1 .meta {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  #s1 .contact-bar {
+    position: absolute;
+    bottom: 52px;
+    right: 72px;
+    text-align: right;
+    z-index: 3;
+  }
+
+  #s1 .contact-bar span {
+    display: block;
+    font-size: 15px;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+
+  #s1 .accent-line {
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, #7c3aed, transparent);
+    margin: 0 auto 40px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 2 — THE GAP
+  ══════════════════════════════════════════════ */
+  #s2 {
+    flex-direction: row;
+  }
+
+  #s2 .visual-half {
+    width: 55%;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  #s2 .visual-half img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  #s2 .visual-half::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, #0d1117 100%);
+  }
+
+  #s2 .text-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 40px;
+  }
+
+  #s2 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  #s2 h2 {
+    font-size: 52px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 56px;
+  }
+
+  #s2 .big-stat {
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  #s2 .stat-label {
+    font-size: 20px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 52px;
+    font-weight: 300;
+  }
+
+  #s2 .facts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  #s2 .fact {
+    font-size: 22px;
+    color: rgba(255,255,255,0.72);
+    font-weight: 300;
+    padding-left: 20px;
+    border-left: 2px solid #7c3aed;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 3 — THE PLATFORM
+  ══════════════════════════════════════════════ */
+  #s3 {
+    flex-direction: row;
+  }
+
+  #s3 .app-visual {
+    width: 45%;
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+  }
+
+  #s3 .app-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(124,58,237,0.12) 0%, transparent 70%);
+  }
+
+  #s3 .app-visual img {
+    max-height: 880px;
+    max-width: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    border-radius: 32px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+
+  #s3 .platform-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 60px;
+  }
+
+  #s3 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  #s3 h2 {
+    font-size: 58px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.08;
+    margin-bottom: 52px;
+  }
+
+  #s3 .flow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 52px;
+  }
+
+  #s3 .flow-step {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    flex: 1;
+  }
+
+  #s3 .flow-step .icon { font-size: 36px; margin-bottom: 12px; }
+  #s3 .flow-step .label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  #s3 .flow-arrow {
+    font-size: 28px;
+    color: #7c3aed;
+    flex-shrink: 0;
+  }
+
+  #s3 .platform-desc {
+    font-size: 24px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.55;
+    border-left: 2px solid #06b6d4;
+    padding-left: 24px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 4 — USE CASES
+  ══════════════════════════════════════════════ */
+  #s4 {
+    flex-direction: column;
+    padding: 72px 96px;
+  }
+
+  #s4 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #10b981;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  #s4 h2 {
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 56px;
+  }
+
+  #s4 .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    flex: 1;
+  }
+
+  #s4 .tile {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+
+  #s4 .tile:hover { border-color: rgba(124,58,237,0.4); }
+
+  #s4 .tile .t-icon { font-size: 44px; line-height: 1; }
+
+  #s4 .tile .t-name {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  #s4 .tile .t-desc {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.45;
+  }
+
+  #s4 .bottom-bar {
+    margin-top: 28px;
+    padding: 20px 32px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.1));
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+  }
+
+  #s4 .bottom-bar span { color: #7c3aed; font-weight: 800; }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 5 — WHY NOW
+  ══════════════════════════════════════════════ */
+  #s5 {
+    flex-direction: column;
+    padding: 72px 96px;
+    position: relative;
+  }
+
+  #s5 .bg-map {
+    position: absolute;
+    inset: 0;
+    background-image: url('deck-assets/mosaic-map-london-v1.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.07;
+  }
+
+  #s5 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s5 h2 {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 64px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s5 .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s5 .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #s5 .card .c-num {
+    font-size: 56px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  #s5 .card .c-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  #s5 .card .c-body {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.55;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 6 — FIRST MARKET
+  ══════════════════════════════════════════════ */
+  #s6 {
+    flex-direction: row;
+  }
+
+  #s6 .shelf-img {
+    width: 52%;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  #s6 .shelf-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  #s6 .shelf-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 55%, #0d1117 100%);
+  }
+
+  #s6 .market-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 48px;
+  }
+
+  #s6 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #10b981;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  #s6 h2 {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 40px;
+  }
+
+  #s6 .hero-stat {
+    margin-bottom: 40px;
+  }
+
+  #s6 .hero-num {
+    font-size: 130px;
+    font-weight: 900;
+    line-height: 0.9;
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #s6 .hero-label {
+    font-size: 20px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    margin-top: 8px;
+  }
+
+  #s6 .pain-block {
+    font-size: 20px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.55;
+    font-weight: 300;
+    margin-bottom: 32px;
+    padding-left: 20px;
+    border-left: 2px solid rgba(255,255,255,0.15);
+  }
+
+  #s6 .advantage {
+    background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.08));
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 14px;
+    padding: 24px 28px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #10b981;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 7 — THE PRODUCT
+  ══════════════════════════════════════════════ */
+  #s7 {
+    flex-direction: column;
+    padding: 64px 96px 80px;
+  }
+
+  #s7 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  #s7 h2 {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 52px;
+  }
+
+  #s7 .product-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    flex: 1;
+  }
+
+  #s7 .product-side {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  #s7 .product-side .img-wrap {
+    flex: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  #s7 .product-side .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  #s7 .product-label {
+    font-size: 22px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+
+  #s7 .product-label .pl-icon { margin-right: 8px; }
+
+  #s7 .product-label .pl-sub {
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    font-size: 18px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 8 — BUSINESS MODEL
+  ══════════════════════════════════════════════ */
+  #s8 {
+    flex-direction: column;
+    padding: 72px 96px;
+  }
+
+  #s8 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  #s8 h2 {
+    font-size: 68px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 48px;
+  }
+
+  #s8 .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+
+  #s8 .tier {
+    border-radius: 24px;
+    padding: 44px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  #s8 .tier.t1 {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  #s8 .tier.t2 {
+    background: rgba(124,58,237,0.08);
+    border: 1px solid rgba(124,58,237,0.25);
+  }
+  #s8 .tier.t3 {
+    background: rgba(6,182,212,0.06);
+    border: 1px solid rgba(6,182,212,0.25);
+  }
+
+  #s8 .tier-tag {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  #s8 .tier-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  #s8 .tier-price {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  #s8 .tier.t1 .tier-price { color: rgba(255,255,255,0.7); }
+  #s8 .tier.t2 .tier-price { color: #7c3aed; }
+  #s8 .tier.t3 .tier-price { color: #06b6d4; }
+
+  #s8 .tier-desc {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.45;
+  }
+
+  #s8 .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  #s8 .data-callout {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.06));
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  #s8 .data-callout .dc-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 8px;
+  }
+
+  #s8 .data-callout .dc-val {
+    font-size: 32px;
+    font-weight: 900;
+    color: #10b981;
+    margin-bottom: 4px;
+  }
+
+  #s8 .data-callout .dc-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+  }
+
+  #s8 .collector-callout {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  #s8 .cc-pct {
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+
+  #s8 .cc-text .cc-label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  #s8 .cc-text .cc-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    margin-top: 4px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 9 — TRACTION
+  ══════════════════════════════════════════════ */
+  #s9 {
+    flex-direction: column;
+    padding: 72px 96px;
+    position: relative;
+  }
+
+  #s9 .bg-dash {
+    position: absolute;
+    inset: 0;
+    background-image: url('deck-assets/mosaic-enterprise-dashboard-v1.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.07;
+  }
+
+  #s9 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #10b981;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s9 h2 {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s9 .chips {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 48px;
+  }
+
+  #s9 .chip {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 20px;
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  #s9 .chip-check {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    color: #fff;
+    font-weight: 900;
+  }
+
+  #s9 .chip-text {
+    font-size: 22px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+  }
+
+  #s9 .traction-footer {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(6,182,212,0.06));
+    border: 1px solid rgba(124,58,237,0.25);
+    border-radius: 16px;
+    padding: 28px 40px;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+  }
+
+  #s9 .traction-footer span {
+    color: #7c3aed;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 10 — GO-TO-MARKET
+  ══════════════════════════════════════════════ */
+  #s10 {
+    flex-direction: row;
+  }
+
+  #s10 .gtm-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 96px;
+  }
+
+  #s10 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  #s10 h2 {
+    font-size: 60px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 56px;
+  }
+
+  #s10 .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  #s10 .tl-item {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    padding-bottom: 36px;
+    position: relative;
+  }
+
+  #s10 .tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 48px;
+    width: 2px;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(124,58,237,0.4), rgba(124,58,237,0.1));
+  }
+
+  #s10 .tl-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    flex-shrink: 0;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  #s10 .tl-text .tl-period {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7c3aed;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  #s10 .tl-text .tl-action {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  #s10 .tl-text .tl-detail {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+  }
+
+  #s10 .city-img {
+    width: 44%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  #s10 .city-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+
+  #s10 .city-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #0d1117 0%, transparent 30%);
+    z-index: 1;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 11 — TEAM
+  ══════════════════════════════════════════════ */
+  #s11 {
+    flex-direction: column;
+    padding: 72px 96px;
+  }
+
+  #s11 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  #s11 h2 {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 48px;
+  }
+
+  #s11 .founders {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  #s11 .founder-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 44px 40px;
+  }
+
+  #s11 .f-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+
+  #s11 .f-name {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  #s11 .f-role {
+    font-size: 16px;
+    font-weight: 400;
+    color: #7c3aed;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  #s11 .f-bio {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+  }
+
+  #s11 .ai-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  #s11 .ai-chip {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+  }
+
+  #s11 .ai-chip .ai-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+
+  #s11 .burn-banner {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 22px 32px;
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+  }
+
+  #s11 .burn-banner strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 12 — FINANCIALS
+  ══════════════════════════════════════════════ */
+  #s12 {
+    flex-direction: row;
+  }
+
+  #s12 .fin-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 48px 80px 96px;
+  }
+
+  #s12 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #10b981;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  #s12 h2 {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 48px;
+  }
+
+  #s12 .mrr-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 36px;
+  }
+
+  #s12 .mrr-table th {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0 0 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  #s12 .mrr-table th:last-child { text-align: right; }
+
+  #s12 .mrr-table td {
+    padding: 18px 0;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  #s12 .mrr-table td:last-child {
+    text-align: right;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  #s12 .mrr-table tr:last-child td {
+    font-size: 26px;
+    color: #10b981;
+    border-bottom: none;
+  }
+
+  #s12 .trigger-box {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.06));
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 16px;
+    padding: 24px 28px;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+  }
+
+  #s12 .trigger-box span {
+    color: #10b981;
+    font-weight: 700;
+  }
+
+  #s12 .chart-area {
+    width: 48%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 80px 72px 120px 32px;
+    gap: 20px;
+  }
+
+  #s12 .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #s12 .bar-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.06em;
+  }
+
+  #s12 .bar-val {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+  }
+
+  #s12 .bar {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    background: linear-gradient(to top, #7c3aed, #06b6d4);
+    min-height: 8px;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE 13 — THE ASK
+  ══════════════════════════════════════════════ */
+  #s13 {
+    flex-direction: column;
+    padding: 72px 120px;
+    position: relative;
+  }
+
+  #s13 .bg-glow {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #s13 .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #7c3aed;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s13 h2 {
+    font-size: 64px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 52px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s13 .ask-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #s13 .ask-block {
+    text-align: center;
+  }
+
+  #s13 .ask-num {
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 0.95;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #s13 .ask-label {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    margin-top: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  #s13 .use-funds {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 40px;
+  }
+
+  #s13 .uf-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  #s13 .uf-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #s13 .uf-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #s13 .uf-bar-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  #s13 .uf-bar-track {
+    flex: 1;
+    height: 10px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  #s13 .uf-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+  }
+
+  #s13 .uf-bar-pct {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    width: 48px;
+    text-align: right;
+  }
+
+  #s13 .contact-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  #s13 .cf-item {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+  }
+
+  #s13 .cf-item a {
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div id="slides">
+
+  <!-- ══ SLIDE 1 — COVER ══ -->
+  <div class="slide" id="s1">
+    <div class="bg"></div>
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">01 / 13</div>
+
+    <div class="cover-content">
+      <div class="brand">◆ MOSAIC</div>
+      <div class="accent-line"></div>
+      <h1>The world's largest<br>uncollected dataset.</h1>
+      <p class="sub">8 billion people. Billions of cameras. Zero infrastructure.</p>
+      <p class="meta">Pre-Seed &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; 2026</p>
+    </div>
+
+    <div class="contact-bar">
+      <span>mosaic-intel.com</span>
+      <span>hello@mosaic-intel.com</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2 — THE GAP ══ -->
+  <div class="slide" id="s2">
+    <div class="visual-half">
+      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Full shelf">
+    </div>
+
+    <div class="text-half">
+      <div class="wm">◆ Mosaic</div>
+      <div class="slide-num">02 / 13</div>
+
+      <div class="eyebrow">The Gap</div>
+      <h2>Businesses know what sells.<br>They don't know<br>what's on the shelf.</h2>
+
+      <div class="big-stat">$1.1T</div>
+      <div class="stat-label">lost annually to retail execution failure</div>
+
+      <div class="facts">
+        <div class="fact">$2B/year spent on mystery shoppers and manual audits</div>
+        <div class="fact">Results take weeks. 40% of planograms are wrong on Day 1.</div>
+        <div class="fact">No scalable way to see what's really happening in the field</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3 — THE PLATFORM ══ -->
+  <div class="slide" id="s3">
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">03 / 13</div>
+
+    <div class="app-visual">
+      <img src="deck-assets/mosaic-app-ui-v1.png" alt="Collector app UI">
+    </div>
+
+    <div class="platform-content">
+      <div class="eyebrow">The Platform</div>
+      <h2>Every person is a sensor.<br>We built the network.</h2>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="icon">🧑‍💼</div>
+          <div class="label">Any Person</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="icon">◆</div>
+          <div class="label">Mosaic</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="icon">📊</div>
+          <div class="label">Business Intel</div>
+        </div>
+      </div>
+
+      <div class="platform-desc">
+        Post a task. Any person nearby accepts it.<br>
+        Photos in minutes. Structured data delivered.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4 — USE CASES ══ -->
+  <div class="slide" id="s4">
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">04 / 13</div>
+
+    <div class="eyebrow">Platform Breadth</div>
+    <h2>One platform. Any market that needs eyes on the ground.</h2>
+
+    <div class="grid">
+      <div class="tile">
+        <div class="t-icon">🛒</div>
+        <div class="t-name">Retail</div>
+        <div class="t-desc">Shelf audits, compliance, planogram verification</div>
+      </div>
+      <div class="tile">
+        <div class="t-icon">🏥</div>
+        <div class="t-name">Insurance</div>
+        <div class="t-desc">Claims verification, damage assessment, risk scoring</div>
+      </div>
+      <div class="tile">
+        <div class="t-icon">🎪</div>
+        <div class="t-name">Events</div>
+        <div class="t-desc">Crowd density, brand visibility, venue compliance</div>
+      </div>
+      <div class="tile">
+        <div class="t-icon">🏠</div>
+        <div class="t-name">Real Estate</div>
+        <div class="t-desc">Property condition, neighbourhood scoring at scale</div>
+      </div>
+      <div class="tile">
+        <div class="t-icon">🚚</div>
+        <div class="t-name">Logistics</div>
+        <div class="t-desc">Delivery confirmation, condition on arrival, last-mile proof</div>
+      </div>
+      <div class="tile">
+        <div class="t-icon">🌆</div>
+        <div class="t-name">Urban Planning</div>
+        <div class="t-desc">Infrastructure audits, accessibility, signage compliance</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      First target: <span>Retail.</span> &nbsp;$35B market. &nbsp;Starting now.
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5 — WHY NOW ══ -->
+  <div class="slide" id="s5">
+    <div class="bg-map"></div>
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">05 / 13</div>
+
+    <div class="eyebrow">Why Now</div>
+    <h2>Three forces converged in 2026.</h2>
+
+    <div class="cards">
+      <div class="card">
+        <div class="c-num">🧠</div>
+        <div class="c-title">On-Device AI</div>
+        <div class="c-body">MediaPipe runs face redaction on any 2020+ phone. GDPR compliance without a cloud roundtrip. Privacy by architecture.</div>
+      </div>
+      <div class="card">
+        <div class="c-num">🛵</div>
+        <div class="c-title">Gig Economy</div>
+        <div class="c-body">50M+ trained gig workers across Europe. They already complete micro-tasks for micro-pay — Mosaic gives them a premium tier.</div>
+      </div>
+      <div class="card">
+        <div class="c-num">⚡</div>
+        <div class="c-title">AI Extraction</div>
+        <div class="c-body">GPT-4V turns a shelf photo into structured JSON in 3 seconds. £0.15 of compute per audit. The unit economics just became extraordinary.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6 — FIRST MARKET ══ -->
+  <div class="slide" id="s6">
+    <div class="shelf-img">
+      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Empty shelf">
+    </div>
+
+    <div class="market-content">
+      <div class="wm">◆ Mosaic</div>
+      <div class="slide-num">06 / 13</div>
+
+      <div class="eyebrow">First Market: CPG Retail</div>
+      <h2>The most obvious<br>$35 billion pain.</h2>
+
+      <div class="hero-stat">
+        <div class="hero-num">$35B</div>
+        <div class="hero-label">field intelligence market &nbsp;·&nbsp; 22% CAGR</div>
+      </div>
+
+      <div class="pain-block">
+        Brands spend $2B/year on mystery shoppers and manual audits.
+        Results take weeks. 40% of planograms are wrong on Day 1.
+      </div>
+
+      <div class="advantage">
+        Self-serve. Results in 4 hours. 90% cheaper.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — THE PRODUCT ══ -->
+  <div class="slide" id="s7">
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">07 / 13</div>
+
+    <div class="eyebrow">The Product</div>
+    <h2>Two apps. One platform.</h2>
+
+    <div class="product-split">
+      <div class="product-side">
+        <div class="img-wrap">
+          <img src="deck-assets/mosaic-app-ui-v1.png" alt="Collector App">
+        </div>
+        <div class="product-label">
+          <span class="pl-icon">📱</span>Collector App
+          <span class="pl-sub">Accept tasks on your commute. Get paid instantly.</span>
+        </div>
+      </div>
+      <div class="product-side">
+        <div class="img-wrap">
+          <img src="deck-assets/mosaic-enterprise-dashboard-v1.png" alt="Enterprise Dashboard">
+        </div>
+        <div class="product-label">
+          <span class="pl-icon">🖥</span>Enterprise Portal
+          <span class="pl-sub">Real-time compliance, alerts, AI-generated reports.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8 — BUSINESS MODEL ══ -->
+  <div class="slide" id="s8">
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">08 / 13</div>
+
+    <div class="eyebrow">Business Model</div>
+    <h2>Three tiers. Every touchpoint monetised.</h2>
+
+    <div class="tiers">
+      <div class="tier t1">
+        <div class="tier-tag">Tier 1 — Consumer</div>
+        <div class="tier-name">Self-Serve</div>
+        <div class="tier-price">£19<span style="font-size:28px;font-weight:400;color:rgba(255,255,255,0.35)">/mo</span></div>
+        <div class="tier-desc">Single brand, shelf audits on demand, basic reporting</div>
+      </div>
+      <div class="tier t2">
+        <div class="tier-tag">Tier 2 — SMB</div>
+        <div class="tier-name">Professional</div>
+        <div class="tier-price">£89<span style="font-size:28px;font-weight:400;color:rgba(124,58,237,0.5)">/mo</span></div>
+        <div class="tier-desc">Multi-SKU, weekly cadence, priority collectors</div>
+      </div>
+      <div class="tier t3">
+        <div class="tier-tag">Tier 3 — Enterprise</div>
+        <div class="tier-name">Custom</div>
+        <div class="tier-price">£2.5K<span style="font-size:28px;font-weight:400;color:rgba(6,182,212,0.5)">/mo</span></div>
+        <div class="tier-desc">Real-time alerts, API access, dedicated account manager</div>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <div class="data-callout">
+        <div class="dc-label">Training Data Revenue</div>
+        <div class="dc-val">£85K/mo</div>
+        <div class="dc-sub">By Month 18 &nbsp;·&nbsp; 95% gross margin</div>
+      </div>
+      <div class="collector-callout">
+        <div class="cc-pct">40%</div>
+        <div class="cc-text">
+          <div class="cc-label">Collector payout — non-negotiable</div>
+          <div class="cc-sub">Trust is the product. Fair pay drives network density.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9 — TRACTION ══ -->
+  <div class="slide" id="s9">
+    <div class="bg-dash"></div>
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">09 / 13</div>
+
+    <div class="eyebrow">Traction</div>
+    <h2>Built in 8 weeks.<br>Ready to launch.</h2>
+
+    <div class="chips">
+      <div class="chip">
+        <div class="chip-check">✓</div>
+        <div class="chip-text">Full collector app — iOS & Android-ready</div>
+      </div>
+      <div class="chip">
+        <div class="chip-check">✓</div>
+        <div class="chip-text">Enterprise dashboard — live demo available</div>
+      </div>
+      <div class="chip">
+        <div class="chip-check">✓</div>
+        <div class="chip-text">AI extraction pipeline — 90%+ accuracy</div>
+      </div>
+      <div class="chip">
+        <div class="chip-check">✓</div>
+        <div class="chip-text">Full MVP delivered at £30K total spend</div>
+      </div>
+    </div>
+
+    <div class="traction-footer">
+      First enterprise conversations active. &nbsp;<span>Pilot launch: London Q2 2026.</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 10 — GO-TO-MARKET ══ -->
+  <div class="slide" id="s10">
+    <div class="gtm-content">
+      <div class="wm">◆ Mosaic</div>
+      <div class="slide-num">10 / 13</div>
+
+      <div class="eyebrow">Go-to-Market</div>
+      <h2>CPG first. Three cities.<br>Then everywhere.</h2>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">1</div>
+          <div class="tl-text">
+            <div class="tl-period">Month 1 – 3</div>
+            <div class="tl-action">London Launch</div>
+            <div class="tl-detail">3 enterprise pilots, collector network seeded</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">2</div>
+          <div class="tl-text">
+            <div class="tl-period">Month 4 – 8</div>
+            <div class="tl-action">Manchester + Berlin</div>
+            <div class="tl-detail">10 enterprise clients, T2/T3 mix established</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">3</div>
+          <div class="tl-text">
+            <div class="tl-period">Month 9 – 18</div>
+            <div class="tl-action">8 Cities · Platform API Opens</div>
+            <div class="tl-detail">Developer ecosystem, second vertical live</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">4</div>
+          <div class="tl-text">
+            <div class="tl-period">Month 18+</div>
+            <div class="tl-action">Series A · 5 Verticals</div>
+            <div class="tl-detail">Platform company. Network effects compounding.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="city-img">
+      <img src="deck-assets/city-expansion.png" alt="City expansion">
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 11 — TEAM ══ -->
+  <div class="slide" id="s11">
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">11 / 13</div>
+
+    <div class="eyebrow">The Team</div>
+    <h2>Two people. Twelve-person output.</h2>
+
+    <div class="founders">
+      <div class="founder-card">
+        <div class="f-avatar">ES</div>
+        <div class="f-name">Eran Scharr</div>
+        <div class="f-role">CEO · Product</div>
+        <div class="f-bio">Sales ops & intelligence at Redefine Meat. Built Mosaic's product vision and GTM from scratch. Has run enterprise client relationships across EMEA.</div>
+      </div>
+      <div class="founder-card">
+        <div class="f-avatar">AI</div>
+        <div class="f-name">Agentic Co-Founder</div>
+        <div class="f-role">CTO · Engineering</div>
+        <div class="f-bio">Full-stack build across collector app, AI extraction pipeline, and enterprise dashboard. 8 weeks to MVP. £30K total cost. 166× efficiency vs. a traditional team.</div>
+      </div>
+    </div>
+
+    <div class="ai-row">
+      <div class="ai-chip"><span class="ai-icon">🤖</span>Claude (Strategy)</div>
+      <div class="ai-chip"><span class="ai-icon">🧪</span>GPT-4V (Extraction)</div>
+      <div class="ai-chip"><span class="ai-icon">⚙️</span>Cursor (Dev)</div>
+      <div class="ai-chip"><span class="ai-icon">🎨</span>Midjourney (Design)</div>
+      <div class="ai-chip"><span class="ai-icon">📋</span>Notion AI (Ops)</div>
+    </div>
+
+    <div class="burn-banner">
+      Burn rate: <strong>£30K/month</strong> &nbsp;·&nbsp; 8 weeks to MVP &nbsp;·&nbsp; <strong>166× runway efficiency on seed capital</strong>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 12 — FINANCIALS ══ -->
+  <div class="slide" id="s12">
+    <div class="fin-content">
+      <div class="wm">◆ Mosaic</div>
+      <div class="slide-num">12 / 13</div>
+
+      <div class="eyebrow">Financials</div>
+      <h2>$10M ARR in 18 months —<br>three tiers compounding.</h2>
+
+      <table class="mrr-table">
+        <thead>
+          <tr>
+            <th>Milestone</th>
+            <th style="text-align:right">Total MRR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Month 3</td><td>£18,000</td></tr>
+          <tr><td>Month 6</td><td>£85,000</td></tr>
+          <tr><td>Month 12</td><td>£340,000</td></tr>
+          <tr><td>Month 18</td><td>£822,000</td></tr>
+          <tr><td>Month 24</td><td>£1,400,000</td></tr>
+        </tbody>
+      </table>
+
+      <div class="trigger-box">
+        Series A trigger: <span>$9.87M ARR at Month 18</span> — three-tier revenue + training data
+      </div>
+    </div>
+
+    <div class="chart-area">
+      <!-- Bar chart: M3=18K, M6=85K, M12=340K, M18=822K, M24=1400K -->
+      <!-- Max=1400K, chart height=680px -->
+      <div class="bar-group">
+        <div class="bar-val">£18K</div>
+        <div class="bar" style="height: calc(680px * 18 / 1400)"></div>
+        <div class="bar-label">M3</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-val">£85K</div>
+        <div class="bar" style="height: calc(680px * 85 / 1400)"></div>
+        <div class="bar-label">M6</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-val">£340K</div>
+        <div class="bar" style="height: calc(680px * 340 / 1400)"></div>
+        <div class="bar-label">M12</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-val">£822K</div>
+        <div class="bar" style="height: calc(680px * 822 / 1400)"></div>
+        <div class="bar-label">M18</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-val">£1.4M</div>
+        <div class="bar" style="height: 680px"></div>
+        <div class="bar-label">M24</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 13 — THE ASK ══ -->
+  <div class="slide" id="s13">
+    <div class="bg-glow"></div>
+    <div class="wm">◆ Mosaic</div>
+    <div class="slide-num">13 / 13</div>
+
+    <div class="eyebrow">The Ask</div>
+    <h2>£5M to prove three cities and three tiers.</h2>
+
+    <div class="ask-row">
+      <div class="ask-block">
+        <div class="ask-num">£5M</div>
+        <div class="ask-label">Seed Raise</div>
+      </div>
+      <div class="ask-block">
+        <div class="ask-num" style="font-size:80px">£20–25M</div>
+        <div class="ask-label">Pre-Money Valuation</div>
+      </div>
+      <div class="ask-block">
+        <div class="ask-num" style="font-size:80px">18mo</div>
+        <div class="ask-label">Runway to Series A</div>
+      </div>
+    </div>
+
+    <div class="use-funds">
+      <div class="uf-title">Use of Funds</div>
+      <div class="uf-bars">
+        <div class="uf-bar-row">
+          <div class="uf-bar-label">Product & Engineering</div>
+          <div class="uf-bar-track"><div class="uf-bar-fill" style="width:40%"></div></div>
+          <div class="uf-bar-pct">40%</div>
+        </div>
+        <div class="uf-bar-row">
+          <div class="uf-bar-label">Sales & GTM</div>
+          <div class="uf-bar-track"><div class="uf-bar-fill" style="width:25%"></div></div>
+          <div class="uf-bar-pct">25%</div>
+        </div>
+        <div class="uf-bar-row">
+          <div class="uf-bar-label">Collector Network</div>
+          <div class="uf-bar-track"><div class="uf-bar-fill" style="width:20%"></div></div>
+          <div class="uf-bar-pct">20%</div>
+        </div>
+        <div class="uf-bar-row">
+          <div class="uf-bar-label">Operations & Legal</div>
+          <div class="uf-bar-track"><div class="uf-bar-fill" style="width:10%"></div></div>
+          <div class="uf-bar-pct">10%</div>
+        </div>
+        <div class="uf-bar-row">
+          <div class="uf-bar-label">Reserve</div>
+          <div class="uf-bar-track"><div class="uf-bar-fill" style="width:5%"></div></div>
+          <div class="uf-bar-pct">5%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-footer">
+      <div class="cf-item">🌐 <a href="https://mosaic-intel.com">mosaic-intel.com</a></div>
+      <div class="cf-item">✉️ <a href="mailto:hello@mosaic-intel.com">hello@mosaic-intel.com</a></div>
+      <div class="cf-item" style="color:rgba(255,255,255,0.3)">Confidential · Not for distribution</div>
+    </div>
+  </div>
+
+</div><!-- #slides -->
+
+<!-- Nav dots -->
+<div id="nav">
+  <button class="nav-dot" onclick="goTo(0)"></button>
+  <button class="nav-dot" onclick="goTo(1)"></button>
+  <button class="nav-dot" onclick="goTo(2)"></button>
+  <button class="nav-dot" onclick="goTo(3)"></button>
+  <button class="nav-dot" onclick="goTo(4)"></button>
+  <button class="nav-dot" onclick="goTo(5)"></button>
+  <button class="nav-dot" onclick="goTo(6)"></button>
+  <button class="nav-dot" onclick="goTo(7)"></button>
+  <button class="nav-dot" onclick="goTo(8)"></button>
+  <button class="nav-dot" onclick="goTo(9)"></button>
+  <button class="nav-dot" onclick="goTo(10)"></button>
+  <button class="nav-dot" onclick="goTo(11)"></button>
+  <button class="nav-dot" onclick="goTo(12)"></button>
+</div>
+
+<!-- Arrows -->
+<button class="arrow" id="prev" onclick="go(-1)">&#8592;</button>
+<button class="arrow" id="next" onclick="go(1)">&#8594;</button>
+
+<script>
+(function(){
+  const TOTAL = 13;
+  let cur = 0;
+  function scale() {
+    const s = document.getElementById('slides');
+    const scaleX = window.innerWidth / 1920;
+    const scaleY = window.innerHeight / 1080;
+    const sc = Math.min(scaleX, scaleY);
+    s.style.transform = `scale(${sc})`;
+    s.style.transformOrigin = 'top left';
+    s.style.left = ((window.innerWidth - 1920 * sc) / 2) + 'px';
+    s.style.top = ((window.innerHeight - 1080 * sc) / 2) + 'px';
+  }
+  window.addEventListener('resize', scale); scale();
+  function goTo(n) {
+    document.querySelectorAll('.slide').forEach((s,i) => s.style.display = i === n ? 'flex' : 'none');
+    document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i === n));
+    cur = n;
+  }
+  function go(d) { const n = cur + d; if (n >= 0 && n < TOTAL) goTo(n); }
+  window.go = go; window.goTo = goTo;
+  document.addEventListener('keydown', e => { if (e.key==='ArrowRight'||e.key===' ') go(1); if (e.key==='ArrowLeft') go(-1); });
+  goTo(0);
+})();
+</script>
+</body>
+</html>
