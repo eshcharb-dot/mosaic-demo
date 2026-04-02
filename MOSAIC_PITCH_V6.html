@@ -10,8 +10,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#030305;--card:#090912;--border:#181828;
-  --text:#f8f8fe;--muted:#606090;
+  --bg:#030305;--card:#090912;--border:#1e1e38;
+  --text:#f8f8fe;--muted:#9090c0;
   --purple:#7c6df5;--cyan:#00d4d4;--pink:#ff6b9d;
   --yellow:#ffc947;--green:#00e096;--orange:#ff7f5e;
   --g1:linear-gradient(135deg,#7c6df5,#00d4d4);
@@ -50,11 +50,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 /* ORB BACKGROUNDS */
 .orb{position:absolute;border-radius:50%;pointer-events:none}
-.orb-purple{background:radial-gradient(circle,rgba(124,109,245,0.18) 0%,transparent 70%)}
-.orb-cyan{background:radial-gradient(circle,rgba(0,212,212,0.12) 0%,transparent 70%)}
-.orb-pink{background:radial-gradient(circle,rgba(255,107,157,0.1) 0%,transparent 70%)}
-.orb-yellow{background:radial-gradient(circle,rgba(255,201,71,0.1) 0%,transparent 70%)}
-.orb-green{background:radial-gradient(circle,rgba(0,224,150,0.1) 0%,transparent 70%)}
+.orb-purple{background:radial-gradient(circle,rgba(124,109,245,0.28) 0%,transparent 70%)}
+.orb-cyan{background:radial-gradient(circle,rgba(0,212,212,0.22) 0%,transparent 70%)}
+.orb-pink{background:radial-gradient(circle,rgba(255,107,157,0.2) 0%,transparent 70%)}
+.orb-yellow{background:radial-gradient(circle,rgba(255,201,71,0.2) 0%,transparent 70%)}
+.orb-green{background:radial-gradient(circle,rgba(0,224,150,0.2) 0%,transparent 70%)}
 
 .slide-grid{position:absolute;inset:0;opacity:0.025;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
 
@@ -98,7 +98,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE 1 — COVER
    =========================== */
 #s1{justify-content:center;align-items:center;text-align:center}
-#s1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-hero_v1.png');background-size:cover;background-position:center;opacity:0.15}
+#s1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-hero_v1.png');background-size:cover;background-position:center;opacity:0.08}
 #s1 .orb1{width:900px;height:900px;top:-300px;left:-200px}
 #s1 .orb2{width:700px;height:700px;bottom:-200px;right:-100px}
 #s1 .orb3{width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%)}
@@ -122,7 +122,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE 2 — THE GAP
    =========================== */
 #s2{flex-direction:row}
-#s2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-slide_v1.png');background-size:cover;background-position:center;opacity:0.15}
+#s2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-vision-slide_v1.png');background-size:cover;background-position:center;opacity:0.07}
 #s2 .left{width:820px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 60px;border-right:1px solid var(--border);position:relative;z-index:2;text-align:center}
 #s2 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;position:relative;z-index:2}
 #s2 .big-stat{font-size:200px;font-weight:900;letter-spacing:-8px;line-height:0.85}
@@ -138,25 +138,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 /* ── Shared bg-img pattern for all slides ── */
 .slide .bg-img{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none;z-index:0}
-#s3 .bg-img{background-image:url('deck-assets/mosaic-eyes-bridge_v1.png');opacity:0.10}
-#s4 .bg-img{background-image:url('deck-assets/mosaic-uber-moment_v1.png');opacity:0.03}
-#s5 .bg-img{background-image:url('deck-assets/problem-shelf.jpg');opacity:0.07}
-#s6 .bg-img{background-image:url('deck-assets/demo-screenshot-e0-dashboard.png');opacity:0.04}
-#s7 .bg-img{background-image:url('deck-assets/mosaic-diagram-data-flywheel_v1.png');opacity:0.05}
-#s8 .bg-img{background-image:url('deck-assets/mosaic-market-v6.png');opacity:0.02}
-#s9 .bg-img{background-image:url('deck-assets/demo-screenshot-e3-gallery.png');opacity:0.04}
-#s10 .bg-img{background-image:url('deck-assets/enterprise-dashboard.png');opacity:0.05}
-#s11 .bg-img{background-image:url('deck-assets/mosaic-flywheel-v6.png');opacity:0.05}
-#s12 .bg-img{background-image:url('deck-assets/gig-workers.png');opacity:0.06}
-#s13 .bg-img{background-image:url('deck-assets/mosaic-hero-v6.png');opacity:0.08}
+#s3 .bg-img{opacity:0}
+#s4 .bg-img{opacity:0}
+#s5 .bg-img{opacity:0}
+#s6 .bg-img{opacity:0}
+#s7 .bg-img{opacity:0}
+#s8 .bg-img{opacity:0}
+#s9 .bg-img{opacity:0}
+#s10 .bg-img{opacity:0}
+#s11 .bg-img{opacity:0}
+#s12 .bg-img{opacity:0}
+#s13 .bg-img{opacity:0}
 
 /* ===========================
    SLIDE 3 — WHY NOW
    =========================== */
 #s3 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
 #s3 .orb1{width:700px;height:700px;top:-200px;right:-100px}
-#s3 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:14px}
-#s3 .sub{font-size:26px;color:var(--muted);margin-bottom:50px}
+#s3 .sh{font-size:94px;font-weight:900;letter-spacing:-2px;margin-bottom:14px}
+#s3 .sub{font-size:30px;color:var(--muted);margin-bottom:50px}
 #s3 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;flex:1}
 #s3 .why-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 44px;display:flex;flex-direction:column;gap:20px}
 #s3 .why-card .icon{font-size:56px;line-height:1}
@@ -174,20 +174,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 #s4{flex-direction:row}
 #s4 .left{width:860px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
 #s4 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
-#s4 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
-#s4 .sub{font-size:26px;color:var(--muted);line-height:1.5;margin-bottom:50px}
+#s4 .sh{font-size:96px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s4 .sub{font-size:30px;color:var(--muted);line-height:1.5;margin-bottom:50px}
 .flow-step{display:flex;align-items:center;gap:0;margin-bottom:0}
 .flow-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 28px;text-align:center;flex:1}
-.flow-box .ft{font-size:26px;font-weight:800}
-.flow-box .fs{font-size:18px;color:var(--muted);margin-top:4px}
+.flow-box .ft{font-size:32px;font-weight:800}
+.flow-box .fs{font-size:22px;color:var(--muted);margin-top:6px}
 .flow-arrow{font-size:28px;color:var(--purple);padding:0 12px;flex-shrink:0}
 .flow-badges{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:16px}
-.flow-badge{background:rgba(0,212,212,0.08);border:1px solid rgba(0,212,212,0.2);border-radius:10px;padding:10px 16px;font-size:17px;color:var(--cyan);text-align:center}
+.flow-badge{background:rgba(0,212,212,0.08);border:1px solid rgba(0,212,212,0.2);border-radius:10px;padding:12px 18px;font-size:22px;color:var(--cyan);text-align:center;font-weight:600}
 #s4 .mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .mkt-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 28px}
-.mkt-card .mc-title{font-size:26px;font-weight:800;margin-bottom:6px}
-.mkt-card .mc-sam{font-size:20px;color:var(--cyan);font-weight:700}
-.mkt-card .mc-when{font-size:18px;color:var(--muted);margin-top:4px}
+.mkt-card .mc-title{font-size:30px;font-weight:800;margin-bottom:8px}
+.mkt-card .mc-sam{font-size:26px;font-weight:700}
+.mkt-card .mc-when{font-size:20px;color:var(--muted);margin-top:4px}
 
 /* ===========================
    SLIDE 5 — CPG DEEP DIVE
@@ -195,7 +195,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 #s5{flex-direction:row}
 #s5 .left{width:860px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
 #s5 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
-#s5 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s5 .sh{font-size:94px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
 #s5 .wedge-badge{display:inline-flex;background:rgba(0,224,150,0.12);border:1px solid rgba(0,224,150,0.3);border-radius:100px;padding:8px 24px;font-size:22px;font-weight:700;color:var(--green);margin-bottom:36px}
 .persona-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 40px;margin-bottom:28px}
 .persona-card .name{font-size:28px;font-weight:800;margin-bottom:4px}
@@ -221,20 +221,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE 6 — PRODUCT
    =========================== */
 #s6 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
-#s6 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:40px}
+#s6 .sh{font-size:96px;font-weight:900;letter-spacing:-2px;margin-bottom:32px}
 #s6 .panels{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1}
 .prod-panel{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:44px 48px;display:flex;flex-direction:column}
 .prod-panel h3{font-size:34px;font-weight:900;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
 .prod-panel .pp-sub{font-size:22px;color:var(--muted);margin-bottom:28px;font-style:italic}
 .prod-panel .screenshots{display:flex;gap:16px;margin-bottom:28px}
-.ss-mock{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:9/16;max-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
-.ss-mock-wide{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:16/9;max-height:260px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
-.ss-mock img,.ss-mock-wide img{width:100%;height:100%;object-fit:cover;opacity:0.9}
+.ss-mock{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:9/16;max-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock-wide{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:16/9;max-height:300px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock img,.ss-mock-wide img{width:100%;height:100%;object-fit:cover;opacity:1.0}
 .ss-mock .ss-label,.ss-mock-wide .ss-label{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);background:rgba(3,3,5,0.7);padding:3px}
 .prod-panel ul{list-style:none;flex:1}
 .prod-panel ul li{font-size:24px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
 .prod-panel ul li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
 .prod-panel ul li strong{color:var(--text)}
+.pp-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.pp-tag{background:rgba(124,109,245,0.12);border:1px solid rgba(124,109,245,0.3);border-radius:100px;padding:8px 20px;font-size:20px;font-weight:600;color:#a89cf8}
 #s6 .magic{display:flex;gap:0;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:36px}
 .magic-stat{flex:1;padding:24px 40px;text-align:center;border-right:1px solid var(--border)}
 .magic-stat:last-child{border-right:none}
@@ -245,8 +247,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE 7 — BUSINESS MODEL
    =========================== */
 #s7 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
-#s7 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
-#s7 .sub{font-size:26px;color:var(--muted);margin-bottom:40px}
+#s7 .sh{font-size:92px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s7 .sub{font-size:30px;color:var(--muted);margin-bottom:40px}
 #s7 .tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-bottom:32px}
 .tier-card{border-radius:22px;padding:40px 36px}
 .tier-card.t1{background:linear-gradient(135deg,rgba(124,109,245,0.1),rgba(124,109,245,0.04));border:1px solid rgba(124,109,245,0.25)}
@@ -276,7 +278,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 #s8{flex-direction:row}
 #s8 .left{width:900px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
 #s8 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
-#s8 .sh{font-size:72px;font-weight:900;letter-spacing:-2px;margin-bottom:50px}
+#s8 .sh{font-size:88px;font-weight:900;letter-spacing:-2px;margin-bottom:50px}
 .circles{position:relative;width:440px;height:440px;margin:0 auto}
 .circle{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;left:50%;top:50%;transform:translate(-50%,-50%)}
 .c-tam{width:440px;height:440px;background:rgba(124,109,245,0.08);border:2px solid rgba(124,109,245,0.3)}
@@ -713,32 +715,31 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
             <div class="ss-label">Instant Payout</div>
           </div>
         </div>
-        <ul>
-          <li><strong>Commute Mode</strong> — tasks on your existing route only</li>
-          <li><strong>45-second</strong> capture flow, AI quality check live</li>
-          <li>Instant payout — <strong>£14.50 per commute</strong> (UK)</li>
-          <li>Already going there = <strong>2× DoorDash hourly rate</strong></li>
-        </ul>
+        <div class="pp-tags">
+          <span class="pp-tag">Commute Mode</span>
+          <span class="pp-tag">45s capture</span>
+          <span class="pp-tag">AI quality check</span>
+          <span class="pp-tag">£14.50 per commute</span>
+        </div>
       </div>
       <div class="prod-panel">
         <h3 class="g2-text">Enterprise Portal</h3>
         <div class="pp-sub">Next.js + Supabase — Campaign Dashboard</div>
         <div class="screenshots" style="flex-direction:column;gap:12px">
-          <div class="ss-mock-wide" style="max-height:200px">
+          <div class="ss-mock-wide" style="max-height:290px">
             <img src="deck-assets/demo-screenshot-e0-dashboard.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;object-position:top">
             <div class="ss-label">Live Compliance Dashboard</div>
           </div>
-          <div class="ss-mock-wide" style="max-height:200px">
+          <div class="ss-mock-wide" style="max-height:290px">
             <img src="deck-assets/demo-screenshot-e3-gallery.png" alt="Gallery" style="width:100%;height:100%;object-fit:cover;object-position:top">
             <div class="ss-label">Photo Gallery + AI Results</div>
           </div>
         </div>
-        <ul>
-          <li><strong>Campaign creator:</strong> upload planogram → select stores → set SLA</li>
-          <li>Live compliance map: <strong>color-coded, real-time</strong></li>
-          <li><strong>AI JSON results</strong> + trend analysis + anomaly flags</li>
-          <li>Alert webhooks for <strong>OOS thresholds</strong> → Slack/Salesforce</li>
-        </ul>
+        <div class="pp-tags">
+          <span class="pp-tag">Real-time compliance</span>
+          <span class="pp-tag">AI JSON output</span>
+          <span class="pp-tag">Webhook alerts</span>
+        </div>
       </div>
     </div>
     <div class="magic">
