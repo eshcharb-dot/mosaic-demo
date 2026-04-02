@@ -160,6 +160,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 #s3 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;flex:1}
 #s3 .why-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 44px;display:flex;flex-direction:column;gap:20px}
 #s3 .why-card .icon{font-size:56px;line-height:1}
+#s3 .why-card .icon-img{width:100%;height:160px;border-radius:12px;overflow:hidden;margin-bottom:4px}
+#s3 .why-card .icon-img img{width:100%;height:100%;object-fit:cover;object-position:top}
 #s3 .why-card h3{font-size:32px;font-weight:800;letter-spacing:-0.5px}
 #s3 .why-card .stat{font-size:48px;font-weight:900;letter-spacing:-1px;line-height:1}
 #s3 .why-card p{font-size:24px;color:var(--muted);line-height:1.6}
@@ -225,8 +227,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 .prod-panel h3{font-size:34px;font-weight:900;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
 .prod-panel .pp-sub{font-size:22px;color:var(--muted);margin-bottom:28px;font-style:italic}
 .prod-panel .screenshots{display:flex;gap:16px;margin-bottom:28px}
-.ss-mock{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:9/16;max-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
-.ss-mock-wide{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:16/9;max-height:180px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:9/16;max-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock-wide{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:16/9;max-height:260px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
 .ss-mock img,.ss-mock-wide img{width:100%;height:100%;object-fit:cover;opacity:0.9}
 .ss-mock .ss-label,.ss-mock-wide .ss-label{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);background:rgba(3,3,5,0.7);padding:3px}
 .prod-panel ul{list-style:none;flex:1}
@@ -464,7 +466,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     <div class="v2-sub">Broadband. On-device AI. A gig-economy workforce trained by Uber, DoorDash, and Deliveroo. The supply side is already built — and nobody has connected it to enterprise intelligence.<br><br><strong style="color:#fff">Until now.</strong></div>
     <div class="v2-badges">
       <div class="v2-badge">6.8B smartphones deployed</div>
-      <div class="v2-badge">Physical reality · on demand · in hours</div>
+      <div class="v2-badge">Physical reality · on demand · in minutes</div>
       <div class="v2-badge">As transformative as Uber</div>
     </div>
   </div>
@@ -481,11 +483,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     <div style="font-size:22px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;font-weight:400">8 billion humans. Each carrying a supercomputer with a camera.<br>The physical world is still completely dark.</div>
     <div class="logo g-text">MOSAIC</div>
     <div class="super" style="font-size:26px;margin-bottom:8px">turns any smartphone into a verified ground-truth sensor</div>
-    <div class="tagline" style="font-size:28px;margin-bottom:48px">Physical reality — on demand, AI-extracted, in hours. <em>Not weeks.</em></div>
+    <div class="tagline" style="font-size:28px;margin-bottom:48px">Physical reality — on demand, AI-extracted, in <em>minutes</em>. Not weeks.</div>
     <div class="kpis">
       <div class="kpi"><div class="kn g-text">$35B</div><div class="kl">Market</div></div>
       <div class="kpi"><div class="kn g2-text">6.8B</div><div class="kl">Sensors Deployed</div></div>
-      <div class="kpi"><div class="kn g3-text">4 hrs</div><div class="kl">Delivery SLA</div></div>
+      <div class="kpi"><div class="kn g3-text">30 min</div><div class="kl">Delivery SLA</div></div>
       <div class="kpi"><div class="kn g4-text">44.6%</div><div class="kl">Launch GM</div></div>
       <div class="kpi"><div class="kn g5-text">$5M</div><div class="kl">Seed Round</div></div>
     </div>
@@ -541,19 +543,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     <div class="sub">Why 2026 is the exact moment this infrastructure becomes possible — and defensible.</div>
     <div class="cards">
       <div class="why-card">
-        <div class="icon">🤖</div>
+        <div class="icon-img"><img src="deck-assets/demo-screenshot-c6-verify.png" alt="AI Verify"></div>
         <h3 class="g-text">AI Vision Cost Crossed Zero</h3>
         <div class="stat g-text">200×</div>
         <p>$0.40/image in 2022 → <strong style="color:var(--text)">$0.02 in 2026</strong>. Full JSON extraction from a shelf photo in 3 seconds. This single change rewrites every unit economic calculation in the industry.</p>
       </div>
       <div class="why-card">
-        <div class="icon">📱</div>
+        <div class="icon-img"><img src="deck-assets/demo-screenshot-c2-taskfeed.png" alt="Task Feed"></div>
         <h3 class="g2-text">6.8B Sensors, Already Deployed</h3>
         <div class="stat g2-text">50M+</div>
         <p>48MP cameras. GPS. LiDAR. <strong style="color:var(--text)">Gig workers trained by Uber, DoorDash, Deliveroo</strong> to complete smartphone micro-tasks for micro-pay. The supply side is already built.</p>
       </div>
       <div class="why-card">
-        <div class="icon">💊</div>
+        <div class="icon-img"><img src="deck-assets/demo-screenshot-e1-dashboard.png" alt="Enterprise Dashboard"></div>
         <h3 class="g3-text">Enterprise Budget Unlocked</h3>
         <div class="stat g3-text">$200K–2M</div>
         <p>COVID exposed catastrophic CPG field failures. Every major brand now has a <strong style="color:var(--text)">"field intelligence modernization" budget</strong> that didn't exist pre-2020. Actively looking to spend.</p>
@@ -580,7 +582,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
         <div class="flow-arrow">→</div>
         <div class="flow-box"><div class="ft">On-Device<br>AI</div><div class="fs">GDPR-native</div></div>
         <div class="flow-arrow">→</div>
-        <div class="flow-box"><div class="ft">Cloud<br>Extraction</div><div class="fs">4hr SLA</div></div>
+        <div class="flow-box"><div class="ft">Cloud<br>Extraction</div><div class="fs">30min SLA</div></div>
         <div class="flow-arrow">→</div>
         <div class="flow-box"><div class="ft">Enterprise<br>API</div><div class="fs">JSON + Webhooks</div></div>
       </div>
@@ -592,7 +594,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       <div class="flow-badge">API-native</div>
     </div>
     <div style="margin-top:32px;background:rgba(124,109,245,0.07);border:1px solid rgba(124,109,245,0.2);border-radius:14px;padding:22px 28px">
-      <div style="font-size:22px;color:var(--muted);line-height:1.6">Any photo. Any location. Any industry. Verified, AI-extracted, delivered in hours — not weeks.</div>
+      <div style="font-size:22px;color:var(--muted);line-height:1.6">Any photo. Any location. Any industry. Verified, AI-extracted, delivered in <strong style="color:var(--cyan)">minutes</strong> — not weeks.</div>
     </div>
   </div>
   <div class="right">
@@ -655,10 +657,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
   </div>
   <div class="right">
     <div class="workflow">
-      <h4>Real Workflow — 4hr CPG Audit</h4>
+      <h4>Real Workflow — Per-Store in 30 Minutes</h4>
       <div class="workflow-step">
         <div class="ws-num">1</div>
-        <div class="ws-text"><strong>Upload planogram + 50 store list.</strong> Set 4hr SLA. Pay by card.</div>
+        <div class="ws-text"><strong>Upload planogram + 50 store list.</strong> Set 30-min SLA. Pay by card.</div>
       </div>
       <div class="workflow-step">
         <div class="ws-num">2</div>
@@ -670,7 +672,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       </div>
       <div class="workflow-step">
         <div class="ws-num">4</div>
-        <div class="ws-text"><strong>Compliance score per store,</strong> AI JSON, photos worst-first → within 4hrs</div>
+        <div class="ws-text"><strong>Compliance score per store,</strong> AI JSON, photos worst-first → within 30 minutes</div>
       </div>
     </div>
     <div class="roi-box">
@@ -678,7 +680,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     </div>
     <div class="bottom-stats">
       <div class="bstat"><div class="bsn g-text">$60K</div><div class="bsl">ACV</div></div>
-      <div class="bstat"><div class="bsn g2-text">4 hr</div><div class="bsl">SLA</div></div>
+      <div class="bstat"><div class="bsn g2-text">30 min</div><div class="bsl">SLA</div></div>
       <div class="bstat"><div class="bsn g3-text">$25</div><div class="bsl">Per Store</div></div>
       <div class="bstat"><div class="bsn g4-text">60%</div><div class="bsl">Pilot → Annual</div></div>
     </div>
@@ -699,20 +701,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
         <div class="pp-sub">iOS + Android — Expo/React Native</div>
         <div class="screenshots">
           <div class="ss-mock">
-            <img src="deck-assets/demo-screenshot-c1-onboarding.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Onboarding">
-            <div style="display:none;flex-direction:column;align-items:center;gap:8px;padding:12px">
-              <div style="font-size:40px">📱</div>
-              <div style="font-size:13px;color:var(--muted)">Onboarding</div>
-            </div>
-            <div class="ss-label">Onboarding</div>
+            <img src="deck-assets/demo-screenshot-c2-taskfeed.png" alt="Task Feed" style="width:100%;height:100%;object-fit:cover;object-position:top">
+            <div class="ss-label">Task Feed</div>
           </div>
           <div class="ss-mock">
-            <img src="deck-assets/demo-screenshot-c2-taskfeed.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Task Feed">
-            <div style="display:none;flex-direction:column;align-items:center;gap:8px;padding:12px">
-              <div style="font-size:40px">🗺️</div>
-              <div style="font-size:13px;color:var(--muted)">Task Feed</div>
-            </div>
-            <div class="ss-label">Task Feed</div>
+            <img src="deck-assets/demo-screenshot-c6-verify.png" alt="AI Verify" style="width:100%;height:100%;object-fit:cover;object-position:top">
+            <div class="ss-label">AI Verify</div>
+          </div>
+          <div class="ss-mock">
+            <img src="deck-assets/demo-screenshot-c7-payout.png" alt="Payout" style="width:100%;height:100%;object-fit:cover;object-position:top">
+            <div class="ss-label">Instant Payout</div>
           </div>
         </div>
         <ul>
@@ -725,14 +723,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       <div class="prod-panel">
         <h3 class="g2-text">Enterprise Portal</h3>
         <div class="pp-sub">Next.js + Supabase — Campaign Dashboard</div>
-        <div class="screenshots">
-          <div class="ss-mock-wide">
-            <img src="deck-assets/demo-screenshot-e1-dashboard.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Dashboard">
-            <div style="display:none;flex-direction:column;align-items:center;gap:8px">
-              <div style="font-size:40px">📊</div>
-              <div style="font-size:13px;color:var(--muted)">Live Dashboard</div>
-            </div>
+        <div class="screenshots" style="flex-direction:column;gap:12px">
+          <div class="ss-mock-wide" style="max-height:200px">
+            <img src="deck-assets/demo-screenshot-e1-dashboard.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;object-position:top">
             <div class="ss-label">Live Compliance Dashboard</div>
+          </div>
+          <div class="ss-mock-wide" style="max-height:200px">
+            <img src="deck-assets/demo-screenshot-e4-gallery.png" alt="Gallery" style="width:100%;height:100%;object-fit:cover;object-position:top">
+            <div class="ss-label">Photo Gallery + AI Results</div>
           </div>
         </div>
         <ul>
@@ -745,7 +743,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     </div>
     <div class="magic">
       <div class="magic-stat"><div class="mn g-text">45s</div><div class="ml">Task Time</div></div>
-      <div class="magic-stat"><div class="mn g2-text">4 hr</div><div class="ml">Delivery</div></div>
+      <div class="magic-stat"><div class="mn g2-text">30 min</div><div class="ml">Delivery</div></div>
       <div class="magic-stat"><div class="mn g3-text">£14.50</div><div class="ml">Per Commute</div></div>
       <div class="magic-stat"><div class="mn g4-text">$60K</div><div class="ml">ACV</div></div>
     </div>
@@ -946,7 +944,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       <tbody>
         <tr><td>Consumer tier</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
         <tr><td>AI extraction</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="yes mosaic-col">✓</td></tr>
-        <tr><td>&lt;4 hour SLA</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>&lt;30 min SLA</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
         <tr><td>Route matching</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
         <tr><td>On-device GDPR</td><td class="no">✗</td><td class="maybe">?</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
         <tr><td>Self-serve</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
@@ -978,7 +976,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       <div class="moat-card">
         <div class="mc-num g3-text">02</div>
         <h3>Network Effect — Geographic Lock-In</h3>
-        <p>500 MACs in a city → 4-hour SLA guaranteed across every store in that metro.</p>
+        <p>500 MACs in a city → 30-minute SLA guaranteed across every store in that metro.</p>
         <div class="mc-insight">Everyone else: 24-hour SLA. First mover owns the city. <strong style="color:var(--text)">Forever.</strong></div>
       </div>
       <div class="moat-card">

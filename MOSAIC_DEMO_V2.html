@@ -133,10 +133,10 @@ body {
   width: 390px;
   height: 844px;
   background: #0a0e18;
-  border-radius: 55px;
-  border: 2px solid rgba(124,58,237,0.5);
-  box-shadow: var(--glow-purple), inset 0 0 0 1px rgba(255,255,255,0.05),
-    0 40px 80px rgba(0,0,0,0.6);
+  border-radius: 48px;
+  border: 1.5px solid rgba(124,58,237,0.2);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 32px 64px rgba(0,0,0,0.7);
   overflow: hidden;
   position: relative;
 }
@@ -1944,56 +1944,106 @@ body {
   .mode-btn { flex: 1; text-align: center; font-size: 12px; padding: 8px 10px; }
 }
 
-/* ── Phone frame: scale to fit viewport height ── */
+/* ── Phone frame wrapper ── */
 .phone-wrap {
   position: relative;
   display: none;
 }
 [data-mode="collector"] .phone-wrap { display: flex; justify-content: center; }
 
-/* Scale phone to fit available vertical space on any screen */
-@media (max-height: 900px) {
+/* ── Desktop: scale phone to fit available vertical space ── */
+@media (max-height: 900px) and (min-width: 481px) {
   .phone-frame {
     --phone-scale: calc((100vh - 160px) / 844);
     transform: scale(var(--phone-scale));
     transform-origin: top center;
     margin-bottom: calc((844px * var(--phone-scale)) - 844px);
   }
-  .phone-wrap {
-    align-items: flex-start;
-  }
+  .phone-wrap { align-items: flex-start; }
 }
 
+/* ── MOBILE NATIVE (≤480px): full-screen app, no phone chrome ── */
 @media (max-width: 480px) {
-  .phone-frame {
-    width: 100vw;
-    max-width: 390px;
-    height: calc(100vw * 844 / 390);
-    max-height: 844px;
-    border-radius: clamp(20px, 8vw, 55px);
-    transform: none;
-    margin-bottom: 0;
-  }
-
+  /* Shell: zero padding, fixed header pushes content down */
   .demo-shell {
     padding: 0;
-    align-items: flex-start;
-  }
-  .phone-wrap {
-    margin: 0 auto;
+    min-height: 100dvh;
   }
 
-  /* Screen content inner padding */
-  .c-screen-inner { padding-top: 30px; }
+  /* Header: fixed at top, slim */
+  .demo-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(8,11,18,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .demo-logo { font-size: 17px; }
+  .mode-toggle { padding: 3px; gap: 3px; }
+  .mode-btn { font-size: 12px; padding: 6px 14px; }
+  .screen-title { display: none; }
+
+  /* Collector: phone fills entire screen below header */
+  [data-mode="collector"] .phone-wrap {
+    display: block;
+    margin-top: 56px;
+    width: 100%;
+    height: calc(100dvh - 56px);
+    overflow: hidden;
+  }
+
+  /* Strip all phone-frame decoration — looks native */
+  .phone-frame {
+    width: 100vw !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  /* Hide simulated phone chrome (OS provides its own) */
+  .phone-notch { display: none; }
+  .phone-statusbar { display: none; }
+
+  /* App content: less top padding without status bar */
+  .c-screen-inner { padding-top: 12px !important; }
+  .c-screen { padding-top: 12px; }
+
+  /* Nav bar: iOS safe area */
+  .nav-bar { padding-bottom: max(16px, env(safe-area-inset-bottom, 16px)); }
+
+  /* Enterprise: scrollable below header */
+  [data-mode="enterprise"] .desktop-wrap {
+    margin-top: 56px;
+    padding: 16px;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  [data-mode="enterprise"] .desktop-frame {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    border-radius: 12px;
+  }
+  .desktop-body { flex-direction: column; }
+  .ent-sidebar { display: none; }
+  .ent-main { width: 100%; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Font tweaks */
   .onboard-title { font-size: 26px; }
   .payout-amount { font-size: 44px; }
-}
-
-/* ── Legacy fallback (keep existing rule merged in) ── */
-@media (max-width: 420px) {
-  .demo-header { flex-direction: column; align-items: flex-start; }
-  .mode-toggle { width: 100%; }
-  .mode-btn { flex: 1; }
+  .task-hero-name { font-size: 20px; }
 }
 </style>
 </head>
