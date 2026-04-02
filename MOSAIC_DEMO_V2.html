@@ -1,0 +1,4354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mosaic Demo V2</title>
+<meta name="description" content="Mosaic Physical World Intelligence — Full product demo: Collector App + Enterprise Portal">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  --purple: #7c3aed;
+  --purple-light: #a78bfa;
+  --purple-dark: #4c1d95;
+  --cyan: #06b6d4;
+  --cyan-light: #67e8f9;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --bg: #080b12;
+  --bg2: #0d1117;
+  --bg3: #161b27;
+  --bg4: #1e2535;
+  --border: rgba(255,255,255,0.08);
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --gradient: linear-gradient(135deg, var(--purple), var(--cyan));
+  --glow-purple: 0 0 40px rgba(124,58,237,0.4);
+  --glow-cyan: 0 0 40px rgba(6,182,212,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DEMO SHELL
+═══════════════════════════════════════════════════════════ */
+.demo-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px 16px 80px;
+}
+
+/* Header */
+.demo-header {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.demo-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+.demo-logo-dot {
+  width: 10px; height: 10px;
+  background: var(--gradient);
+  border-radius: 50%;
+}
+
+.mode-toggle {
+  display: flex;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+.mode-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: var(--text2);
+}
+.mode-btn.active {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.4);
+}
+
+.screen-title {
+  font-size: 13px;
+  color: var(--text3);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+.screen-title span {
+  color: var(--purple-light);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PHONE FRAME
+═══════════════════════════════════════════════════════════ */
+.phone-wrap {
+  position: relative;
+  display: none;
+}
+[data-mode="collector"] .phone-wrap { display: block; }
+
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  background: #0a0e18;
+  border-radius: 55px;
+  border: 2px solid rgba(124,58,237,0.5);
+  box-shadow: var(--glow-purple), inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 40px 80px rgba(0,0,0,0.6);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Notch */
+.phone-notch {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 126px; height: 36px;
+  background: #0a0e18;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.notch-cam {
+  width: 12px; height: 12px;
+  background: #1a1f2e;
+  border-radius: 50%;
+  border: 2px solid #222;
+}
+
+/* Phone status bar */
+.phone-statusbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 28px 8px;
+  z-index: 9;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+}
+.statusbar-time { font-size: 15px; font-weight: 700; }
+.statusbar-icons { display: flex; gap: 4px; align-items: center; }
+
+/* Phone screen area */
+.phone-screen {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ENTERPRISE DESKTOP FRAME
+═══════════════════════════════════════════════════════════ */
+.desktop-wrap {
+  display: none;
+  position: relative;
+}
+[data-mode="enterprise"] .desktop-wrap { display: block; }
+
+.desktop-frame {
+  width: min(1060px, 95vw);
+  height: 680px;
+  background: var(--bg2);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04),
+    0 30px 80px rgba(0,0,0,0.5),
+    var(--glow-cyan);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-titlebar {
+  height: 44px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.titlebar-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+}
+.titlebar-dot:nth-child(1) { background: #ff5f57; }
+.titlebar-dot:nth-child(2) { background: #febc2e; }
+.titlebar-dot:nth-child(3) { background: #28c840; }
+.titlebar-url {
+  flex: 1;
+  background: var(--bg4);
+  border-radius: 6px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+  color: var(--text3);
+  margin: 0 12px;
+}
+.titlebar-url span { color: var(--green); margin-right: 4px; }
+
+.desktop-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Enterprise sidebar */
+.ent-sidebar {
+  width: 220px;
+  background: var(--bg3);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+.ent-logo {
+  padding: 0 20px 20px;
+  font-size: 16px;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.ent-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.ent-nav-item.active {
+  color: var(--purple-light);
+  background: rgba(124,58,237,0.08);
+  border-left-color: var(--purple);
+}
+.ent-nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+.ent-main {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN SYSTEM
+═══════════════════════════════════════════════════════════ */
+.collector-screens, .enterprise-screens {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.c-screen, .e-screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(30px);
+  overflow-y: auto;
+}
+.c-screen.active, .e-screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+.c-screen.prev, .e-screen.prev {
+  transform: translateX(-30px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════ */
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: rgba(8,11,18,0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 100;
+}
+.nav-btn {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.nav-btn:hover { border-color: var(--purple); color: var(--purple-light); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+.dot-nav {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.dot.active {
+  background: var(--purple);
+  width: 20px;
+  border-radius: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COLLECTOR SCREEN COMPONENTS
+═══════════════════════════════════════════════════════════ */
+
+/* C1: Onboarding */
+.c-screen-inner {
+  height: 100%;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboard-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  text-align: center;
+  gap: 20px;
+}
+
+.onboard-logo-ring {
+  width: 100px; height: 100px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(6,182,212,0.3));
+  border: 1px solid rgba(124,58,237,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  box-shadow: var(--glow-purple);
+}
+.onboard-logo-ring::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 34px;
+  border: 1px solid rgba(124,58,237,0.2);
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.onboard-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+.onboard-sub {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.stat-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.stat-chip {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  text-align: center;
+}
+.stat-chip .val {
+  font-size: 18px;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+.stat-chip .lbl {
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.cta-btn {
+  display: block;
+  width: calc(100% - 56px);
+  margin: 0 28px 28px;
+  padding: 16px;
+  background: var(--gradient);
+  border: none;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.cta-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(124,58,237,0.5); }
+
+/* C2: Home / Task Feed */
+.app-header {
+  background: var(--bg2);
+  padding: 56px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.app-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-greeting { font-size: 13px; color: var(--text2); }
+.app-name { font-size: 22px; font-weight: 800; margin-top: 2px; }
+.avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--gradient);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.earnings-banner {
+  margin-top: 14px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.earnings-label { font-size: 12px; color: var(--text2); }
+.earnings-val {
+  font-size: 20px; font-weight: 800; color: var(--green);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  padding: 16px 20px 8px;
+}
+
+.task-card {
+  margin: 0 16px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.task-card:hover { border-color: rgba(124,58,237,0.4); }
+.task-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.task-brand-logo {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--bg4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.task-info { flex: 1; }
+.task-brand { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; }
+.task-name { font-size: 15px; font-weight: 700; margin-top: 2px; line-height: 1.3; }
+.task-payout {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--green);
+  flex-shrink: 0;
+}
+.task-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.tag-blue { background: rgba(6,182,212,0.12); color: var(--cyan); }
+.tag-purple { background: rgba(124,58,237,0.12); color: var(--purple-light); }
+.tag-green { background: rgba(16,185,129,0.12); color: var(--green); }
+.tag-amber { background: rgba(245,158,11,0.12); color: var(--amber); }
+
+/* C3: Map View */
+.map-container {
+  position: relative;
+  height: 420px;
+  background: #0d1422;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.map-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+.map-overlay {
+  position: absolute;
+  inset: 0;
+}
+.map-pin {
+  position: absolute;
+  width: 36px; height: 36px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+.pin-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.pin-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid;
+  animation: pin-pulse 2s ease-in-out infinite;
+}
+@keyframes pin-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 0; }
+}
+.pin-purple .pin-dot { background: var(--purple); }
+.pin-purple .pin-ring { border-color: var(--purple); }
+.pin-cyan .pin-dot { background: var(--cyan); }
+.pin-cyan .pin-ring { border-color: var(--cyan); animation-delay: 0.5s; }
+.pin-green .pin-dot { background: var(--green); }
+.pin-green .pin-ring { border-color: var(--green); animation-delay: 1s; }
+
+.map-user-pin {
+  position: absolute;
+  width: 20px; height: 20px;
+  background: var(--cyan);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(6,182,212,0.2);
+  transform: translate(-50%, -50%);
+}
+
+.map-task-popup {
+  position: absolute;
+  bottom: 16px;
+  left: 16px; right: 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  backdrop-filter: blur(20px);
+}
+.map-filter-row {
+  padding: 14px 16px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+
+/* C4: Task Detail */
+.task-detail-hero {
+  background: linear-gradient(180deg, rgba(124,58,237,0.15) 0%, transparent 100%);
+  padding: 60px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.task-detail-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
+  z-index: 0;
+}
+.task-detail-hero > *:not(.task-detail-hero-bg) {
+  position: relative;
+  z-index: 1;
+}
+.task-hero-brand { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); }
+.task-hero-name { font-size: 24px; font-weight: 800; margin-top: 4px; }
+.task-hero-earn {
+  font-size: 36px; font-weight: 900;
+  color: var(--green);
+  margin-top: 4px;
+}
+.task-hero-earn span { font-size: 16px; font-weight: 500; color: var(--text2); }
+
+.task-steps {
+  padding: 16px 20px;
+}
+.task-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple-light);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-body {}
+.step-title { font-size: 14px; font-weight: 600; }
+.step-desc { font-size: 12px; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+
+.task-examples {
+  padding: 0 20px 12px;
+}
+.example-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  background: var(--bg4);
+  overflow: hidden;
+  position: relative;
+}
+.example-img-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--bg3), var(--bg4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+/* C5: Camera */
+.camera-view {
+  position: relative;
+  height: 500px;
+  background: #000;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.camera-bg {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #050810 0%, #0a0e18 100%);
+  position: relative;
+}
+.shelf-sim {
+  position: absolute;
+  inset: 40px 20px;
+  border-radius: 12px;
+  background: #1a1f2e;
+  overflow: hidden;
+}
+.shelf-row {
+  display: flex;
+  height: 80px;
+  border-bottom: 3px solid #0d1117;
+  align-items: flex-end;
+  padding: 0 8px 4px;
+  gap: 4px;
+}
+.product-slot {
+  flex: 1;
+  height: 60px;
+  border-radius: 6px;
+  position: relative;
+}
+.product-slot.stocked { background: linear-gradient(180deg, #1e3a5f, #1a3158); }
+.product-slot.empty { background: rgba(239,68,68,0.1); border: 1px dashed rgba(239,68,68,0.3); }
+.product-slot.featured { background: linear-gradient(180deg, #1e3a5f, #162d51); border: 1px solid rgba(6,182,212,0.4); }
+
+.camera-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.camera-corner {
+  position: absolute;
+  width: 24px; height: 24px;
+  border: 3px solid var(--cyan);
+}
+.camera-corner.tl { top: 60px; left: 30px; border-right: none; border-bottom: none; }
+.camera-corner.tr { top: 60px; right: 30px; border-left: none; border-bottom: none; }
+.camera-corner.bl { bottom: 60px; left: 30px; border-right: none; border-top: none; }
+.camera-corner.br { bottom: 60px; right: 30px; border-left: none; border-top: none; }
+
+.camera-scan-line {
+  position: absolute;
+  left: 30px; right: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: scan 2.5s ease-in-out infinite;
+  top: 60px;
+}
+@keyframes scan {
+  0% { top: 60px; }
+  100% { top: calc(100% - 60px); }
+}
+
+.camera-detect-badge {
+  position: absolute;
+  bottom: 80px;
+  left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(6,182,212,0.15);
+  border: 1px solid rgba(6,182,212,0.5);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+.camera-controls {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.camera-tip { font-size: 12px; color: var(--text2); }
+.shutter-btn {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--gradient);
+  border: 4px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--glow-purple);
+  transition: transform 0.1s;
+}
+.shutter-btn:active { transform: scale(0.95); }
+.camera-gallery { width: 48px; height: 48px; border-radius: 10px; background: var(--bg4); }
+
+/* C6: AI Verification */
+.verify-header {
+  background: var(--bg2);
+  padding: 60px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.verify-title { font-size: 20px; font-weight: 800; }
+.verify-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+.verify-photo {
+  margin: 16px 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+  background: #0a0e18;
+}
+.verify-photo-inner {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #1a1f2e, #0d1117);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 60px;
+}
+.verify-tag {
+  position: absolute;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.verify-tag.detect {
+  top: 12px; left: 12px;
+  background: rgba(6,182,212,0.8);
+  color: #fff;
+}
+.verify-tag.compliant {
+  bottom: 12px; right: 12px;
+  background: rgba(16,185,129,0.8);
+  color: #fff;
+}
+
+.ai-analysis {
+  margin: 0 20px;
+}
+.ai-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 10px; }
+.ai-result-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ai-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.ai-row:last-child { border-bottom: none; }
+.ai-row-label { color: var(--text2); }
+.ai-row-val { font-weight: 600; }
+.ai-row-val.ok { color: var(--green); }
+.ai-row-val.warn { color: var(--amber); }
+.ai-row-val.fail { color: var(--red); }
+
+/* Checkmark animation */
+.check-circle {
+  width: 56px; height: 56px;
+  margin: 16px auto 0;
+}
+.check-svg circle { fill: none; stroke: var(--green); stroke-width: 3; }
+.check-svg path {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+}
+.c-screen.active .check-svg path {
+  animation: draw-check 0.6s 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+.c-screen.active .check-svg circle {
+  stroke-dasharray: 170;
+  stroke-dashoffset: 170;
+  animation: draw-circle 0.5s 0.2s ease-out forwards;
+}
+@keyframes draw-circle {
+  to { stroke-dashoffset: 0; }
+}
+
+/* C7: Complete & Payout */
+.payout-hero {
+  background: linear-gradient(180deg, rgba(16,185,129,0.12) 0%, transparent 60%);
+  padding: 60px 20px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.payout-amount {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+}
+.payout-label { font-size: 16px; color: var(--text2); }
+.payout-breakdown {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.payout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.payout-row:last-child { border-bottom: none; }
+.payout-row .key { color: var(--text2); }
+.payout-row .val { font-weight: 700; }
+.payout-row.total .val { color: var(--green); font-size: 16px; }
+
+.next-tasks { padding: 16px 20px; }
+.nearby-task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.nearby-icon { font-size: 22px; width: 40px; text-align: center; }
+.nearby-body { flex: 1; }
+.nearby-name { font-size: 13px; font-weight: 600; }
+.nearby-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.nearby-earn { font-size: 15px; font-weight: 800; color: var(--green); }
+
+/* C8: Earnings Dashboard */
+.earnings-header {
+  background: var(--bg2);
+  padding: 60px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.earnings-main {
+  text-align: center;
+  padding: 20px;
+}
+.earnings-big {
+  font-size: 48px;
+  font-weight: 900;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.earnings-period { font-size: 13px; color: var(--text3); margin-top: 4px; }
+
+.bar-chart {
+  padding: 16px 20px;
+}
+.bar-chart-title { font-size: 12px; color: var(--text3); font-weight: 600; margin-bottom: 12px; }
+.bars {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 80px;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.bar-fill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--gradient);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.c-screen.active .bar-fill { transform: scaleY(1); }
+.bar-lbl { font-size: 10px; color: var(--text3); }
+
+.badge-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 16px;
+  flex-wrap: wrap;
+}
+.badge {
+  flex: 1;
+  min-width: 100px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.badge-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+.badge-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.badge-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+/* ═══════════════════════════════════════════════════════════
+   ENTERPRISE SCREENS
+═══════════════════════════════════════════════════════════ */
+
+/* E1: Overview Dashboard */
+.ent-screen-inner {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.ent-page-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.ent-page-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.metric-val { font-size: 22px; font-weight: 800; }
+.metric-val.green { color: var(--green); }
+.metric-val.cyan { color: var(--cyan); }
+.metric-val.amber { color: var(--amber); }
+.metric-val.purple { color: var(--purple-light); }
+.metric-trend { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.metric-trend.up { color: var(--green); }
+.metric-trend.down { color: var(--red); }
+
+/* Metric drill-down tooltip */
+.metric-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  background: #12141c;
+  border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 10px;
+  padding: 12px 14px;
+  z-index: 50;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+.metric-tooltip.visible { display: block; pointer-events: all; }
+.metric-tooltip-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple-light); margin-bottom: 8px; }
+.metric-tooltip-row { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+.metric-tooltip-row strong { color: #fff; }
+
+.map-panel {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 200px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.map-panel-inner {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0d1422, #0a1020);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Simulated UK map dots */
+.uk-dot {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.uk-dot.compliant { background: var(--green); box-shadow: 0 0 8px rgba(16,185,129,0.6); }
+.uk-dot.warning { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.6); }
+.uk-dot.critical { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.6); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.chart-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.chart-card-title { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 12px; }
+.mini-bars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  height: 60px;
+}
+.mini-bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: rgba(124,58,237,0.5);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.e-screen.active .mini-bar { transform: scaleY(1); }
+.mini-bar.highlight { background: var(--gradient); }
+
+.compliance-donut {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.donut-ring {
+  width: 60px; height: 60px;
+  position: relative;
+  flex-shrink: 0;
+}
+.donut-svg { transform: rotate(-90deg); }
+.donut-track { fill: none; stroke: var(--bg4); stroke-width: 8; }
+.donut-fill { fill: none; stroke: var(--green); stroke-width: 8; stroke-linecap: round; }
+.donut-label {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: var(--green);
+}
+.donut-legend { font-size: 11px; color: var(--text2); }
+.donut-legend strong { color: var(--text); font-size: 14px; display: block; }
+
+/* E2: Campaign Creator */
+.campaign-form {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.form-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.form-section:last-child { border-bottom: none; }
+.form-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 12px; }
+.form-field { margin-bottom: 10px; }
+.form-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; display: block; }
+.form-input {
+  width: 100%;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+}
+.form-input.active { border-color: rgba(124,58,237,0.5); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.ai-suggest-box {
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.ai-suggest-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.typewriter {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  font-family: 'Inter', monospace;
+}
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background: var(--purple-light);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.cost-estimate {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cost-label { font-size: 13px; color: var(--text2); }
+.cost-val { font-size: 24px; font-weight: 800; color: var(--cyan); }
+
+/* E3: Live Map */
+.live-map-full {
+  height: 100%;
+  background: #08101e;
+  position: relative;
+  overflow: hidden;
+}
+.live-map-controls {
+  position: absolute;
+  top: 16px; right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+.map-ctrl-btn {
+  width: 36px; height: 36px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+.live-legend {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  background: rgba(13,17,23,0.9);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 11px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  color: var(--text2);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.live-badge {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.4);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.live-pulse {
+  width: 8px; height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: live-blink 1s ease-in-out infinite;
+}
+@keyframes live-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* E4: Results Gallery */
+.results-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.results-toolbar-left { display: flex; gap: 8px; }
+.filter-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  background: var(--bg4);
+  color: var(--text2);
+}
+.filter-pill.active { background: var(--gradient); color: #fff; border-color: transparent; }
+.results-stat { font-size: 13px; color: var(--text2); }
+.results-stat strong { color: var(--text); }
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.result-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.result-item:hover { border-color: rgba(124,58,237,0.4); }
+.result-item .result-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(124,58,237,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.result-item:hover .result-hover-overlay { opacity: 1; }
+.result-img {
+  aspect-ratio: 4/3;
+  background: var(--bg4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  position: relative;
+}
+.result-status {
+  position: absolute;
+  top: 6px; right: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.result-status.pass { background: rgba(16,185,129,0.8); color: #fff; }
+.result-status.warn { background: rgba(245,158,11,0.8); color: #fff; }
+.result-status.fail { background: rgba(239,68,68,0.8); color: #fff; }
+.result-meta {
+  padding: 8px 10px;
+  font-size: 11px;
+  color: var(--text2);
+}
+.result-meta strong { color: var(--text); display: block; font-size: 12px; margin-bottom: 1px; }
+
+/* E5: Compliance Report */
+.report-header-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.1));
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.report-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.report-score-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.report-info { flex: 1; }
+.report-title { font-size: 18px; font-weight: 800; }
+.report-sub { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.report-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+.compliance-table {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.ct-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 10px 14px;
+  background: var(--bg4);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+}
+.ct-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  align-items: center;
+}
+.ct-row:last-child { border-bottom: none; }
+.ct-row .store-name { font-weight: 600; }
+.ct-row .store-addr { font-size: 10px; color: var(--text3); }
+.score-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.score-a { background: rgba(16,185,129,0.15); color: var(--green); }
+.score-b { background: rgba(245,158,11,0.15); color: var(--amber); }
+.score-c { background: rgba(239,68,68,0.15); color: var(--red); }
+
+/* E6: Alert Center */
+.alert-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.alert-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.alert-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.alert-icon.critical { background: rgba(239,68,68,0.15); }
+.alert-icon.warning { background: rgba(245,158,11,0.15); }
+.alert-icon.info { background: rgba(6,182,212,0.12); }
+.alert-body { flex: 1; }
+.alert-title { font-size: 14px; font-weight: 700; }
+.alert-desc { font-size: 12px; color: var(--text2); margin-top: 3px; line-height: 1.4; }
+.alert-time { font-size: 11px; color: var(--text3); margin-top: 6px; }
+.alert-actions { display: flex; gap: 6px; margin-top: 8px; }
+.alert-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg4);
+  color: var(--text2);
+  font-family: inherit;
+}
+.alert-btn.primary { background: rgba(124,58,237,0.2); border-color: rgba(124,58,237,0.4); color: var(--purple-light); }
+
+/* Utilities */
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.mb8 { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.text-sm { font-size: 13px; }
+.text-xs { font-size: 11px; }
+.text-muted { color: var(--text2); }
+.text-green { color: var(--green); }
+.text-amber { color: var(--amber); }
+.text-red { color: var(--red); }
+.text-cyan { color: var(--cyan); }
+.text-purple { color: var(--purple-light); }
+.fw700 { font-weight: 700; }
+.fw800 { font-weight: 800; }
+
+/* Progress bar */
+.progress-bar {
+  height: 6px;
+  background: var(--bg4);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gradient);
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.e-screen.active .progress-fill,
+.c-screen.active .progress-fill { width: var(--pct); }
+
+/* ═══════════════════════════════════════════════════════════
+   CSS SHELF VISUALS
+═══════════════════════════════════════════════════════════ */
+
+/* Generic shelf scene container */
+.shelf-visual {
+  width: 100%; height: 100%;
+  background: #111827;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+.shelf-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+/* Ceiling light strip */
+.shelf-visual::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,220,0.6), transparent);
+  z-index: 3;
+}
+
+.s-row {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  flex: 1;
+  padding: 0 6px 0;
+  gap: 2px;
+}
+/* Shelf board */
+.s-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #1e2d45, #2a3d5a, #253550, #1e2d45);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+/* Product slot base */
+.sp {
+  flex: 1;
+  height: 52px;
+  border-radius: 2px 2px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+.sp-sm { height: 40px; }
+.sp-lg { height: 64px; }
+
+/* Oat milk — white/blue carton */
+.sp-oat {
+  background: linear-gradient(180deg, #daeef8 0%, #b8dcf0 50%, #8ec5e6 100%);
+  border: 1px solid rgba(142,197,230,0.4);
+}
+.sp-oat::before {
+  content: '';
+  position: absolute;
+  top: 18%; left: 15%; right: 15%; height: 3px;
+  background: #2878c8; border-radius: 1px; opacity: 0.8;
+}
+.sp-oat::after {
+  content: '';
+  position: absolute;
+  top: 33%; left: 20%; right: 20%; height: 2px;
+  background: #1a5fa0; border-radius: 1px; opacity: 0.6;
+}
+
+/* Oat milk featured (Oat+) */
+.sp-oat-feat {
+  background: linear-gradient(180deg, #e8f5ff 0%, #c4e0f5 50%, #96c8ea 100%);
+  border: 1.5px solid rgba(6,182,212,0.7);
+  box-shadow: 0 0 8px rgba(6,182,212,0.25), inset 0 0 0 1px rgba(6,182,212,0.1);
+}
+.sp-oat-feat::before {
+  content: '';
+  position: absolute;
+  top: 15%; left: 12%; right: 12%; height: 3px;
+  background: #0891b2; border-radius: 1px;
+}
+.sp-oat-feat::after {
+  content: '';
+  position: absolute;
+  top: 30%; left: 18%; right: 18%; height: 2px;
+  background: #0e7490; border-radius: 1px; opacity: 0.8;
+}
+
+/* Green/amber product (generic) */
+.sp-green {
+  background: linear-gradient(180deg, #1a3d28 0%, #132e1e 100%);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+.sp-amber {
+  background: linear-gradient(180deg, #3d2e0a 0%, #2e220a 100%);
+  border: 1px solid rgba(245,158,11,0.2);
+}
+.sp-red {
+  background: linear-gradient(180deg, #3d1a1a 0%, #2e1212 100%);
+  border: 1px solid rgba(239,68,68,0.15);
+}
+.sp-white {
+  background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+  border: 1px solid rgba(200,200,200,0.3);
+}
+.sp-purple {
+  background: linear-gradient(180deg, #2d1f4a 0%, #1e1535 100%);
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+/* Empty slot */
+.sp-empty {
+  background: rgba(0,0,0,0.3);
+  border: 1px dashed rgba(239,68,68,0.3);
+  height: 52px;
+}
+
+/* Price tag strip at bottom of slot */
+.sp-tag::before {
+  content: '';
+  position: absolute;
+  bottom: 6px; left: 2px; right: 2px; height: 6px;
+  background: rgba(255,255,100,0.8);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* AR overlay bounding box */
+.sp-ar-box {
+  position: absolute;
+  inset: 2px;
+  border: 1.5px solid rgba(6,182,212,0.9);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(6,182,212,0.4), inset 0 0 6px rgba(6,182,212,0.1);
+  z-index: 5;
+}
+.sp-ar-box::before {
+  content: attr(data-pct);
+  position: absolute;
+  top: -18px; left: 50%; transform: translateX(-50%);
+  background: rgba(6,182,212,0.9);
+  color: #000;
+  font-size: 8px; font-weight: 800;
+  padding: 1px 4px; border-radius: 3px;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Compliance tint overlays */
+.shelf-tint-pass::after { background: rgba(16,185,129,0.08); }
+.shelf-tint-warn::after { background: rgba(245,158,11,0.1); }
+.shelf-tint-fail::after { background: rgba(239,68,68,0.15); }
+.shelf-tint-pass { box-shadow: 0 0 0 1.5px rgba(16,185,129,0.3) inset; }
+.shelf-tint-warn { box-shadow: 0 0 0 1.5px rgba(245,158,11,0.3) inset; }
+.shelf-tint-fail { box-shadow: 0 0 0 1.5px rgba(239,68,68,0.35) inset; }
+
+/* Store label bar at top of shelf thumb */
+.shelf-store-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 20px;
+  background: rgba(8,11,18,0.85);
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  z-index: 4;
+}
+
+/* Store indicator dot */
+.shelf-store-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* Scan animation for camera/verify */
+@keyframes ar-scan {
+  0% { top: 8px; opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: calc(100% - 8px); opacity: 0; }
+}
+.ar-scan-beam {
+  position: absolute;
+  left: 8px; right: 8px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6,182,212,0.9), transparent);
+  box-shadow: 0 0 8px rgba(6,182,212,0.6);
+  animation: ar-scan 2.2s ease-in-out infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Brand logo chips */
+.brand-chip {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: -0.3px;
+  flex-shrink: 0;
+}
+.brand-meridian { background: linear-gradient(135deg, #0891b2, #0e7490); color: #fff; }
+.brand-nestle { background: linear-gradient(135deg, #dc2626, #b91c1c); color: #fff; }
+.brand-unilever { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; }
+
+/* Confetti particles for payout */
+.confetti-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.confetti-p {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 1px;
+  animation: confetti-fall linear infinite;
+  opacity: 0;
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN TRANSITION IMPROVEMENTS
+═══════════════════════════════════════════════════════════ */
+.c-screen, .e-screen {
+  scroll-behavior: smooth;
+}
+/* Entry animation for first active screen */
+@keyframes screen-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.c-screen.first-load.active, .e-screen.first-load.active {
+  animation: screen-fade-in 0.5s ease-out forwards;
+}
+
+/* Hover microinteractions on cards */
+.task-card { transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s; }
+.task-card:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.15); }
+.result-item { transition: transform 0.15s, border-color 0.2s; }
+.result-item:hover { transform: translateY(-2px); }
+.alert-item { transition: border-color 0.2s; }
+.alert-item:hover { border-color: rgba(124,58,237,0.3); }
+
+/* Glassmorphism badge */
+.glass-badge {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Premium gradient text shortcut */
+.grad-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Shimmer loading skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--purple); }
+
+/* ═══════════════════════════════════════════════════════════
+   DEMO INTRO OVERLAY
+═══════════════════════════════════════════════════════════ */
+.demo-intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,11,18,0.92);
+  backdrop-filter: blur(20px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s;
+}
+.demo-intro-card {
+  background: var(--bg3);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 24px;
+  padding: 40px 48px;
+  max-width: 520px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--glow-purple), 0 40px 80px rgba(0,0,0,0.5);
+}
+.demo-intro-logo {
+  font-size: 32px;
+  font-weight: 900;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+.demo-intro-sub {
+  font-size: 15px;
+  color: var(--text2);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.demo-intro-features {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.demo-intro-feat {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+  .ct-header, .ct-row { grid-template-columns: 2fr 1fr 1fr; }
+  .ct-header div:last-child, .ct-row div:last-child { display: none; }
+  .desktop-frame { height: auto; min-height: 680px; }
+  .two-col { grid-template-columns: 1fr; }
+}
+
+/* ── Enterprise frame: scrollable on mobile ── */
+@media (max-width: 768px) {
+  .desktop-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .desktop-frame {
+    width: 100vw;
+    min-width: 320px;
+    transform-origin: top left;
+  }
+  .desktop-body { flex-direction: column; }
+  .ent-sidebar { display: none; }
+  .ent-main { width: 100%; }
+
+  /* Nav bar: bigger tap targets */
+  .dot { width: 10px; height: 10px; }
+  .dot.active { width: 24px; }
+  .nav-btn { width: 48px; height: 48px; font-size: 20px; }
+  .nav-bar { padding: 12px 16px 20px; }
+}
+
+/* ── Header bar ── */
+@media (max-width: 600px) {
+  .demo-header {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .screen-title { display: none; }
+  .mode-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+  .mode-btn { flex: 1; text-align: center; font-size: 12px; padding: 8px 10px; }
+}
+
+/* ── Phone frame: scale to viewport on small screens ── */
+@media (max-width: 480px) {
+  .phone-frame {
+    width: 100vw;
+    max-width: 390px;
+    height: calc(100vw * 844 / 390);
+    max-height: 844px;
+    border-radius: clamp(20px, 8vw, 55px);
+  }
+
+  .demo-shell {
+    padding: 0;
+    align-items: flex-start;
+  }
+  .phone-wrap {
+    margin: 0 auto;
+  }
+
+  /* Screen content inner padding */
+  .c-screen-inner { padding-top: 30px; }
+  .onboard-title { font-size: 26px; }
+  .payout-amount { font-size: 44px; }
+}
+
+/* ── Legacy fallback (keep existing rule merged in) ── */
+@media (max-width: 420px) {
+  .demo-header { flex-direction: column; align-items: flex-start; }
+  .mode-toggle { width: 100%; }
+  .mode-btn { flex: 1; }
+}
+</style>
+</head>
+<body data-mode="collector">
+<!-- LOADING SPLASH (1 second) -->
+<div id="loadingSplash" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.5s;">
+  <div style="font-size:48px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;">◆ MOSAIC</div>
+  <div style="font-size:14px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;">Physical World Intelligence</div>
+  <div style="display:flex;gap:6px;margin-top:8px;">
+    <div style="width:6px;height:6px;background:var(--purple);border-radius:50%;animation:dot-bounce 1s ease-in-out infinite;"></div>
+    <div style="width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:dot-bounce 1s ease-in-out 0.2s infinite;"></div>
+    <div style="width:6px;height:6px;background:var(--green);border-radius:50%;animation:dot-bounce 1s ease-in-out 0.4s infinite;"></div>
+  </div>
+  <style>@keyframes dot-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}</style>
+</div>
+
+<!-- INTRO OVERLAY -->
+<div class="demo-intro-overlay" id="introOverlay" style="display:none;">
+  <div class="demo-intro-card">
+    <div class="demo-intro-logo">◆ Mosaic</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">Interactive Product Demo · 2026</div>
+    <div class="demo-intro-sub">Experience the full Mosaic platform — from a collector's first gig to enterprise-grade compliance intelligence.</div>
+    <!-- Animated stats row -->
+    <div style="display:flex;gap:16px;justify-content:center;margin-bottom:20px;">
+      <div style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div id="introCount1" style="font-size:24px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">0</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Collector Screens</div>
+      </div>
+      <div style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div id="introCount2" style="font-size:24px;font-weight:900;color:var(--cyan);">0</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Enterprise Screens</div>
+      </div>
+      <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;color:var(--green);">AI✦</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;">Powered Platform</div>
+      </div>
+    </div>
+    <div class="demo-intro-features">
+      <div class="demo-intro-feat">📱 Full collector journey<br><span style="color:var(--text3);font-size:11px">Onboarding → Payout</span></div>
+      <div class="demo-intro-feat">🖥 Enterprise portal<br><span style="color:var(--text3);font-size:11px">Dashboard → Alerts</span></div>
+      <div class="demo-intro-feat">✦ Live AI analysis<br><span style="color:var(--text3);font-size:11px">Real data flows</span></div>
+    </div>
+    <button class="cta-btn" style="margin:0;width:100%;padding:16px;font-size:17px;" onclick="dismissIntro()">Start Demo →</button>
+    <div style="margin-top:14px;font-size:11px;color:var(--text3);">Use ← → arrow keys · Press 1 for Collector, 2 for Enterprise</div>
+  </div>
+</div>
+
+<div class="demo-shell">
+
+  <!-- HEADER -->
+  <div class="demo-header">
+    <div class="demo-logo">
+      <div class="demo-logo-dot"></div>
+      Mosaic
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div id="screenLabel" class="screen-title">
+        <span id="screenName">Onboarding</span> &nbsp;·&nbsp; Screen <span id="screenNum">1</span> of <span id="screenTotal">8</span>
+      </div>
+      <!-- Keyboard shortcut chips -->
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">←</kbd>
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">→</kbd>
+          navigate
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--purple-light);">1</kbd> collector
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
+          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--cyan);">2</kbd> enterprise
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btnCollector" onclick="setMode('collector')">📱 Collector App</button>
+        <button class="mode-btn" id="btnEnterprise" onclick="setMode('enterprise')">🖥 Enterprise Portal</button>
+      </div>
+      <button id="tourBtn" onclick="toggleTour()" style="background:rgba(123,47,247,0.12);border:1px solid rgba(123,47,247,0.4);color:rgba(167,139,250,0.9);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.02em;">▶ Demo Tour</button>
+      <div style="background:rgba(0,212,212,0.1);border:1px solid rgba(0,212,212,0.3);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;color:#00d4d4;white-space:nowrap;">V2</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PHONE FRAME ═══════════ -->
+  <div class="phone-wrap" id="phoneWrap">
+    <div class="phone-frame">
+      <div class="phone-notch"><div class="notch-cam"></div></div>
+      <div class="phone-statusbar">
+        <span class="statusbar-time">9:41</span>
+        <span class="statusbar-icons">●●● 5G 🔋</span>
+      </div>
+      <div class="phone-screen">
+        <div class="collector-screens" id="collectorScreens">
+
+          <!-- C1: Onboarding -->
+          <div class="c-screen active" id="c0">
+            <div class="c-screen-inner">
+              <div class="onboard-hero">
+                <div class="onboard-logo-ring">
+                  <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                    <circle cx="26" cy="26" r="18" stroke="url(#og)" stroke-width="2" fill="none" opacity="0.6"/>
+                    <circle cx="26" cy="26" r="10" stroke="url(#og)" stroke-width="2.5" fill="none"/>
+                    <circle cx="26" cy="26" r="4" fill="url(#og)"/>
+                    <line x1="8" y1="26" x2="44" y2="26" stroke="url(#og)" stroke-width="1.5" opacity="0.5"/>
+                    <line x1="26" y1="8" x2="26" y2="44" stroke="url(#og)" stroke-width="1.5" opacity="0.5"/>
+                    <defs><linearGradient id="og" x1="0" y1="0" x2="52" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                  </svg>
+                </div>
+                <div class="onboard-title">Earn money — anywhere<br>you already are.</div>
+                <div class="onboard-sub">Mosaic sends you real tasks near your location. Complete a shelf photo in 8 minutes, get paid instantly.<br><strong style="color:var(--text)">Average £18/hr · Results delivered to brands in under 10 minutes.</strong></div>
+                <div class="stat-row">
+                  <div class="stat-chip"><span class="val">£847</span><div class="lbl">Avg/Month</div></div>
+                  <div class="stat-chip"><span class="val">&lt;10min</span><div class="lbl">Task Time</div></div>
+                  <div class="stat-chip"><span class="val">4★+</span><div class="lbl">Rated</div></div>
+                </div>
+                <!-- Commute Mode highlight -->
+                <div style="background:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(124,58,237,0.06));border:1px solid rgba(6,182,212,0.22);border-radius:14px;padding:14px 16px;width:100%;text-align:left;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                    <span style="background:var(--cyan);color:#000;font-size:9px;font-weight:900;padding:2px 7px;border-radius:10px;letter-spacing:0.04em;">NEW</span>
+                    <span style="font-size:12px;font-weight:800;color:var(--cyan);">⚡ Commute Mode</span>
+                  </div>
+                  <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;">Earn £15 before you reach the office.</div>
+                  <!-- Commute route mini-map -->
+                  <div style="margin:8px 0;background:rgba(0,0,0,0.25);border-radius:10px;padding:8px;overflow:hidden;">
+                    <svg width="100%" height="56" viewBox="0 0 240 56" style="display:block;">
+                      <!-- Route path -->
+                      <path d="M12 44 Q40 44 52 36 Q64 28 80 28 Q100 28 110 22 Q124 16 140 16 Q160 16 170 22 Q184 28 200 28 Q216 28 228 20" stroke="rgba(6,182,212,0.25)" stroke-width="2.5" fill="none" stroke-dasharray="4,3"/>
+                      <!-- Tube/metro line highlight -->
+                      <path d="M12 44 Q40 44 52 36 Q64 28 80 28 Q100 28 110 22 Q124 16 140 16 Q160 16 170 22 Q184 28 200 28 Q216 28 228 20" stroke="url(#routeGrad)" stroke-width="2" fill="none" stroke-dasharray="100,200" stroke-dashoffset="-20">
+                        <animate attributeName="stroke-dashoffset" from="-20" to="-220" dur="3s" repeatCount="indefinite"/>
+                      </path>
+                      <defs><linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="transparent"/><stop offset="30%" stop-color="#06b6d4"/><stop offset="70%" stop-color="#7c3aed"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+                      <!-- Start: Home pin -->
+                      <circle cx="12" cy="44" r="5" fill="rgba(124,58,237,0.3)" stroke="#7c3aed" stroke-width="1.5"/>
+                      <circle cx="12" cy="44" r="2.5" fill="#a78bfa"/>
+                      <!-- Task pins along route -->
+                      <g transform="translate(80,28)">
+                        <circle r="6" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#06b6d4" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <g transform="translate(140,16)">
+                        <circle r="6" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#06b6d4" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <g transform="translate(200,28)">
+                        <circle r="6" fill="rgba(0,229,160,0.2)" stroke="#00e5a0" stroke-width="1.5"/>
+                        <text y="1" text-anchor="middle" font-size="7" fill="#00e5a0" font-family="sans-serif" dy="2.5">£</text>
+                      </g>
+                      <!-- End: Office pin -->
+                      <circle cx="228" cy="20" r="5" fill="rgba(0,229,160,0.3)" stroke="#00e5a0" stroke-width="1.5"/>
+                      <circle cx="228" cy="20" r="2.5" fill="#6ee7b7"/>
+                      <!-- Labels -->
+                      <text x="12" y="54" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.35)" font-family="sans-serif">Home</text>
+                      <text x="228" y="14" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.35)" font-family="sans-serif">Office</text>
+                      <text x="80" y="20" text-anchor="middle" font-size="7" fill="rgba(6,182,212,0.7)" font-family="sans-serif">+£5</text>
+                      <text x="140" y="10" text-anchor="middle" font-size="7" fill="rgba(6,182,212,0.7)" font-family="sans-serif">+£5</text>
+                      <text x="200" y="22" text-anchor="middle" font-size="7" fill="rgba(0,229,160,0.7)" font-family="sans-serif">+£5</text>
+                    </svg>
+                  </div>
+                  <div style="font-size:11px;color:var(--text2);line-height:1.55;">Tasks auto-matched to your daily commute. No detours. Complete a shelf scan on the way — get paid by the time you sit down.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;justify-content:center;font-size:11px;color:var(--text3);margin-bottom:8px;">
+                <span>✓ Free to join</span>
+                <span>·</span>
+                <span>✓ Instant payouts</span>
+                <span>·</span>
+                <span>✓ No detours needed</span>
+              </div>
+              <button class="cta-btn" onclick="goScreen(1)">Start Earning Now →</button>
+            </div>
+          </div>
+
+          <!-- C2: Task Feed (Home) -->
+          <div class="c-screen" id="c1">
+            <div class="app-header">
+              <div class="app-header-row">
+                <div>
+                  <div class="app-greeting">Good morning, Thursday 9:41 AM</div>
+                  <div class="app-name">Maya Chen 👋</div>
+                </div>
+                <div class="avatar">MC</div>
+              </div>
+              <div class="earnings-banner mt12">
+                <div><div class="earnings-label">This week's earnings</div><div class="earnings-val">£134.50</div></div>
+                <div class="text-xs text-muted">↑ 23% vs last week</div>
+              </div>
+            </div>
+            <!-- Commute mode banner -->
+            <div style="margin:0 16px 4px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.12));border:1px solid rgba(124,58,237,0.35);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:12px;font-weight:800;color:var(--purple-light);">⚡ COMMUTE MODE ACTIVE</div>
+                <div style="font-size:11px;color:var(--text2);margin-top:2px;">Tasks matched to Borough Market → Bank route</div>
+              </div>
+              <div style="background:rgba(124,58,237,0.3);color:var(--purple-light);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;">ON</div>
+            </div>
+            <div class="section-label" style="display:flex;align-items:center;gap:8px;">
+              📍 4 tasks on your route &nbsp;·&nbsp; Borough Market SE1
+              <span style="font-size:10px;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:2px 8px;font-weight:600;">⚡ Live</span>
+            </div>
+            <div class="task-card" onclick="goScreen(3)">
+              <div style="font-size:10px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">⚡ Best match — on your exact route</div>
+              <div class="task-card-top">
+                <div class="brand-chip brand-meridian">MF</div>
+                <div class="task-info">
+                  <div class="task-brand">Meridian Foods</div>
+                  <div class="task-name">Take shelf photos — Oat Milk aisle</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Sainsbury's Borough Market · 0.2mi north</div>
+                </div>
+                <div class="task-payout">£14.50</div>
+              </div>
+              <div class="task-meta">
+                <span class="tag tag-blue">📍 4 min walk</span>
+                <span class="tag tag-purple">⚡ 8 min task</span>
+                <span class="tag tag-green">✓ Pre-verified</span>
+                <span class="tag tag-amber">3 slots left</span>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-card-top">
+                <div class="brand-chip brand-nestle">NK</div>
+                <div class="task-info">
+                  <div class="task-brand">Nestlé UK</div>
+                  <div class="task-name">Take shelf photos — confectionery aisle</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Tesco Metro Southwark · 0.5mi</div>
+                </div>
+                <div class="task-payout">£9.00</div>
+              </div>
+              <div class="task-meta">
+                <span class="tag tag-blue">📍 8 min walk</span>
+                <span class="tag tag-purple">⚡ 5 min</span>
+                <span class="tag tag-amber">2 slots left</span>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-card-top">
+                <div class="brand-chip brand-unilever">UL</div>
+                <div class="task-info">
+                  <div class="task-brand">Unilever</div>
+                  <div class="task-name">Photo check — personal care display</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Boots Borough · 0.8mi</div>
+                </div>
+                <div class="task-payout">£22.00</div>
+              </div>
+              <div class="task-meta">
+                <span class="tag tag-blue">📍 14 min walk</span>
+                <span class="tag tag-purple">⚡ 15 min</span>
+                <span class="tag tag-green">💎 Bonus +£3</span>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-card-top">
+                <div class="brand-chip" style="background:linear-gradient(135deg,#713f12,#92400e);color:#fff;font-size:11px;font-weight:800;border-radius:10px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">PG</div>
+                <div class="task-info">
+                  <div class="task-brand">Procter &amp; Gamble</div>
+                  <div class="task-name">Quick shelf photo — household aisle</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:2px;">📍 Waitrose London Bridge · 1.1mi</div>
+                </div>
+                <div class="task-payout">£11.00</div>
+              </div>
+              <div class="task-meta">
+                <span class="tag tag-blue">📍 18 min walk</span>
+                <span class="tag tag-purple">⚡ 6 min</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- C3: Map View -->
+          <div class="c-screen" id="c2">
+            <div style="background:var(--bg2);padding:52px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Your Location</div>
+                <div style="font-size:16px;font-weight:700;margin-top:2px;">Borough Market, SE1 <span style="font-size:12px;color:var(--cyan);font-weight:600;">● Live</span></div>
+              </div>
+              <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:6px 12px;font-size:12px;color:var(--green);font-weight:700;">4 tasks nearby</div>
+            </div>
+            <div class="map-filter-row">
+              <span class="tag tag-purple" style="cursor:pointer">All Tasks</span>
+              <span class="tag tag-blue" style="cursor:pointer">🥛 Dairy</span>
+              <span class="tag tag-green" style="cursor:pointer">🍫 Snacks</span>
+              <span class="tag tag-amber" style="cursor:pointer">🧴 Personal Care</span>
+            </div>
+            <div class="map-container" style="height:360px;">
+              <svg class="map-svg" viewBox="0 0 390 360" style="opacity:1;">
+                <rect fill="#070d1a" width="390" height="360"/>
+                <!-- Major roads -->
+                <g stroke="#161f35" stroke-width="8" fill="none" opacity="0.9">
+                  <line x1="0" y1="180" x2="390" y2="180"/>
+                  <line x1="195" y1="0" x2="195" y2="360"/>
+                  <path d="M0 120 Q195 140 390 120"/>
+                  <path d="M0 240 Q195 220 390 240"/>
+                </g>
+                <!-- Minor streets -->
+                <g stroke="#111827" stroke-width="3" fill="none">
+                  <line x1="0" y1="90" x2="390" y2="90"/>
+                  <line x1="0" y1="270" x2="390" y2="270"/>
+                  <line x1="100" y1="0" x2="100" y2="360"/>
+                  <line x1="290" y1="0" x2="290" y2="360"/>
+                </g>
+                <!-- River Thames (wider, more realistic) -->
+                <path d="M0 220 Q80 200 160 215 Q240 230 320 210 Q360 200 390 205" stroke="#0a1e38" stroke-width="28" fill="none" opacity="0.85"/>
+                <!-- Building blocks -->
+                <rect x="110" y="95" width="75" height="75" rx="3" fill="#0f1624"/>
+                <rect x="200" y="95" width="75" height="75" rx="3" fill="#0f1624"/>
+                <rect x="110" y="195" width="75" height="60" rx="3" fill="#0f1624"/>
+                <rect x="200" y="195" width="75" height="60" rx="3" fill="#0f1624"/>
+                <rect x="20" y="130" width="65" height="45" rx="3" fill="#0f1624"/>
+                <rect x="305" y="130" width="65" height="45" rx="3" fill="#0f1624"/>
+                <!-- Street labels -->
+                <text x="130" y="87" fill="#1e2d45" font-size="9" font-family="Inter, sans-serif">Borough High St</text>
+                <text x="60" y="177" fill="#1e2d45" font-size="8" font-family="Inter, sans-serif">Southwark St</text>
+                <text x="220" y="177" fill="#1e2d45" font-size="8" font-family="Inter, sans-serif">London Bridge St</text>
+                <!-- Commute route highlight -->
+                <path d="M195 300 Q210 260 235 155" stroke="rgba(124,58,237,0.6)" stroke-width="3" fill="none" stroke-dasharray="6,4"/>
+              </svg>
+              <div class="map-overlay">
+                <!-- User position (bottom center) -->
+                <div class="map-user-pin" style="left:195px;top:300px;">
+                  <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--cyan);color:#000;font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;">YOU</div>
+                </div>
+                <!-- Commute route label -->
+                <div style="position:absolute;left:238px;top:210px;font-size:9px;color:rgba(124,58,237,0.8);white-space:nowrap;font-weight:600;">── Your route</div>
+                <!-- Task pin 1: CLOSEST — Sainsbury's -->
+                <div class="map-pin pin-purple" style="left:235px;top:150px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(124,58,237,0.95);border:2px solid rgba(124,58,237,0.8);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 12px rgba(124,58,237,0.5);">
+                    £14.50 · 0.2mi
+                    <div style="font-size:9px;font-weight:600;opacity:0.8">Sainsbury's · ON YOUR ROUTE</div>
+                  </div>
+                </div>
+                <!-- Task pin 2 -->
+                <div class="map-pin pin-cyan" style="left:140px;top:230px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(6,182,212,0.9);border:2px solid rgba(6,182,212,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
+                    £9.00 · 0.5mi
+                    <div style="font-size:9px;opacity:0.7">Tesco Metro</div>
+                  </div>
+                </div>
+                <!-- Task pin 3 -->
+                <div class="map-pin pin-green" style="left:310px;top:200px;width:auto;transform:translate(-50%,-50%);">
+                  <div style="background:rgba(16,185,129,0.9);border:2px solid rgba(16,185,129,0.6);border-radius:8px;padding:4px 8px;white-space:nowrap;font-size:11px;font-weight:700;color:#000;">
+                    £22.00 · 0.8mi
+                    <div style="font-size:9px;opacity:0.7">Boots</div>
+                  </div>
+                </div>
+              </div>
+              <div class="map-task-popup">
+                <div style="font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">⚡ Best match on your route</div>
+                <div class="flex-between mb8">
+                  <div>
+                    <div class="text-xs text-muted">Meridian Foods · Sainsbury's Borough Market</div>
+                    <div class="fw700">Oat+ Shelf Check &amp; Compliance</div>
+                    <div style="font-size:11px;color:var(--text2);margin-top:3px;">📍 0.2mi north · ~4 min walk · 8 min task</div>
+                  </div>
+                  <div class="text-green fw800" style="font-size:18px;">£14.50</div>
+                </div>
+                <button class="cta-btn" style="margin:0;width:100%;padding:12px;" onclick="goScreen(3)">Accept &amp; Navigate →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- C4: Task Detail -->
+          <div class="c-screen" id="c3">
+            <div class="task-detail-hero">
+              <img class="task-detail-hero-bg" src="deck-assets/mosaic-store-exterior-v1.png" alt="" onerror="this.remove()">
+              <div class="task-hero-brand">Meridian Foods · Sainsbury's Borough Market</div>
+              <div class="task-hero-name">Oat+ Oat Milk — Shelf Photo</div>
+              <div class="task-hero-earn">£14.50 <span>/ ~8 min</span></div>
+              <div class="task-meta mt8">
+                <span class="tag tag-blue">📍 0.2mi away</span>
+                <span class="tag tag-purple">3 photos</span>
+                <span class="tag tag-green">~8 min</span>
+              </div>
+            </div>
+            <!-- Location card -->
+            <div style="margin:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+              <div style="display:flex;align-items:stretch;">
+                <div style="flex:1;padding:12px 14px;">
+                  <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:6px;">📍 Location</div>
+                  <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.3;">Sainsbury's<br>Borough Market</div>
+                  <div style="font-size:12px;color:var(--text2);margin-top:4px;">15 Borough High St, SE1 1NB</div>
+                  <div style="margin-top:8px;display:flex;gap:8px;">
+                    <span style="font-size:11px;background:rgba(6,182,212,0.12);color:var(--cyan);border:1px solid rgba(6,182,212,0.25);border-radius:6px;padding:3px 8px;font-weight:600;">📍 0.2mi · 4 min walk</span>
+                    <span style="font-size:11px;background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.25);border-radius:6px;padding:3px 8px;font-weight:600;">⏰ Opens 7am</span>
+                  </div>
+                  <div style="margin-top:8px;font-size:11px;color:var(--purple-light);font-weight:600;cursor:pointer;">▶ Start Navigation →</div>
+                </div>
+                <!-- Mini static map -->
+                <div style="width:110px;background:#070e1a;flex-shrink:0;position:relative;">
+                  <svg width="110" height="100%" viewBox="0 0 110 120" style="display:block;">
+                    <rect fill="#060c18" width="110" height="120"/>
+                    <g stroke="#111f35" stroke-width="4" fill="none">
+                      <line x1="0" y1="60" x2="110" y2="60"/>
+                      <line x1="55" y1="0" x2="55" y2="120"/>
+                    </g>
+                    <rect x="20" y="15" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="60" y="15" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="20" y="65" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <rect x="60" y="65" width="30" height="40" rx="2" fill="#0d1624"/>
+                    <!-- Route line from user to store -->
+                    <path d="M55 110 L55 72" stroke="rgba(124,58,237,0.8)" stroke-width="2.5" stroke-dasharray="4,3"/>
+                    <!-- User dot -->
+                    <circle cx="55" cy="110" r="5" fill="var(--cyan)" stroke="#fff" stroke-width="2"/>
+                    <!-- Store pin -->
+                    <circle cx="55" cy="65" r="8" fill="var(--purple)" stroke="rgba(124,58,237,0.6)" stroke-width="2"/>
+                    <text x="55" y="69" text-anchor="middle" fill="#fff" font-size="9" font-weight="800" font-family="Inter,sans-serif">S</text>
+                    <text x="55" y="85" text-anchor="middle" fill="#94a3b8" font-size="7" font-family="Inter,sans-serif">0.2mi</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="task-steps">
+              <div class="text-xs text-muted fw700 mb8" style="text-transform:uppercase;letter-spacing:0.08em;">What to do · Aisle 6</div>
+              <div class="task-step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                  <div class="step-title">Head to Aisle 6 — Dairy Alternatives</div>
+                  <div class="step-desc">Enter via Borough High St entrance. Look for the oat milk section — white &amp; blue cartons.</div>
+                </div>
+              </div>
+              <div class="task-step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                  <div class="step-title">Take 3 photos of the shelf</div>
+                  <div class="step-desc">Stand back 1–2m so the full section is in frame. Good lighting helps — no flash needed.</div>
+                </div>
+              </div>
+              <div class="task-step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                  <div class="step-title">Submit — get paid instantly</div>
+                  <div class="step-desc">We check your photos automatically. If they're clear and complete, you get paid right away.</div>
+                </div>
+              </div>
+            </div>
+            <div class="task-examples mb12">
+              <div class="text-xs text-muted fw700 mb8" style="text-transform:uppercase;letter-spacing:0.08em;">Reference Photo</div>
+              <div class="example-img" style="overflow:hidden;position:relative">
+                <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Reference shelf" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="shelf-visual shelf-tint-pass" style="height:100%;display:none">
+                  <div class="shelf-store-bar"><div class="shelf-store-dot" style="background:var(--green)"></div>Reference · Sainsbury's Borough Market</div>
+                  <div class="s-row" style="margin-top:24px">
+                    <div class="sp sp-oat-feat sp-tag"><div class="sp-ar-box" data-pct="✓ Oat+"></div></div>
+                    <div class="sp sp-oat-feat sp-tag"></div>
+                    <div class="sp sp-oat sp-tag"></div>
+                    <div class="sp sp-oat sp-tag"></div>
+                    <div class="sp sp-oat sp-tag"></div>
+                    <div class="sp sp-green sp-tag"></div>
+                    <div class="sp sp-green sp-tag"></div>
+                  </div>
+                  <div class="s-row">
+                    <div class="sp sp-white sp-tag"></div>
+                    <div class="sp sp-white sp-tag"></div>
+                    <div class="sp sp-amber sp-tag"></div>
+                    <div class="sp sp-amber sp-tag"></div>
+                    <div class="sp sp-purple sp-tag"></div>
+                    <div class="sp sp-purple sp-tag"></div>
+                    <div class="sp sp-red sp-tag"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="cta-btn" onclick="goScreen(4)">Start Task →</button>
+          </div>
+
+          <!-- C5: Camera -->
+          <div class="c-screen" id="c4">
+            <div class="camera-view">
+              <div class="camera-bg" style="position:relative;overflow:hidden">
+                <img src="deck-assets/mosaic-store-worker-v2.png" alt="Collector in store" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;display:block;filter:brightness(0.8)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="shelf-sim" style="display:none">
+                  <div class="shelf-row">
+                    <div class="product-slot featured"></div>
+                    <div class="product-slot featured"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot empty"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                  </div>
+                  <div class="shelf-row">
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot empty"></div>
+                    <div class="product-slot stocked"></div>
+                  </div>
+                  <div class="shelf-row">
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot empty"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                    <div class="product-slot stocked"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="camera-overlay">
+                <div class="camera-corner tl"></div>
+                <div class="camera-corner tr"></div>
+                <div class="camera-corner bl"></div>
+                <div class="camera-corner br"></div>
+                <div class="camera-scan-line"></div>
+                <div class="camera-detect-badge" id="cameraDetectBadge">🔍 Detecting: Oat+ Oat Milk shelf</div>
+              </div>
+              <!-- Scan progress bar -->
+              <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.06);">
+                <div id="cameraScanBar" style="height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#06b6d4);transition:width 2s ease-out;"></div>
+              </div>
+            </div>
+            <div class="camera-controls">
+              <div class="camera-tip" id="cameraTip">📸 Scanning… keep shelf in frame</div>
+              <button class="shutter-btn" id="shutterBtn" onclick="goScreen(5)" style="opacity:0.4;transition:opacity 0.3s,box-shadow 0.3s;"></button>
+              <div class="camera-gallery"></div>
+            </div>
+          </div>
+
+          <!-- C6: AI Verification -->
+          <div class="c-screen" id="c5" style="position:relative;">
+            <!-- Analysing overlay (Fix 1) -->
+            <div id="c6Analysing" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,15,0.95);z-index:10;gap:20px">
+              <div style="width:48px;height:48px;border:3px solid rgba(0,212,212,0.2);border-top-color:#00d4d4;border-radius:50%;animation:spin 0.8s linear infinite"></div>
+              <div style="font-size:16px;color:#00d4d4;font-weight:700">Analysing photos…</div>
+              <div id="c6AnalysingProgress" style="width:240px;height:4px;background:rgba(0,212,212,0.15);border-radius:4px;overflow:hidden">
+                <div id="c6AnalysingBar" style="height:100%;width:0%;background:linear-gradient(90deg,#7c6df5,#00d4d4);transition:width 1.8s ease-out;border-radius:4px"></div>
+              </div>
+              <div id="c6AnalysingStatus" style="font-size:13px;color:#606090">Detecting products…</div>
+            </div>
+            <div class="verify-header">
+              <div class="verify-title">Checking your photos…</div>
+              <div class="verify-sub">Usually takes a few seconds · <span style="color:var(--green)">Almost done</span></div>
+            </div>
+            <div class="verify-photo" style="position:relative;overflow:hidden">
+              <img src="deck-assets/mosaic-shelf-scan-v2.png" alt="AI scan" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'">
+              <div class="shelf-visual" style="height:100%;background:#0d1520;position:absolute;inset:0;opacity:0;" aria-hidden="true">
+                <div class="ar-scan-beam"></div>
+                <div class="shelf-store-bar"><div class="shelf-store-dot" style="background:var(--cyan)"></div>Live capture · AI scanning…</div>
+                <div class="s-row" style="margin-top:22px">
+                  <div class="sp sp-oat-feat sp-lg"><div class="sp-ar-box" data-pct="100%"></div></div>
+                  <div class="sp sp-oat-feat sp-lg"><div class="sp-ar-box" data-pct="100%"></div></div>
+                  <div class="sp sp-oat sp-lg"><div class="sp-ar-box" data-pct="94%"></div></div>
+                  <div class="sp sp-oat sp-lg"><div class="sp-ar-box" data-pct="87%"></div></div>
+                  <div class="sp sp-empty sp-lg" style="border-color:rgba(239,68,68,0.5)"><div class="sp-ar-box" style="border-color:rgba(239,68,68,0.8);box-shadow:0 0 6px rgba(239,68,68,0.4)" data-pct="EMPTY"></div></div>
+                  <div class="sp sp-green sp-lg"><div class="sp-ar-box" data-pct="91%"></div></div>
+                </div>
+                <div class="s-row">
+                  <div class="sp sp-white"></div>
+                  <div class="sp sp-white"></div>
+                  <div class="sp sp-amber"></div>
+                  <div class="sp sp-amber"></div>
+                  <div class="sp sp-purple"></div>
+                  <div class="sp sp-purple"></div>
+                </div>
+              </div>
+              <div class="verify-tag detect">✓ Product Detected</div>
+              <div class="verify-tag compliant">✓ Compliant</div>
+            </div>
+            <!-- Scanning state -->
+            <div id="aiScanningState" style="display:none;margin:12px 20px 0;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:12px;padding:16px;text-align:center;">
+              <div style="font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:8px;" id="scanStateText">🔍 Checking your photos…</div>
+              <div style="height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;">
+                <div id="scanProgressBar" style="height:100%;background:var(--gradient);border-radius:2px;width:0;transition:width 0.8s ease-in-out;"></div>
+              </div>
+            </div>
+            <div class="ai-analysis mt12" id="aiResultsBlock">
+              <div class="ai-title">✦ Photo Check</div>
+              <div class="ai-result-card">
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0s;">
+                  <span class="ai-row-label">Photos clear</span>
+                  <span class="ai-row-val ok">✓ All 3 accepted</span>
+                </div>
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.25s;">
+                  <span class="ai-row-label">Shelf in frame</span>
+                  <span class="ai-row-val ok">✓ Full section visible</span>
+                </div>
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.5s;">
+                  <span class="ai-row-label">Lighting</span>
+                  <span class="ai-row-val ok">✓ Good</span>
+                </div>
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:0.75s;">
+                  <span class="ai-row-label">Right location</span>
+                  <span class="ai-row-val ok">✓ Sainsbury's Borough confirmed</span>
+                </div>
+                <div class="ai-row" style="opacity:0;transition:opacity 0.3s;transition-delay:1.0s;">
+                  <span class="ai-row-label">Quality score</span>
+                  <span class="ai-row-val ok fw800">92 / 100 ✓</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 20px 0;">
+              <div class="check-circle" style="margin:0;flex-shrink:0">
+                <svg class="check-svg" viewBox="0 0 56 56" fill="none">
+                  <circle cx="28" cy="28" r="26" stroke-dasharray="170" stroke-dashoffset="170"/>
+                  <path d="M16 28 L24 36 L40 20"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size:15px;font-weight:700;color:var(--green)">Photos accepted!</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:2px">Quality score 92/100 · Bonus unlocked 🎉</div>
+              </div>
+            </div>
+            <div style="margin:12px 20px 0;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.5;">
+              Great work! Your photos were clear and complete. You earned a quality bonus on top of your base pay.
+            </div>
+            <button class="cta-btn mt8" onclick="goScreen(6)">Submit & Collect £14.50 →</button>
+          </div>
+
+          <!-- C7: Complete / Payout -->
+          <div class="c-screen" id="c6">
+            <div class="payout-hero" style="position:relative">
+              <div class="confetti-wrap" id="confettiWrap"></div>
+              <div style="font-size:60px;position:relative;z-index:1">🎉</div>
+              <div class="payout-amount" id="payoutMainAmt">£14.50</div>
+              <div class="payout-label">earned in 7 minutes</div>
+              <div class="payout-breakdown">
+                <div class="payout-row"><span class="key">Base pay</span><span class="val" id="payRow1">£12.00</span></div>
+                <div class="payout-row"><span class="key">Quality bonus (92/100)</span><span class="val text-green" id="payRow2">+£2.00</span></div>
+                <div class="payout-row"><span class="key">Speed bonus (&lt; 10 min)</span><span class="val text-cyan" id="payRow3">+£0.50</span></div>
+                <div class="payout-row total"><span class="key fw700">Total</span><span class="val" id="payRowTotal">£14.50</span></div>
+              </div>
+              <div class="text-xs text-muted">💸 Instant transfer to Monzo · Available now</div>
+            </div>
+            <!-- View History button -->
+            <div style="padding:12px 20px 0;display:flex;gap:10px;">
+              <button onclick="togglePayoutHistory(this)" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(124,58,237,0.4)'" onmouseout="this.style.borderColor='var(--border)'">📋 View History</button>
+              <button onclick="goScreen(7)" style="flex:1;background:var(--gradient);border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;">Earnings Dashboard →</button>
+            </div>
+            <!-- History panel (hidden initially) -->
+            <div id="payoutHistoryPanel" style="display:none;margin:10px 20px 0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+              <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);">Last 5 tasks</div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Oat+ · Sainsbury's Borough</span><span style="color:var(--green);font-weight:700;">+£14.50</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">KitKat · Tesco Clapham</span><span style="color:var(--green);font-weight:700;">+£9.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Dove Promo · Boots</span><span style="color:var(--green);font-weight:700;">+£22.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Ariel End-Cap · Waitrose</span><span style="color:var(--green);font-weight:700;">+£11.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:12px;"><span style="color:var(--text2)">Shelf Audit · Co-op Borough</span><span style="color:var(--green);font-weight:700;">+£18.00</span></div>
+            </div>
+            <div class="next-tasks">
+              <div class="section-label" style="padding:0 0 10px;">Tasks Nearby</div>
+              <div class="nearby-task">
+                <div class="brand-chip brand-nestle" style="width:36px;height:36px;font-size:11px;border-radius:8px">NK</div>
+                <div class="nearby-body">
+                  <div class="nearby-name">KitKat Display Check</div>
+                  <div class="nearby-meta">Tesco Metro · 0.3mi</div>
+                </div>
+                <div class="nearby-earn">£9.00</div>
+              </div>
+              <div class="nearby-task">
+                <div class="brand-chip brand-unilever" style="width:36px;height:36px;font-size:11px;border-radius:8px">UL</div>
+                <div class="nearby-body">
+                  <div class="nearby-name">Dove Promo Scan</div>
+                  <div class="nearby-meta">Boots · 0.5mi</div>
+                </div>
+                <div class="nearby-earn">£22.00</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- C8: Earnings Dashboard -->
+          <div class="c-screen" id="c7">
+            <div class="earnings-header">
+              <div class="flex-between">
+                <div class="app-name">My Earnings</div>
+                <div class="tag tag-purple">April 2026</div>
+              </div>
+            </div>
+            <div class="earnings-main">
+              <div class="earnings-big">£847.50</div>
+              <div class="earnings-period">This month · 68 tasks completed</div>
+              <div class="progress-bar mt12" style="--pct:73%">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="flex-between mt8">
+                <span class="text-xs text-muted">73% to £1,200 goal</span>
+                <span class="text-xs text-green">+12% vs March</span>
+              </div>
+            </div>
+            <div class="bar-chart">
+              <div class="bar-chart-title">Daily Earnings · Last 7 Days</div>
+              <div class="bars">
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:45px;transition-delay:0.05s"></div>
+                  <div class="bar-lbl">Mon</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:60px;transition-delay:0.1s"></div>
+                  <div class="bar-lbl">Tue</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:35px;transition-delay:0.15s"></div>
+                  <div class="bar-lbl">Wed</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:70px;transition-delay:0.2s"></div>
+                  <div class="bar-lbl">Thu</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:50px;transition-delay:0.25s"></div>
+                  <div class="bar-lbl">Fri</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:78px;transition-delay:0.3s"></div>
+                  <div class="bar-lbl">Sat</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar-fill" style="height:55px;transition-delay:0.35s"></div>
+                  <div class="bar-lbl">Sun</div>
+                </div>
+              </div>
+            </div>
+            <div class="badge-row">
+              <div class="badge">
+                <span class="badge-icon">⚡</span>
+                <div class="badge-name">Speed Demon</div>
+                <div class="badge-sub">Avg 6.2 min/task</div>
+              </div>
+              <div class="badge">
+                <span class="badge-icon">🎯</span>
+                <div class="badge-name">Top Collector</div>
+                <div class="badge-sub">Top 5% in London</div>
+              </div>
+              <div class="badge">
+                <span class="badge-icon">💎</span>
+                <div class="badge-name">Quality Pro</div>
+                <div class="badge-sub">94.2 avg score</div>
+              </div>
+            </div>
+            <!-- Recent Tasks (Fix 6) -->
+            <div style="padding:0 20px 4px;">
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px 16px;">
+                <div style="font-size:12px;color:#606090;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Recent Tasks</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                    <div>
+                      <div style="font-size:14px;font-weight:700">Shelf audit · Sainsbury's Brixton</div>
+                      <div style="font-size:12px;color:#606090">Today · 08:42 · Brixton, SW9</div>
+                    </div>
+                    <div style="color:#00e096;font-weight:800;font-size:15px">+£4.50</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                    <div>
+                      <div style="font-size:14px;font-weight:700">Shelf audit · Tesco Stratford</div>
+                      <div style="font-size:12px;color:#606090">Today · 09:15 · Stratford, E15</div>
+                    </div>
+                    <div style="color:#00e096;font-weight:800;font-size:15px">+£5.50</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                    <div>
+                      <div style="font-size:14px;font-weight:700">Display check · Boots Canary Wharf</div>
+                      <div style="font-size:12px;color:#606090">Yesterday · 17:30 · Canary Wharf, E14</div>
+                    </div>
+                    <div style="color:#00e096;font-weight:800;font-size:15px">+£3.00</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                    <div>
+                      <div style="font-size:14px;font-weight:700">Promo audit · Waitrose Clapham</div>
+                      <div style="font-size:12px;color:#606090">Yesterday · 14:05 · Clapham, SW4</div>
+                    </div>
+                    <div style="color:#00e096;font-weight:800;font-size:15px">+£4.00</div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                    <div>
+                      <div style="font-size:14px;font-weight:700">Shelf audit · M&amp;S Islington</div>
+                      <div style="font-size:12px;color:#606090">Mon · 11:22 · Islington, N1</div>
+                    </div>
+                    <div style="color:#00e096;font-weight:800;font-size:15px">+£5.00</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transaction history -->
+            <div style="padding:0 20px 20px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:10px;">Recent Transactions</div>
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Oat+ Shelf Check · Sainsbury's</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Today 9:47 AM · 7 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£14.50</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">KitKat Display · Tesco Metro</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Today 8:55 AM · 5 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£9.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Dove Promo Display · Boots</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Yesterday 3:12 PM · 14 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£22.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+                  <div><div style="font-weight:600;">Ariel End-Cap · Waitrose</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Yesterday 9:30 AM · 6 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£11.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:12px;">
+                  <div><div style="font-weight:600;">Shelf Audit · Co-op Borough</div><div style="font-size:10px;color:var(--text3);margin-top:2px;">Mon 11:00 AM · 9 min</div></div>
+                  <div style="color:var(--green);font-weight:700;">+£18.00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /collector-screens -->
+      </div><!-- /phone-screen -->
+    </div><!-- /phone-frame -->
+  </div><!-- /phone-wrap -->
+
+  <!-- ═══════════ ENTERPRISE DESKTOP ═══════════ -->
+  <div class="desktop-wrap" id="desktopWrap">
+    <div class="desktop-frame">
+      <div class="desktop-titlebar">
+        <div class="titlebar-dot"></div>
+        <div class="titlebar-dot"></div>
+        <div class="titlebar-dot"></div>
+        <div class="titlebar-url"><span>🔒</span> portal.mosaic.ai/meridian-foods/dashboard</div>
+      </div>
+      <div class="desktop-body">
+        <!-- Sidebar -->
+        <div class="ent-sidebar">
+          <div class="ent-logo">◆ Mosaic</div>
+          <div class="ent-nav-item active" id="nav-e0" onclick="goScreen(0)">
+            <span class="ent-nav-icon">📊</span> Dashboard
+          </div>
+          <div class="ent-nav-item" id="nav-e1" onclick="goScreen(1)">
+            <span class="ent-nav-icon">🎯</span> Campaigns
+          </div>
+          <div class="ent-nav-item" id="nav-e2" onclick="goScreen(2)">
+            <span class="ent-nav-icon">🗺</span> Live Map
+          </div>
+          <div class="ent-nav-item" id="nav-e3" onclick="goScreen(3)">
+            <span class="ent-nav-icon">📸</span> Gallery
+          </div>
+          <div class="ent-nav-item" id="nav-e4" onclick="goScreen(4)">
+            <span class="ent-nav-icon">📋</span> Compliance
+          </div>
+          <div class="ent-nav-item" id="nav-e5" onclick="goScreen(5)">
+            <span class="ent-nav-icon">🔔</span> Alerts <span style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;">3</span>
+          </div>
+          <div style="margin-top:auto;padding:16px 20px;border-top:1px solid var(--border);">
+            <div class="text-xs text-muted">Meridian Foods Ltd.</div>
+            <div class="text-xs text-muted mt8">Oat+ · 247 active monitors</div>
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="ent-main" style="position:relative;">
+          <!-- Scroll to top button for enterprise screens -->
+          <button id="scrollTopBtn" onclick="scrollEntToTop()" style="display:none;position:absolute;bottom:20px;right:20px;z-index:50;width:36px;height:36px;background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.35);border-radius:50%;color:var(--cyan);font-size:16px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.3);" title="Scroll to top">↑</button>
+          <div class="enterprise-screens" id="enterpriseScreens">
+
+            <!-- E1: Overview Dashboard -->
+            <div class="e-screen" id="e0">
+              <div class="ent-screen-inner">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div class="ent-page-title" style="margin-bottom:0;">Campaign Overview</div>
+                  <div style="display:flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--green);">
+                    <div style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:live-blink 1s ease-in-out infinite;"></div>
+                    LIVE
+                  </div>
+                </div>
+                <div class="ent-page-sub">Oat+ Oat Milk 1L · 247 active stores · <span style="color:var(--green)">refreshed <span id="refreshTicker">0</span>s ago</span></div>
+                <div class="metrics-grid">
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
+                    <div class="metric-label">Compliance Score</div>
+                    <div class="metric-val green">87.4%</div>
+                    <div class="metric-trend up">↑ 3.2% this week</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Compliance Detail</div>
+                      <div class="metric-tooltip-row"><strong>Pass:</strong> 216 stores (87.4%)</div>
+                      <div class="metric-tooltip-row"><strong>Warning:</strong> 19 stores (7.7%)</div>
+                      <div class="metric-tooltip-row"><strong>Fail:</strong> 12 stores (4.9%)</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--green);">↑ Up from 84.2% last week</div>
+                    </div>
+                  </div>
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
+                    <div class="metric-label">Stores Audited</div>
+                    <div class="metric-val cyan">247</div>
+                    <div class="metric-trend up">↑ 18 new today</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Coverage Detail</div>
+                      <div class="metric-tooltip-row"><strong>London:</strong> 98 stores</div>
+                      <div class="metric-tooltip-row"><strong>New York:</strong> 87 stores</div>
+                      <div class="metric-tooltip-row"><strong>Chicago:</strong> 62 stores</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;">Target: 500 by M6</div>
+                    </div>
+                  </div>
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
+                    <div class="metric-label">Critical Issues</div>
+                    <div class="metric-val amber">12</div>
+                    <div class="metric-trend down">↓ 4 resolved today</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Issue Breakdown</div>
+                      <div class="metric-tooltip-row"><strong>Out of stock:</strong> 5 stores</div>
+                      <div class="metric-tooltip-row"><strong>Wrong placement:</strong> 4 stores</div>
+                      <div class="metric-tooltip-row"><strong>Missing promo:</strong> 3 stores</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--amber);">~$4,200 daily revenue impact</div>
+                    </div>
+                  </div>
+                  <div class="metric-card" style="cursor:pointer;position:relative;" onclick="toggleMetricTooltip(this)">
+                    <div class="metric-label">Avg Facing Score</div>
+                    <div class="metric-val purple">3.8 / 4</div>
+                    <div class="metric-trend up">↑ 0.2 vs target</div>
+                    <div class="metric-tooltip">
+                      <div class="metric-tooltip-title">Facing Score Detail</div>
+                      <div class="metric-tooltip-row"><strong>4/4 facings:</strong> 164 stores (66%)</div>
+                      <div class="metric-tooltip-row"><strong>3/4 facings:</strong> 58 stores (23%)</div>
+                      <div class="metric-tooltip-row"><strong>&lt;3 facings:</strong> 25 stores (10%)</div>
+                      <div class="metric-tooltip-row" style="margin-top:6px;color:var(--purple-light);">Industry avg: 3.2/4</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="map-panel">
+                  <div class="map-panel-inner" style="position:relative;overflow:hidden;">
+                    <!-- London map background -->
+                    <img src="deck-assets/mosaic-map-london-v1.png" alt="London compliance map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.65;">
+                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 50% 50%,transparent 50%,rgba(13,17,23,0.5) 100%);"></div>
+                    <!-- Compliant stores -->
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:48%;top:35%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:10px;height:10px;left:52%;top:58%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:58%;top:40%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:45%;top:65%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:55%;top:30%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:65%;top:60%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:42%;top:72%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:8px;height:8px;left:38%;top:38%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:62%;top:45%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:44%;top:50%;z-index:2"></div>
+                    <div class="uk-dot compliant" style="width:7px;height:7px;left:56%;top:68%;z-index:2"></div>
+                    <!-- Warning stores -->
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:40%;top:45%;z-index:2"></div>
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:35%;top:55%;z-index:2"></div>
+                    <div class="uk-dot warning" style="width:8px;height:8px;left:60%;top:35%;z-index:2"></div>
+                    <!-- Critical stores with pulse rings -->
+                    <div style="position:absolute;width:10px;height:10px;left:60%;top:50%;z-index:2;transform:translate(-50%,-50%);">
+                      <div class="uk-dot critical" style="width:10px;height:10px;position:absolute;inset:0;"></div>
+                      <div style="position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(239,68,68,0.5);animation:pin-pulse 1.5s ease-in-out infinite;"></div>
+                      <div style="position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);animation:pin-pulse 1.5s ease-in-out 0.5s infinite;"></div>
+                    </div>
+                    <div class="uk-dot critical" style="width:8px;height:8px;left:50%;top:48%;z-index:2"></div>
+                    <div style="position:absolute;top:8px;left:8px;font-size:11px;color:var(--text3);z-index:2;">🇬🇧 London · 247 stores</div>
+                    <div style="position:absolute;bottom:8px;right:8px;display:flex;gap:8px;font-size:10px;align-items:center;z-index:2;">
+                      <span style="display:flex;align-items:center;gap:4px;color:var(--green)"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block"></span>215 OK</span>
+                      <span style="display:flex;align-items:center;gap:4px;color:var(--amber)"><span style="width:8px;height:8px;background:var(--amber);border-radius:50%;display:inline-block"></span>20 Warn</span>
+                      <span style="display:flex;align-items:center;gap:4px;color:var(--red)"><span style="width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block"></span>12 Crit</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="two-col">
+                  <div class="chart-card">
+                    <div class="chart-card-title">Weekly Compliance Trend</div>
+                    <div class="mini-bars">
+                      <div class="mini-bar" style="height:35px;transition-delay:0.05s"></div>
+                      <div class="mini-bar" style="height:42px;transition-delay:0.1s"></div>
+                      <div class="mini-bar" style="height:38px;transition-delay:0.15s"></div>
+                      <div class="mini-bar" style="height:50px;transition-delay:0.2s"></div>
+                      <div class="mini-bar" style="height:45px;transition-delay:0.25s"></div>
+                      <div class="mini-bar highlight" style="height:55px;transition-delay:0.3s"></div>
+                      <div class="mini-bar highlight" style="height:58px;transition-delay:0.35s"></div>
+                    </div>
+                  </div>
+                  <div class="chart-card">
+                    <div class="chart-card-title">Compliance Breakdown</div>
+                    <div class="compliance-donut">
+                      <div class="donut-ring">
+                        <svg class="donut-svg" width="60" height="60" viewBox="0 0 60 60">
+                          <circle class="donut-track" cx="30" cy="30" r="25"/>
+                          <circle class="donut-fill" cx="30" cy="30" r="25" stroke-dasharray="137 157" stroke-dashoffset="0"/>
+                        </svg>
+                        <div class="donut-label">87%</div>
+                      </div>
+                      <div class="donut-legend">
+                        <strong>215 compliant</strong>
+                        stores meeting target
+                        <div class="text-xs text-amber mt8">⚠ 32 need attention</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tasks completed today counter + recently viewed -->
+                <div style="display:flex;gap:10px;margin-top:12px;margin-bottom:0;">
+                  <div style="flex:1;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:11px;color:var(--text3);">Tasks completed today</span>
+                    <span id="tasksToday" style="font-size:18px;font-weight:800;color:var(--purple-light);">142</span>
+                  </div>
+                  <div style="flex:2;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+                    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:6px;">Recently Viewed</div>
+                    <div style="display:flex;gap:8px;font-size:11px;flex-wrap:wrap;">
+                      <span style="background:var(--bg4);border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--text2);">Sainsbury's Borough ✓</span>
+                      <span style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;padding:3px 8px;color:var(--red);">Co-op Shoreditch ✗</span>
+                      <span style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;padding:3px 8px;color:var(--amber);">Waitrose CW ⚠</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Live activity feed -->
+                <div class="chart-card mt12">
+                  <div class="chart-card-title">⚡ Live Activity — Last 30 min</div>
+                  <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Sainsbury's Borough Market</span>
+                      <span style="color:var(--green);font-weight:700;">94/100 ✓</span>
+                      <span style="color:var(--text3);">2m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Co-op Shoreditch <span style="color:var(--red);font-weight:600;">🚨 Critical</span></span>
+                      <span style="color:var(--red);font-weight:700;">48/100</span>
+                      <span style="color:var(--text3);">8m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Tesco King's Cross</span>
+                      <span style="color:var(--green);font-weight:700;">93/100 ✓</span>
+                      <span style="color:var(--text3);">14m ago</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;">
+                      <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+                      <span style="color:var(--text2);flex:1;">Waitrose Canary Wharf <span style="color:var(--amber);">⚠ Low stock</span></span>
+                      <span style="color:var(--amber);font-weight:700;">71/100</span>
+                      <span style="color:var(--text3);">22m ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E2: Campaign Creator -->
+            <div class="e-screen" id="e1">
+              <div class="ent-screen-inner">
+                <div class="ent-page-title">New Campaign</div>
+                <div class="ent-page-sub">Configure your field intelligence campaign</div>
+                <div class="ai-suggest-box">
+                  <div class="ai-suggest-title">✦ AI Recommendation</div>
+                  <div class="typewriter" id="typewriterText">Based on your Q1 data, adding eye-level tracking to Oat+ 500ml in Tesco would close a 14% compliance gap. Estimated cost: $1,240 for 85 stores.</div>
+                </div>
+                <div class="campaign-form">
+                  <div class="form-section">
+                    <div class="form-section-title">Product & Brand</div>
+                    <div class="form-field">
+                      <label class="form-label">Brand</label>
+                      <input class="form-input" type="text" value="Meridian Foods Ltd." readonly>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label class="form-label">Product SKU</label>
+                        <input class="form-input active" type="text" value="Oat+ Oat Milk 1L">
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label">Category</label>
+                        <input class="form-input" type="text" value="Dairy Alternatives">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-section">
+                    <div class="form-section-title">Coverage</div>
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label class="form-label">Retailer</label>
+                        <input class="form-input" type="text" value="All UK Supermarkets">
+                      </div>
+                      <div class="form-field">
+                        <label class="form-label">Store Count</label>
+                        <input class="form-input" id="storeCountInput" type="number" value="320" oninput="updateCostEstimate()" style="font-size:14px;">
+                      </div>
+                    </div>
+                    <div class="form-field">
+                      <label class="form-label">Visit Frequency (per month)</label>
+                      <input class="form-input" id="visitFreqInput" type="number" value="4" oninput="updateCostEstimate()" style="font-size:14px;">
+                    </div>
+                  </div>
+                  <div class="form-section">
+                    <div class="form-section-title">Data Points to Capture</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <span class="tag tag-purple">Facing Count</span>
+                      <span class="tag tag-blue">Stock Level</span>
+                      <span class="tag tag-green">Shelf Tag</span>
+                      <span class="tag tag-amber">Promo Display</span>
+                      <span class="tag tag-purple">Eye-Level Position</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="cost-estimate">
+                  <div>
+                    <div class="cost-label">Estimated Monthly Cost</div>
+                    <div class="text-xs text-muted mt8" id="costBreakdown">320 stores · 4× visits · $13/visit</div>
+                  </div>
+                  <div class="cost-val" id="costVal">$16,640</div>
+                </div>
+                <button class="cta-btn" id="launchCampaignBtn" style="margin:16px 0 0;width:100%;padding:14px" onclick="launchCampaign(this)">Launch Campaign →</button>
+              </div>
+            </div>
+
+            <!-- E3: Live Map -->
+            <div class="e-screen" id="e2">
+              <div class="live-map-full" style="height:636px;position:relative;overflow:hidden;background:#060d1a;">
+                <!-- Base map image -->
+                <img src="deck-assets/mosaic-map-london-v1.png" alt="London map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85;" onerror="this.style.display='none'">
+                <!-- Dark vignette overlay -->
+                <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,rgba(6,13,26,0.6) 100%);pointer-events:none;z-index:1"></div>
+                <!-- Compliance store dots -->
+                <svg style="position:absolute;inset:0;z-index:2" width="100%" height="100%" viewBox="0 0 840 636">
+                  <!-- Compliant (green) — spread across Greater London (Fix 5) -->
+                  <!-- Central London -->
+                  <circle cx="455" cy="340" r="7" fill="#10b981" opacity="0.92"><animate attributeName="r" values="7;10;7" dur="3s" repeatCount="indefinite"/></circle>
+                  <circle cx="430" cy="355" r="5" fill="#10b981" opacity="0.85"/>
+                  <!-- East London: Stratford, Canary Wharf, Hackney -->
+                  <circle cx="660" cy="310" r="6" fill="#10b981" opacity="0.88"><animate attributeName="r" values="6;9;6" dur="3.5s" repeatCount="indefinite"/></circle>
+                  <circle cx="700" cy="345" r="5" fill="#10b981" opacity="0.85"/>
+                  <circle cx="640" cy="370" r="5" fill="#10b981" opacity="0.80"/>
+                  <circle cx="720" cy="290" r="4" fill="#10b981" opacity="0.75"/>
+                  <!-- West London: Shepherd's Bush, Hammersmith -->
+                  <circle cx="200" cy="355" r="6" fill="#10b981" opacity="0.88"/>
+                  <circle cx="175" cy="385" r="5" fill="#10b981" opacity="0.82"/>
+                  <circle cx="230" cy="330" r="5" fill="#10b981" opacity="0.78"/>
+                  <!-- North London: Highbury, Islington, Camden -->
+                  <circle cx="430" cy="155" r="6" fill="#10b981" opacity="0.88"/>
+                  <circle cx="460" cy="180" r="5" fill="#10b981" opacity="0.82"/>
+                  <circle cx="390" cy="175" r="5" fill="#10b981" opacity="0.78"/>
+                  <circle cx="350" cy="145" r="4" fill="#10b981" opacity="0.75"/>
+                  <!-- South London: Brixton, Clapham, Peckham -->
+                  <circle cx="420" cy="510" r="6" fill="#10b981" opacity="0.88"/>
+                  <circle cx="460" cy="530" r="5" fill="#10b981" opacity="0.82"/>
+                  <circle cx="500" cy="495" r="5" fill="#10b981" opacity="0.78"/>
+                  <circle cx="380" cy="525" r="4" fill="#10b981" opacity="0.75"/>
+                  <!-- Warning (amber) — spread out -->
+                  <!-- East warning -->
+                  <circle cx="615" cy="330" r="6" fill="#f59e0b" opacity="0.90"><animate attributeName="r" values="6;9;6" dur="2.5s" repeatCount="indefinite"/></circle>
+                  <!-- North warning -->
+                  <circle cx="410" cy="200" r="5" fill="#f59e0b" opacity="0.85"/>
+                  <!-- West warning -->
+                  <circle cx="210" cy="365" r="5" fill="#f59e0b" opacity="0.80"/>
+                  <!-- Critical (red) — pulsing, spread -->
+                  <!-- Co-op Shoreditch (East-Central) -->
+                  <circle cx="560" cy="305" r="8" fill="#ef4444" opacity="0.95"><animate attributeName="r" values="8;13;8" dur="1.5s" repeatCount="indefinite"/></circle>
+                  <!-- South critical -->
+                  <circle cx="445" cy="490" r="5" fill="#ef4444" opacity="0.85"/>
+                </svg>
+                <!-- Store tooltip on hover area (decorative) -->
+                <div style="position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(13,17,23,0.92);border:1px solid rgba(239,68,68,0.5);border-radius:10px;padding:10px 16px;white-space:nowrap;backdrop-filter:blur(8px);">
+                  <div style="font-size:11px;color:var(--text3);margin-bottom:3px;">🚨 CRITICAL ALERT</div>
+                  <div style="font-size:13px;font-weight:700;">Co-op Shoreditch · E1</div>
+                  <div style="font-size:12px;color:var(--red);font-weight:600;">Score: 48 · Out of stock detected</div>
+                </div>
+                <div class="live-badge" style="z-index:4">
+                  <div class="live-pulse"></div>LIVE · 247 stores · London
+                </div>
+                <!-- Last updated ticker -->
+                <div style="position:absolute;top:52px;left:16px;z-index:4;background:rgba(13,17,23,0.85);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--text3);">
+                  Last updated: <span id="mapUpdateTicker" style="color:var(--text2);font-weight:600;">just now</span>
+                </div>
+                <div class="live-map-controls" style="z-index:4">
+                  <div class="map-ctrl-btn">+</div>
+                  <div class="map-ctrl-btn">−</div>
+                  <div class="map-ctrl-btn">⊕</div>
+                  <div class="map-ctrl-btn">⊞</div>
+                </div>
+                <div class="live-legend" style="z-index:4">
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Compliant (215)</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Warning (20)</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Critical (12)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E4: Results Gallery -->
+            <div class="e-screen" id="e3">
+              <div class="ent-screen-inner">
+                <div class="ent-page-title">Submission Gallery</div>
+                <div class="ent-page-sub">1,847 photos · Last 7 days · Auto-analysed by Mosaic AI</div>
+                <!-- Search bar -->
+                <div style="position:relative;margin-bottom:10px;">
+                  <input id="gallerySearch" type="text" placeholder="🔍  Search by store name..." oninput="searchGallery(this.value)" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(124,58,237,0.5)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div class="results-toolbar">
+                  <div class="results-toolbar-left">
+                    <span class="filter-pill active" onclick="filterGallery('all',this)">All (9)</span>
+                    <span class="filter-pill" onclick="filterGallery('pass',this)">✓ Compliant (5)</span>
+                    <span class="filter-pill" onclick="filterGallery('warn',this)">⚠ Warning (2)</span>
+                    <span class="filter-pill" onclick="filterGallery('fail',this)">✗ Critical (2)</span>
+                  </div>
+                  <div class="results-stat">Showing <strong id="galleryCount">9</strong> results</div>
+                </div>
+                <div class="results-grid" id="galleryGrid">
+                  <!-- PASS: Sainsbury's — full stock -->
+                  <div class="result-item" data-status="pass" data-store="sainsburys borough" onclick="openGalleryDetail('sainsburys')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-hover-overlay">View detail →</div>
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">94/100</div>
+                    </div>
+                    <div class="result-meta"><strong>Sainsbury's Borough Mkt</strong>Fully stocked · 4/4 facings · Maya C. · 2h ago</div>
+                  </div>
+                  <!-- PASS: Tesco — full stock -->
+                  <div class="result-item" data-status="pass" data-store="tesco clapham junction" onclick="openGalleryDetail('tesco')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+                      <div class="result-hover-overlay">View detail →</div>
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">89/100</div>
+                    </div>
+                    <div class="result-meta"><strong>Tesco Clapham Junction</strong>4/4 facings · Good stock · Arjun S. · 5h ago</div>
+                  </div>
+                  <!-- WARN: Waitrose — gap -->
+                  <div class="result-item" data-status="warn" onclick="openGalleryDetail('waitrose')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(245,158,11,0.5);">
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Waitrose low stock" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+                      <div class="result-status warn">⚠ WARN</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(245,158,11,0.95);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">71/100</div>
+                      <!-- Non-compliance overlay indicator -->
+                      <div style="position:absolute;inset:0;border:3px solid rgba(245,158,11,0.4);border-radius:2px;pointer-events:none;">
+                        <div style="position:absolute;top:30%;left:20%;width:28%;height:40%;border:2px dashed rgba(245,158,11,0.8);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                          <span style="font-size:10px;color:rgba(245,158,11,0.95);font-weight:800;background:rgba(0,0,0,0.7);padding:1px 3px;border-radius:2px;">GAP</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="result-meta"><strong>Waitrose Canary Wharf</strong>⚠ 2 empty slots · Stock at 18% · Sophie L. · 1d ago</div>
+                  </div>
+                  <!-- FAIL: Co-op — mostly empty, CRITICAL -->
+                  <div class="result-item" data-status="fail" onclick="openGalleryDetail('coop')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(239,68,68,0.6);">
+                      <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Co-op out of stock" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-status fail">✗ FAIL</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(239,68,68,0.95);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">48/100</div>
+                      <!-- Critical overlay -->
+                      <div style="position:absolute;inset:0;background:rgba(239,68,68,0.08);border:3px solid rgba(239,68,68,0.5);border-radius:2px;pointer-events:none;display:flex;align-items:center;justify-content:center;">
+                        <span style="background:rgba(239,68,68,0.9);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;letter-spacing:0.05em;">OUT OF STOCK</span>
+                      </div>
+                    </div>
+                    <div class="result-meta"><strong>Co-op Shoreditch</strong>🚨 Zero facings · Out of stock · Emma K. · 3h ago</div>
+                  </div>
+                  <!-- PASS: M&S — scan result -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('mas')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-shelf-scan-v2.png" alt="M&S AI scan" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">91/100</div>
+                    </div>
+                    <div class="result-meta"><strong>M&S Marble Arch</strong>AI scan · 4/4 facings · Eye-level ✓ · James T.</div>
+                  </div>
+                  <!-- FAIL: Asda — wrong placement -->
+                  <div class="result-item" data-status="fail" onclick="openGalleryDetail('asda')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(239,68,68,0.5);">
+                      <img src="deck-assets/mosaic-shelf-scan-v1.png" alt="Asda wrong placement" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.85)">
+                      <div class="result-status fail">✗ FAIL</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(239,68,68,0.95);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">52/100</div>
+                      <div style="position:absolute;bottom:28px;left:6px;right:6px;background:rgba(239,68,68,0.85);color:#fff;font-size:9px;font-weight:700;padding:3px 6px;border-radius:4px;text-align:center;">Wrong shelf level · Missing promo tag</div>
+                    </div>
+                    <div class="result-meta"><strong>Asda Old Street</strong>🚨 Wrong placement · Promo tag missing · Kai M.</div>
+                  </div>
+                  <!-- PASS: Sainsbury's Angel -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('angel')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-gallery-sainsburys-v1.png" alt="Sainsbury's Angel" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;filter:brightness(1.05) contrast(1.02)">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">96/100</div>
+                    </div>
+                    <div class="result-meta"><strong>Sainsbury's Angel</strong>⭐ Excellent · Top score this week · Priya R.</div>
+                  </div>
+                  <!-- WARN: Lidl — partial stock -->
+                  <div class="result-item" data-status="warn" onclick="openGalleryDetail('lidl')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(245,158,11,0.5);">
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Lidl partial" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.80) saturate(0.85)">
+                      <div class="result-status warn">⚠ WARN</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(245,158,11,0.95);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">68/100</div>
+                      <div style="position:absolute;inset:0;border:3px solid rgba(245,158,11,0.35);border-radius:2px;pointer-events:none;">
+                        <div style="position:absolute;top:25%;left:45%;width:22%;height:38%;border:2px dashed rgba(245,158,11,0.85);border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                          <span style="font-size:9px;color:rgba(245,158,11,0.95);font-weight:800;background:rgba(0,0,0,0.75);padding:1px 3px;border-radius:2px;">GAP</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="result-meta"><strong>Lidl Bermondsey</strong>⚠ 1 empty slot · Low stock risk · Tom H.</div>
+                  </div>
+                  <!-- PASS: Tesco King's Cross -->
+                  <div class="result-item" data-status="pass" onclick="openGalleryDetail('kingscross')">
+                    <div class="result-img" style="overflow:hidden;position:relative;border:2px solid rgba(16,185,129,0.4);">
+                      <img src="deck-assets/mosaic-shelf-oat-v1.png" alt="Tesco King's Cross shelf" style="width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block;filter:brightness(1.05) contrast(1.02);">
+                      <div class="result-status pass">✓ PASS</div>
+                      <div style="position:absolute;top:6px;left:6px;background:rgba(16,185,129,0.9);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">93/100</div>
+                    </div>
+                    <div class="result-meta"><strong>Tesco King's Cross</strong>Verified capture · 4/4 facings · Zara O. · 4h ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gallery Detail Modal -->
+            <div id="galleryModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;backdrop-filter:blur(12px);align-items:center;justify-content:center;" onclick="if(event.target===this)closeGalleryModal()">
+              <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;width:min(700px,95vw);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;" id="galleryModalInner">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border);">
+                  <div style="font-size:16px;font-weight:800;" id="modalTitle">Store Detail</div>
+                  <button onclick="closeGalleryModal()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
+                </div>
+                <div id="modalBody" style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+                </div>
+              </div>
+            </div>
+
+            <!-- E5: Compliance Report -->
+            <div class="e-screen" id="e4">
+              <div class="ent-screen-inner">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                  <div class="ent-page-title" style="margin-bottom:0;">Compliance Report</div>
+                  <button onclick="exportReport(this)" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);color:var(--cyan);font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:inherit;">⬇ Export PDF</button>
+                </div>
+                <div class="ent-page-sub">Oat+ 1L · Week of 24 March 2026 · 247 locations</div>
+                <div class="report-header-card">
+                  <div>
+                    <div class="report-score">87%</div>
+                    <div class="report-score-label">Overall Score</div>
+                  </div>
+                  <div class="report-info">
+                    <div class="report-title">Oat+ Oat Milk 1L Campaign</div>
+                    <div class="report-sub">247 stores audited · 1,847 photos analysed · AI confidence: 98.2%</div>
+                    <div class="report-tags">
+                      <span class="tag tag-green">↑ +3.2% vs last week</span>
+                      <span class="tag tag-amber">12 critical issues</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb12">
+                  <div class="chart-card-title text-xs text-muted mb8">KEY METRICS</div>
+                  <div class="two-col">
+                    <div>
+                      <div class="flex-between mb8">
+                        <span class="text-xs text-muted">Facings Compliance</span>
+                        <span class="text-xs text-green fw700">91% <span style="color:var(--green);font-size:10px;">↑+2%</span></span>
+                      </div>
+                      <div class="progress-bar" style="--pct:91%"><div class="progress-fill"></div></div>
+                    </div>
+                    <div>
+                      <div class="flex-between mb8">
+                        <span class="text-xs text-muted">Stock Level OK</span>
+                        <span class="text-xs text-amber fw700">78% <span style="color:var(--red);font-size:10px;">↓−3%</span></span>
+                      </div>
+                      <div class="progress-bar" style="--pct:78%"><div class="progress-fill" style="background:var(--amber)"></div></div>
+                    </div>
+                    <div class="mt8">
+                      <div class="flex-between mb8">
+                        <span class="text-xs text-muted">Price Tag Present</span>
+                        <span class="text-xs text-green fw700">97% <span style="color:var(--green);font-size:10px;">↑+1%</span></span>
+                      </div>
+                      <div class="progress-bar" style="--pct:97%"><div class="progress-fill"></div></div>
+                    </div>
+                    <div class="mt8">
+                      <div class="flex-between mb8">
+                        <span class="text-xs text-muted">Promo Compliance</span>
+                        <span class="text-xs text-amber fw700">82% <span style="color:var(--green);font-size:10px;">↑+5%</span></span>
+                      </div>
+                      <div class="progress-bar" style="--pct:82%"><div class="progress-fill" style="background:var(--amber)"></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="compliance-table">
+                  <div class="ct-header">
+                    <div>Store</div>
+                    <div>Score</div>
+                    <div>Issues</div>
+                    <div>Last Audit</div>
+                  </div>
+                  <div class="ct-row" style="cursor:pointer;" onclick="showToast('Opening report: Sainsbury\'s Borough Mkt');goScreen(3);setTimeout(()=>openGalleryDetail('sainsburys'),200)" title="View evidence">
+                    <div><div class="store-name">Sainsbury's Borough Mkt</div><div class="store-addr">London SE1</div></div>
+                    <div><span class="score-pill score-a">94</span></div>
+                    <div class="text-green text-xs">None</div>
+                    <div class="text-xs text-muted">2h ago</div>
+                  </div>
+                  <div class="ct-row" style="cursor:pointer;" onclick="showToast('Opening report: Tesco Clapham Junction');goScreen(3);setTimeout(()=>openGalleryDetail('tesco'),200)" title="View evidence">
+                    <div><div class="store-name">Tesco Clapham Junction</div><div class="store-addr">London SW11</div></div>
+                    <div><span class="score-pill score-a">89</span></div>
+                    <div class="text-amber text-xs">1 minor</div>
+                    <div class="text-xs text-muted">5h ago</div>
+                  </div>
+                  <div class="ct-row" style="cursor:pointer;" onclick="showToast('Opening report: Waitrose Canary Wharf');goScreen(3);setTimeout(()=>openGalleryDetail('waitrose'),200)" title="View evidence">
+                    <div><div class="store-name">Waitrose Canary Wharf</div><div class="store-addr">London E14</div></div>
+                    <div><span class="score-pill score-b">71</span></div>
+                    <div class="text-amber text-xs">3 issues</div>
+                    <div class="text-xs text-muted">1d ago</div>
+                  </div>
+                  <div class="ct-row" style="cursor:pointer;background:rgba(239,68,68,0.04);" onclick="showToast('Opening report: Co-op Shoreditch');goScreen(3);setTimeout(()=>openGalleryDetail('coop'),200)" title="View evidence — Critical">
+                    <div><div class="store-name">Co-op Shoreditch</div><div class="store-addr">London E1</div></div>
+                    <div><span class="score-pill score-c">48</span></div>
+                    <div class="text-red text-xs">Critical 🚨</div>
+                    <div class="text-xs text-muted">3h ago</div>
+                  </div>
+                  <div class="ct-row" style="cursor:pointer;" onclick="showToast('Opening report: M&S Marble Arch');goScreen(3);setTimeout(()=>openGalleryDetail('mas'),200)" title="View evidence">
+                    <div><div class="store-name">M&S Marble Arch</div><div class="store-addr">London W1</div></div>
+                    <div><span class="score-pill score-a">91</span></div>
+                    <div class="text-green text-xs">None</div>
+                    <div class="text-xs text-muted">6h ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- E6: Alert Center -->
+            <div class="e-screen" id="e5">
+              <div class="ent-screen-inner">
+                <div class="ent-page-title">Alert Center</div>
+                <div class="ent-page-sub">3 active alerts · Last updated just now</div>
+                <div class="alert-toolbar">
+                  <span class="filter-pill active">All (3)</span>
+                  <span class="filter-pill">🔴 Critical (1)</span>
+                  <span class="filter-pill">🟡 Warning (2)</span>
+                </div>
+                <div class="alert-item" style="align-items:flex-start">
+                  <div class="alert-icon critical">🚨</div>
+                  <div class="alert-body" style="flex:1">
+                    <div class="alert-title">Out-of-Stock Detected: Co-op Shoreditch</div>
+                    <div style="display:flex;gap:12px;margin:8px 0">
+                      <div style="flex:1">
+                        <div class="alert-desc">Oat+ 1L completely out of stock. Zero facings visible on shelf. Compliance score dropped to 48/100. High-traffic Saturday store — estimated $340 lost sales today.</div>
+                        <div class="alert-time">Detected 3 hours ago via Maya C. submission</div>
+                      </div>
+                      <img src="deck-assets/mosaic-gallery-coop-v1.png" alt="Evidence photo" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(239,68,68,0.4);flex-shrink:0;" onerror="this.remove()">
+                    </div>
+                    <div class="alert-actions">
+                      <button class="alert-btn primary" onclick="alertActionV2(this,'Field rep dispatched to Tesco Canary Wharf')">Dispatch Rep</button>
+                      <button class="alert-btn" onclick="alertAction(this,'Notify Store Manager','Store manager notified via SMS')">Notify Store Manager</button>
+                      <button class="alert-btn" onclick="openGalleryDetail('coop')">View Evidence</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-item" style="align-items:flex-start">
+                  <div class="alert-icon warning">⚠️</div>
+                  <div class="alert-body" style="flex:1">
+                    <div class="alert-title">Low Stock: Waitrose Canary Wharf</div>
+                    <div style="display:flex;gap:12px;margin:8px 0">
+                      <div style="flex:1">
+                        <div class="alert-desc">Oat+ 1L at 18% stock level (3 units remaining). Historical restock pattern suggests stockout likely within 48 hours. Score: 71/100.</div>
+                        <div class="alert-time">Detected 1 day ago</div>
+                      </div>
+                      <img src="deck-assets/mosaic-shelf-empty-v1.png" alt="Low stock evidence" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(245,158,11,0.4);flex-shrink:0;" onerror="this.remove()">
+                    </div>
+                    <div class="alert-actions">
+                      <button class="alert-btn primary" onclick="alertActionV2(this,'Replenishment order placed — ETA 4 hours')">Auto-Replenish</button>
+                      <button class="alert-btn" onclick="alertAction(this,'Snooze 24h','Snoozed until tomorrow 9am')">Snooze 24h</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-item">
+                  <div class="alert-icon warning">📋</div>
+                  <div class="alert-body">
+                    <div class="alert-title">Promo Non-Compliance: 8 Tesco stores</div>
+                    <div class="alert-desc">April promo placement campaign running 8 stores below compliance target. Eye-level positioning not achieved. Affects approximately $1,200/week in promotional uplift.</div>
+                    <div class="alert-time">Detected in last weekly audit</div>
+                    <div class="alert-actions">
+                      <button class="alert-btn primary">View Stores</button>
+                      <button class="alert-btn">Generate Report</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /enterprise-screens -->
+        </div><!-- /ent-main -->
+      </div><!-- /desktop-body -->
+    </div><!-- /desktop-frame -->
+  </div><!-- /desktop-wrap -->
+
+</div><!-- /demo-shell -->
+
+<!-- Navigation bar -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navPrev()" title="Previous screen (←)">←</button>
+  <div class="dot-nav" id="dotNav"></div>
+  <button class="nav-btn" id="nextBtn" onclick="navNext()" title="Next screen (→)">→</button>
+</div>
+
+<!-- Keyboard hint toast -->
+<div id="kbHint" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(13,17,23,0.9);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:20px;padding:7px 16px;font-size:11px;color:var(--text3);display:flex;gap:10px;align-items:center;transition:opacity 0.5s;z-index:99;">
+  <span>← → navigate</span>
+  <span style="width:1px;height:12px;background:var(--border)"></span>
+  <span>1 collector · 2 enterprise</span>
+  <span style="width:1px;height:12px;background:var(--border)"></span>
+  <span>click screens to advance</span>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let mode = 'collector';
+let cIdx = 0;
+let eIdx = 0;
+
+const COLLECTOR_NAMES = [
+  'Onboarding', 'Task Feed', 'Map View', 'Task Detail',
+  'Camera', 'AI Verify', 'Payout', 'Earnings'
+];
+const ENTERPRISE_NAMES = [
+  'Dashboard', 'Campaign Creator', 'Live Map',
+  'Results Gallery', 'Compliance Report', 'Alert Center'
+];
+
+// ═══════════════════════════════════════════════════════════
+//  MODE SWITCH
+// ═══════════════════════════════════════════════════════════
+function setMode(m) {
+  mode = m;
+  document.body.setAttribute('data-mode', m);
+  document.getElementById('btnCollector').classList.toggle('active', m === 'collector');
+  document.getElementById('btnEnterprise').classList.toggle('active', m === 'enterprise');
+  // Always activate the current screen so nothing is blank on switch
+  goScreen(m === 'collector' ? cIdx : eIdx);
+  checkMobileBanner();
+}
+
+function checkMobileBanner() {
+  const isMobile = window.innerWidth < 768;
+  let banner = document.getElementById('mobileBanner');
+  if (mode === 'enterprise' && isMobile) {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'mobileBanner';
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(124,58,237,0.9);color:#fff;font-size:11px;text-align:center;padding:6px;z-index:999;backdrop-filter:blur(8px)';
+      banner.textContent = '🖥 Enterprise Portal is optimised for desktop — rotate or use a larger screen';
+      document.body.appendChild(banner);
+    }
+    banner.style.display = 'block';
+  } else if (banner) {
+    banner.style.display = 'none';
+  }
+}
+
+window.addEventListener('resize', checkMobileBanner);
+
+// ═══════════════════════════════════════════════════════════
+//  SCREEN NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function goScreen(idx) {
+  if (mode === 'collector') {
+    const screens = document.querySelectorAll('.c-screen');
+    screens.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i < idx) s.classList.add('prev');
+    });
+    screens[idx].classList.add('active');
+    cIdx = idx;
+  } else {
+    const screens = document.querySelectorAll('.e-screen');
+    screens.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i < idx) s.classList.add('prev');
+    });
+    screens[idx].classList.add('active');
+    eIdx = idx;
+    // Update sidebar nav
+    document.querySelectorAll('.ent-nav-item').forEach((n, i) => {
+      n.classList.toggle('active', i === idx);
+    });
+  }
+  renderNav();
+  updateLabel();
+  if (typeof onScreenChanged === 'function') onScreenChanged();
+}
+
+function dismissIntro() {
+  const overlay = document.getElementById('introOverlay');
+  if (overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    setTimeout(() => overlay.remove(), 400);
+  }
+}
+
+function navPrev() {
+  if (tourActive) toggleTour(); // stop tour on manual nav
+  if (mode === 'collector') {
+    if (cIdx > 0) goScreen(cIdx - 1);
+  } else {
+    if (eIdx > 0) goScreen(eIdx - 1);
+  }
+}
+
+function navNext() {
+  if (tourActive) toggleTour(); // stop tour on manual nav
+  const total = mode === 'collector' ? 8 : 6;
+  const cur = mode === 'collector' ? cIdx : eIdx;
+  if (cur < total - 1) goScreen(cur + 1);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAV RENDER
+// ═══════════════════════════════════════════════════════════
+function renderNav() {
+  const total = mode === 'collector' ? 8 : 6;
+  const cur = mode === 'collector' ? cIdx : eIdx;
+  const dotNav = document.getElementById('dotNav');
+  dotNav.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === cur ? ' active' : '');
+    d.onclick = (e => () => goScreen(e))(i);
+    dotNav.appendChild(d);
+  }
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total - 1;
+}
+
+function updateLabel() {
+  const total = mode === 'collector' ? 8 : 6;
+  const cur = mode === 'collector' ? cIdx : eIdx;
+  const names = mode === 'collector' ? COLLECTOR_NAMES : ENTERPRISE_NAMES;
+  document.getElementById('screenName').textContent = names[cur];
+  document.getElementById('screenNum').textContent = cur + 1;
+  document.getElementById('screenTotal').textContent = total;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  KEYBOARD NAVIGATION
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); navNext(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navPrev(); }
+  if (e.key === '1') setMode('collector');
+  if (e.key === '2') setMode('enterprise');
+});
+
+// ═══════════════════════════════════════════════════════════
+//  TYPEWRITER ANIMATION
+// ═══════════════════════════════════════════════════════════
+function typeWriter(el, text, speed = 28) {
+  el.textContent = '';
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'typewriter-cursor';
+  el.appendChild(cursor);
+  const timer = setInterval(() => {
+    if (i < text.length) {
+      el.insertBefore(document.createTextNode(text[i]), cursor);
+      i++;
+    } else {
+      clearInterval(timer);
+      setTimeout(() => cursor.style.display = 'none', 2000);
+    }
+  }, speed);
+}
+
+let typewriterDone = false;
+function maybeTypewrite() {
+  if (!typewriterDone && mode === 'enterprise' && eIdx === 1) {
+    typewriterDone = true;
+    const el = document.getElementById('typewriterText');
+    if (el) {
+      const text = el.textContent;
+      setTimeout(() => typeWriter(el, text, 22), 600);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PAYOUT COUNTER ANIMATION
+// ═══════════════════════════════════════════════════════════
+function animateCounter(el, start, end, duration, prefix = '£', decimals = 2) {
+  const startTime = performance.now();
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = start + (end - start) * ease;
+    el.textContent = prefix + val.toFixed(decimals);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+let payoutAnimated = false;
+let lastPayoutScreen = -1;
+function spawnConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const colors = ['#10b981','#34d399','#fbbf24','#f59e0b','#6ee7b7','#a7f3d0','#fde68a'];
+  for (let i = 0; i < 48; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-p';
+    p.style.cssText = [
+      `left:${Math.random()*100}%`,
+      `background:${colors[Math.floor(Math.random()*colors.length)]}`,
+      `animation-duration:${1.2 + Math.random()*1.6}s`,
+      `animation-delay:${Math.random()*0.8}s`,
+      `width:${4+Math.random()*5}px`,
+      `height:${4+Math.random()*5}px`,
+      `border-radius:${Math.random()>0.5?'50%':'2px'}`
+    ].join(';');
+    wrap.appendChild(p);
+  }
+}
+function maybeAnimatePayout() {
+  if (mode === 'collector' && cIdx === 6 && lastPayoutScreen !== cIdx) {
+    lastPayoutScreen = cIdx;
+    payoutAnimated = true;
+    const el = document.querySelector('#c6 .payout-amount');
+    if (el) animateCounter(el, 0, 14.5, 1200);
+    spawnConfetti();
+  } else if (cIdx !== 6) {
+    lastPayoutScreen = -1;
+    payoutAnimated = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  KEYBOARD HINT AUTO-HIDE
+// ═══════════════════════════════════════════════════════════
+const kbHint = document.getElementById('kbHint');
+setTimeout(() => { if (kbHint) kbHint.style.opacity = '0'; }, 4000);
+document.addEventListener('keydown', () => { if (kbHint) kbHint.style.opacity = '0'; }, { once: true });
+
+// ═══════════════════════════════════════════════════════════
+//  POST-NAVIGATION HOOKS (called at end of goScreen)
+// ═══════════════════════════════════════════════════════════
+function onScreenChanged() {
+  setTimeout(() => {
+    maybeTypewrite();
+    maybeAnimatePayout();
+    resetBarAnimations();
+  }, 50);
+}
+
+function resetBarAnimations() {
+  // Re-trigger CSS animations on mini-bars and progress-fills when entering a screen
+  const activeScreen = document.querySelector('.e-screen.active, .c-screen.active');
+  if (!activeScreen) return;
+  activeScreen.querySelectorAll('.mini-bar, .bar-fill').forEach(el => {
+    el.style.transform = 'scaleY(0)';
+  });
+  activeScreen.querySelectorAll('.progress-fill').forEach(el => {
+    el.style.width = '0';
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    activeScreen.querySelectorAll('.mini-bar, .bar-fill').forEach(el => {
+      el.style.transform = '';
+    });
+    activeScreen.querySelectorAll('.progress-fill').forEach(el => {
+      el.style.width = '';
+    });
+  }));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY FILTER
+// ═══════════════════════════════════════════════════════════
+function filterGallery(status, el) {
+  document.querySelectorAll('.results-toolbar .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const items = document.querySelectorAll('#galleryGrid .result-item');
+  let count = 0;
+  items.forEach(item => {
+    const show = status === 'all' || item.dataset.status === status;
+    item.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  const cntEl = document.getElementById('galleryCount');
+  if (cntEl) cntEl.textContent = count;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY DETAIL MODAL
+// ═══════════════════════════════════════════════════════════
+const GALLERY_DATA = {
+  sainsburys: {
+    title: "Sainsbury's Borough Market · PASS",
+    status: 'pass', score: 94,
+    img: 'deck-assets/mosaic-gallery-sainsburys-v1.png',
+    store: "15 Borough High St, SE1 1NB",
+    collector: "Maya C. — Top Collector (94.2 avg)", submitted: "2 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '85% — Good', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: 'Not applicable', ok: true }
+    ]
+  },
+  tesco: {
+    title: "Tesco Clapham Junction · PASS",
+    status: 'pass', score: 89,
+    img: 'deck-assets/mosaic-shelf-oat-v1.png',
+    store: "48 Clapham High St, SW4 7UR",
+    collector: "Arjun S.", submitted: "5 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '72% — Adequate', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: '⚠ Promo poster missing', ok: false }
+    ]
+  },
+  waitrose: {
+    title: "Waitrose Canary Wharf · WARNING",
+    status: 'warn', score: 71,
+    img: 'deck-assets/mosaic-shelf-empty-v1.png',
+    store: "Canada Place, Canary Wharf, E14 5EW",
+    collector: "Sophie L.", submitted: "1 day ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '2 / 4 required ⚠', ok: false },
+      { label: 'Stock Level', val: '18% — Critical ⚠', ok: false },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'AI Prediction', val: 'Stockout within 48hrs', ok: false }
+    ]
+  },
+  coop: {
+    title: "Co-op Shoreditch · CRITICAL FAIL",
+    status: 'fail', score: 48,
+    img: 'deck-assets/mosaic-gallery-coop-v1.png',
+    store: "146 Bethnal Green Rd, E1 6JB",
+    collector: "Emma K.", submitted: "3 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'NOT FOUND ✗', ok: false },
+      { label: 'Facings Count', val: '0 / 4 ✗ OUT OF STOCK', ok: false },
+      { label: 'Stock Level', val: '0% — Empty ✗', ok: false },
+      { label: 'Shelf Tag Present', val: 'Tag present (product missing)', ok: false },
+      { label: 'Est. Lost Sales Today', val: '~$340 (Saturday traffic)', ok: false },
+      { label: 'Action Required', val: '🚨 Emergency restock', ok: false }
+    ]
+  },
+  mas: {
+    title: "M&S Marble Arch · PASS",
+    status: 'pass', score: 91,
+    img: 'deck-assets/mosaic-shelf-scan-v2.png',
+    store: "458 Oxford St, W1C 1AP",
+    collector: "James T.", submitted: "6 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '78% — Good', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Promo Compliance', val: 'April promo ✓', ok: true },
+      { label: 'AI Confidence', val: '98.4%', ok: true }
+    ]
+  },
+  asda: {
+    title: "Asda Old Street · CRITICAL FAIL",
+    status: 'fail', score: 52,
+    img: 'deck-assets/mosaic-shelf-scan-v1.png',
+    store: "Old St Roundabout, EC1V 9NR",
+    collector: "Kai M.", submitted: "8 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓ (found)', ok: true },
+      { label: 'Facings Count', val: '2 / 4 required ✗', ok: false },
+      { label: 'Shelf Level', val: 'Bottom shelf ✗ (not eye level)', ok: false },
+      { label: 'Promo Tag', val: 'Missing — contract breach ✗', ok: false },
+      { label: 'Est. Revenue Impact', val: '-28% promo uplift lost', ok: false },
+      { label: 'Action Required', val: 'Field rep escalation', ok: false }
+    ]
+  },
+  angel: {
+    title: "Sainsbury's Angel · PASS — Top Score",
+    status: 'pass', score: 96,
+    img: 'deck-assets/mosaic-gallery-sainsburys-v1.png',
+    store: "10 Upper St, Islington, N1 0PQ",
+    collector: "Priya R. — #1 this week", submitted: "4 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '94% — Excellent', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes — prominent ✓', ok: true },
+      { label: 'Promo Compliance', val: 'April campaign ✓', ok: true },
+      { label: 'Notes', val: '⭐ Best-in-network store', ok: true }
+    ]
+  },
+  lidl: {
+    title: "Lidl Bermondsey · WARNING",
+    status: 'warn', score: 68,
+    img: 'deck-assets/mosaic-shelf-empty-v1.png',
+    store: "Tower Bridge Rd, SE1 3DG",
+    collector: "Tom H.", submitted: "12 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '3 / 4 required ⚠', ok: false },
+      { label: 'Stock Level', val: '42% — Watch closely', ok: false },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Placement', val: 'Mid-level ✓', ok: true },
+      { label: 'Next Audit', val: 'Recommended within 3 days', ok: false }
+    ]
+  },
+  kingscross: {
+    title: "Tesco King's Cross · PASS",
+    status: 'pass', score: 93,
+    img: 'deck-assets/mosaic-shelf-oat-v1.png',
+    store: "King's Cross Station, N1C 4TB",
+    collector: "Zara O.", submitted: "4 hours ago",
+    findings: [
+      { label: 'Product Identified', val: 'Oat+ 1L ✓', ok: true },
+      { label: 'Facings Count', val: '4 / 4 required ✓', ok: true },
+      { label: 'Stock Level', val: '80% — Good', ok: true },
+      { label: 'Eye-Level Placement', val: 'Yes ✓', ok: true },
+      { label: 'Shelf Tag Present', val: 'Yes ✓', ok: true },
+      { label: 'Commute capture', val: '⚡ Route-matched agent', ok: true }
+    ]
+  }
+};
+
+function openGalleryDetail(key) {
+  const d = GALLERY_DATA[key];
+  if (!d) return;
+  const modal = document.getElementById('galleryModal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  const statusColor = d.status === 'pass' ? 'var(--green)' : d.status === 'warn' ? 'var(--amber)' : 'var(--red)';
+  const statusIcon = d.status === 'pass' ? '✓' : d.status === 'warn' ? '⚠' : '✗';
+  title.innerHTML = `<span style="color:${statusColor}">${statusIcon}</span> ${d.title}`;
+  body.innerHTML = `
+    <div>
+      <img src="${d.img}" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:2px solid ${statusColor}33;margin-bottom:12px;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:6px;">Store Info</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:3px;">${d.store}</div>
+        <div style="font-size:12px;color:var(--text2);">Collector: ${d.collector}</div>
+        <div style="font-size:12px;color:var(--text2);">Submitted: ${d.submitted}</div>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">AI Compliance Report</div>
+        <div style="font-size:28px;font-weight:900;color:${statusColor};">${d.score}<span style="font-size:14px;font-weight:500;color:var(--text2);">/100</span></div>
+      </div>
+      ${d.findings.map(f => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="font-size:13px;color:var(--text2);">${f.label}</span>
+          <span style="font-size:13px;font-weight:600;color:${f.ok ? 'var(--green)' : f.label.includes('Prediction')||f.label.includes('Action')||f.label.includes('Next') ? 'var(--amber)' : 'var(--red)'};">${f.val}</span>
+        </div>`).join('')}
+      <button onclick="closeGalleryModal()" style="width:100%;margin-top:16px;padding:12px;background:var(--gradient);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Close</button>
+    </div>`;
+  modal.style.display = 'flex';
+}
+
+function closeGalleryModal() {
+  document.getElementById('galleryModal').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COMPLIANCE REPORT EXPORT
+// ═══════════════════════════════════════════════════════════
+function exportReport(btn) {
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⟳ Generating…';
+  setTimeout(() => {
+    btn.textContent = '✓ Downloaded';
+    btn.style.background = 'rgba(16,185,129,0.15)';
+    btn.style.borderColor = 'rgba(16,185,129,0.4)';
+    btn.style.color = 'var(--green)';
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(13,17,23,0.95);border:1px solid rgba(16,185,129,0.4);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:20px;z-index:999;backdrop-filter:blur(12px);white-space:nowrap;';
+    toast.innerHTML = '📄 Oat+_Compliance_Week24_March2026.pdf — <span style="color:var(--green)">saved</span>';
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }, 4000);
+  }, 1400);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ALERT CENTER INTERACTIONS (Fix 3)
+// ═══════════════════════════════════════════════════════════
+function alertActionV2(btn, toastMsg) {
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '…';
+  setTimeout(() => {
+    btn.textContent = '✓ Action Taken';
+    btn.style.background = 'rgba(0,224,150,0.2)';
+    btn.style.borderColor = 'rgba(0,224,150,0.4)';
+    btn.style.color = '#00e096';
+    showToast(toastMsg);
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.disabled = false;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 3000);
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ALERT CENTER INTERACTIONS (legacy)
+// ═══════════════════════════════════════════════════════════
+function alertAction(btn, label, confirmation) {
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '…';
+  setTimeout(() => {
+    btn.textContent = '✓ ' + label;
+    btn.style.background = 'rgba(16,185,129,0.2)';
+    btn.style.borderColor = 'rgba(16,185,129,0.4)';
+    btn.style.color = 'var(--green)';
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,0.95);color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:20px;z-index:999;backdrop-filter:blur(12px);white-space:nowrap;';
+    toast.textContent = '✓ ' + confirmation;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 2500);
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TOAST HELPER (Fix 2)
+// ═══════════════════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#00e096;color:#000;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;z-index:9999;pointer-events:none';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CAMPAIGN LAUNCH INTERACTION (Fix 2)
+// ═══════════════════════════════════════════════════════════
+function launchCampaign(btn) {
+  btn.disabled = true;
+  btn.textContent = '⚡ Deploying to 320 stores…';
+  btn.style.background = 'rgba(124,58,237,0.6)';
+  setTimeout(() => {
+    btn.textContent = '✓ Campaign Launched!';
+    btn.style.background = '#00e096';
+    btn.style.color = '#000';
+    btn.disabled = false;
+    showToast('Campaign deployed to 47 agents across London');
+    setTimeout(() => {
+      btn.textContent = 'Launch Campaign →';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }, 1800);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LOADING SPLASH
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const splash = document.getElementById('loadingSplash');
+  const intro = document.getElementById('introOverlay');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      splash.style.pointerEvents = 'none';
+      setTimeout(() => {
+        splash.remove();
+        if (intro) intro.style.display = 'flex';
+        // Animate intro counters
+        const c1 = document.getElementById('introCount1');
+        const c2 = document.getElementById('introCount2');
+        if (c1) animIntroCounter(c1, 0, 8, 600);
+        if (c2) animIntroCounter(c2, 0, 6, 600);
+      }, 500);
+    }, 1200);
+  }
+})();
+
+function animIntroCounter(el, start, end, dur) {
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min((now - startTime) / dur, 1);
+    el.textContent = Math.round(start + (end - start) * p);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  METRIC CARD DRILL-DOWN TOGGLE
+// ═══════════════════════════════════════════════════════════
+function toggleMetricTooltip(card) {
+  const tip = card.querySelector('.metric-tooltip');
+  if (!tip) return;
+  const isVisible = tip.classList.contains('visible');
+  // Close all others
+  document.querySelectorAll('.metric-tooltip.visible').forEach(t => t.classList.remove('visible'));
+  if (!isVisible) tip.classList.add('visible');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.metric-card')) {
+    document.querySelectorAll('.metric-tooltip.visible').forEach(t => t.classList.remove('visible'));
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+//  COST ESTIMATOR
+// ═══════════════════════════════════════════════════════════
+function updateCostEstimate() {
+  const storeInput = document.getElementById('storeCountInput');
+  const freqInput = document.getElementById('visitFreqInput');
+  const costValEl = document.getElementById('costVal');
+  const costBreakdownEl = document.getElementById('costBreakdown');
+  if (!storeInput || !freqInput || !costValEl) return;
+  const stores = parseInt(storeInput.value) || 0;
+  const freq = parseInt(freqInput.value) || 0;
+  const cost = stores * freq * 13;
+  costValEl.textContent = '£' + cost.toLocaleString();
+  if (costBreakdownEl) costBreakdownEl.textContent = stores + ' stores · ' + freq + '× visits · $13/visit';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GALLERY SEARCH
+// ═══════════════════════════════════════════════════════════
+function searchGallery(query) {
+  const q = query.toLowerCase().trim();
+  const items = document.querySelectorAll('#galleryGrid .result-item');
+  let count = 0;
+  items.forEach(item => {
+    const store = (item.dataset.store || item.querySelector('.result-meta')?.textContent || '').toLowerCase();
+    const show = !q || store.includes(q);
+    item.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  const cntEl = document.getElementById('galleryCount');
+  if (cntEl) cntEl.textContent = count;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PAYOUT HISTORY TOGGLE
+// ═══════════════════════════════════════════════════════════
+function togglePayoutHistory(btn) {
+  const panel = document.getElementById('payoutHistoryPanel');
+  if (!panel) return;
+  const isHidden = panel.style.display === 'none';
+  panel.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? '📋 Hide History' : '📋 View History';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AI SCANNING ANIMATION
+// ═══════════════════════════════════════════════════════════
+let aiScanDone = false;
+function triggerAIScan() {
+  if (aiScanDone) return;
+  aiScanDone = true;
+  const scanState = document.getElementById('aiScanningState');
+  const resultsBlock = document.getElementById('aiResultsBlock');
+  const scanText = document.getElementById('scanStateText');
+  const scanBar = document.getElementById('scanProgressBar');
+  if (!scanState || !resultsBlock) return;
+  // Hide results, show scanning
+  resultsBlock.style.display = 'none';
+  scanState.style.display = 'block';
+  // Step 1: Finding shelf
+  setTimeout(() => { if (scanBar) scanBar.style.width = '35%'; }, 100);
+  setTimeout(() => { if (scanText) scanText.textContent = '🔍 Checking your photos…'; }, 100);
+  // Step 2: Shelf detected
+  setTimeout(() => {
+    if (scanText) scanText.innerHTML = '🟢 Photos look good! ✓';
+    if (scanBar) scanBar.style.width = '65%';
+  }, 900);
+  // Step 3: Analyzing
+  setTimeout(() => {
+    if (scanText) scanText.textContent = '✨ Almost done…';
+    if (scanBar) scanBar.style.width = '90%';
+  }, 1400);
+  // Step 4: Show results
+  setTimeout(() => {
+    scanState.style.display = 'none';
+    resultsBlock.style.display = 'block';
+    // Trigger staggered row appearances
+    resultsBlock.querySelectorAll('.ai-row').forEach(row => {
+      row.style.opacity = '1';
+    });
+  }, 2000);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REFRESH TICKER (E1 Dashboard)
+// ═══════════════════════════════════════════════════════════
+let refreshSeconds = 0;
+setInterval(() => {
+  refreshSeconds++;
+  const el = document.getElementById('refreshTicker');
+  if (el) {
+    if (refreshSeconds < 60) el.textContent = refreshSeconds + 's';
+    else el.textContent = Math.floor(refreshSeconds / 60) + 'm';
+    // Reset every 5 minutes
+    if (refreshSeconds >= 300) refreshSeconds = 0;
+  }
+}, 1000);
+
+// ═══════════════════════════════════════════════════════════
+//  DEMO TOUR MODE (auto-advance)
+// ═══════════════════════════════════════════════════════════
+let tourActive = false;
+let tourInterval = null;
+const TOUR_COLLECTOR_SCREENS = [0, 1, 2, 3, 4, 5, 6, 7]; // all 8 collector screens
+const TOUR_ENTERPRISE_SCREENS = [0, 1, 2, 3, 4, 5]; // all 6 enterprise screens
+let tourPhase = 0; // 0 = collector, 1 = enterprise
+let tourIdx = 0;
+const TOUR_DELAY = 7000; // 7s per screen
+
+function toggleTour() {
+  const btn = document.getElementById('tourBtn');
+  if (tourActive) {
+    // Stop tour
+    tourActive = false;
+    clearInterval(tourInterval);
+    tourInterval = null;
+    btn.textContent = '▶ Demo Tour';
+    btn.style.background = 'rgba(123,47,247,0.12)';
+    btn.style.borderColor = 'rgba(123,47,247,0.4)';
+    btn.style.color = 'rgba(167,139,250,0.9)';
+  } else {
+    // Start tour from beginning
+    tourActive = true;
+    tourPhase = 0;
+    tourIdx = 0;
+    btn.textContent = '⏹ Stop Tour';
+    btn.style.background = 'rgba(239,68,68,0.12)';
+    btn.style.borderColor = 'rgba(239,68,68,0.4)';
+    btn.style.color = 'rgba(252,165,165,0.9)';
+    setMode('collector');
+    goScreen(0);
+    tourInterval = setInterval(() => {
+      if (!tourActive) return;
+      if (tourPhase === 0) {
+        tourIdx++;
+        if (tourIdx < TOUR_COLLECTOR_SCREENS.length) {
+          goScreen(TOUR_COLLECTOR_SCREENS[tourIdx]);
+        } else {
+          // Switch to enterprise
+          tourPhase = 1;
+          tourIdx = 0;
+          setMode('enterprise');
+          goScreen(0);
+        }
+      } else {
+        tourIdx++;
+        if (tourIdx < TOUR_ENTERPRISE_SCREENS.length) {
+          goScreen(TOUR_ENTERPRISE_SCREENS[tourIdx]);
+        } else {
+          // Tour complete — restart
+          tourPhase = 0;
+          tourIdx = 0;
+          setMode('collector');
+          goScreen(0);
+        }
+      }
+    }, TOUR_DELAY);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCROLL TO TOP (Enterprise screens)
+// ═══════════════════════════════════════════════════════════
+function scrollEntToTop() {
+  const active = document.querySelector('.e-screen.active');
+  if (active) active.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Monitor scroll position in enterprise screens to show/hide the button
+document.addEventListener('scroll', () => {
+  const active = document.querySelector('.e-screen.active');
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn || !active) return;
+  const isEnt = document.body.getAttribute('data-mode') === 'enterprise';
+  btn.style.display = (isEnt && active.scrollTop > 80) ? 'flex' : 'none';
+  if (btn.style.display === 'flex') btn.style.alignItems = 'center';
+  btn.style.justifyContent = 'center';
+}, true); // capture phase to catch scrolls on nested elements
+
+// ═══════════════════════════════════════════════════════════
+//  MAP UPDATE TICKER (E3 Live Map)
+// ═══════════════════════════════════════════════════════════
+let mapUpdateSeconds = 0;
+setInterval(() => {
+  mapUpdateSeconds++;
+  const el = document.getElementById('mapUpdateTicker');
+  if (el) {
+    if (mapUpdateSeconds < 60) el.textContent = mapUpdateSeconds + 's ago';
+    else el.textContent = Math.floor(mapUpdateSeconds / 60) + 'm ago';
+    if (mapUpdateSeconds >= 300) mapUpdateSeconds = 0;
+  }
+}, 1000);
+
+// ═══════════════════════════════════════════════════════════
+//  TASKS TODAY COUNTER (E1)
+// ═══════════════════════════════════════════════════════════
+let tasksCount = 142;
+setInterval(() => {
+  const r = Math.random();
+  if (r > 0.7) {
+    tasksCount++;
+    const el = document.getElementById('tasksToday');
+    if (el) el.textContent = tasksCount;
+  }
+}, 4000);
+
+// ═══════════════════════════════════════════════════════════
+//  SCREEN CHANGE HOOK (for AI scan reset)
+// ═══════════════════════════════════════════════════════════
+function triggerCameraScan() {
+  const bar = document.getElementById('cameraScanBar');
+  const badge = document.getElementById('cameraDetectBadge');
+  const tip = document.getElementById('cameraTip');
+  const btn = document.getElementById('shutterBtn');
+  if (!bar) return;
+  // Reset
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  if (btn) btn.style.opacity = '0.4';
+  if (tip) tip.textContent = '📸 Scanning… keep shelf in frame';
+  if (badge) badge.textContent = '🔍 Detecting: Oat+ Oat Milk shelf';
+  // Start fill
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    bar.style.transition = 'width 2s ease-out';
+    bar.style.width = '100%';
+    // Halfway: badge updates
+    setTimeout(() => {
+      if (badge) badge.textContent = '🟢 Shelf identified — Oat+ confirmed';
+    }, 1000);
+    // Complete: button activates
+    setTimeout(() => {
+      if (btn) { btn.style.opacity = '1'; btn.style.boxShadow = '0 0 20px rgba(6,182,212,0.6), 0 0 40px rgba(123,47,247,0.3)'; }
+      if (tip) tip.textContent = '✓ Scan complete — tap to submit';
+      if (badge) badge.innerHTML = '✓ <strong style="color:#00e5a0">3 products detected · 1 gap found</strong>';
+    }, 2100);
+  }));
+}
+
+function onScreenChanged() {
+  // Trigger camera scan when entering C5 (Camera)
+  if (mode === 'collector' && cIdx === 4) {
+    setTimeout(() => triggerCameraScan(), 200);
+  }
+  // Trigger AI scan when entering C6 (AI Verify) — with 2s analysing overlay (Fix 1)
+  if (mode === 'collector' && cIdx === 5) {
+    aiScanDone = false;
+    const resultsBlock = document.getElementById('aiResultsBlock');
+    if (resultsBlock) {
+      resultsBlock.querySelectorAll('.ai-row').forEach(row => {
+        row.style.opacity = '0';
+      });
+    }
+    const overlay = document.getElementById('c6Analysing');
+    const bar = document.getElementById('c6AnalysingBar');
+    const status = document.getElementById('c6AnalysingStatus');
+    if (overlay) {
+      overlay.style.display = 'flex';
+      if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+      if (status) status.textContent = 'Detecting products…';
+      setTimeout(() => { if (bar) { bar.style.transition = 'width 1.8s ease-out'; bar.style.width = '100%'; } }, 50);
+      setTimeout(() => { if (status) status.textContent = 'Identifying SKUs…'; }, 700);
+      setTimeout(() => { if (status) status.textContent = 'Checking compliance…'; }, 1400);
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        triggerAIScan();
+      }, 2000);
+    } else {
+      setTimeout(() => triggerAIScan(), 300);
+    }
+  }
+  if (mode !== 'collector' || cIdx !== 5) {
+    // Hide overlay when not on C6
+    const overlay = document.getElementById('c6Analysing');
+    if (overlay) overlay.style.display = 'none';
+  }
+  // Trigger payout count-up when entering C7
+  if (mode === 'collector' && cIdx === 6) {
+    const amtEl = document.getElementById('payoutMainAmt');
+    if (amtEl) {
+      amtEl.textContent = '£0.00';
+      setTimeout(() => animateCounter(amtEl, 0, 14.5, 800, '£'), 400);
+    }
+    const row1 = document.getElementById('payRow1');
+    const row2 = document.getElementById('payRow2');
+    const row3 = document.getElementById('payRow3');
+    if (row1) { row1.textContent = '£0.00'; setTimeout(() => animateCounter(row1, 0, 12, 600, '£'), 600); }
+    if (row2) { row2.textContent = '+£0.00'; setTimeout(() => animateCounter(row2, 0, 2, 400, '+£'), 900); }
+    if (row3) { row3.textContent = '+£0.00'; setTimeout(() => animateCounter(row3, 0, 0.5, 400, '+£'), 1100); }
+  }
+  // Update cost estimate on E2 load
+  if (mode === 'enterprise' && eIdx === 1) {
+    updateCostEstimate();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+setMode('collector');
+goScreen(0);
+</script>
+</body>
+</html>

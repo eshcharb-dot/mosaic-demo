@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaic — Physical World Intelligence | Pitch V6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#030305;--card:#090912;--border:#181828;
+  --text:#f8f8fe;--muted:#606090;
+  --purple:#7c6df5;--cyan:#00d4d4;--pink:#ff6b9d;
+  --yellow:#ffc947;--green:#00e096;--orange:#ff7f5e;
+  --g1:linear-gradient(135deg,#7c6df5,#00d4d4);
+  --g2:linear-gradient(135deg,#ffc947,#ff6b9d);
+  --g3:linear-gradient(135deg,#00e096,#00d4d4);
+  --g4:linear-gradient(135deg,#ff7f5e,#ffc947);
+  --g5:linear-gradient(135deg,#7c6df5,#ff6b9d);
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Inter',system-ui,sans-serif}
+
+/* PROGRESS BAR */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--g1);z-index:1000;transition:width 0.3s ease}
+
+/* COUNTER */
+#counter{position:fixed;top:16px;right:24px;font-size:22px;font-weight:700;color:var(--muted);z-index:1000;letter-spacing:1px;font-family:'Inter',sans-serif}
+
+/* NAV DOTS */
+#dots{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:1000}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.25s;border:none;outline:none}
+.dot.active{background:var(--purple);transform:scale(1.4)}
+.dot:hover{background:rgba(255,255,255,0.5)}
+
+/* DECK CANVAS */
+#deck{position:fixed;width:1920px;height:1080px;background:var(--bg);transform-origin:top left;overflow:hidden}
+
+/* SLIDES */
+.slide{position:absolute;top:0;left:0;width:1920px;height:1080px;display:none;overflow:hidden;background:var(--bg)}
+.slide.active{display:flex;flex-direction:column}
+
+/* SHARED UTILITIES */
+.g-text{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g2-text{background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g3-text{background:var(--g3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g4-text{background:var(--g4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.g5-text{background:var(--g5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ORB BACKGROUNDS */
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.orb-purple{background:radial-gradient(circle,rgba(124,109,245,0.18) 0%,transparent 70%)}
+.orb-cyan{background:radial-gradient(circle,rgba(0,212,212,0.12) 0%,transparent 70%)}
+.orb-pink{background:radial-gradient(circle,rgba(255,107,157,0.1) 0%,transparent 70%)}
+.orb-yellow{background:radial-gradient(circle,rgba(255,201,71,0.1) 0%,transparent 70%)}
+.orb-green{background:radial-gradient(circle,rgba(0,224,150,0.1) 0%,transparent 70%)}
+
+.slide-grid{position:absolute;inset:0;opacity:0.025;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px}
+.card-glow{background:rgba(124,109,245,0.06);border:1px solid rgba(124,109,245,0.2);border-radius:20px}
+
+/* CHECK / BADGE */
+.check{color:var(--green);font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,109,245,0.12);border:1px solid rgba(124,109,245,0.3);border-radius:100px;padding:6px 18px;font-size:22px;font-weight:600;color:#a89cf8;letter-spacing:0.5px}
+
+/* DIVIDER LINE */
+.div-line{height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent)}
+
+/* ===========================
+   SLIDE 1 — COVER
+   =========================== */
+#s1{justify-content:center;align-items:center;text-align:center}
+#s1 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-hero-v6.png');background-size:cover;background-position:center;opacity:0.18}
+#s1 .orb1{width:900px;height:900px;top:-300px;left:-200px}
+#s1 .orb2{width:700px;height:700px;bottom:-200px;right:-100px}
+#s1 .orb3{width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%)}
+#s1 .inner{position:relative;z-index:2;max-width:1400px;padding:60px 80px}
+#s1 .logo{font-size:180px;font-weight:900;letter-spacing:-8px;line-height:0.85;margin-bottom:20px}
+#s1 .super{font-size:28px;letter-spacing:6px;text-transform:uppercase;color:var(--muted);font-weight:400;margin-bottom:16px}
+#s1 .tagline{font-size:34px;color:var(--muted);font-style:italic;margin-bottom:60px;font-weight:300}
+#s1 .tagline em{color:var(--text);font-style:normal;font-weight:700}
+#s1 .kpis{display:flex;justify-content:center;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:60px}
+#s1 .kpi{padding:36px 60px;text-align:center;border-right:1px solid var(--border)}
+#s1 .kpi:last-child{border-right:none}
+#s1 .kn{font-size:64px;font-weight:900;line-height:1}
+#s1 .kl{font-size:18px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:8px}
+#s1 .founders{font-size:22px;color:var(--muted);margin-bottom:12px}
+#s1 .meta{font-size:20px;color:var(--muted);opacity:0.6;margin-bottom:50px}
+#s1 .btns{display:flex;gap:20px;justify-content:center}
+.btn-primary{background:var(--g1);border:none;color:#fff;font-size:22px;font-weight:700;padding:18px 52px;border-radius:100px;cursor:pointer;box-shadow:0 8px 40px rgba(124,109,245,0.35);font-family:'Inter',sans-serif}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text);font-size:22px;font-weight:500;padding:18px 48px;border-radius:100px;cursor:pointer;font-family:'Inter',sans-serif}
+
+/* ===========================
+   SLIDE 2 — THE GAP
+   =========================== */
+#s2{flex-direction:row}
+#s2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-blindness-v6.png');background-size:cover;background-position:center;opacity:0.06}
+#s2 .left{width:820px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 60px;border-right:1px solid var(--border);position:relative;z-index:2;text-align:center}
+#s2 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;position:relative;z-index:2}
+#s2 .big-stat{font-size:200px;font-weight:900;letter-spacing:-8px;line-height:0.85}
+#s2 .stat-sub{font-size:36px;color:var(--muted);font-weight:400;line-height:1.3;margin-top:16px;max-width:500px}
+#s2 .blind-icon{width:160px;height:160px;margin:40px auto;opacity:0.3;font-size:120px;line-height:160px}
+#s2 .rh{font-size:56px;font-weight:900;line-height:1.05;margin-bottom:40px;letter-spacing:-1px}
+#s2 .bullets{list-style:none;margin-bottom:44px}
+#s2 .bullets li{font-size:28px;color:var(--muted);padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+#s2 .bullets li::before{content:'→';color:var(--purple);font-weight:700;flex-shrink:0}
+#s2 .bullets li strong{color:var(--text)}
+#s2 .callout{background:rgba(124,109,245,0.08);border:1px solid rgba(124,109,245,0.25);border-radius:16px;padding:28px 36px}
+#s2 .callout p{font-size:26px;color:var(--text);line-height:1.5;font-style:italic}
+
+/* ===========================
+   SLIDE 3 — WHY NOW
+   =========================== */
+#s3 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
+#s3 .orb1{width:700px;height:700px;top:-200px;right:-100px}
+#s3 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:14px}
+#s3 .sub{font-size:26px;color:var(--muted);margin-bottom:50px}
+#s3 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;flex:1}
+#s3 .why-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 44px;display:flex;flex-direction:column;gap:20px}
+#s3 .why-card .icon{font-size:56px;line-height:1}
+#s3 .why-card h3{font-size:32px;font-weight:800;letter-spacing:-0.5px}
+#s3 .why-card .stat{font-size:48px;font-weight:900;letter-spacing:-1px;line-height:1}
+#s3 .why-card p{font-size:24px;color:var(--muted);line-height:1.6}
+#s3 .bottom{margin-top:40px;background:rgba(255,201,71,0.07);border:1px solid rgba(255,201,71,0.25);border-radius:16px;padding:26px 40px}
+#s3 .bottom p{font-size:24px;color:var(--yellow);line-height:1.5}
+
+/* ===========================
+   SLIDE 4 — PLATFORM
+   =========================== */
+#s4{flex-direction:row}
+#s4 .left{width:860px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+#s4 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
+#s4 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s4 .sub{font-size:26px;color:var(--muted);line-height:1.5;margin-bottom:50px}
+.flow-step{display:flex;align-items:center;gap:0;margin-bottom:0}
+.flow-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 28px;text-align:center;flex:1}
+.flow-box .ft{font-size:26px;font-weight:800}
+.flow-box .fs{font-size:18px;color:var(--muted);margin-top:4px}
+.flow-arrow{font-size:28px;color:var(--purple);padding:0 12px;flex-shrink:0}
+.flow-badges{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:16px}
+.flow-badge{background:rgba(0,212,212,0.08);border:1px solid rgba(0,212,212,0.2);border-radius:10px;padding:10px 16px;font-size:17px;color:var(--cyan);text-align:center}
+#s4 .mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mkt-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 28px}
+.mkt-card .mc-title{font-size:26px;font-weight:800;margin-bottom:6px}
+.mkt-card .mc-sam{font-size:20px;color:var(--cyan);font-weight:700}
+.mkt-card .mc-when{font-size:18px;color:var(--muted);margin-top:4px}
+
+/* ===========================
+   SLIDE 5 — CPG DEEP DIVE
+   =========================== */
+#s5{flex-direction:row}
+#s5 .left{width:860px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+#s5 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
+#s5 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s5 .wedge-badge{display:inline-flex;background:rgba(0,224,150,0.12);border:1px solid rgba(0,224,150,0.3);border-radius:100px;padding:8px 24px;font-size:22px;font-weight:700;color:var(--green);margin-bottom:36px}
+.persona-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 40px;margin-bottom:28px}
+.persona-card .name{font-size:28px;font-weight:800;margin-bottom:4px}
+.persona-card .title{font-size:22px;color:var(--muted);margin-bottom:20px}
+.persona-card .quote{font-size:24px;color:var(--text);font-style:italic;line-height:1.5;border-left:3px solid var(--purple);padding-left:20px}
+.pain-text p{font-size:26px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.pain-text strong{color:var(--text)}
+.pain-text .loss{font-size:32px;color:var(--pink);font-weight:800}
+#s5 .workflow{margin-bottom:32px}
+#s5 .workflow h4{font-size:28px;font-weight:800;margin-bottom:20px}
+.workflow-step{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+.ws-num{width:44px;height:44px;border-radius:50%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex-shrink:0;color:#fff}
+.ws-text{font-size:23px;color:var(--muted);padding-top:8px;line-height:1.4}
+.ws-text strong{color:var(--text)}
+.roi-box{background:rgba(0,224,150,0.07);border:1px solid rgba(0,224,150,0.25);border-radius:16px;padding:26px 32px;margin-bottom:28px}
+.roi-box p{font-size:24px;color:var(--green);line-height:1.5;font-weight:600}
+.bottom-stats{display:flex;gap:24px}
+.bstat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 28px;text-align:center;flex:1}
+.bstat .bsn{font-size:34px;font-weight:900}
+.bstat .bsl{font-size:16px;color:var(--muted);margin-top:4px}
+
+/* ===========================
+   SLIDE 6 — PRODUCT
+   =========================== */
+#s6 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
+#s6 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:40px}
+#s6 .panels{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1}
+.prod-panel{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:44px 48px;display:flex;flex-direction:column}
+.prod-panel h3{font-size:34px;font-weight:900;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.prod-panel .pp-sub{font-size:22px;color:var(--muted);margin-bottom:28px;font-style:italic}
+.prod-panel .screenshots{display:flex;gap:16px;margin-bottom:28px}
+.ss-mock{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:9/16;max-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock-wide{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;aspect-ratio:16/9;max-height:180px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);overflow:hidden;position:relative}
+.ss-mock img,.ss-mock-wide img{width:100%;height:100%;object-fit:cover;opacity:0.9}
+.ss-mock .ss-label,.ss-mock-wide .ss-label{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);background:rgba(3,3,5,0.7);padding:3px}
+.prod-panel ul{list-style:none;flex:1}
+.prod-panel ul li{font-size:24px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.prod-panel ul li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.prod-panel ul li strong{color:var(--text)}
+#s6 .magic{display:flex;gap:0;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:36px}
+.magic-stat{flex:1;padding:24px 40px;text-align:center;border-right:1px solid var(--border)}
+.magic-stat:last-child{border-right:none}
+.magic-stat .mn{font-size:56px;font-weight:900;line-height:1}
+.magic-stat .ml{font-size:18px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px}
+
+/* ===========================
+   SLIDE 7 — BUSINESS MODEL
+   =========================== */
+#s7 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
+#s7 .sh{font-size:76px;font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+#s7 .sub{font-size:26px;color:var(--muted);margin-bottom:40px}
+#s7 .tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-bottom:32px}
+.tier-card{border-radius:22px;padding:40px 36px}
+.tier-card.t1{background:linear-gradient(135deg,rgba(124,109,245,0.1),rgba(124,109,245,0.04));border:1px solid rgba(124,109,245,0.25)}
+.tier-card.t2{background:linear-gradient(135deg,rgba(0,212,212,0.1),rgba(0,212,212,0.04));border:1px solid rgba(0,212,212,0.25)}
+.tier-card.t3{background:linear-gradient(135deg,rgba(255,201,71,0.1),rgba(255,201,71,0.04));border:1px solid rgba(255,201,71,0.25)}
+.tier-card .tc-label{font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;opacity:0.7}
+.tier-card .tc-price{font-size:44px;font-weight:900;line-height:1;margin-bottom:8px}
+.tier-card .tc-vol{font-size:22px;color:var(--muted);margin-bottom:16px}
+.tier-card .tc-gm{font-size:36px;font-weight:900;margin-bottom:12px}
+.tier-card .tc-acq{font-size:20px;color:var(--muted);line-height:1.4}
+.pnl-row{display:flex;gap:24px;margin-bottom:24px}
+.pnl-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 32px;flex:1}
+.pnl-box h4{font-size:22px;font-weight:700;margin-bottom:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.pnl-items{display:flex;gap:12px;flex-wrap:wrap}
+.pnl-item{display:flex;align-items:center;gap:8px;font-size:22px}
+.pnl-item .pi-label{color:var(--muted)}
+.pnl-item .pi-val{font-weight:800}
+.arrow-sep{color:var(--muted);font-size:20px;align-self:center}
+#s7 .bonus{background:linear-gradient(135deg,rgba(0,224,150,0.08),rgba(0,212,212,0.05));border:1px solid rgba(0,224,150,0.25);border-radius:16px;padding:28px 40px}
+#s7 .bonus h4{font-size:24px;font-weight:800;color:var(--green);margin-bottom:8px}
+#s7 .bonus p{font-size:24px;color:var(--muted);line-height:1.5}
+#s7 .bonus strong{color:var(--text)}
+
+/* ===========================
+   SLIDE 8 — MARKET
+   =========================== */
+#s8{flex-direction:row}
+#s8 .left{width:900px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+#s8 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
+#s8 .sh{font-size:72px;font-weight:900;letter-spacing:-2px;margin-bottom:50px}
+.circles{position:relative;width:440px;height:440px;margin:0 auto}
+.circle{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;left:50%;top:50%;transform:translate(-50%,-50%)}
+.c-tam{width:440px;height:440px;background:rgba(124,109,245,0.08);border:2px solid rgba(124,109,245,0.3)}
+.c-sam{width:300px;height:300px;background:rgba(0,212,212,0.1);border:2px solid rgba(0,212,212,0.4)}
+.c-som{width:160px;height:160px;background:rgba(0,224,150,0.15);border:2px solid rgba(0,224,150,0.5)}
+.circle .cn{font-size:36px;font-weight:900;line-height:1}
+.circle .cl{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.c-tam .cn{font-size:44px}
+.c-labels{display:flex;flex-direction:column;gap:14px;margin-top:36px;width:100%}
+.cl-row{display:flex;align-items:center;gap:16px;font-size:22px}
+.cl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.cl-name{color:var(--muted);flex:1}
+.cl-val{font-weight:800}
+#s8 .right-content{display:flex;flex-direction:column;gap:28px}
+.market-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:30px 36px}
+.market-card h4{font-size:26px;font-weight:800;margin-bottom:10px}
+.market-card p{font-size:23px;color:var(--muted);line-height:1.55}
+.market-card strong{color:var(--text)}
+.market-card .mc-stat{font-size:40px;font-weight:900;margin-bottom:6px}
+.cagr-badge{display:inline-flex;background:rgba(0,224,150,0.1);border:1px solid rgba(0,224,150,0.3);border-radius:100px;padding:10px 28px;font-size:26px;font-weight:800;color:var(--green)}
+
+/* ===========================
+   SLIDE 9 — TRACTION
+   =========================== */
+#s9{flex-direction:row}
+#s9 .left{width:900px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+#s9 .right{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 60px;position:relative;z-index:2}
+#s9 .sh{font-size:64px;font-weight:900;letter-spacing:-2px;margin-bottom:48px;line-height:1.05}
+.shipped-list{list-style:none;margin-bottom:36px}
+.shipped-list li{font-size:27px;color:var(--muted);padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.shipped-list li::before{content:'→';color:var(--cyan);font-weight:700;flex-shrink:0}
+.shipped-list li strong{color:var(--text)}
+.shipped-list li em{color:var(--muted);font-style:normal}
+#s9 .burn-callout{background:rgba(0,224,150,0.07);border:1px solid rgba(0,224,150,0.25);border-radius:16px;padding:28px 36px}
+#s9 .burn-callout p{font-size:24px;color:var(--green);line-height:1.5;font-weight:600}
+#s9 .burn-callout strong{color:var(--text)}
+.demo-frame{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;width:100%;max-width:560px}
+.demo-frame .df-bar{background:#181828;padding:12px 20px;display:flex;align-items:center;gap:12px;font-size:16px;color:var(--muted)}
+.demo-frame .df-dot{width:10px;height:10px;border-radius:50%}
+.demo-frame img{width:100%;display:block}
+.demo-frame .df-placeholder{width:100%;aspect-ratio:16/10;background:linear-gradient(135deg,rgba(124,109,245,0.12),rgba(0,212,212,0.08));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.demo-frame .df-placeholder .dp-icon{font-size:56px;opacity:0.4}
+.demo-frame .df-placeholder .dp-text{font-size:20px;color:var(--muted)}
+.demo-link{margin-top:16px;font-size:22px;color:var(--cyan);text-decoration:none;font-weight:600}
+
+/* ===========================
+   SLIDE 10 — COMPETITION
+   =========================== */
+#s10{flex-direction:row}
+#s10 .left{width:880px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+#s10 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
+#s10 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:40px}
+.matrix{position:relative;width:620px;height:560px;background:rgba(255,255,255,0.01);border-radius:20px}
+.matrix-axis-h{position:absolute;top:50%;left:5%;right:5%;height:1px;background:var(--border)}
+.matrix-axis-v{position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:var(--border)}
+.matrix-label{position:absolute;font-size:18px;color:var(--muted);text-align:center;font-weight:600}
+.ml-top{top:8px;left:50%;transform:translateX(-50%)}
+.ml-bottom{bottom:8px;left:50%;transform:translateX(-50%)}
+.ml-left{left:8px;top:50%;transform:translateY(-50%) rotate(-90deg);white-space:nowrap}
+.ml-right{right:8px;top:50%;transform:translateY(-50%) rotate(90deg);white-space:nowrap}
+.matrix-dot{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px}
+.md-circle{width:22px;height:22px;border-radius:50%}
+.md-label{font-size:17px;font-weight:700}
+.md-mosaic{top:12%;left:68%;transform:translateX(-50%)}
+.md-mosaic .md-circle{background:var(--g1);box-shadow:0 0 20px rgba(124,109,245,0.5);width:28px;height:28px}
+.md-mosaic .md-label{color:var(--purple);font-size:20px}
+.md-fa{top:62%;left:28%;transform:translateX(-50%)}
+.md-fa .md-circle{background:rgba(255,255,255,0.3)}
+.md-bme{top:72%;left:20%;transform:translateX(-50%)}
+.md-bme .md-circle{background:rgba(255,255,255,0.25)}
+.md-trax{top:55%;left:22%;transform:translateX(-50%)}
+.md-trax .md-circle{background:rgba(255,255,255,0.2)}
+.feat-table{width:100%}
+.feat-table th{font-size:22px;color:var(--muted);font-weight:700;text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:1px}
+.feat-table th:first-child{width:42%}
+.feat-table td{font-size:24px;padding:14px 16px;border-bottom:1px solid var(--border);text-align:center}
+.feat-table td:first-child{text-align:left;color:var(--muted);font-weight:500}
+.feat-table .no{color:rgba(255,255,255,0.2);font-size:22px}
+.feat-table .yes{color:var(--green);font-weight:900;font-size:22px}
+.feat-table .mosaic-col{color:var(--green);font-weight:900}
+.feat-table .maybe{color:var(--yellow);font-size:20px}
+.feat-table tr:last-child td{border-bottom:none}
+
+/* ===========================
+   SLIDE 11 — MOAT
+   =========================== */
+#s11 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
+#s11 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:12px}
+#s11 .sub{font-size:26px;color:var(--muted);margin-bottom:44px}
+#s11 .moats{display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1}
+.moat-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:44px 48px}
+.moat-card .mc-num{font-size:56px;font-weight:900;line-height:1;margin-bottom:8px;opacity:0.3}
+.moat-card h3{font-size:34px;font-weight:900;margin-bottom:16px;letter-spacing:-0.5px}
+.moat-card p{font-size:24px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.moat-card .mc-insight{font-size:22px;font-style:italic;color:var(--muted);border-left:3px solid var(--purple);padding-left:16px;line-height:1.5}
+.moat-card:nth-child(1){border-color:rgba(124,109,245,0.3)}
+.moat-card:nth-child(2){border-color:rgba(0,212,212,0.3)}
+.moat-card:nth-child(3){border-color:rgba(255,201,71,0.3)}
+.moat-card:nth-child(4){border-color:rgba(0,224,150,0.3)}
+
+/* ===========================
+   SLIDE 12 — TEAM
+   =========================== */
+#s12 .inner{padding:70px 80px;display:flex;flex-direction:column;height:100%;position:relative;z-index:2}
+#s12 .sh{font-size:80px;font-weight:900;letter-spacing:-2px;margin-bottom:44px}
+#s12 .founders{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px}
+.founder-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:44px 48px}
+.founder-card .role-tag{display:inline-flex;background:rgba(124,109,245,0.1);border:1px solid rgba(124,109,245,0.25);border-radius:100px;padding:6px 20px;font-size:19px;font-weight:700;color:var(--purple);margin-bottom:16px}
+.founder-card .fc-name{font-size:40px;font-weight:900;letter-spacing:-1px;margin-bottom:20px}
+.founder-card ul{list-style:none}
+.founder-card ul li{font-size:24px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.founder-card ul li:last-child{border-bottom:none}
+.founder-card ul li::before{content:'→';color:var(--purple);font-weight:700;flex-shrink:0;margin-top:2px}
+.founder-card ul li strong{color:var(--text)}
+.ai-team{background:linear-gradient(135deg,rgba(124,109,245,0.06),rgba(0,212,212,0.04));border:1px solid rgba(124,109,245,0.2);border-radius:20px;padding:32px 44px;margin-bottom:28px}
+.ai-team h4{font-size:26px;font-weight:800;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+.ai-tools{display:flex;gap:16px;flex-wrap:wrap}
+.ai-tool{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:100px;padding:10px 24px;font-size:20px;color:var(--text)}
+.ai-tool span{color:var(--muted);margin-left:6px;font-size:18px}
+.ai-kicker{font-size:26px;color:var(--cyan);font-weight:700;margin-top:16px}
+.advisors{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 36px}
+.advisors h4{font-size:22px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.advisors .adv-list{display:flex;gap:20px}
+.adv-pill{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:100px;padding:10px 28px;font-size:20px;color:var(--muted)}
+
+/* ===========================
+   SLIDE 13 — THE ASK
+   =========================== */
+#s13{flex-direction:row}
+#s13 .left{width:860px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 80px;border-right:1px solid var(--border);position:relative;z-index:2;text-align:center}
+#s13 .right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:2}
+#s13 .sh{font-size:72px;font-weight:900;letter-spacing:-2px;margin-bottom:0;line-height:1.05}
+#s13 .raise-amount{font-size:180px;font-weight:900;letter-spacing:-8px;line-height:0.85;margin:20px 0}
+#s13 .raise-terms{font-size:22px;color:var(--muted);line-height:1.6;margin-bottom:40px}
+.funds-grid{width:100%;margin-bottom:20px}
+.fund-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.fund-row:last-child{border-bottom:none}
+.fund-row .fr-label{font-size:22px;color:var(--muted);flex:1}
+.fund-row .fr-bar-wrap{width:280px}
+.fund-row .fr-bar{height:8px;border-radius:100px;background:var(--g1)}
+.fund-row .fr-pct{font-size:22px;font-weight:700;width:52px;text-align:right}
+.fund-row .fr-amt{font-size:22px;font-weight:800;width:90px;text-align:right;color:var(--text)}
+#s13 .milestones{list-style:none;margin-bottom:24px}
+#s13 .milestones li{font-size:24px;padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;color:var(--muted)}
+#s13 .milestones li::before{content:'✓';color:var(--green);font-weight:900;font-size:26px;flex-shrink:0}
+#s13 .milestones li strong{color:var(--text)}
+#s13 .milestones li:last-child{border-bottom:none}
+.series-a{background:linear-gradient(135deg,rgba(124,109,245,0.1),rgba(0,212,212,0.06));border:1px solid rgba(124,109,245,0.25);border-radius:16px;padding:22px 32px}
+.series-a p{font-size:22px;color:var(--muted);line-height:1.5}
+.series-a strong{color:var(--text)}
+.series-a .sa-title{font-size:20px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- SLIDE COUNTER -->
+<div id="counter">1 / 13</div>
+
+<!-- NAV DOTS -->
+<div id="dots"></div>
+
+<!-- DECK CANVAS -->
+<div id="deck">
+
+<!-- =================== SLIDE 1: COVER =================== -->
+<div class="slide active" id="s1">
+  <div class="bg-img"></div>
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple orb1" style="width:900px;height:900px;top:-300px;left:-200px"></div>
+  <div class="orb orb-cyan orb2" style="width:700px;height:700px;bottom:-200px;right:-100px"></div>
+  <div class="orb orb-purple orb3" style="width:500px;height:500px;top:290px;left:710px"></div>
+  <div class="inner">
+    <div class="logo g-text">MOSAIC</div>
+    <div class="super">Physical World Intelligence Infrastructure</div>
+    <div class="tagline">"The physical world, <em>finally legible.</em>"</div>
+    <div class="kpis">
+      <div class="kpi"><div class="kn g-text">$35B</div><div class="kl">Market</div></div>
+      <div class="kpi"><div class="kn g2-text">6.8B</div><div class="kl">Sensors Deployed</div></div>
+      <div class="kpi"><div class="kn g3-text">4 hrs</div><div class="kl">Delivery SLA</div></div>
+      <div class="kpi"><div class="kn g4-text">55%+</div><div class="kl">Gross Margin</div></div>
+      <div class="kpi"><div class="kn g5-text">$5M</div><div class="kl">Seed Round</div></div>
+    </div>
+    <div class="founders">[CEO Name] · [CTO Name]</div>
+    <div class="meta">mosaic-intel.com · Confidential · Seed 2026</div>
+    <div class="btns">
+      <button class="btn-primary">View Demo</button>
+      <button class="btn-ghost">Download PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 2: THE GAP =================== -->
+<div class="slide" id="s2">
+  <div class="bg-img"></div>
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:600px;height:600px;top:-100px;left:-150px"></div>
+  <div class="orb orb-pink" style="width:500px;height:500px;bottom:-100px;right:-100px"></div>
+  <div class="left">
+    <div class="big-stat g-text">95%</div>
+    <div class="stat-sub">of physical locations<br>never audited</div>
+    <div class="blind-icon">🕳️</div>
+    <div style="margin-top:28px;background:rgba(255,107,157,0.08);border:1px solid rgba(255,107,157,0.25);border-radius:16px;padding:24px 32px;text-align:center">
+      <div style="font-size:52px;font-weight:900;color:#ff6b9d">4–8%</div>
+      <div style="font-size:22px;color:var(--muted);margin-top:6px">Revenue lost to out-of-stocks<br>brands never knew about</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="rh">THE PHYSICAL<br><span class="g-text">WORLD IS DARK</span></div>
+    <ul class="bullets">
+      <li><strong>$50–300</strong> per field check visit</li>
+      <li><strong>14 days</strong> to complete a campaign</li>
+      <li>Covers <strong>&lt;5%</strong> of locations</li>
+      <li>Delivers <strong>zero</strong> machine-readable output</li>
+    </ul>
+    <div class="callout">
+      <p>"The physical world generates zero data<br>unless someone deliberately captures it."</p>
+    </div>
+    <div style="margin-top:28px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:24px 32px">
+      <div style="font-size:24px;color:var(--muted);line-height:1.7">Every day, a brand manager runs a promotion across 4,200 stores. 12 reps cover 220 of them. The other <strong style="color:var(--text)">4,000 stores are invisible.</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 3: WHY NOW =================== -->
+<div class="slide" id="s3">
+  <div class="slide-grid"></div>
+  <div class="orb orb-cyan" style="width:700px;height:700px;top:-200px;right:-100px"></div>
+  <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
+  <div class="inner">
+    <div class="sh">Three Forces. <span class="g-text">One Window.</span></div>
+    <div class="sub">Why 2026 is the exact moment this infrastructure becomes possible — and defensible.</div>
+    <div class="cards">
+      <div class="why-card">
+        <div class="icon">🤖</div>
+        <h3 class="g-text">AI Vision Cost Crossed Zero</h3>
+        <div class="stat g-text">200×</div>
+        <p>$0.40/image in 2022 → <strong style="color:var(--text)">$0.02 in 2026</strong>. Full JSON extraction from a shelf photo in 3 seconds. This single change rewrites every unit economic calculation in the industry.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">📱</div>
+        <h3 class="g2-text">6.8B Sensors, Already Deployed</h3>
+        <div class="stat g2-text">50M+</div>
+        <p>48MP cameras. GPS. LiDAR. <strong style="color:var(--text)">Gig workers trained by Uber, DoorDash, Deliveroo</strong> to complete smartphone micro-tasks for micro-pay. The supply side is already built.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">💊</div>
+        <h3 class="g3-text">Enterprise Budget Unlocked</h3>
+        <div class="stat g3-text">$200K–2M</div>
+        <p>COVID exposed catastrophic CPG field failures. Every major brand now has a <strong style="color:var(--text)">"field intelligence modernization" budget</strong> that didn't exist pre-2020. Actively looking to spend.</p>
+      </div>
+    </div>
+    <div class="bottom">
+      <p><strong style="color:var(--yellow)">The incumbent gap:</strong> BeMyEye and Field Agent have 12+ years and $50M+ raised. Neither has shipped a meaningful product update since 2020. The market is ready to switch — and the self-serve tier has never been served at all.</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 4: THE PLATFORM =================== -->
+<div class="slide" id="s4">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;left:-100px"></div>
+  <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;right:-100px"></div>
+  <div class="left">
+    <div class="sh">One Platform.<br><span class="g-text">Six Markets.</span></div>
+    <div class="sub">Not a CPG analytics tool. The infrastructure layer that makes the physical world machine-readable — for every industry that depends on it.</div>
+    <div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:0">
+        <div class="flow-box"><div class="ft">Human<br>Sensor</div><div class="fs">50M+ deployed</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><div class="ft">On-Device<br>AI</div><div class="fs">GDPR-native</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><div class="ft">Cloud<br>Extraction</div><div class="fs">4hr SLA</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><div class="ft">Enterprise<br>API</div><div class="fs">JSON + Webhooks</div></div>
+      </div>
+    </div>
+    <div class="flow-badges">
+      <div class="flow-badge">Privacy-first</div>
+      <div class="flow-badge">Route-matched</div>
+      <div class="flow-badge">Self-serve</div>
+      <div class="flow-badge">API-native</div>
+    </div>
+    <div style="margin-top:32px;background:rgba(124,109,245,0.07);border:1px solid rgba(124,109,245,0.2);border-radius:14px;padding:22px 28px">
+      <div style="font-size:22px;color:var(--muted);line-height:1.6">Any photo. Any location. Any industry. Verified, AI-extracted, delivered in hours — not weeks.</div>
+    </div>
+  </div>
+  <div class="right">
+    <div style="font-size:26px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:24px">Addressable Markets</div>
+    <div class="mkt-grid">
+      <div class="mkt-card">
+        <div class="mc-title">🛒 CPG / Retail</div>
+        <div class="mc-sam g-text">$4.2B SAM</div>
+        <div class="mc-when">Year 1 Beachhead</div>
+      </div>
+      <div class="mkt-card">
+        <div class="mc-title">🏠 Insurance</div>
+        <div class="mc-sam g2-text">$8B SAM</div>
+        <div class="mc-when">Year 2</div>
+      </div>
+      <div class="mkt-card">
+        <div class="mc-title">🏘️ Real Estate</div>
+        <div class="mc-sam g3-text">$2B SAM</div>
+        <div class="mc-when">Year 2–3</div>
+      </div>
+      <div class="mkt-card">
+        <div class="mc-title">🚚 Logistics</div>
+        <div class="mc-sam g4-text">$5B SAM</div>
+        <div class="mc-when">Year 3</div>
+      </div>
+      <div class="mkt-card">
+        <div class="mc-title">📊 Alt Data</div>
+        <div class="mc-sam g5-text">$1.5B SAM</div>
+        <div class="mc-when">Year 4</div>
+      </div>
+      <div class="mkt-card">
+        <div class="mc-title">👥 Consumer</div>
+        <div class="mc-sam" style="background:var(--g2);-webkit-background-clip:text;-webkit-text-fill-color:transparent">$3B NEW</div>
+        <div class="mc-when">Year 2 — category creation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 5: CPG DEEP DIVE =================== -->
+<div class="slide" id="s5">
+  <div class="slide-grid"></div>
+  <div class="orb orb-green" style="width:600px;height:600px;top:-100px;right:-100px"></div>
+  <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
+  <div class="left">
+    <div class="sh">CPG: <span class="g-text">The Wedge</span></div>
+    <div class="wedge-badge">Year 1 Beachhead · $60K ACV</div>
+    <div class="persona-card">
+      <div class="name">Daniela Santos</div>
+      <div class="title">National Field Sales Manager · $500M CPG Brand</div>
+      <div class="quote">"4,200 stores. 12 field reps. 19% coverage.<br>I have no idea what my shelf looks like right now."</div>
+    </div>
+    <div class="pain-text">
+      <p>Paid <strong>$85,000</strong> for a Super Bowl end-cap placement.</p>
+      <p><strong>60 of 300 stores</strong> misplaced the product.</p>
+      <p>Found out <strong>three weeks later.</strong></p>
+      <p class="loss">$170K in promotional lift, gone.</p>
+    </div>
+  </div>
+  <div class="right">
+    <div class="workflow">
+      <h4>Real Workflow — 4hr CPG Audit</h4>
+      <div class="workflow-step">
+        <div class="ws-num">1</div>
+        <div class="ws-text"><strong>Upload planogram + 50 store list.</strong> Set 4hr SLA. Pay by card.</div>
+      </div>
+      <div class="workflow-step">
+        <div class="ws-num">2</div>
+        <div class="ws-text"><strong>Route-match:</strong> each store → collector already commuting within 0.5mi</div>
+      </div>
+      <div class="workflow-step">
+        <div class="ws-num">3</div>
+        <div class="ws-text"><strong>45–90s capture,</strong> on-device AI quality check before upload. GDPR-native.</div>
+      </div>
+      <div class="workflow-step">
+        <div class="ws-num">4</div>
+        <div class="ws-text"><strong>Compliance score per store,</strong> AI JSON, photos worst-first → within 4hrs</div>
+      </div>
+    </div>
+    <div class="roi-box">
+      <p>50 stores, $1,500 spend. If 8 stores non-compliant: $12,800 recovered.<br><strong>8× ROI in 30 days.</strong></p>
+    </div>
+    <div class="bottom-stats">
+      <div class="bstat"><div class="bsn g-text">$60K</div><div class="bsl">ACV</div></div>
+      <div class="bstat"><div class="bsn g2-text">4 hr</div><div class="bsl">SLA</div></div>
+      <div class="bstat"><div class="bsn g3-text">$25</div><div class="bsl">Per Store</div></div>
+      <div class="bstat"><div class="bsn g4-text">60%</div><div class="bsl">Pilot → Annual</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 6: PRODUCT =================== -->
+<div class="slide" id="s6">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
+  <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
+  <div class="inner">
+    <div class="sh">The product they actually use.</div>
+    <div class="panels">
+      <div class="prod-panel">
+        <h3 class="g-text">Collector App</h3>
+        <div class="pp-sub">iOS + Android — Expo/React Native</div>
+        <div class="screenshots">
+          <div class="ss-mock">
+            <img src="deck-assets/demo-screenshot-c1-onboarding.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Onboarding">
+            <div style="display:none;flex-direction:column;align-items:center;gap:8px;padding:12px">
+              <div style="font-size:40px">📱</div>
+              <div style="font-size:13px;color:var(--muted)">Onboarding</div>
+            </div>
+            <div class="ss-label">Onboarding</div>
+          </div>
+          <div class="ss-mock">
+            <img src="deck-assets/demo-screenshot-c2-taskfeed.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Task Feed">
+            <div style="display:none;flex-direction:column;align-items:center;gap:8px;padding:12px">
+              <div style="font-size:40px">🗺️</div>
+              <div style="font-size:13px;color:var(--muted)">Task Feed</div>
+            </div>
+            <div class="ss-label">Task Feed</div>
+          </div>
+        </div>
+        <ul>
+          <li><strong>Commute Mode</strong> — tasks on your existing route only</li>
+          <li><strong>45-second</strong> capture flow, AI quality check live</li>
+          <li>Instant payout — <strong>£14.50 per commute</strong> (UK)</li>
+          <li>Already going there = <strong>2× DoorDash hourly rate</strong></li>
+        </ul>
+      </div>
+      <div class="prod-panel">
+        <h3 class="g2-text">Enterprise Portal</h3>
+        <div class="pp-sub">Next.js + Supabase — Campaign Dashboard</div>
+        <div class="screenshots">
+          <div class="ss-mock-wide">
+            <img src="deck-assets/demo-screenshot-e1-dashboard.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Dashboard">
+            <div style="display:none;flex-direction:column;align-items:center;gap:8px">
+              <div style="font-size:40px">📊</div>
+              <div style="font-size:13px;color:var(--muted)">Live Dashboard</div>
+            </div>
+            <div class="ss-label">Live Compliance Dashboard</div>
+          </div>
+        </div>
+        <ul>
+          <li><strong>Campaign creator:</strong> upload planogram → select stores → set SLA</li>
+          <li>Live compliance map: <strong>color-coded, real-time</strong></li>
+          <li><strong>AI JSON results</strong> + trend analysis + anomaly flags</li>
+          <li>Alert webhooks for <strong>OOS thresholds</strong> → Slack/Salesforce</li>
+        </ul>
+      </div>
+    </div>
+    <div class="magic">
+      <div class="magic-stat"><div class="mn g-text">45s</div><div class="ml">Task Time</div></div>
+      <div class="magic-stat"><div class="mn g2-text">4 hr</div><div class="ml">Delivery</div></div>
+      <div class="magic-stat"><div class="mn g3-text">£14.50</div><div class="ml">Per Commute</div></div>
+      <div class="magic-stat"><div class="mn g4-text">$60K</div><div class="ml">ACV</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 7: BUSINESS MODEL =================== -->
+<div class="slide" id="s7">
+  <div class="slide-grid"></div>
+  <div class="orb orb-yellow" style="width:600px;height:600px;top:-150px;right:-100px"></div>
+  <div class="orb orb-purple" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
+  <div class="inner">
+    <div class="sh">Three Tiers. One Flywheel. <span class="g-text">55%+ Margin.</span></div>
+    <div class="sub">Agent payout is fixed at 40%. Platform take compounds as AI cost curves drop.</div>
+    <div class="tiers">
+      <div class="tier-card t1">
+        <div class="tc-label" style="color:var(--purple)">Consumer</div>
+        <div class="tc-price g-text">Pay-per-task</div>
+        <div class="tc-vol">$5–$25 per task</div>
+        <div class="tc-gm g-text">52% GM</div>
+        <div class="tc-acq">App store · Viral · Agent earnings sharing</div>
+      </div>
+      <div class="tier-card t2">
+        <div class="tc-label" style="color:var(--cyan)">SMB</div>
+        <div class="tc-price g3-text">$49–$749/mo</div>
+        <div class="tc-vol">5–150 tasks/month</div>
+        <div class="tc-gm g3-text">62% GM</div>
+        <div class="tc-acq">PLG · Shopify app · Content SEO</div>
+      </div>
+      <div class="tier-card t3">
+        <div class="tc-label" style="color:var(--yellow)">Enterprise</div>
+        <div class="tc-price g4-text">$2,500–$50K/mo</div>
+        <div class="tc-vol">200–10,000+ tasks/month</div>
+        <div class="tc-gm g4-text">58% GM</div>
+        <div class="tc-acq">Founder sales → AE → Reference logos</div>
+      </div>
+    </div>
+    <div class="pnl-row">
+      <div class="pnl-box">
+        <h4>Task P&amp;L (Blended $25 task)</h4>
+        <div class="pnl-items">
+          <div class="pnl-item"><span class="pi-label">Revenue</span> <span class="pi-val" style="color:var(--green)">$25.00</span></div>
+          <span class="arrow-sep">→</span>
+          <div class="pnl-item"><span class="pi-label">Agent (40%)</span> <span class="pi-val" style="color:var(--pink)">−$10.00</span></div>
+          <span class="arrow-sep">→</span>
+          <div class="pnl-item"><span class="pi-label">AI</span> <span class="pi-val" style="color:var(--orange)">−$1.80</span></div>
+          <span class="arrow-sep">→</span>
+          <div class="pnl-item"><span class="pi-label">Ops</span> <span class="pi-val" style="color:var(--orange)">−$1.10</span></div>
+          <span class="arrow-sep">→</span>
+          <div class="pnl-item"><span class="pi-label">Net GM</span> <span class="pi-val" style="color:var(--cyan);font-size:28px">44.6%</span></div>
+          <span class="arrow-sep">→</span>
+          <div class="pnl-item"><span class="pi-label">At Scale</span> <span class="pi-val" style="color:var(--green);font-size:28px">55%+</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bonus">
+      <h4>BONUS: AI Training Data — The Hidden Upside</h4>
+      <p>Every task = labeled visual data. <strong>500K tasks/month → $2.4M/month at 95% GM.</strong> Incumbents don't have consumer scale, so they'll never have this flywheel. We get it for free.</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 8: MARKET =================== -->
+<div class="slide" id="s8">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
+  <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
+  <div class="left">
+    <div class="sh" style="font-size:64px;text-align:center">$35B Market That's Never Had<br><span class="g-text">a Self-Serve Product</span></div>
+    <div class="circles">
+      <div class="circle c-tam"><div class="cn g-text">$35B</div><div class="cl">TAM</div></div>
+      <div class="circle c-sam"><div class="cn g3-text">$8.5B</div><div class="cl">SAM</div></div>
+      <div class="circle c-som"><div class="cn" style="color:var(--green);font-size:26px">$25M</div><div class="cl">SOM Y3</div></div>
+    </div>
+    <div class="c-labels">
+      <div class="cl-row"><div class="cl-dot" style="background:var(--purple)"></div><span class="cl-name">TAM — Physical world intelligence</span><span class="cl-val g-text">$35B</span></div>
+      <div class="cl-row"><div class="cl-dot" style="background:var(--cyan)"></div><span class="cl-name">SAM — Crowdsourced visual intelligence</span><span class="cl-val g3-text">$8.5B</span></div>
+      <div class="cl-row"><div class="cl-dot" style="background:var(--green)"></div><span class="cl-name">SOM Y3 — 0.36% share</span><span class="cl-val" style="color:var(--green)">$25M ARR</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right-content">
+      <div class="market-card">
+        <h4>Why It's Bigger Than It Looks</h4>
+        <p>BeMyEye: <strong>$35M ARR in 15 years.</strong> Enterprise-only. The <strong>consumer/SMB tier has never been served</strong> — that's $3–5B of market that doesn't yet exist as a category. Mosaic creates it.</p>
+      </div>
+      <div class="market-card">
+        <div class="mc-stat g2-text">$19.6B</div>
+        <h4>AI Training Data — Secondary Market</h4>
+        <p>Growing at <strong>24.3% CAGR</strong> by 2033. Every Mosaic task generates proprietary labeled real-world visual data. This secondary revenue stream exists only at our scale.</p>
+      </div>
+      <div class="market-card" style="display:flex;align-items:center;gap:28px">
+        <div class="cagr-badge">22% CAGR</div>
+        <p style="flex:1">Physical intelligence market growing faster than SaaS. Enterprise AI budgets that didn't exist pre-2020 are now <strong>actively looking to deploy.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 9: TRACTION =================== -->
+<div class="slide" id="s9">
+  <div class="slide-grid"></div>
+  <div class="orb orb-cyan" style="width:600px;height:600px;top:-150px;left:-100px"></div>
+  <div class="orb orb-green" style="width:500px;height:500px;bottom:-100px;right:-100px"></div>
+  <div class="left">
+    <div class="sh">Two People. Eight Weeks.<br><span class="g3-text">$30K/Month Burn.</span></div>
+    <ul class="shipped-list">
+      <li><strong>Collector app</strong> <em>(iOS + Android)</em> — Expo/React Native</li>
+      <li><strong>Enterprise portal</strong> — Next.js + Supabase + Realtime</li>
+      <li><strong>AI extraction pipeline</strong> — GPT-4V + custom validation</li>
+      <li><strong>Route-matching algorithm</strong> — geospatial corridor matching</li>
+      <li><strong>3-tier pricing engine</strong> — self-serve + enterprise</li>
+      <li><strong>On-device face redaction</strong> — GDPR-native, pre-upload</li>
+    </ul>
+    <div class="burn-callout">
+      <p>"The AI-native founding advantage: <strong>2 people, 8 weeks, the output of a 12-person team.</strong> $30K/month burn rate."</p>
+    </div>
+  </div>
+  <div class="right">
+    <div class="demo-frame">
+      <div class="df-bar">
+        <div class="df-dot" style="background:#ff5f56"></div>
+        <div class="df-dot" style="background:#ffbd2e"></div>
+        <div class="df-dot" style="background:#27c93f"></div>
+        <span style="margin-left:8px">mosaic-intel.com/demo</span>
+      </div>
+      <img src="deck-assets/demo-screenshot-e1-dashboard.png" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Dashboard Demo">
+      <div class="df-placeholder" style="display:none">
+        <div class="dp-icon">📊</div>
+        <div class="dp-text">Enterprise Dashboard</div>
+        <div style="font-size:15px;color:var(--muted)">Live compliance view · AI results · Map overlay</div>
+      </div>
+    </div>
+    <div style="margin-top:32px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 36px">
+      <div style="font-size:22px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">What $30K/mo buys</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="text-align:center"><div style="font-size:48px;font-weight:900;color:var(--green)">2</div><div style="font-size:18px;color:var(--muted)">Founders</div></div>
+        <div style="text-align:center"><div style="font-size:48px;font-weight:900;color:var(--cyan)">6</div><div style="font-size:18px;color:var(--muted)">Products shipped</div></div>
+        <div style="text-align:center"><div style="font-size:48px;font-weight:900;color:var(--purple)">167mo</div><div style="font-size:18px;color:var(--muted)">Pre-seed runway</div></div>
+        <div style="text-align:center"><div style="font-size:48px;font-weight:900;color:var(--yellow)">12×</div><div style="font-size:18px;color:var(--muted)">Team equiv.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 10: COMPETITION =================== -->
+<div class="slide" id="s10">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;right:-100px"></div>
+  <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
+  <div class="left">
+    <div class="sh">We Live in<br><span class="g-text">Whitespace</span></div>
+    <div class="matrix">
+      <div class="matrix-axis-h"></div>
+      <div class="matrix-axis-v"></div>
+      <div class="matrix-label ml-top">HIGH AI QUALITY</div>
+      <div class="matrix-label ml-bottom">LOW AI QUALITY</div>
+      <div class="matrix-label ml-left">ENTERPRISE ONLY</div>
+      <div class="matrix-label ml-right">CONSUMER / SMB</div>
+      <div class="matrix-dot md-mosaic">
+        <div class="md-circle"></div>
+        <div class="md-label" style="color:var(--purple)">MOSAIC</div>
+      </div>
+      <div class="matrix-dot md-fa" style="top:63%;left:25%">
+        <div class="md-circle" style="background:rgba(255,255,255,0.3)"></div>
+        <div class="md-label" style="color:var(--muted)">Field Agent</div>
+      </div>
+      <div class="matrix-dot" style="top:73%;left:18%;position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div class="md-circle" style="background:rgba(255,255,255,0.25)"></div>
+        <div class="md-label" style="color:var(--muted)">BeMyEye</div>
+      </div>
+      <div class="matrix-dot" style="top:42%;left:22%;position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div class="md-circle" style="background:rgba(255,255,255,0.2)"></div>
+        <div class="md-label" style="color:var(--muted)">Trax</div>
+      </div>
+      <!-- Whitespace highlight -->
+      <div style="position:absolute;top:8%;left:52%;right:5%;bottom:48%;background:rgba(124,109,245,0.06);border:1px dashed rgba(124,109,245,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center">
+        <span style="font-size:17px;color:rgba(124,109,245,0.6);font-weight:700">MOSAIC TERRITORY</span>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div style="font-size:26px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:28px">Feature Comparison</div>
+    <table class="feat-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Field Agent</th>
+          <th>BeMyEye</th>
+          <th>Trax</th>
+          <th style="color:var(--purple)">MOSAIC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Consumer tier</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>AI extraction</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>&lt;4 hour SLA</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>Route matching</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>On-device GDPR</td><td class="no">✗</td><td class="maybe">?</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>Self-serve</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes mosaic-col">✓</td></tr>
+        <tr><td>API-first</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="yes mosaic-col">✓</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:28px;background:rgba(124,109,245,0.07);border:1px solid rgba(124,109,245,0.2);border-radius:14px;padding:22px 28px">
+      <p style="font-size:23px;color:var(--muted);line-height:1.6">"No company with strong AI capability has ever built a consumer/SMB product. This isn't a feature. <strong style="color:var(--text)">It's a category.</strong>"</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 11: MOAT =================== -->
+<div class="slide" id="s11">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:700px;height:700px;top:-200px;left:-150px"></div>
+  <div class="orb orb-cyan" style="width:600px;height:600px;bottom:-150px;right:-100px"></div>
+  <div class="inner">
+    <div class="sh">Four Compounding <span class="g-text">Moats</span></div>
+    <div class="sub">The platform at 50K MACs cannot be replicated in under 3 years.</div>
+    <div class="moats">
+      <div class="moat-card">
+        <div class="mc-num g-text">01</div>
+        <h3>Data Moat — Proprietary Training Data</h3>
+        <p>500K labeled images by Year 1 → fine-tuned AI at 80% lower cost per task.</p>
+        <div class="mc-insight">Can't train without tasks, can't get tasks without trained AI. Self-reinforcing loop.</div>
+      </div>
+      <div class="moat-card">
+        <div class="mc-num g3-text">02</div>
+        <h3>Network Effect — Geographic Lock-In</h3>
+        <p>500 MACs in a city → 4-hour SLA guaranteed across every store in that metro.</p>
+        <div class="mc-insight">Everyone else: 24-hour SLA. First mover owns the city. <strong style="color:var(--text)">Forever.</strong></div>
+      </div>
+      <div class="moat-card">
+        <div class="mc-num g4-text">03</div>
+        <h3>Switching Costs — Workflow Integration</h3>
+        <p>After 6 months: data in PowerBI, API in Salesforce, history in our DB.</p>
+        <div class="mc-insight">Switching = months of rebuild + loss of benchmarks. NRR compounds past 120%.</div>
+      </div>
+      <div class="moat-card">
+        <div class="mc-num g2-text">04</div>
+        <h3>Cost Curve — AI Compounding</h3>
+        <p>$1.80/task at launch → $0.35/task at Year 3. Gross margin: 44% → 55%+.</p>
+        <div class="mc-insight">Legacy competitors cannot match this AI cost trajectory. The gap widens every quarter.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 12: TEAM =================== -->
+<div class="slide" id="s12">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:600px;height:600px;top:-150px;right:-100px"></div>
+  <div class="orb orb-cyan" style="width:500px;height:500px;bottom:-100px;left:-100px"></div>
+  <div class="inner">
+    <div class="sh"><span class="g-text">AI-Native</span> Founding Team</div>
+    <div class="founders">
+      <div class="founder-card">
+        <div class="role-tag">CEO / Commercial</div>
+        <div class="fc-name">[CEO Name]</div>
+        <ul>
+          <li>CPG domain expertise — <strong>personally managed competitive intelligence budget</strong></li>
+          <li>Enterprise SaaS sales — <strong>knows every procurement pattern at Tier 1–3 CPG</strong></li>
+          <li><strong>Warm intros to first 10 enterprise accounts</strong> at launch</li>
+        </ul>
+      </div>
+      <div class="founder-card">
+        <div class="role-tag" style="color:var(--cyan);background:rgba(0,212,212,0.1);border-color:rgba(0,212,212,0.25)">CTO / Technical</div>
+        <div class="fc-name">[CTO Name]</div>
+        <ul>
+          <li>Mobile + AI/ML background — <strong>shipped consumer apps at scale</strong></li>
+          <li>Built real-time inference pipelines — <strong>on-device AI, geospatial systems</strong></li>
+          <li><strong>Full-stack: React Native, Next.js, Supabase, GPT-4V</strong> — all in production</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ai-team">
+      <h4>The AI Team</h4>
+      <div class="ai-tools">
+        <div class="ai-tool">Claude Code / Cursor / Devin<span>→ 4× engineering velocity</span></div>
+        <div class="ai-tool">v0 / Figma AI<span>→ design without headcount</span></div>
+        <div class="ai-tool">Pilot.ai / Stripe<span>→ finance without headcount</span></div>
+        <div class="ai-tool">Intercom AI<span>→ CS without headcount</span></div>
+      </div>
+      <div class="ai-kicker">Output of a 12-person team at $30K/month burn rate.</div>
+    </div>
+    <div class="advisors">
+      <h4>Advisors (TBD)</h4>
+      <div class="adv-list">
+        <div class="adv-pill">ex-CPG field ops exec</div>
+        <div class="adv-pill">GDPR attorney</div>
+        <div class="adv-pill">Marketplace operator</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE 13: THE ASK =================== -->
+<div class="slide" id="s13">
+  <div class="slide-grid"></div>
+  <div class="orb orb-purple" style="width:900px;height:900px;top:-300px;left:-250px"></div>
+  <div class="orb orb-cyan" style="width:700px;height:700px;bottom:-200px;right:-150px"></div>
+  <div class="left">
+    <div class="sh" style="text-align:center">We're Raising<br><span class="g-text">$5M</span><br>to Prove the Model.</div>
+    <div class="raise-amount g-text">$5M</div>
+    <div class="raise-terms">
+      Seed Round · SAFE · $20M Pre-Money Cap<br>
+      20% Discount · Standard YC Terms<br>
+      18-month runway to Series A
+    </div>
+    <div style="background:rgba(124,109,245,0.07);border:1px solid rgba(124,109,245,0.2);border-radius:16px;padding:24px 36px;max-width:600px">
+      <div class="series-a">
+        <div class="sa-title">Series A Trigger</div>
+        <p><strong>$60–80M pre-money</strong> · 3× YoY growth · 120%+ NRR<br>"The physical world intelligence default."</p>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div style="font-size:28px;font-weight:800;margin-bottom:28px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">Use of Funds</div>
+    <div class="funds-grid">
+      <div class="fund-row">
+        <div class="fr-label">Engineering (2 senior hires)</div>
+        <div class="fr-bar-wrap"><div class="fr-bar" style="width:36%"></div></div>
+        <div class="fr-pct g-text">36%</div>
+        <div class="fr-amt">$1.8M</div>
+      </div>
+      <div class="fund-row">
+        <div class="fr-label">Collector acquisition (6 cities)</div>
+        <div class="fr-bar-wrap"><div class="fr-bar" style="width:24%;background:var(--g2)"></div></div>
+        <div class="fr-pct g2-text">24%</div>
+        <div class="fr-amt">$1.2M</div>
+      </div>
+      <div class="fund-row">
+        <div class="fr-label">Enterprise sales</div>
+        <div class="fr-bar-wrap"><div class="fr-bar" style="width:12%;background:var(--g3)"></div></div>
+        <div class="fr-pct g3-text">12%</div>
+        <div class="fr-amt">$0.6M</div>
+      </div>
+      <div class="fund-row">
+        <div class="fr-label">Infrastructure + AI</div>
+        <div class="fr-bar-wrap"><div class="fr-bar" style="width:16%;background:var(--g4)"></div></div>
+        <div class="fr-pct g4-text">16%</div>
+        <div class="fr-amt">$0.8M</div>
+      </div>
+      <div class="fund-row">
+        <div class="fr-label">Legal + ops + buffer</div>
+        <div class="fr-bar-wrap"><div class="fr-bar" style="width:12%;background:var(--g5)"></div></div>
+        <div class="fr-pct g5-text">12%</div>
+        <div class="fr-amt">$0.6M</div>
+      </div>
+    </div>
+    <div style="font-size:26px;font-weight:800;margin:28px 0 16px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)">18-Month Milestones</div>
+    <ul class="milestones">
+      <li><strong>$3.5M ARR</strong> with 20+ enterprise customers</li>
+      <li><strong>5,000 MACs</strong> across 6–8 cities</li>
+      <li><strong>3 named reference logos</strong> for Series A narrative</li>
+      <li><strong>Insurance vertical</strong> pilot closed</li>
+      <li><strong>Fine-tuned AI</strong> at 80% cost reduction vs. launch</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+(function() {
+  'use strict';
+
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  // Scale-to-fit
+  function scaleToFit() {
+    const deck = document.getElementById('deck');
+    const sx = window.innerWidth / 1920;
+    const sy = window.innerHeight / 1080;
+    const sc = Math.min(sx, sy);
+    deck.style.transform = 'scale(' + sc + ')';
+    deck.style.left = ((window.innerWidth - 1920 * sc) / 2) + 'px';
+    deck.style.top = ((window.innerHeight - 1080 * sc) / 2) + 'px';
+  }
+  window.addEventListener('resize', scaleToFit);
+  scaleToFit();
+
+  // Build nav dots
+  const dotsEl = document.getElementById('dots');
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', function() { goTo(i); });
+    dotsEl.appendChild(dot);
+  }
+
+  function goTo(n) {
+    if (n < 0) n = 0;
+    if (n >= total) n = total - 1;
+    slides[current].classList.remove('active');
+    document.querySelectorAll('.dot')[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot')[current].classList.add('active');
+    // Counter
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    // Progress bar
+    document.getElementById('progress').style.width = (((current + 1) / total) * 100) + '%';
+  }
+  window.goTo = goTo;
+
+  // Keyboard nav
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      goTo(current - 1);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(current - 1);
+    }
+  });
+
+  // Touch/swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, {passive: true});
+  document.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) goTo(current + 1);
+      else goTo(current - 1);
+    }
+  }, {passive: true});
+
+  // Init
+  goTo(0);
+})();
+</script>
+</body>
+</html>
