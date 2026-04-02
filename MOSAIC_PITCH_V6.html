@@ -237,6 +237,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 .prod-panel ul li strong{color:var(--text)}
 .pp-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .pp-tag{background:rgba(124,109,245,0.12);border:1px solid rgba(124,109,245,0.3);border-radius:100px;padding:8px 20px;font-size:20px;font-weight:600;color:#a89cf8}
+
+/* ===========================
+   SCREENSHOT-ONLY SLIDES
+   =========================== */
+#sca,#scb{justify-content:center;align-items:center;gap:0;position:relative}
+.sc-phones{display:flex;gap:20px;align-items:flex-start;justify-content:center;height:960px}
+.sc-phone{height:100%;width:auto;border-radius:24px;box-shadow:0 0 80px rgba(124,109,245,0.35),0 0 200px rgba(124,109,245,0.1)}
+.sc-dash-wrap{width:1760px;border-radius:20px;overflow:hidden;box-shadow:0 0 100px rgba(0,212,212,0.25),0 0 300px rgba(0,212,212,0.08)}
+.sc-dash-wrap img{width:100%;display:block}
 #s6 .magic{display:flex;gap:0;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:36px}
 .magic-stat{flex:1;padding:24px 40px;text-align:center;border-right:1px solid var(--border)}
 .magic-stat:last-child{border-right:none}
@@ -748,6 +757,28 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
       <div class="magic-stat"><div class="mn g3-text">£14.50</div><div class="ml">Per Commute</div></div>
       <div class="magic-stat"><div class="mn g4-text">$60K</div><div class="ml">ACV</div></div>
     </div>
+  </div>
+</div>
+
+<!-- =================== SLIDE SCA: COLLECTOR APP (screenshot only) =================== -->
+<div class="slide" id="sca">
+  <div class="orb orb-purple" style="width:900px;height:900px;top:-200px;left:-200px"></div>
+  <div class="orb orb-cyan" style="width:700px;height:700px;bottom:-200px;right:-200px"></div>
+  <div class="sc-phones">
+    <img src="deck-assets/demo-screenshot-c1-onboarding.png" class="sc-phone" alt="Onboarding">
+    <img src="deck-assets/demo-screenshot-c2-taskfeed.png" class="sc-phone" alt="Task Feed">
+    <img src="deck-assets/demo-screenshot-c4-taskdetail.png" class="sc-phone" alt="Task Detail">
+    <img src="deck-assets/demo-screenshot-c6-verify.png" class="sc-phone" alt="AI Verify">
+    <img src="deck-assets/demo-screenshot-c7-payout.png" class="sc-phone" alt="Instant Payout">
+  </div>
+</div>
+
+<!-- =================== SLIDE SCB: ENTERPRISE DASHBOARD (screenshot only) =================== -->
+<div class="slide" id="scb">
+  <div class="orb orb-cyan" style="width:900px;height:900px;top:-200px;right:-200px"></div>
+  <div class="orb orb-purple" style="width:700px;height:700px;bottom:-200px;left:-200px"></div>
+  <div class="sc-dash-wrap">
+    <img src="deck-assets/demo-screenshot-e0-dashboard.png" alt="Enterprise Dashboard">
   </div>
 </div>
 
