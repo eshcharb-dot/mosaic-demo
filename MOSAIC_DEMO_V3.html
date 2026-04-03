@@ -4430,21 +4430,25 @@ function onScreenChanged() {
 // ═══════════════════════════════════════════════════════════
 function fitViewport() {
   const header = document.querySelector('.demo-header');
-  const headerH = header ? header.getBoundingClientRect().height + 32 : 92; // 32 = margin-bottom
-  const navH = 72;    // fixed bottom nav
-  const padTop = 24;  // demo-shell top padding
-  const buf = 8;      // small safety buffer
-  const available = window.innerHeight - headerH - navH - padTop - buf;
+  const headerH = header ? header.getBoundingClientRect().height + 32 : 92;
+  const navH = 72;
+  const padTop = 24;
+  const buf = 8;
+  const availableH = window.innerHeight - headerH - navH - padTop - buf;
+  const availableW = window.innerWidth;
 
-  // Phone is 844px tall, desktop frame is 680px tall
-  const phoneScale = Math.min(1, available / 844);
-  const desktopScale = Math.min(1, available / 680);
+  // Scale to fit height, but also scale UP if viewport is wide enough to show phone at full size.
+  // Phone natural size: 390×844. Use 28% of viewport width as a signal for available horizontal room.
+  const phoneHeightScale = availableH / 844;
+  const phoneWidthScale  = (availableW * 0.28) / 390;
+  const phoneScale = Math.min(1, Math.max(phoneHeightScale, phoneWidthScale));
 
-  // Use whichever scale fits the active mode, but set both so toggle is instant
+  const desktopHeightScale = availableH / 680;
+  const desktopWidthScale  = (availableW * 0.55) / 1100;
+  const desktopScale = Math.min(1, Math.max(desktopHeightScale, desktopWidthScale));
+
   const activeScale = document.body.getAttribute('data-mode') === 'enterprise' ? desktopScale : phoneScale;
   document.documentElement.style.setProperty('--frame-zoom', activeScale);
-
-  // Store both for mode switches
   document._mosaicPhoneScale = phoneScale;
   document._mosaicDesktopScale = desktopScale;
 }
