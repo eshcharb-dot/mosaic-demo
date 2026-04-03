@@ -15,22 +15,22 @@
   --purple-light: #a78bfa;
   --purple-dark: #4c1d95;
   --frame-zoom: 1;
-  --cyan: #06b6d4;
-  --cyan-light: #67e8f9;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --bg: #080b12;
-  --bg2: #0d1117;
-  --bg3: #161b27;
-  --bg4: #1e2535;
-  --border: rgba(255,255,255,0.08);
-  --text: #f1f5f9;
-  --text2: #94a3b8;
-  --text3: #64748b;
+  --cyan: #0891b2;
+  --cyan-light: #22d3ee;
+  --green: #059669;
+  --amber: #d97706;
+  --red: #dc2626;
+  --bg: #F4F6FF;
+  --bg2: #FFFFFF;
+  --bg3: #EEF0FA;
+  --bg4: #E4E8F5;
+  --border: rgba(15,23,42,0.09);
+  --text: #0F172A;
+  --text2: #475569;
+  --text3: #94A3B8;
   --gradient: linear-gradient(135deg, var(--purple), var(--cyan));
-  --glow-purple: 0 0 40px rgba(124,58,237,0.4);
-  --glow-cyan: 0 0 40px rgba(6,182,212,0.4);
+  --glow-purple: 0 4px 24px rgba(124,58,237,0.15);
+  --glow-cyan: 0 4px 24px rgba(8,145,178,0.15);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -135,10 +135,10 @@ body {
 .phone-frame {
   width: 390px;
   height: 844px;
-  background: #0a0e18;
+  background: #1a1a2e;
   border-radius: 48px;
   border: 1.5px solid rgba(124,58,237,0.2);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04),
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.04),
     0 32px 64px rgba(0,0,0,0.7);
   overflow: hidden;
   position: relative;
@@ -206,7 +206,7 @@ body {
   background: var(--bg2);
   border-radius: 16px;
   border: 1px solid var(--border);
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.04),
+  box-shadow: 0 0 0 1px rgba(15,23,42,0.04),
     0 30px 80px rgba(0,0,0,0.5),
     var(--glow-cyan);
   overflow: hidden;
@@ -330,7 +330,7 @@ body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   height: 72px;
-  background: rgba(8,11,18,0.95);
+  background: rgba(244,246,255,0.95);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: flex;
@@ -1817,10 +1817,10 @@ body {
 
 /* Glassmorphism badge */
 .glass-badge {
-  background: rgba(255,255,255,0.05);
+  background: rgba(15,23,42,0.04);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(15,23,42,0.07);
 }
 
 /* Premium gradient text shortcut */
@@ -2097,15 +2097,15 @@ body {
       <!-- Keyboard shortcut chips -->
       <div style="display:flex;gap:6px;align-items:center;">
         <div style="display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
-          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">←</kbd>
-          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">→</kbd>
+          <kbd style="background:var(--bg4);border:1px solid rgba(15,23,42,0.07);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">←</kbd>
+          <kbd style="background:var(--bg4);border:1px solid rgba(15,23,42,0.07);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--text2);">→</kbd>
           navigate
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
-          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--purple-light);">1</kbd> collector
+          <kbd style="background:var(--bg4);border:1px solid rgba(15,23,42,0.07);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--purple-light);">1</kbd> collector
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--text3);">
-          <kbd style="background:var(--bg4);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--cyan);">2</kbd> enterprise
+          <kbd style="background:var(--bg4);border:1px solid rgba(15,23,42,0.07);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px;color:var(--cyan);">2</kbd> enterprise
         </div>
       </div>
     </div>
@@ -2540,7 +2540,7 @@ body {
                 <div class="camera-detect-badge" id="cameraDetectBadge">🔍 Detecting: Oat+ Oat Milk shelf</div>
               </div>
               <!-- Scan progress bar -->
-              <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.06);">
+              <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(15,23,42,0.05);">
                 <div id="cameraScanBar" style="height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#06b6d4);transition:width 2s ease-out;"></div>
               </div>
             </div>
@@ -2664,10 +2664,10 @@ body {
             <!-- History panel (hidden initially) -->
             <div id="payoutHistoryPanel" style="display:none;margin:10px 20px 0;background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
               <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);">Last 5 tasks</div>
-              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Oat+ · Sainsbury's Borough</span><span style="color:var(--green);font-weight:700;">+£14.50</span></div>
-              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">KitKat · Tesco Clapham</span><span style="color:var(--green);font-weight:700;">+£9.00</span></div>
-              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Dove Promo · Boots</span><span style="color:var(--green);font-weight:700;">+£22.00</span></div>
-              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;"><span style="color:var(--text2)">Ariel End-Cap · Waitrose</span><span style="color:var(--green);font-weight:700;">+£11.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(15,23,42,0.04);font-size:12px;"><span style="color:var(--text2)">Oat+ · Sainsbury's Borough</span><span style="color:var(--green);font-weight:700;">+£14.50</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(15,23,42,0.04);font-size:12px;"><span style="color:var(--text2)">KitKat · Tesco Clapham</span><span style="color:var(--green);font-weight:700;">+£9.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(15,23,42,0.04);font-size:12px;"><span style="color:var(--text2)">Dove Promo · Boots</span><span style="color:var(--green);font-weight:700;">+£22.00</span></div>
+              <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(15,23,42,0.04);font-size:12px;"><span style="color:var(--text2)">Ariel End-Cap · Waitrose</span><span style="color:var(--green);font-weight:700;">+£11.00</span></div>
               <div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:12px;"><span style="color:var(--text2)">Shelf Audit · Co-op Borough</span><span style="color:var(--green);font-weight:700;">+£18.00</span></div>
             </div>
             <div class="next-tasks">
@@ -2765,35 +2765,35 @@ body {
               <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:14px 16px;">
                 <div style="font-size:12px;color:#606090;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Recent Tasks</div>
                 <div style="display:flex;flex-direction:column;gap:10px">
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(15,23,42,0.03);border-radius:10px;border:1px solid rgba(15,23,42,0.05)">
                     <div>
                       <div style="font-size:14px;font-weight:700">Shelf audit · Sainsbury's Brixton</div>
                       <div style="font-size:12px;color:#606090">Today · 08:42 · Brixton, SW9</div>
                     </div>
                     <div style="color:#00e096;font-weight:800;font-size:15px">+£4.50</div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(15,23,42,0.03);border-radius:10px;border:1px solid rgba(15,23,42,0.05)">
                     <div>
                       <div style="font-size:14px;font-weight:700">Shelf audit · Tesco Stratford</div>
                       <div style="font-size:12px;color:#606090">Today · 09:15 · Stratford, E15</div>
                     </div>
                     <div style="color:#00e096;font-weight:800;font-size:15px">+£5.50</div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(15,23,42,0.03);border-radius:10px;border:1px solid rgba(15,23,42,0.05)">
                     <div>
                       <div style="font-size:14px;font-weight:700">Display check · Boots Canary Wharf</div>
                       <div style="font-size:12px;color:#606090">Yesterday · 17:30 · Canary Wharf, E14</div>
                     </div>
                     <div style="color:#00e096;font-weight:800;font-size:15px">+£3.00</div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(15,23,42,0.03);border-radius:10px;border:1px solid rgba(15,23,42,0.05)">
                     <div>
                       <div style="font-size:14px;font-weight:700">Promo audit · Waitrose Clapham</div>
                       <div style="font-size:12px;color:#606090">Yesterday · 14:05 · Clapham, SW4</div>
                     </div>
                     <div style="color:#00e096;font-weight:800;font-size:15px">+£4.00</div>
                   </div>
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(15,23,42,0.03);border-radius:10px;border:1px solid rgba(15,23,42,0.05)">
                     <div>
                       <div style="font-size:14px;font-weight:700">Shelf audit · M&amp;S Islington</div>
                       <div style="font-size:12px;color:#606090">Mon · 11:22 · Islington, N1</div>
@@ -3042,19 +3042,19 @@ body {
                 <div class="chart-card mt12">
                   <div class="chart-card-title">⚡ Live Activity — Last 30 min</div>
                   <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
-                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(15,23,42,0.04);">
                       <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
                       <span style="color:var(--text2);flex:1;">Sainsbury's Borough Market</span>
                       <span style="color:var(--green);font-weight:700;">94/100 ✓</span>
                       <span style="color:var(--text3);">2m ago</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(15,23,42,0.04);">
                       <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;"></div>
                       <span style="color:var(--text2);flex:1;">Co-op Shoreditch <span style="color:var(--red);font-weight:600;">🚨 Critical</span></span>
                       <span style="color:var(--red);font-weight:700;">48/100</span>
                       <span style="color:var(--text3);">8m ago</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(15,23,42,0.04);">
                       <div style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
                       <span style="color:var(--text2);flex:1;">Tesco King's Cross</span>
                       <span style="color:var(--green);font-weight:700;">93/100 ✓</span>
@@ -3971,7 +3971,7 @@ function openGalleryDetail(key) {
         <div style="font-size:28px;font-weight:900;color:${statusColor};">${d.score}<span style="font-size:14px;font-weight:500;color:var(--text2);">/100</span></div>
       </div>
       ${d.findings.map(f => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(15,23,42,0.04);">
           <span style="font-size:13px;color:var(--text2);">${f.label}</span>
           <span style="font-size:13px;font-weight:600;color:${f.ok ? 'var(--green)' : f.label.includes('Prediction')||f.label.includes('Action')||f.label.includes('Next') ? 'var(--amber)' : 'var(--red)'};">${f.val}</span>
         </div>`).join('')}
