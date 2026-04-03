@@ -85,8 +85,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
    SLIDE VISION 2 — CONNECTED WORLD
    =========================== */
 #sv2{flex-direction:column;position:relative;padding:64px 88px 52px;background:var(--bg);overflow:hidden}
-#sv2 .bg-img{display:none}
-#sv2 .veil{display:none}
+#sv2 .bg-img{position:absolute;inset:0;background-image:url('deck-assets/mosaic-cover-bg_v2.png');background-size:cover;background-position:center;opacity:0.07;z-index:0}
+#sv2 .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,3,5,0.6) 0%,rgba(3,3,5,0.5) 60%,rgba(3,3,5,0.75) 100%);z-index:1}
 #sv2 .sv2-top{margin-bottom:40px;position:relative;z-index:2}
 #sv2 .sv2-eyebrow{font-size:18px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,107,107,0.8);margin-bottom:14px;font-weight:700}
 #sv2 .sv2-headline{font-size:80px;font-weight:900;letter-spacing:-3px;line-height:0.95;color:#fff;margin-bottom:16px}
@@ -149,15 +149,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 /* ── Shared bg-img pattern for all slides ── */
 .slide .bg-img{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none;z-index:0}
-#s3 .bg-img{opacity:0}
-#s4 .bg-img{background-image:url('deck-assets/mosaic-sensors-city_v1.png');opacity:0.06}
-#s5 .bg-img{background-image:url('deck-assets/mosaic-store-exterior-v1.png');background-position:center right;opacity:0.09}
+#s3 .bg-img{background-image:url('deck-assets/mosaic-whynow-sensors_v1.png');opacity:0.05}
+#s4 .bg-img{background-image:url('deck-assets/mosaic-whynow-sensors_v1.png');opacity:0.07}
+#s5 .bg-img{background-image:url('deck-assets/mosaic-cpg-shelf-hero_v1.png');background-position:center right;opacity:0.08}
 #s6 .bg-img{opacity:0}
 #s7 .bg-img{opacity:0}
 #s8 .bg-img{opacity:0}
 #s9 .bg-img{opacity:0}
 #s10 .bg-img{opacity:0}
-#s11 .bg-img{background-image:url('deck-assets/mosaic-map-london-v1.png');background-position:center;opacity:0.07}
+#s11 .bg-img{background-image:url('deck-assets/mosaic-moats-network_v1.png');background-position:center;opacity:0.09}
 #s12 .bg-img{opacity:0}
 #s13 .bg-img{opacity:0}
 
@@ -520,6 +520,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
 
 <!-- =================== SLIDE V2: THE PROBLEM AT SCALE =================== -->
 <div class="slide" id="sv2">
+  <div class="bg-img"></div>
+  <div class="veil"></div>
   <div class="orb orb-pink" style="width:700px;height:700px;top:-200px;right:-100px;opacity:0.4"></div>
   <div class="orb orb-purple" style="width:500px;height:500px;bottom:-150px;left:-100px;opacity:0.3"></div>
   <div class="sv2-top">
@@ -620,19 +622,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'In
     <div class="sub">Why 2026 is the exact moment this infrastructure becomes possible — and defensible.</div>
     <div class="cards">
       <div class="why-card">
-        <div class="icon-img"><img src="deck-assets/demo-screenshot-c6-verify.png" alt="AI Verify"></div>
+        <div class="icon-img"><img src="deck-assets/mosaic-whynow-ai-cost_v1.png" alt="AI Cost Collapse"></div>
         <h3 class="g-text">AI Vision Cost Crossed Zero</h3>
         <div class="stat g-text">200×</div>
         <p>$0.40/image in 2022 → <strong style="color:var(--text)">$0.02 in 2026</strong>. Full JSON extraction from a shelf photo in 3 seconds. This single change rewrites every unit economic calculation in the industry.</p>
       </div>
       <div class="why-card">
-        <div class="icon-img"><img src="deck-assets/demo-screenshot-c2-taskfeed.png" alt="Task Feed"></div>
+        <div class="icon-img"><img src="deck-assets/mosaic-whynow-sensors_v1.png" alt="City Sensors"></div>
         <h3 class="g2-text">6.8B Sensors, Already Deployed</h3>
         <div class="stat g2-text">50M+</div>
         <p>48MP cameras. GPS. LiDAR. <strong style="color:var(--text)">Gig workers trained by Uber, DoorDash, Deliveroo</strong> to complete smartphone micro-tasks for micro-pay. The supply side is already built.</p>
       </div>
       <div class="why-card">
-        <div class="icon-img"><img src="deck-assets/demo-screenshot-e0-dashboard.png" alt="Enterprise Dashboard"></div>
+        <div class="icon-img"><img src="deck-assets/mosaic-whynow-budget_v1.png" alt="Enterprise Budget"></div>
         <h3 class="g3-text">Enterprise Budget Unlocked</h3>
         <div class="stat g3-text">$200K–2M</div>
         <p>COVID exposed catastrophic CPG field failures. Every major brand now has a <strong style="color:var(--text)">"field intelligence modernization" budget</strong> that didn't exist pre-2020. Actively looking to spend.</p>
