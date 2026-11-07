@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mosaic v2 — shelf photo analyser (prototype)</title>
+<style>
+body{font:15px/1.5 system-ui,sans-serif;max-width:900px;margin:0 auto;padding:20px;color:#1a1a1a}
+h1{margin:.2em 0}.note{background:#fff7e0;border:1px solid #e8d48a;padding:10px 14px;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:12px 0}
+.grid img{width:100%;height:100px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+.grid img.sel{border-color:#2563eb}pre{background:#f4f4f5;padding:12px;border-radius:8px;overflow:auto;white-space:pre-wrap}
+button{padding:8px 14px;border:0;border-radius:6px;background:#2563eb;color:#fff;cursor:pointer}input[type=password]{padding:7px;width:260px}
+#view{max-width:100%;border-radius:8px}.row{margin:10px 0}.muted{color:#666;font-size:13px}
+</style></head><body>
+<h1>Mosaic v2 — shelf photo analyser</h1>
+<p class="muted">Prototype. Photo in → structured shelf report out. Not a product; accuracy numbers appear below only once measured.</p>
+<div class="note" id="status">Measured accuracy: <b>not yet evaluated</b>. Eval run pending (see eval/RESULTS.md when available). Nothing below is a claim about accuracy.</div>
+
+<h2>1. Sample shelves (precomputed)</h2>
+<div class="grid" id="samples"></div>
+<div id="sampleOut" class="muted">Pick a sample. Precomputed results load from <code>results.json</code> once the eval has run.</div>
+
+<h2>2. Try your own photo (live)</h2>
+<p class="muted">Calls the Anthropic API directly from your browser with your own key. The key is never stored or sent anywhere else.</p>
+<div class="row"><input type="password" id="key" placeholder="Anthropic API key" autocomplete="off"></div>
+<div class="row"><input type="file" id="file" accept="image/*"> <button id="go">Analyse</button></div>
+<img id="view" alt="" hidden><pre id="out" hidden></pre>
+
+<script>
+const MODEL='claude-sonnet-5-5';
+const PROMPT=`You are a retail shelf auditor. Analyse the shelf photo and return ONLY JSON:
+{"category":str,"shelf_count":int,"brands_present":[str],"facings":{"<brand or SKU>":int},
+"gaps":[{"shelf":int,"approx_position":str,"note":str}],"price_tags_readable":int,
+"price_examples":[str],"confidence":"low|medium|high","notes":str}
+Rules: list only brands whose pack text you can actually read. Give facings only for products you can count fully; omit otherwise. Gaps = visibly empty shelf space. Never guess.`;
+const $=id=>document.getElementById(id);
+let results={};
+fetch('results.json').then(r=>r.ok?r.json():{}).then(j=>{results=j.results||{};
+  if(j.summary){$('status').innerHTML='Measured on '+j.summary.n+' labelled photos: '+j.summary.text;}}).catch(()=>{});
+const ids=['img001','img010','img020','img030','img040','img045'];
+ids.forEach(id=>{const i=new Image();i.src='samples/'+id+'.jpg';i.onerror=()=>i.remove();i.alt=id;
+  i.onclick=()=>{document.querySelectorAll('#samples img').forEach(x=>x.classList.remove('sel'));i.classList.add('sel');
+   const r=results[id];$('sampleOut').innerHTML=r?'<pre></pre>':'No precomputed result for '+id+' yet.';
+   if(r)$('sampleOut').firstChild.textContent=JSON.stringify(r,null,1);};
+  $('samples').appendChild(i);});
+const b64=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
+$('go').onclick=async()=>{
+  const f=$('file').files[0],k=$('key').value.trim();
+  if(!f||!k){alert('Need a key and a photo');return;}
+  $('view').src=URL.createObjectURL(f);$('view').hidden=false;$('out').hidden=false;$('out').textContent='Analysing…';
+  try{const t0=performance.now();
+   const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':k,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:MODEL,max_tokens:1500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:f.type||'image/jpeg',data:await b64(f)}},{type:'text',text:PROMPT}]}]})});
+   const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+   const t=j.content.map(c=>c.text||'').join('');let p;try{p=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));}catch{}
+   $('out').textContent=(p?JSON.stringify(p,null,1):t)+'\n\n'+Math.round(performance.now()-t0)+' ms · '+j.usage.input_tokens+' in / '+j.usage.output_tokens+' out tokens';
+  }catch(e){$('out').textContent='Error: '+e.message;}};
+</script></body></html>
