@@ -34,7 +34,7 @@ const $=id=>document.getElementById(id);
 let results={};
 fetch('results.json').then(r=>r.ok?r.json():{}).then(j=>{results=j.results||{};
   if(j.summary){$('status').innerHTML='Measured on '+j.summary.n+' labelled photos: '+j.summary.text;}}).catch(()=>{});
-const ids=['img001','img010','img020','img030','img040','img045'];
+const ids=['img001','img006','img010','img022','img026','img045'];
 ids.forEach(id=>{const i=new Image();i.src='samples/'+id+'.jpg';i.onerror=()=>i.remove();i.alt=id;
   i.onclick=()=>{document.querySelectorAll('#samples img').forEach(x=>x.classList.remove('sel'));i.classList.add('sel');
    const r=results[id];$('sampleOut').innerHTML=r?'<pre></pre>':'No precomputed result for '+id+' yet.';

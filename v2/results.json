@@ -1,0 +1,364 @@
+{
+ "summary": {
+  "n": 30,
+  "text": "Claude Sonnet (prompt v0), 30 Wikimedia Commons photos, single labeller (draft): brand recall 90%, gap recall 100% (4/21 false alarms), price-tag count within ±2 73%, shelf count exact 55%, facings exact 48%. Counting is weak; see eval/RESULTS.md. Samples below show model output next to our labels."
+ },
+ "results": {
+  "img001": {
+   "model_output": {
+    "category": "wine (Alsace white and red, supermarket aisle)",
+    "shelf_count": 4,
+    "brands_present": [
+     "Auchan (La Sélection)",
+     "Cave du Roi Dagobert",
+     "Cave Vinicole à Hunawihr"
+    ],
+    "facings": {},
+    "gaps": [],
+    "price_tags_readable": 7,
+    "price_examples": [
+     "5.40 € (Riesling Degustation 07 75cl)",
+     "5.15 €",
+     "6.05 €",
+     "4.99 €",
+     "6.60 €",
+     "6.40 € (Riesling Vieille Vigne 75cl)",
+     "5.68 €"
+    ],
+    "confidence": "medium",
+    "notes": "Angled shot with bottles cropped at the left edge and tapering away to the right, so no facing counts are reliable and none are given. The shelves look fully stocked, so no gaps are reported. The shelf count of 4 is approximate: the lower shelves are cut off at the bottom of the frame and the right-hand wall racks are a different fixture. Other bottles show partial labels (Pinot Noir, Riesling Vieilles Vignes, Sainte-Odile-style labels) but the producer names are not legible, so they are not listed as brands. Several price tags on the far right and top shelf are too small or angled to read, and the 6.09 and 5.53 tags are uncertain, so they are excluded from the count."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "Auchan",
+     "Cave du Roi Dagobert",
+     "Hunawihr"
+    ],
+    "shelf_count": 2,
+    "gaps": [],
+    "price_tags_readable": 9
+   }
+  },
+  "img006": {
+   "model_output": {
+    "category": "beer (Portuguese supermarket beer aisle)",
+    "shelf_count": 7,
+    "brands_present": [
+     "Super Bock",
+     "Super Bock Mini",
+     "Super Bock Stout",
+     "Super Bock Abadia",
+     "Super Bock Green Limão",
+     "Kings Brau",
+     "Coral"
+    ],
+    "facings": {
+     "Kings Brau Panaché 6-pack": 2,
+     "Super Bock Green Limão 6-pack": 2,
+     "Coral Tónica Stout 6-pack": 1
+    },
+    "gaps": [
+     {
+      "shelf": 5,
+      "approx_position": "right-center, beside and behind the Mini 24-pack boxes",
+      "note": "Wide empty white shelf surface to the right of the two Mini boxes."
+     },
+     {
+      "shelf": 5,
+      "approx_position": "far left",
+      "note": "Empty shelf area to the left of the first Mini 24-pack box."
+     },
+     {
+      "shelf": 6,
+      "approx_position": "center-left, below the Mini 24-pack boxes",
+      "note": "Large empty shelf surface visible, with only a couple of stray boxes stacked at the back."
+     }
+    ],
+    "price_tags_readable": 9,
+    "price_examples": [
+     "2,99€",
+     "5,94€",
+     "5,99€",
+     "3,99€",
+     "6,48€",
+     "5,99€",
+     "9,99€",
+     "8,49€",
+     "7,99€ (50% promo)"
+    ],
+    "confidence": "medium",
+    "notes": "Almost entirely Super Bock (Portuguese brand) with Kings Brau, Coral. Shelf count assumes the top shelf holding the large Mini cases is shelf 1 and the floor-level shelf with the 7,99€ promo is shelf 7. Facings are given only for products fully visible and countable; the Super Bock cans, boxes and bottle packs are partly cropped, overlapping or stacked, so they are omitted. Several price tags are partly covered by shelf-strip branding or too small to read with certainty. Shelf edges at the far right are cropped."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "Super Bock",
+     "Kings Brau",
+     "Coral",
+     "Sagres"
+    ],
+    "shelf_count": 6,
+    "gaps": [
+     "row 5 right half empty shelf",
+     "row 4 right of centre box"
+    ],
+    "price_tags_readable": 8
+   }
+  },
+  "img010": {
+   "model_output": {
+    "category": "biscuits/cookies (packaged)",
+    "shelf_count": 5,
+    "brands_present": [
+     "Parle-G",
+     "Parle-G Gold",
+     "Parle Marie",
+     "Milano",
+     "Golden Arcs",
+     "20-20",
+     "Krack Jack"
+    ],
+    "facings": {},
+    "gaps": [],
+    "price_tags_readable": 0,
+    "price_examples": [],
+    "confidence": "medium",
+    "notes": "Fully stocked biscuit aisle photographed at an angle, with 5 shelf levels visible. Packs are stacked deeply and run off the right edge and into the left-side perspective, so no product can be counted fully and facings are omitted. No visibly empty shelf space. The far-left packs are too small or blurry to read, so no brands are listed there. The shelf-edge strips have no legible price tags. Pack text for Parle-G, Parle-G Gold, Marie, Milano, Golden Arcs, 20-20 and Krack Jack is readable. The top-left boxed assortments (gift tins and boxes) have no readable brand."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "Parle-G",
+     "Parle-G Gold",
+     "Parle Marie",
+     "20-20",
+     "Milano",
+     "Golden Arcs",
+     "Krack Jack"
+    ],
+    "shelf_count": 6,
+    "gaps": [],
+    "price_tags_readable": 0
+   }
+  },
+  "img022": {
+   "model_output": {
+    "category": "refrigerated milk (dairy / lactose-free milk)",
+    "shelf_count": 2,
+    "brands_present": [
+     "Lactaid"
+    ],
+    "facings": {
+     "Lactaid 1% Lowfat Milk": 2,
+     "Lactaid Protein 2% Reduced Fat": 2,
+     "Lactaid Whole Milk": 3,
+     "Lactaid 2% Reduced Fat Milk": 1
+    },
+    "gaps": [
+     {
+      "shelf": 2,
+      "approx_position": "center, between the Lactaid Whole Milk cartons and the Lactaid 2% carton (about 38-53% of image width)",
+      "note": "Visibly empty shelf floor and bare pegboard behind it"
+     },
+     {
+      "shelf": 2,
+      "approx_position": "center-right, between the Lactaid 2% carton and the almond-milk cartons (about 65-78% of image width)",
+      "note": "Empty shelf floor in front of the pegboard"
+     }
+    ],
+    "price_tags_readable": 6,
+    "price_examples": [
+     "$3.99 (2/$7, save 49c)",
+     "$4.19 (2/$7, save 69c)",
+     "$3.19"
+    ],
+    "confidence": "medium",
+    "notes": "Top-left cartons (3 or more) and the bottom-right almond-milk cartons are blurred, so their brands and facings are not reported. The 'Fat Free Milk' Lactaid carton has 2 visible facings, but the second is partly hidden behind its neighbour, so I left it out of facings. Lactaid 2% has more cartons stacked behind the front one, so its facing count is 1 but its depth is greater. The orange sliver at the far right of the top shelf is unreadable. Two bottom-edge tags are cut off, so the readable-tag count is approximate."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "Lactaid",
+     "Farmland",
+     "Almond Breeze"
+    ],
+    "shelf_count": 2,
+    "gaps": [
+     "bottom shelf, large empty area between Lactaid 2% and the right-hand product (~half the shelf width)"
+    ],
+    "price_tags_readable": 7,
+    "facings_exact": {
+     "Lactaid Whole Milk half-gallon": 3,
+     "Lactaid 1% Lowfat": 2,
+     "Lactaid Fat Free Calcium": 2,
+     "Lactaid Protein 2%": 2,
+     "Lactaid 2% Reduced Fat (bottom shelf)": 1
+    }
+   }
+  },
+  "img026": {
+   "model_output": {
+    "category": "sauces, condiments, vinegars and pickled goods",
+    "shelf_count": 6,
+    "brands_present": [
+     "Bragg",
+     "Spectrum",
+     "Roland",
+     "Mezzetta",
+     "A1",
+     "Schultz's",
+     "True Made",
+     "Lillie's",
+     "Simple Truth Organic",
+     "Annie's",
+     "Sir Kensington's",
+     "Famous Dave's",
+     "Sweet Baby Ray's",
+     "Bone Suckin'",
+     "Mina",
+     "Robert Rothschild",
+     "Coconut Secret",
+     "Pearls"
+    ],
+    "facings": {
+     "Bragg Liquid Aminos": 2,
+     "Bragg Apple Cider Vinegar": 2,
+     "Spectrum Balsamic Vinegar": 2,
+     "Roland Balsamic Vinegar": 2,
+     "A1 Original": 4,
+     "True Made Carolina (Gold and Red)": 2,
+     "Schultz's BBQ Sauce (Sweet Hickory and Original)": 2,
+     "Famous Dave's BBQ Sauce": 4,
+     "Annie's Mustard": 2,
+     "Sir Kensington's Mustard": 4,
+     "Mina Harissa": 3,
+     "Roland Whole Baby Corn": 2
+    },
+    "gaps": [
+     {
+      "shelf": 4,
+      "approx_position": "far left, below the A1 bottles",
+      "note": "Empty shelf area with only a few dark bottles at the far left edge"
+     },
+     {
+      "shelf": 4,
+      "approx_position": "left-center, roughly 0-20% of width",
+      "note": "Bare shelf surface"
+     },
+     {
+      "shelf": 5,
+      "approx_position": "left-center, between the ketchup bottles and the shelf edge",
+      "note": "Small empty patch"
+     },
+     {
+      "shelf": 6,
+      "approx_position": "center-left, above the Roland baby corn cans",
+      "note": "Minor empty space between product groups"
+     }
+    ],
+    "price_tags_readable": 14,
+    "price_examples": [
+     "3.99 (Low prices sale tag)",
+     "5.39 SALE",
+     "7.29 SALE",
+     "1.69 SALE",
+     "3.49 SALE",
+     "3.19 SALE",
+     "2.99 Low Price"
+    ],
+    "confidence": "medium",
+    "notes": "Shelf count is approximate because the left side of the image is a different gantry with misaligned shelf heights. Many shelf-edge tags are too small to read, so price_tags_readable is a conservative count of the large sale tags. Facings were given only where a product group was fully visible. The far-left and far-right edges are cropped, and the right side is partly blocked by a hanging oven-mitt display. Brands listed are limited to those whose pack text is readable."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "Bragg",
+     "Schultz's",
+     "A1",
+     "Annie's",
+     "Sir Kensington's",
+     "Bone Suckin'",
+     "Famous Dave's",
+     "Sweet Baby Ray's",
+     "Roland",
+     "Simple Truth Organic",
+     "Spectrum",
+     "Coconut Secret",
+     "Mina",
+     "True Made Foods",
+     "Lillie's"
+    ],
+    "shelf_count": 5,
+    "gaps": [
+     "left-middle shelf (3rd level, far left) is empty ~1 bay"
+    ],
+    "price_tags_readable": 30,
+    "facings_exact": {
+     "Bragg Apple Cider Vinegar": 2,
+     "Bragg Liquid Aminos": 2,
+     "Schultz's BBQ Sauce (all variants)": 5,
+     "A1 Original": 3
+    }
+   }
+  },
+  "img045": {
+   "model_output": {
+    "category": "confectionery (bagged/boxed chocolate sweets, Easter/seasonal) in an M&S Food store",
+    "shelf_count": 8,
+    "brands_present": [
+     "M&S",
+     "Pick 'n' Marks",
+     "The Big Daddy"
+    ],
+    "facings": {},
+    "gaps": [
+     {
+      "shelf": 4,
+      "approx_position": "centre, two adjacent cardboard trays between the Blond Fudge Bites and the Honeycomb",
+      "note": "Left tray is fully empty. Right tray holds only one loose orange bag. This is the largest gap in the image."
+     },
+     {
+      "shelf": 5,
+      "approx_position": "far right, just past the Speckled Eggs",
+      "note": "Empty tray with a green pack at the very edge. The tag above reads Colin the Caterpillar."
+     },
+     {
+      "shelf": 3,
+      "approx_position": "right of the Gigantic Orange Buttons",
+      "note": "Open dark shelf space with a loose beige bag. The tag there reads caramel filled milk chocolate buttons £2.75, but no matching pack is visible."
+     },
+     {
+      "shelf": 5,
+      "approx_position": "centre-right, under the Speckled Eggs",
+      "note": "A small orange Whips box sits in an otherwise empty bay."
+     }
+    ],
+    "price_tags_readable": 18,
+    "price_examples": [
+     "£2.50 Pick 'n' Marks milk chocolate malt balls 120g",
+     "£2.75 milk chocolate peanut butter mini cups 100g",
+     "£2.75 gigantic milk chocolate orange buttons 150g",
+     "£2.75 chocolate honeycomb chunks 120g",
+     "£2.75 milk chocolate speckled eggs",
+     "£2.50 walnut classic whips 85g",
+     "£2 Belgian chocolate coated peanuts",
+     "£4 (bottom-left tag, product unreadable)"
+    ],
+    "confidence": "medium",
+    "notes": "Brands are listed only where the pack text is legible. Other packs (Gigantic Buttons, Fudge Bites, Honeycomb, Speckled Eggs, Whips, Brazil Nuts, Choccy Eggs) are M&S own-label by their tags and pack text. The partial 'Colin the Caterpillar' pack is excluded because it is cut off and its pack text is not fully readable. No facings are given because most rows have overlapping, stacked or cropped packs, so a full count isn't possible. The lower three shelves are cluttered with loose bags. Their gaps, if any, can't be judged. Tag count is approximate because several tags at the edges are partly cropped or small."
+   },
+   "labelled_truth": {
+    "brands_present": [
+     "M&S",
+     "Big Daddy",
+     "Pick 'n' Marks",
+     "Colin the Caterpillar"
+    ],
+    "shelf_count": 8,
+    "gaps": [
+     "empty tray right of Blond Fudge Bites (shelf 4, ~2 slots)",
+     "near-empty tray with 1 loose pack (shelf 4, Cookie Dough/Honeycomb area)",
+     "empty green tray right of Speckled Eggs (shelf 5, Colin the Caterpillar)",
+     "partly empty trays on shelf 3 right side"
+    ],
+    "price_tags_readable": 12
+   }
+  }
+ }
+}
