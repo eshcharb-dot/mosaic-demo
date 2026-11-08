@@ -5,17 +5,18 @@ body{font:15px/1.5 system-ui,sans-serif;max-width:900px;margin:0 auto;padding:20
 h1{margin:.2em 0}.note{background:#fff7e0;border:1px solid #e8d48a;padding:10px 14px;border-radius:8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:12px 0}
 .grid img{width:100%;height:100px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
-.grid img.sel{border-color:#2563eb}pre{background:#f4f4f5;padding:12px;border-radius:8px;overflow:auto;white-space:pre-wrap}
+.grid img.sel{border-color:#2563eb}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #ddd;padding:6px 8px;text-align:left;vertical-align:top}th{background:#f4f4f5}.ok{color:#15803d}.bad{color:#b91c1c}
+pre{background:#f4f4f5;padding:12px;border-radius:8px;overflow:auto;white-space:pre-wrap}
 button{padding:8px 14px;border:0;border-radius:6px;background:#2563eb;color:#fff;cursor:pointer}input[type=password]{padding:7px;width:260px}
 #view{max-width:100%;border-radius:8px}.row{margin:10px 0}.muted{color:#666;font-size:13px}
 </style></head><body>
 <h1>Mosaic v2 — shelf photo analyser</h1>
 <p class="muted">Prototype. Photo in → structured shelf report out. Not a product; accuracy numbers appear below only once measured.</p>
-<div class="note" id="status">Measured accuracy: <b>not yet evaluated</b>. Eval run pending (see eval/RESULTS.md when available). Nothing below is a claim about accuracy.</div>
+<div class="note" id="status">Measured accuracy: <b>not yet evaluated</b>. Eval run pending (see <a href="RESULTS.md">RESULTS.md</a>). Nothing below is a claim about accuracy.</div>
 
 <h2>1. Sample shelves (precomputed)</h2>
 <div class="grid" id="samples"></div>
-<div id="sampleOut" class="muted">Pick a sample. Precomputed results load from <code>results.json</code> once the eval has run.</div>
+<div id="sampleOut" class="muted">Pick a sample to compare the model's output with our hand labels.</div>
 
 <h2>2. Try your own photo (live)</h2>
 <p class="muted">Calls the Anthropic API directly from your browser with your own key. The key is never stored or sent anywhere else.</p>
@@ -34,11 +35,26 @@ const $=id=>document.getElementById(id);
 let results={};
 fetch('results.json').then(r=>r.ok?r.json():{}).then(j=>{results=j.results||{};
   if(j.summary){$('status').innerHTML='Measured on '+j.summary.n+' labelled photos: '+j.summary.text;}}).catch(()=>{});
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toLowerCase().replace(/(.*?)/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+function render(r){const m=r.model_output||{},t=r.labelled_truth||{};
+ const mb=m.brands_present||[],tb=t.brands_present||[];
+ const found=tb.filter(b=>mb.some(x=>norm(x).includes(norm(b))||norm(b).includes(norm(x))));
+ const missed=tb.filter(b=>!found.includes(b));
+ const mg=(m.gaps||[]).length,tg=(t.gaps||[]).length;
+ const row=(k,a,b,good)=>'<tr><td>'+k+'</td><td>'+a+'</td><td>'+b+'</td><td class="'+(good?'ok':'bad')+'">'+(good?'match':'differs')+'</td></tr>';
+ return '<table><tr><th></th><th>Model</th><th>Our label</th><th></th></tr>'+
+  row('Shelves',esc(m.shelf_count??'-'),esc(t.shelf_count??'-'),m.shelf_count===t.shelf_count)+
+  row('Brands read',esc(mb.join(', ')||'-'),esc(tb.join(', ')||'-'),missed.length===0&&tb.length>0)+
+  row('Labelled brands found',found.length+' of '+tb.length,missed.length?'missed: '+esc(missed.join(', ')):'none missed',missed.length===0)+
+  row('Gaps flagged',mg,tg,(mg>0)===(tg>0))+
+  row('Readable price tags',esc(m.price_tags_readable??'-'),esc(t.price_tags_readable??'-'),Math.abs((m.price_tags_readable||0)-(t.price_tags_readable||0))<=2)+
+  '</table><p class="muted">Model confidence: '+esc(m.confidence||'-')+'. Matching is a rough name comparison. Labels are single-labeller and draft. '+esc(m.notes||'')+'</p>';}
 const ids=['img001','img006','img010','img022','img026','img045'];
 ids.forEach(id=>{const i=new Image();i.src='samples/'+id+'.jpg';i.onerror=()=>i.remove();i.alt=id;
   i.onclick=()=>{document.querySelectorAll('#samples img').forEach(x=>x.classList.remove('sel'));i.classList.add('sel');
-   const r=results[id];$('sampleOut').innerHTML=r?'<pre></pre>':'No precomputed result for '+id+' yet.';
-   if(r)$('sampleOut').firstChild.textContent=JSON.stringify(r,null,1);};
+   const r=results[id];$('sampleOut').innerHTML=r?render(r):'No precomputed result for '+id+' yet.';};
   $('samples').appendChild(i);});
 const b64=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
 $('go').onclick=async()=>{
