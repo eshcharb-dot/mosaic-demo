@@ -1,7 +1,7 @@
 {
  "summary": {
   "n": 30,
-  "text": "Claude Sonnet (prompt v0), 30 Wikimedia Commons photos, single labeller (draft): brand recall 90%, gap recall 100% (4/21 false alarms), price-tag count within ±2 73%, shelf count exact 55%, facings exact 48%. Counting is weak; see eval/RESULTS.md. Samples below show model output next to our labels."
+  "text": "Claude Sonnet, 30 Wikimedia Commons photos, single labeller (draft). Reliable: brand recall 90%, gap detection recall 89-100% (false alarms 5% with prompt v1 vs 19-29% with v0). Unreliable: exact shelf count 48-66% and facings 48-67% across repeat runs, price-tag count within ±2 63-73%. Treat counts as rough; see eval/RESULTS.md. Samples below show model output next to our labels."
  },
  "results": {
   "img001": {
