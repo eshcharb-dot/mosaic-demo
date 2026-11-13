@@ -16,6 +16,7 @@ button{padding:8px 14px;border:0;border-radius:6px;background:#2563eb;color:#fff
 
 <h2>1. Sample shelves (precomputed)</h2>
 <div class="grid" id="samples"></div>
+<label class="muted"><input type="checkbox" id="showAll"> Also show shelf and price-tag counts (unreliable, see results)</label>
 <div id="sampleOut" class="muted">Pick a sample to compare the model's output with our hand labels.</div>
 
 <h2>2. Try your own photo (live)</h2>
@@ -32,7 +33,7 @@ const PROMPT=`You are a retail shelf auditor. Analyse the shelf photo and return
 "price_examples":[str],"confidence":"low|medium|high","notes":str}
 Rules: list only brands whose pack text you can actually read. Give facings only for products you can count fully; omit otherwise. Gaps = visibly empty shelf space. Never guess.`;
 const $=id=>document.getElementById(id);
-let results={};
+let lastId=null,results={};
 fetch('results.json').then(r=>r.ok?r.json():{}).then(j=>{results=j.results||{};
   if(j.summary){$('status').innerHTML='Measured on '+j.summary.n+' labelled photos: '+j.summary.text;}}).catch(()=>{});
 
@@ -43,19 +44,21 @@ function render(r){const m=r.model_output||{},t=r.labelled_truth||{};
  const found=tb.filter(b=>mb.some(x=>norm(x).includes(norm(b))||norm(b).includes(norm(x))));
  const missed=tb.filter(b=>!found.includes(b));
  const mg=(m.gaps||[]).length,tg=(t.gaps||[]).length;
- const row=(k,a,b,good)=>'<tr><td>'+k+'</td><td>'+a+'</td><td>'+b+'</td><td class="'+(good?'ok':'bad')+'">'+(good?'match':'differs')+'</td></tr>';
+ const showAll=document.getElementById('showAll')&&document.getElementById('showAll').checked;
+ const row=(k,a,b,good,unrel)=>unrel&&!showAll?'':'<tr><td>'+k+'</td><td>'+a+'</td><td>'+b+'</td><td class="'+(good?'ok':'bad')+'">'+(good?'match':'differs')+'</td></tr>';
  return '<table><tr><th></th><th>Model</th><th>Our label</th><th></th></tr>'+
-  row('Shelves',esc(m.shelf_count??'-'),esc(t.shelf_count??'-'),m.shelf_count===t.shelf_count)+
+  row('Shelves',esc(m.shelf_count??'-'),esc(t.shelf_count??'-'),m.shelf_count===t.shelf_count,1)+
   row('Brands read',esc(mb.join(', ')||'-'),esc(tb.join(', ')||'-'),missed.length===0&&tb.length>0)+
   row('Labelled brands found',found.length+' of '+tb.length,missed.length?'missed: '+esc(missed.join(', ')):'none missed',missed.length===0)+
   row('Gaps flagged',mg,tg,(mg>0)===(tg>0))+
-  row('Readable price tags',esc(m.price_tags_readable??'-'),esc(t.price_tags_readable??'-'),Math.abs((m.price_tags_readable||0)-(t.price_tags_readable||0))<=2)+
+  row('Readable price tags',esc(m.price_tags_readable??'-'),esc(t.price_tags_readable??'-'),Math.abs((m.price_tags_readable||0)-(t.price_tags_readable||0))<=2,1)+
   '</table><p class="muted">Model confidence: '+esc(m.confidence||'-')+'. Matching is a rough name comparison. Labels are single-labeller and draft. '+esc(m.notes||'')+'</p>';}
 const ids=['img001','img006','img010','img022','img026','img045'];
 ids.forEach(id=>{const i=new Image();i.src='samples/'+id+'.jpg';i.onerror=()=>i.remove();i.alt=id;
   i.onclick=()=>{document.querySelectorAll('#samples img').forEach(x=>x.classList.remove('sel'));i.classList.add('sel');
-   const r=results[id];$('sampleOut').innerHTML=r?render(r):'No precomputed result for '+id+' yet.';};
+   lastId=id;const r=results[id];$('sampleOut').innerHTML=r?render(r):'No precomputed result for '+id+' yet.';};
   $('samples').appendChild(i);});
+$('showAll').onchange=()=>{const r=results[lastId];if(r)$('sampleOut').innerHTML=render(r);};
 const b64=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);});
 $('go').onclick=async()=>{
   const f=$('file').files[0],k=$('key').value.trim();
